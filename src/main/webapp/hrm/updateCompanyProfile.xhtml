@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./hrmPagesTemplate.xhtml">
+
+            <ui:define name="title">
+                ${msgs.update_company_profile}
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="companyProfileUpdate">
+                    <p:messages  />
+                    <p:panelGrid columns="2" >
+
+                        <f:facet name="header">#{msgs.update_company_profile}</f:facet>
+
+                        <p:outputLabel value="#{msgs.company_name} 1:" for="companyName1" />
+                        <p:inputText id="companyName1" size="40" required="true" /> 
+
+
+                        <p:outputLabel value="#{msgs.company_name} 2:" for="companyName2" />
+                        <p:inputText id="companyName2" size="40" />
+
+                        <p:outputLabel value="#{msgs.company_address} 1:" for="companyAddress1" />
+                        <p:inputText id="companyAddress1" size="100" /> 
+
+                        <p:outputLabel value="#{msgs.company_address} 2:" for="companyAddress2" />
+                        <p:inputText id="companyAddress2" size="100" />
+
+                        <p:outputLabel value="#{msgs.postal_code}:" for="postalCode" />
+                        <p:inputText id="postalCode" size="10" />
+
+                        <p:outputLabel value="#{msgs.province}:" for="province" />
+                        <p:inputText id="province" size="40" />
+
+                        <p:outputLabel value="#{msgs.country}" for="country" />
+                        <p:selectOneMenu id="country">  
+                            <f:selectItem itemLabel="#{msgs.select_country}"></f:selectItem>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{msgs.company_id_number}:" for="companyIDNumber" />
+                        <p:inputText id="companyIDNumber" size="10" />
+
+                        <p:outputLabel value="#{msgs.phone_number}:" for="phoneNumber" />
+                        <p:inputText id="phoneNumber" size="20" />
+
+                        <p:outputLabel value="#{msgs.email}:" for="email" />
+                        <p:inputText id="email" size="50" />
+
+                        <p:outputLabel value="#{msgs.website}:" for="website" />
+                        <p:inputText id="website" size="20" />
+                        <h:panelGroup />
+                        <p:panelGrid columns="3" >
+                            <p:button value="#{msgs.save}"  />  
+                            <p:button value="#{msgs.print}"  />  
+                            <p:button value="#{msgs.help}" />
+
+                        </p:panelGrid>
+
+                        </p:panelGrid>
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
