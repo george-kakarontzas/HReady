@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cdibeans.main;
+package eu.comprofits.cdibeans.main;
 
 import eu.comprofits.entities.main.Competence;
 import eu.comprofits.session.main.CompetenceFacade;
