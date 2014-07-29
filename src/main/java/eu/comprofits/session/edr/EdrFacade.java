@@ -30,10 +30,4 @@ public class EdrFacade extends AbstractFacade<Edr> {
     public EdrFacade() {
         super(Edr.class);
     }
-    public static Edr searchEdr (int edrId) {
-        return null;
-    }
-    public static Edr searchEdr (Employee employee) {
-        return null;
-    }
 }
