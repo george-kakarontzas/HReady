@@ -193,12 +193,6 @@ public class Edr implements Serializable {
         return false;
     }
     
-    public boolean writeEdrToDb() {
-        
-        
-       return false;
-    }
-    
     public boolean printEdr (String placeholder) {
         return false;
     }
