@@ -9,6 +9,7 @@ package eu.comprofits.entities.edr;
 import eu.comprofits.entities.employee.Employee;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -174,4 +175,49 @@ public class Edr implements Serializable {
         return "com.mycompany.mavenproject1.Edr[ idedr=" + idedr + " ]";
     }
     
+    public boolean defineGoals (Collection<CompetenceGoal> goals, Employee employee, Date date) {
+        
+        return false;
+ 
+    } 
+    public boolean sendEdrByMail (String receiver, String sender) {
+        
+        return false;
+    }
+    
+    public boolean exportEdr (String extension, String path) {
+        return false;
+    }
+    
+    public boolean importEdr (String extension, String path) {
+        return false;
+    }
+    
+    public boolean writeEdrToDb() {
+        
+        
+       return false;
+    }
+    
+    public boolean printEdr (String placeholder) {
+        return false;
+    }
+    
+    public Edr followUpOnLatestEdr(Edr edr, Employee employee) {
+        return null;
+    }
+    
+    public boolean closeEdrStatusByEmployee(Edr edr, Employee employee) {
+        
+        if (employee == this.reviewedEmployeeIdemployee) {
+            this.status = edr.getStatus();
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public boolean addMoreNotesToEdr(Collection<String> notes, Edr edr) {
+        return false;
+    }
 }
