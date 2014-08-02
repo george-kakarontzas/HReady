@@ -30,10 +30,10 @@
                                 <p:outputLabel value="#{msgs.role}" />
                                 <p:outputLabel value="#{msgs.hr_recruiter}" />
                                 <p:outputLabel value="#{msgs.user_real_name}" />
-                                <p:outputLabel>John Hughes</p:outputLabel>
+                                <p:outputLabel value="#{auth.employee.lastName}, #{auth.employee.firstName}" />
                                 <f:facet name="footer">
-                                    <p:commandButton action="#{userController.login}"
-                                                     value="#{msgs.logout}" update="loginForm"/>
+                                    <p:commandButton action="#{auth.logout()}"
+                                                     value="#{msgs.logout}"/>
                                 </f:facet>
                             </p:panelGrid>
                         </h:form>
