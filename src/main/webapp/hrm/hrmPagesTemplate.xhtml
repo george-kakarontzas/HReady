@@ -25,11 +25,11 @@
                         <h:graphicImage library="images" name="comprofits.png"  /> 
                         <h:form id="loginForm" >
                             <p:panelGrid columns="2">
-                                <f:facet name="header">Login Information</f:facet>
+                                <f:facet name="header">#{msgs.login_information}</f:facet>
 
-                                <p:outputLabel value="Role" />
-                                <p:outputLabel value="HR Recruiter/Assistant" />
-                                <p:outputLabel value="User real name" />
+                                <p:outputLabel value="#{msgs.role}" />
+                                <p:outputLabel value="#{msgs.hr_recruiter}" />
+                                <p:outputLabel value="#{msgs.user_real_name}" />
                                 <p:outputLabel>John Hughes</p:outputLabel>
                                 <f:facet name="footer">
                                     <p:commandButton action="#{userController.login}"
@@ -62,18 +62,21 @@
                         <p:growl id="messages" autoUpdate="true"/>  
                         <p:panelMenu>
 
-                            <p:submenu label="HRM Head Menu" >  
-                                <p:menuitem value="HRM Head Home" icon="ui-icon-home" url="./hrmHomePage.xhtml" /> 
-                                <p:menuitem value="Update Company profile" icon="ui-icon-pencil" url="./updateCompanyProfile.xhtml" />
-                                <p:menuitem value="Update Job profile table" icon="ui-icon-pencil" />
-                                <p:menuitem value="Update Employee profile table" icon="ui-icon-pencil" />
-                                <p:menuitem value="Update Job applicant profile table" icon="ui-icon-pencil" />
-                                <p:menuitem value="Display Employee data" icon="ui-icon-zoomin" />
-                                <p:menuitem value="Initiate assessment activity" icon="ui-icon-calculator" />
-                                <p:menuitem value="Update Competence Pyramid table" icon="ui-icon-pencil" url="./updateCompetencesPyramid.xhtml" />
-                                <p:menuitem value="EDR Employee development review" icon="ui-icon-arrowthick-1-ne" />
-                                <p:menuitem value="EDR Interview documents" icon="ui-icon-document" />
-                                <p:menuitem value="Complete assessment" icon="ui-icon-circle-check" />
+                            <p:submenu label="#{msgs.hr_recruiter_menu}" >  
+                                <p:menuitem value="#{msgs.hr_recruiter_home}" icon="ui-icon-home" 
+                                            url="./hrmHomePage.xhtml" /> 
+                                <p:menuitem value="#{msgs.update_company_profile}" icon="ui-icon-pencil" 
+                                            url="./updateCompanyProfile.xhtml" />
+                                <!--<p:menuitem value="Update Job profile table" icon="ui-icon-pencil" />-->
+                                <p:menuitem value="#{msgs.update_employee_profile}" icon="ui-icon-pencil" />
+                                <!--<p:menuitem value="Update Job applicant profile table" icon="ui-icon-pencil" />-->
+                                <!--<p:menuitem value="Display Employee data" icon="ui-icon-zoomin" />-->
+                                <!--<p:menuitem value="Initiate assessment activity" icon="ui-icon-calculator" />-->
+                                <p:menuitem value="#{msgs.update_competence_pyramid}" icon="ui-icon-pencil" 
+                                            url="./updateCompetencesPyramid.xhtml" />
+                                <!--<p:menuitem value="EDR Employee development review" icon="ui-icon-arrowthick-1-ne" />-->
+                                <!--<p:menuitem value="EDR Interview documents" icon="ui-icon-document" />-->
+                                <!--<p:menuitem value="Complete assessment" icon="ui-icon-circle-check" />-->
                             </p:submenu>  
                         </p:panelMenu>  
                     </h:form>

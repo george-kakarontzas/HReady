@@ -28,7 +28,8 @@
                         <p:dataTable value="#{updateOrganisationalPositionsCDIBean.organisationalPositions}" var="item">
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs.organisational_position_name}"/>
+                                    <h:outputText value="#{msgs.organisational_position_name}
+                                                  &lt;br/&gt;(#{msgs.click_to_edit_record})" escape="false" />
                                 </f:facet>
                                 <h:commandLink action="#{updateOrganisationalPositionsCDIBean.edit(item)}"  
                                                value="#{item.organisationalPositionName}"/>
