@@ -25,11 +25,11 @@
                         <h:graphicImage library="images" name="comprofits.png"  /> 
                         <h:form id="loginForm" >
                             <p:panelGrid columns="2">
-                                <f:facet name="header">Login Information</f:facet>
+                                <f:facet name="header">#{msgs.login_information}</f:facet>
 
-                                <p:outputLabel value="Role" />
-                                <p:outputLabel value="Administrator" />
-                                <p:outputLabel value="User real name" />
+                                <p:outputLabel value="#{msgs.role}" />
+                                <p:outputLabel value="#{msgs.administrator}" />
+                                <p:outputLabel value="#{msgs.user_real_name}" />
                                 <p:outputLabel>James Whitaker</p:outputLabel>
                                 <f:facet name="footer">
                                     <p:commandButton action="#{userController.login}"
@@ -63,9 +63,12 @@
                         <p:panelMenu>
 
                             <p:submenu label="Administrator Menu" >  
-                                <p:menuitem value="Administrator Home" icon="ui-icon-home" url="./adminHomePage.xhtml" /> 
-                                <p:menuitem value="Update Company Departments" icon="ui-icon-pencil" url="./updateDepartments.xhtml" />
-                                <p:menuitem value="Update Organisational Positions" icon="ui-icon-pencil" url="./updateOrganisationalPositions.xhtml" />
+                                <p:menuitem value="#{msgs.administrator_home}" icon="ui-icon-home" 
+                                            url="./adminHomePage.xhtml" /> 
+                                <p:menuitem value="#{msgs.update_departments}" icon="ui-icon-pencil" 
+                                            url="./updateDepartments.xhtml" />
+                                <p:menuitem value="#{msgs.update_organisational_positions}" icon="ui-icon-pencil" 
+                                            url="./updateOrganisationalPositions.xhtml" />
                             </p:submenu>  
                         </p:panelMenu>  
                     </h:form>

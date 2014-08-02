@@ -28,7 +28,8 @@
                                      paginator="true" rows="10" >
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs.competence_name}"/>
+                                    <h:outputText value="#{msgs.competence_name} 
+                                                  &lt;br/&gt;(#{msgs.click_to_edit_record})" escape="false" />
                                 </f:facet>
 
                                 <h:commandLink action="#{updateCompetencePyramidCDIBean.edit(item)}"  
