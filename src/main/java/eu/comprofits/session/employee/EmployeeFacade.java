@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.comprofits.session.employee;
 
 import eu.comprofits.entities.employee.Employee;
@@ -18,6 +17,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class EmployeeFacade extends AbstractFacade<Employee> {
+
     @PersistenceContext(unitName = "comprofitsPU")
     private EntityManager em;
 
@@ -29,5 +29,11 @@ public class EmployeeFacade extends AbstractFacade<Employee> {
     public EmployeeFacade() {
         super(Employee.class);
     }
-    
+
+    public Employee getEmployeeByUsername(String username) {
+        Employee result = (Employee) em.createNamedQuery("Employee.findByUsername")
+                .setParameter("username", username)
+                .getSingleResult();
+        return result;
+    }
 }

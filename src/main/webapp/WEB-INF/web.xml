@@ -30,57 +30,60 @@
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
     <security-constraint>
-        <display-name>AdminConstraint</display-name>
+        <display-name>HeadsOfDepartmentsConstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>admin</web-resource-name>
+            <web-resource-name>depthead_pages</web-resource-name>
             <description/>
-            <url-pattern>/faces/admin/*</url-pattern>
-            <http-method>GET</http-method>
-            <http-method>POST</http-method>
+            <url-pattern>/faces/depthead/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description/>
-            <role-name>admin</role-name>
+            <role-name>depthead</role-name>
         </auth-constraint>
-        <user-data-constraint>
-            <description/>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>UserConstraint</display-name>
+        <display-name>AdminstratorConstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>Users</web-resource-name>
+            <web-resource-name>admin_pages</web-resource-name>
             <description/>
-            <url-pattern>/faces/users/*</url-pattern>
-            <http-method>GET</http-method>
-            <http-method>POST</http-method>
+            <url-pattern>/faces/administrator/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description/>
-            <role-name>admin</role-name>
-            <role-name>users</role-name>
+            <role-name>administrator</role-name>
         </auth-constraint>
-        <user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>HRMRecruiterConstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>HRM_recruiter_pages</web-resource-name>
             <description/>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
+            <url-pattern>/faces/hrm/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>hrrecruiter</role-name>
+        </auth-constraint>
     </security-constraint>
     <login-config>
         <auth-method>FORM</auth-method>
-        <realm-name>comprofits-realm</realm-name>
+        <realm-name>comprofits_jdbc_realm</realm-name>
         <form-login-config>
             <form-login-page>/faces/login.xhtml</form-login-page>
             <form-error-page>/faces/loginerror.xhtml</form-error-page>
         </form-login-config>
     </login-config>
     <security-role>
-        <description/>
-        <role-name>admin</role-name>
+        <description>Heads of the various departments</description>
+        <role-name>depthead</role-name>
     </security-role>
     <security-role>
-        <description/>
-        <role-name>users</role-name>
+        <description>Role for the administrator of the comprofits application</description>
+        <role-name>administrator</role-name>
+    </security-role>
+    <security-role>
+        <description>HRM recruiter role</description>
+        <role-name>hrrecruiter</role-name>
     </security-role>
     <resource-ref>
         <description>Connects to database for ComProFITS application</description>

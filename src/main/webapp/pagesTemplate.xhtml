@@ -19,24 +19,27 @@
 
             <!-- top of page -->
             <p:layoutUnit position="north" size="125" >
-                
+
                 <ui:insert name="top">
                     <h:panelGrid columns="3" border="0"  >
                         <h:graphicImage name="comprofits.png" library="images" />
-                        
-                        <h:form id="login" prependId="false"
-                                onsubmit="document.getElementById('login').action = 'j_security_check';">
+
+                        <h:form id="login" prependId="false">
+                            <p:messages />
                             <p:panelGrid columns="2">
                                 <f:facet name="header">#{msgs.login}</f:facet>
-                                <p:outputLabel value="#{msgs.username}:" />
-                                <input type="text" name="j_username" />
-                               <!--<p:inputText id="username" value="#{userController.username}" label="username" />-->
-                                <p:outputLabel value="#{msgs.password}:" />
-                                <!--<p:password id="password" value="#{userController.password}" label="password"/>-->
-                                <input type="password" name="j_password" />
+                                <p:outputLabel for="username" value="#{msgs.username}" />
+                                <p:inputText id="username" value="#{auth.username}" required="true"
+                                             requiredMessage="#{msgs.required_username}" />
+                              
+                                <p:outputLabel for="password" value="#{msgs.password}" />
+                                <p:password id="password" value="#{auth.password}" required="true" 
+                                               requiredMessage="#{msgs.required_password}"/>
+                               
                                 <f:facet name="footer">
-                                    <input type="submit" value="Login" />
+                                    <p:commandButton value="Login" action="#{auth.progLogin()}" />
                                 </f:facet>
+                              
                             </p:panelGrid>
                         </h:form>
                         <h:form id="langselect" >

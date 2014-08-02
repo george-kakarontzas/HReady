@@ -28,7 +28,7 @@
                                 <f:facet name="header">#{msgs.login_information}</f:facet>
 
                                 <p:outputLabel value="#{msgs.role}" />
-                                <p:outputLabel value="#{msgs.administrator}" />
+                                <p:outputLabel value="#{msgs.depthead}: #{auth.employee.departmentIddepartment.departmentName}" />
                                 <p:outputLabel value="#{msgs.user_real_name}" />
                                 <p:outputLabel value="#{auth.employee.lastName}, #{auth.employee.firstName}" />
                                 <f:facet name="footer">
@@ -62,13 +62,21 @@
                         <p:growl id="messages" autoUpdate="true"/>  
                         <p:panelMenu>
 
-                            <p:submenu label="Administrator Menu" >  
-                                <p:menuitem value="#{msgs.administrator_home}" icon="ui-icon-home" 
-                                            url="./adminHomePage.xhtml" /> 
-                                <p:menuitem value="#{msgs.update_departments}" icon="ui-icon-pencil" 
-                                            url="./updateDepartments.xhtml" />
-                                <p:menuitem value="#{msgs.update_organisational_positions}" icon="ui-icon-pencil" 
-                                            url="./updateOrganisationalPositions.xhtml" />
+                            <p:submenu label="#{msgs.depthead_menu}" >  
+                                <p:menuitem value="#{msgs.depthead_home_page}" icon="ui-icon-home" 
+                                            url="./deptheadHomePage.xhtml" /> 
+                                <!--<p:menuitem value="#{msgs.update_company_profile}" icon="ui-icon-pencil" 
+                                            url="./updateCompanyProfile.xhtml" />-->
+                                <!--<p:menuitem value="Update Job profile table" icon="ui-icon-pencil" />-->
+                                <p:menuitem value="#{msgs.update_employee_profile}" icon="ui-icon-pencil" />
+                                <!--<p:menuitem value="Update Job applicant profile table" icon="ui-icon-pencil" />-->
+                                <!--<p:menuitem value="Display Employee data" icon="ui-icon-zoomin" />-->
+                                <!--<p:menuitem value="Initiate assessment activity" icon="ui-icon-calculator" />-->
+                                <!--<p:menuitem value="#{msgs.update_competence_pyramid}" icon="ui-icon-pencil" 
+                                            url="./updateCompetencesPyramid.xhtml" />-->
+                                <!--<p:menuitem value="EDR Employee development review" icon="ui-icon-arrowthick-1-ne" />-->
+                                <!--<p:menuitem value="EDR Interview documents" icon="ui-icon-document" />-->
+                                <!--<p:menuitem value="Complete assessment" icon="ui-icon-circle-check" />-->
                             </p:submenu>  
                         </p:panelMenu>  
                     </h:form>
