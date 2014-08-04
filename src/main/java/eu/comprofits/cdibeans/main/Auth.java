@@ -76,7 +76,7 @@ public class Auth implements Serializable {
     }
 
     public String progLogin() throws IOException {
-        String gotoPage = "/index";
+        String gotoPage = "/index.xtml";
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
         HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
@@ -87,16 +87,16 @@ public class Auth implements Serializable {
             String role = e.getRole();
             switch (role) {
                 case "depthead":
-                    gotoPage="./depthead/deptheadHomePage.xhtml";
+                    gotoPage="./faces/depthead/deptheadHomePage.xhtml";
                     break;
                 case "administrator":
-                    gotoPage="./administrator/adminHomePage.xhtml";
+                    gotoPage="./faces/administrator/adminHomePage.xhtml";
                     break;
                 case "hrrecruiter":
-                    gotoPage="./hrm/hrmHomePage.xhtml";
+                    gotoPage="./faces/hrm/hrmHomePage.xhtml";
                     break;
                 default:
-                    gotoPage="./index.xhtml";
+                    gotoPage="./faces/index.xhtml";
             }
             externalContext.redirect(gotoPage);
         } catch (ServletException e) {
