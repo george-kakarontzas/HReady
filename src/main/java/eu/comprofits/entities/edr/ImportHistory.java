@@ -5,15 +5,9 @@
  */
 package eu.comprofits.entities.edr;
 
-import eu.comprofits.session.edr.ImportHistoryFacade;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
-import javax.ejb.EJB;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,17 +32,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "ImportHistory.findAll", query = "SELECT i FROM ImportHistory i"),
     @NamedQuery(name = "ImportHistory.findByIdImportHistory", query = "SELECT i FROM ImportHistory i WHERE i.idimportHistory = :idimportHistory"),
-    @NamedQuery(name = "ImportHistory.findByIdedr", query = "SELECT i FROM ImportHistory i WHERE i.idedr = :idedr"),
+    //@NamedQuery(name = "ImportHistory.findByIdedr", query = "SELECT i FROM ImportHistory i WHERE i.idedr = :idedr"),
     @NamedQuery(name = "ImportHistory.findByDate", query = "SELECT i FROM ImportHistory i WHERE i.date = :date"),
     @NamedQuery(name = "ImportHistory.findByIdEmployee", query = "SELECT i FROM ImportHistory i WHERE i.idemployee = :idemployee")})
 
 public class ImportHistory implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
-    @EJB
-    ImportHistoryFacade ihFacade;
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Basic(optional = false)

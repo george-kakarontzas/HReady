@@ -23,10 +23,6 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 public class EdrNotes implements Serializable {
-
-    @EJB
-    ImportHistoryFacade edrNotesFacade;
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
