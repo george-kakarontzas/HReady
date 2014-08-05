@@ -10,6 +10,7 @@ import eu.comprofits.entities.employee.Employee;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -174,29 +175,7 @@ public class Edr implements Serializable {
     public String toString() {
         return "com.mycompany.mavenproject1.Edr[ idedr=" + idedr + " ]";
     }
-    
-    public boolean defineGoals (Collection<CompetenceGoal> goals, Employee employee, Date date) {
-        
-        return false;
- 
-    } 
-    public boolean sendEdrByMail (String receiver, String sender) {
-        
-        return false;
-    }
-    
-    public boolean exportEdr (String extension, String path) {
-        return false;
-    }
-    
-    public boolean importEdr (String extension, String path) {
-        return false;
-    }
-    
-    public boolean printEdr (String placeholder) {
-        return false;
-    }
-    
+     
     public Edr followUpOnLatestEdr(Edr edr, Employee employee) {
         return null;
     }
@@ -214,4 +193,79 @@ public class Edr implements Serializable {
     public boolean addMoreNotesToEdr(Collection<String> notes, Edr edr) {
         return false;
     }
+    
+        public String edrToFormattedString() {
+
+        //need to talk with Mahdi for the detailed look of the string
+        Integer localEdrId = this.idedr;
+        String localYear = this.year;
+        String localVerdict = this.verdict;
+        Integer localStatus = this.status;
+        Collection<QuestionAnswer> localQuestionAnswerCollection = this.questionAnswerCollection;
+        Employee localImmediateManagerEmployee = this.immediateManagerIdemployee;
+        Employee localReviewedEmployee = this.reviewedEmployeeIdemployee;
+        Edr localPreviousEdr = this.previousEdrIdedr;
+        Collection<Edr> localEdrCollection = this.edrCollection;
+
+        //String output = "";
+        String output = "Employee Development Review \n\n"
+                + "Edr-Number: " + localEdrId + "\n"
+                + "Reviewed Year: " + localYear + "\n"
+                + "Verdict: " + localVerdict + "\n"
+                + "Actual status: " + localStatus + "\n"
+                + "Evaluator: " + localImmediateManagerEmployee.getIdemployee() + "\n"
+                + "Surveyed: " + localReviewedEmployee.getIdemployee() + "\n"
+                + "Previous-Edr: " + localPreviousEdr.getIdedr() + "\n\n"
+                + "Related Questions: \n\n"; //needs to be changed -> better subject
+
+        Iterator<QuestionAnswer> itQa = localQuestionAnswerCollection.iterator();
+
+        int i = 0;
+        int x = 1;
+
+        if (localQuestionAnswerCollection != null) {
+
+            while (i < localQuestionAnswerCollection.size()) {
+
+                QuestionAnswer questionAnswerObject = itQa.next();
+                String localQuestion = questionAnswerObject.getQuestion();
+                String localAnswer = questionAnswerObject.getAnswer();
+                Integer localIdQuestion = questionAnswerObject.getIdquestion();
+                Integer localQuestionCategory = questionAnswerObject.getQuestionCategory();
+
+                output = output + "Question " + x + ":\n"
+                        + "Question Id: " + localIdQuestion + "\n"
+                        + "Question Category: " + localQuestionCategory + "\n"
+                        + "Question: " + localQuestion + "\n"
+                        + "Answer: " + localAnswer + "\n\n";
+
+                i++;
+                if (i == localQuestionAnswerCollection.size()) {
+                    x = 1;
+                } else {
+                    x++;
+                }
+
+            }
+        } else {
+            output = output + "no related Questions \n";
+        }
+
+        output = output + "Related Edr's: \n\n";
+        i = 0;
+        if (localEdrCollection != null) {
+            Iterator<Edr> itEdr = localEdrCollection.iterator();
+
+            while (i < localEdrCollection.size()) {
+                output = output + "Edr :" + itEdr.next().getIdedr() + "\n";
+
+                i++;
+            }
+        } else {
+            output = output + "no previous Edr's\n";
+        }
+
+        return output;
+    }
+    
 }

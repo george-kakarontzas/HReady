@@ -5,20 +5,14 @@
  */
 package eu.comprofits.cdibeans.edr;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-import eu.comprofits.LittleHelper;
 import eu.comprofits.entities.edr.Edr;
 import eu.comprofits.entities.employee.Employee;
 import eu.comprofits.session.edr.EdrFacade;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,12 +27,20 @@ import javax.print.SimpleDoc;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.Copies;
+import javax.print.event.PrintJobAdapter;
+import javax.print.event.PrintJobEvent;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.MultiPartEmail;
 import org.apache.commons.mail.SimpleEmail;
+import org.apache.pdfbox.exceptions.COSVisitorException;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 /**
  *
@@ -63,7 +65,7 @@ public class EdrUtilityBean {
         Doc doc = new SimpleDoc(is, flavor, null);
         DocPrintJob job = service.createPrintJob();
 
-        LittleHelper printingHelper = new LittleHelper(job);
+        PrintHelper printingHelper = new PrintHelper(job);
         job.print(doc, pras);
         printingHelper.waitForDone();
         is.close();
@@ -71,7 +73,7 @@ public class EdrUtilityBean {
         return true;
     }
 
-    public boolean exportEdr(String extension, String path, Edr edr) throws FileNotFoundException, DocumentException, IOException {
+    public boolean exportEdr(String extension, String path, Edr edr) throws FileNotFoundException, IOException, COSVisitorException {
         // works but needs some improvements
 
         if (extension.equalsIgnoreCase("xml")) {
@@ -92,15 +94,29 @@ public class EdrUtilityBean {
 
         } else if (extension.equalsIgnoreCase("pdf")) {
 
-            // muss noch verbessert werden
-            Document document = new Document();
+            // Create a document and add a page to it
+            PDDocument document = new PDDocument();
+            PDPage page = new PDPage();
+            document.addPage(page);
 
-            PdfWriter.getInstance(document, new FileOutputStream(path + "." + extension));
+// Create a new font object selecting one of the PDF base fonts
+            PDFont font = PDType1Font.HELVETICA_BOLD;
 
-            document.open();
+// Start a new content stream which will "hold" the to be created content
+            PDPageContentStream contentStream = new PDPageContentStream(document, page);
 
-            document.add(new Paragraph(edr.edrToFormattedString()));
+// Define a text content stream using the selected font, moving the cursor and drawing the text "Hello World"
+            contentStream.beginText();
+            contentStream.setFont(font, 12);
+            contentStream.moveTextPositionByAmount(100, 700);
+            contentStream.drawString("Hello World");
+            contentStream.endText();
 
+// Make sure that the content stream is closed:
+            contentStream.close();
+
+// Save the results and ensure that the document is properly closed:
+            document.save(edr.edrToFormattedString());
             document.close();
 
             return true;
@@ -149,26 +165,81 @@ public class EdrUtilityBean {
             return true;
         }
     }
-           public boolean closeEdrStatusByEmployee(Employee employee, Integer updatedStatus, Edr edrObject, EdrFacade edrFacade) {
+
+    public boolean closeEdrStatusByEmployee(Employee employee, Integer updatedStatus, Edr edrObject, EdrFacade edrFacade) {
 
         if (edrObject.getReviewedEmployeeIdemployee().getIdemployee() == employee.getIdemployee()) {
             edrObject.setStatus(updatedStatus);
             edrFacade.edit(edrObject);
-            
+
             return true;
         } else {
-            
+
             return true;
         }
     }
-       
-       public Edr followUpOnLatestEdr(Edr edr, Employee employee, EdrFacade edrFacade) {
+
+    public Edr followUpOnLatestEdr(Edr edr, Employee employee, EdrFacade edrFacade) {
 
 //        Date date = new Date();
 //        EdrFacade eFacade = new EdrFacade();
 //        List<Edr> allEdr =  eFacade.findAll();
 //        Edr latestEdr = allEdr.get(allEdr.size()-1);
-           
         return null;
+    }
+
+    public class PrintHelper {
+
+        boolean done = false;
+
+        public PrintHelper() {
+
+        }
+
+        /**
+         *
+         * @param job
+         */
+        public PrintHelper(DocPrintJob job) {
+
+            job.addPrintJobListener(new PrintJobAdapter() {
+                @Override
+                public void printJobCanceled(PrintJobEvent pje) {
+                    allDone();
+                }
+
+                @Override
+                public void printJobCompleted(PrintJobEvent pje) {
+                    allDone();
+                }
+
+                @Override
+                public void printJobFailed(PrintJobEvent pje) {
+                    allDone();
+                }
+
+                @Override
+                public void printJobNoMoreEvents(PrintJobEvent pje) {
+                    allDone();
+                }
+
+                void allDone() {
+                    synchronized (PrintHelper.this) {
+                        done = true;
+                        System.out.println("Printing done ...");
+                        PrintHelper.this.notify();
+                    }
+                }
+            });
+        }
+
+        public synchronized void waitForDone() {
+            try {
+                while (!done) {
+                    wait();
+                }
+            } catch (InterruptedException e) {
+            }
+        }
     }
 }
