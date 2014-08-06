@@ -24,6 +24,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -43,6 +44,7 @@ public class updateEmployeesProfileCDIBean implements Serializable {
     private Employee employee;
     private List<Employee> employees;
     private UploadedFile photograph;
+    private String password;
 
     /**
      * Creates a new instance of UpdateOrganisationalPositionsCDIBean
@@ -118,11 +120,11 @@ public class updateEmployeesProfileCDIBean implements Serializable {
     public void setPhotograph(UploadedFile photograph) {
         this.photograph = photograph;
     }
-    
+
     public String getPhotoPath() {
         if (employee != null) {
-            if (employee.getPhotoPath()!=null) {
-                return "/images/"+employee.getPhotoPath();
+            if (employee.getPhotoPath() != null) {
+                return "/images/" + employee.getPhotoPath();
             }
         }
         return "/images/user.jpg";
@@ -134,6 +136,7 @@ public class updateEmployeesProfileCDIBean implements Serializable {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+        this.password = employee.getPassword();
     }
 
     public List<Employee> getEmployees() {
@@ -142,6 +145,14 @@ public class updateEmployeesProfileCDIBean implements Serializable {
 
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void upload() {
@@ -176,7 +187,7 @@ public class updateEmployeesProfileCDIBean implements Serializable {
     public String update() {
         try {
             //save photo of user if not null
-            if (photograph != null) {
+            if (!photograph.getFileName().isEmpty()) {
                 File file = null;
                 OutputStream output = null;
                 try {
@@ -189,7 +200,7 @@ public class updateEmployeesProfileCDIBean implements Serializable {
                     output = new FileOutputStream(file);
                     IOUtils.copy(photograph.getInputstream(), output);
                     employee.setPhotoPath(file.getName());
-                    photograph=null;
+                    photograph = null;
                     // Show succes message.
                     FacesContext.getCurrentInstance().addMessage("uploadForm", new FacesMessage(
                             FacesMessage.SEVERITY_INFO, "File upload succeed!", null));
@@ -209,11 +220,22 @@ public class updateEmployeesProfileCDIBean implements Serializable {
                     IOUtils.closeQuietly(output);
                 }
             }
-            String sha256hex = DigestUtils.sha256Hex(employee.getPassword());
-            employee.setPassword(sha256hex);
+
             if (employee.getIdemployee() == null) {
+                if (password.isEmpty()) {
+                    FacesContext.getCurrentInstance().addMessage(null,
+                            new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                    "password required for new employees", null));
+                    return "";
+                }
+                String sha256hex = DigestUtils.sha256Hex(password);
+                employee.setPassword(sha256hex);
                 employeeFacade.create(employee);
             } else {
+                if (!password.isEmpty()) {
+                    String sha256hex = DigestUtils.sha256Hex(password);
+                    employee.setPassword(sha256hex);
+                }
                 employeeFacade.edit(employee);
             }
             refreshDepartmentEmployeesList();
