@@ -73,13 +73,15 @@
                                                 <p:outputLabel value="#{msgs.username}:" for="username" />
                                                 <p:inputText id="username" value="#{updateEmployeesProfileCDIBean.employee.username}" 
                                                              required="true" requiredMessage="#{msgs.required_username}."/>
-                                                <p:outputLabel value="#{msgs.password}:" for="password" />
-                                                <p:password id="password" value="#{updateEmployeesProfileCDIBean.employee.password}" 
-                                                            required="true" requiredMessage="#{msgs.required_password}" match="confirmed_password"
-                                                             />
-                                                <p:outputLabel value="#{msgs.confirm_password}:" for="confirmed_password" />
-                                                <p:password id="confirmed_password" value="#{updateEmployeesProfileCDIBean.employee.password}" 
-                                                            required="true" requiredMessage="#{msgs.required_confirmed_password}"  />
+
+                                                <p:outputLabel value="#{msgs.password}" for="pwd" />
+                                                <p:password id="pwd" value="#{updateEmployeesProfileCDIBean.password}" 
+                                                            match="confirm" />
+
+                                                <p:outputLabel for="confirm" value="#{msgs.confirm_password}" />
+                                                <p:password id="confirm" value="#{updateEmployeesProfileCDIBean.password}" />
+
+
                                                 <p:outputLabel value="#{msgs.marital_status}:" for="maritalStatus" />
                                                 <p:selectOneMenu id="maritalStatus" value="#{updateEmployeesProfileCDIBean.employee.maritalStatus}">
                                                     <f:selectItem itemLabel="#{msgs.married}" itemValue="M"/>
@@ -94,6 +96,7 @@
                                                     <f:selectItem itemLabel="#{msgs.hr_recruiter}" itemValue="hrrecruiter"/>
                                                     <f:selectItem itemLabel="#{msgs.hrm_employee}" itemValue="hrmemployee" />
                                                     <f:selectItem itemLabel="#{msgs.administrator}" itemValue="administrator" />
+                                                    <f:selectItem itemLabel="#{msgs.employee}" itemValue="employee"/>
                                                 </p:selectOneMenu>
                                                 <p:outputLabel value="#{msgs.department_name}:" />
                                                 <p:outputLabel value="#{updateEmployeesProfileCDIBean.employee.departmentIddepartment.departmentName}" />
@@ -103,6 +106,7 @@
                                         </td>
                                     </tr>
                                 </table>
+
                             </h:form>
 
                         </p:tab>
@@ -112,7 +116,7 @@
                         <p:tab id="tab3" title="#{msgs.employee_professional_experience}" titleStyle="height:30px;">
                             <p:outputLabel value="TO-DO: ADD EMPLOYEE PROFESSIONAL EXPERIENCE UPDATE CAPABILITY" />
                         </p:tab>
-                         <p:tab id="tab4" title="#{msgs.employee_studies}" titleStyle="height:30px;">
+                        <p:tab id="tab4" title="#{msgs.employee_studies}" titleStyle="height:30px;">
                             <p:outputLabel value="TO-DO: ADD EMPLOYEE STUDIES UPDATE CAPABILITY" />
                         </p:tab>
                     </p:tabView>

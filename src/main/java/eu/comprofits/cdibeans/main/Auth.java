@@ -40,11 +40,17 @@ public class Auth implements Serializable {
     }
 
     public Employee getEmployee() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        Employee e = (Employee) externalContext.getSessionMap().get("user");
         if (employee == null) {
             Principal principal
                     = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
             if (principal != null) {
                 employee = employeeFacade.getEmployeeByUsername(principal.getName()); // Find User by j_username.
+            }
+            else if (e !=null) {
+                employee = e;
             }
         }
         return employee;
