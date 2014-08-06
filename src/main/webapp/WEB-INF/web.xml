@@ -12,6 +12,11 @@
         <param-name>facelets.SKIP_COMMENTS</param-name>
         <param-value>true</param-value>
     </context-param>
+    <context-param>
+        <description>The location in which various uploaded files are stored. E.g. the employees photographs.</description>
+        <param-name>FILE_UPLOAD_DIR</param-name>
+        <param-value>C:/var/webapp/images</param-value>
+    </context-param>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>

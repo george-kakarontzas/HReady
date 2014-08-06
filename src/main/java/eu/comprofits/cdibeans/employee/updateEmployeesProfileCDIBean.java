@@ -14,8 +14,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
@@ -24,7 +22,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -42,6 +39,7 @@ public class updateEmployeesProfileCDIBean implements Serializable {
     @EJB
     private EmployeeFacade employeeFacade;
     private Employee employee;
+    private Employee loggedInUser;
     private List<Employee> employees;
     private UploadedFile photograph;
     private String password;
@@ -59,23 +57,14 @@ public class updateEmployeesProfileCDIBean implements Serializable {
 
     private void refreshDepartmentEmployeesList() {
         Department d = this.getDepartment();
-        if (d != null) {
-            Collection coll = d.getEmployeeCollection();
-            if (coll instanceof List) {
-                employees = (List) coll;
-            } else {
-                employees = new ArrayList<>(coll);
-            }
-        } else {
-            employees = new ArrayList<>();
-        }
+        employees=employeeFacade.getDepartmentEmployees(d);
     }
 
     public Department getDepartment() {
         //get department of currently logged in department head
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
-        Employee loggedInUser = (Employee) externalContext.getSessionMap().get("user");
+        loggedInUser = (Employee) externalContext.getSessionMap().get("user");
         if (loggedInUser != null) {
             Department d = loggedInUser.getDepartmentIddepartment();
             return d;
@@ -196,9 +185,18 @@ public class updateEmployeesProfileCDIBean implements Serializable {
                     String suffix = FilenameUtils.getExtension(photograph.getFileName());
 
                     // Create file with unique name in upload folder and write to it.
-                    file = File.createTempFile(prefix + "_", "." + suffix, new File("c:/var/webapp/images"));
+                    FacesContext ctx = FacesContext.getCurrentInstance();
+                    String outputdir
+                            = ctx.getExternalContext().getInitParameter("FILE_UPLOAD_DIR");
+                    file = File.createTempFile(prefix + "_", "." + suffix, new File(outputdir));
                     output = new FileOutputStream(file);
                     IOUtils.copy(photograph.getInputstream(), output);
+                    //remove the old photograph file of the employee if it exists
+                    String oldFile = employee.getPhotoPath();
+                    File f = new File(outputdir + File.separator + oldFile);
+                    if (f.exists()) {
+                        f.delete();
+                    }
                     employee.setPhotoPath(file.getName());
                     photograph = null;
                     // Show succes message.
@@ -244,7 +242,7 @@ public class updateEmployeesProfileCDIBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             e.getMessage(), null));
         }
-
+        refreshDepartmentEmployeesList();
         return "updateEmployeeProfile";
     }
 
