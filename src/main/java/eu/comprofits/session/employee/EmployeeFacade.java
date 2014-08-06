@@ -6,7 +6,9 @@
 package eu.comprofits.session.employee;
 
 import eu.comprofits.entities.employee.Employee;
+import eu.comprofits.entities.main.Department;
 import eu.comprofits.session.AbstractFacade;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,5 +37,11 @@ public class EmployeeFacade extends AbstractFacade<Employee> {
                 .setParameter("username", username)
                 .getSingleResult();
         return result;
+    }
+    
+     public List<Employee> getDepartmentEmployees(Department d) {
+        return em.createQuery(
+                "Select e From Employee e WHERE e.departmentIddepartment=:department").
+                setParameter("department", d).getResultList();
     }
 }
