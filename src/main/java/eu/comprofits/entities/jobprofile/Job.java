@@ -218,7 +218,8 @@ public class Job implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.mavenproject1.Job[ idjob=" + idjob + " ]";
+        //return "com.mycompany.mavenproject1.Job[ idjob=" + idjob + " ]";
+        return "" + idjob;
     }
     
 }
