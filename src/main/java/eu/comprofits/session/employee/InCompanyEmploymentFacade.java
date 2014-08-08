@@ -33,8 +33,11 @@ public class InCompanyEmploymentFacade extends AbstractFacade<InCompanyEmploymen
     }
     
     public List<InCompanyEmployment> getPastPositions(Employee e) {
-        return em.createQuery(
+        List<InCompanyEmployment> all = em.createQuery(
                 "Select i From InCompanyEmployment i WHERE i.employeeIdemployee=:emp").
                 setParameter("emp", e).getResultList();
+        InCompanyEmployment current = e.getCurrentInCompanyEmploymentId();
+        all.remove(current);
+        return all;
     }   
 }
