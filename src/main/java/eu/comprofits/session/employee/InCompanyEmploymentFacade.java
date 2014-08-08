@@ -6,8 +6,10 @@
 
 package eu.comprofits.session.employee;
 
+import eu.comprofits.entities.employee.Employee;
 import eu.comprofits.entities.employee.InCompanyEmployment;
 import eu.comprofits.session.AbstractFacade;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -30,4 +32,9 @@ public class InCompanyEmploymentFacade extends AbstractFacade<InCompanyEmploymen
         super(InCompanyEmployment.class);
     }
     
+    public List<InCompanyEmployment> getPastPositions(Employee e) {
+        return em.createQuery(
+                "Select i From InCompanyEmployment i WHERE i.employeeIdemployee=:emp").
+                setParameter("emp", e).getResultList();
+    }   
 }

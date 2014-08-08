@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <body>
+        <ui:composition template="./deptheadPagesTemplate.xhtml">
+            <ui:define name="title">
+                ${msgs.update_employee_company_job_position}
+            </ui:define>
+            <ui:define name="content">
+                <f:view>
+                    <h:form>
+                        <p:messages  />
+                        <h1><h:outputText value="#{msgs.update_employee_company_job_position}"/></h1>
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="#{msgs.employee}:" />
+                            <p:outputLabel value="#{editInCompanyEmploymentCDIBean.employee.lastName}, 
+                                           #{editInCompanyEmploymentCDIBean.employee.firstName}" />
+                            <p:outputLabel value="#{msgs.start_date_of_employement}" for="startDate" />
+                            <p:calendar id="startDate" 
+                                        value="#{editInCompanyEmploymentCDIBean.employee.currentInCompanyEmploymentId.startDate}" 
+                                        showOn="button" navigator="true" pattern="dd/MM/yyyy">
+                            </p:calendar>
+                            <p:outputLabel value="#{msgs.job_position}:" for="jobIdjob" />  
+                            <p:selectOneMenu id="jobIdjob" 
+                                             value="#{editInCompanyEmploymentCDIBean.employee.currentInCompanyEmploymentId.jobIdjob}" 
+                                             required="true" requiredMessage="#{msgs.required_job}"
+                                             converter="#{jobConverter}" >
+                                <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{editInCompanyEmploymentCDIBean.jobs}" 
+                                               var="j" itemLabel="#{j.jobTitle}" itemValue="#{j}"  
+                                               />
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                        <h:commandButton id="back" value="#{msgs.back}" action="updateEmployeeProfile"/>  
+                        <h:commandButton id="update" value="Update" action="#{editInCompanyEmploymentCDIBean.update()}" />
+
+                    </h:form>
+                </f:view>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
