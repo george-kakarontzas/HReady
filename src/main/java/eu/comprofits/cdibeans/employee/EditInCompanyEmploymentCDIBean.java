@@ -13,9 +13,11 @@ import eu.comprofits.session.employee.InCompanyEmploymentFacade;
 import eu.comprofits.session.jobprofile.JobFacade;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -34,12 +36,12 @@ public class EditInCompanyEmploymentCDIBean {
     private JobFacade jobFacade;
     @EJB
     private EmployeeFacade employeeFacade;
-  
     private Employee employee;
     private InCompanyEmployment inCompanyEmployment;
-    private InCompanyEmployment oldCompanyEmployment;
-    private List<InCompanyEmployment> oldEmployments;
     private List<Job> jobs;
+    private InCompanyEmployment employmentBeforeChanges;
+    private boolean savePreviousEmployment;
+    private boolean renderPrevious;
 
     /**
      * Creates a new instance of EditInCompanyEmployment
@@ -59,28 +61,29 @@ public class EditInCompanyEmploymentCDIBean {
                 inCompanyEmployment.setStartDate(new Date());
                 inCompanyEmployment.setEmployeeIdemployee(employee);
                 employee.setCurrentInCompanyEmploymentId(inCompanyEmployment);
+                renderPrevious=false;
             } else {
-                oldCompanyEmployment = employee.getCurrentInCompanyEmploymentId();
-                inCompanyEmployment = oldCompanyEmployment;
+                inCompanyEmployment = employee.getCurrentInCompanyEmploymentId();
+                //keep old fields in a new object
+                employmentBeforeChanges = new InCompanyEmployment();
+                employmentBeforeChanges.setEmployeeIdemployee(inCompanyEmployment.getEmployeeIdemployee());
+                employmentBeforeChanges.setEndDate(new Date());
+                employmentBeforeChanges.setJobIdjob(inCompanyEmployment.getJobIdjob());
+                employmentBeforeChanges.setStartDate(inCompanyEmployment.getStartDate());
+                renderPrevious=true;
             }
         }
         jobs = jobFacade.findAll();
     }
 
+    public InCompanyEmployment getEmploymentBeforeChanges() {
+        return employmentBeforeChanges;
+    }
+    
     public InCompanyEmployment getInCompanyEmployment() {
         return inCompanyEmployment;
     }
-
-    public InCompanyEmployment getOldCompanyEmployment() {
-        return oldCompanyEmployment;
-    }
-
-    public List<InCompanyEmployment> getOldEmployments() {
-        
-        oldEmployments = inCompanyEmploymentFacade.getPastPositions(employee);
-        return oldEmployments;
-    }
-
+    
     public Employee getEmployee() {
         if (employee == null) {
             System.out.println("NULL");
@@ -92,6 +95,20 @@ public class EditInCompanyEmploymentCDIBean {
         return jobs;
     }
 
+    public boolean isSavePreviousEmployment() {
+        return savePreviousEmployment;
+    }
+
+    public void setSavePreviousEmployment(boolean savePreviousEmployment) {
+        this.savePreviousEmployment = savePreviousEmployment;
+    }
+
+    public boolean isRenderPrevious() {
+        return renderPrevious;
+    }
+    
+    
+
     public String update() {
         if (employee != null) {
             inCompanyEmployment.setEmployeeIdemployee(employee);
@@ -101,13 +118,22 @@ public class EditInCompanyEmploymentCDIBean {
                 inCompanyEmploymentFacade.create(inCompanyEmployment);
             } else {
                 inCompanyEmploymentFacade.edit(inCompanyEmployment);
-                //TO-DO store as a different employement the old employement if the
-                //user wishes to keep it
+                if (savePreviousEmployment) {
+                    inCompanyEmploymentFacade.create(employmentBeforeChanges);
+                    FacesContext context = FacesContext.getCurrentInstance();
+                    ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+                    String str = bundle.getString("old_employment_was_saved");
+                    FacesMessage message = new FacesMessage(str);
+                    context.addMessage(null, message);
+                }
+                //update the employee in the database
+                employeeFacade.edit(employee);
             }
-            //update the employee in the database
-            employeeFacade.edit(employee);
+
         }
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        externalContext.getSessionMap().remove("employee");
         return "updateEmployeeProfile";
     }
-
 }

@@ -41,7 +41,7 @@
                                                var="c" itemValue="#{c}" itemLabel="#{c.companyName1}" 
                                                />
                             </p:selectOneMenu>
-                            <h:commandButton id="back" value="#{msgs.back}" action="updateOrganisationalPositions"/>  
+                            <h:commandButton id="back" value="#{msgs.back}" action="updateOrganisationalPositions"  immediate="true"/>  
                             <h:commandButton id="update" value="Update" action="#{updateOrganisationalPositionsCDIBean.update()}"/>
                         </p:panelGrid>
                     </h:form>

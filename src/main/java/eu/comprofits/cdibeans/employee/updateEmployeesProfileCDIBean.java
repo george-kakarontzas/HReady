@@ -190,6 +190,13 @@ public class updateEmployeesProfileCDIBean implements Serializable {
         externalContext.getSessionMap().put("employee", e);
         return "editInCompanyEmployment";
     }
+    
+    public String callEditPastCompanyEmployments(Employee e) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        externalContext.getSessionMap().put("employee", e);
+        return "editPastCompanyEmployments";
+    }
 
     public String update() {
         try {
