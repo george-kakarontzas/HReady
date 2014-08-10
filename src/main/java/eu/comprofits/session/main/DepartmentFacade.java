@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.comprofits.session.main;
 
 import eu.comprofits.entities.main.Department;
 import eu.comprofits.session.AbstractFacade;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,6 +18,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class DepartmentFacade extends AbstractFacade<Department> {
+
     @PersistenceContext(unitName = "comprofitsPU")
     private EntityManager em;
 
@@ -29,5 +30,12 @@ public class DepartmentFacade extends AbstractFacade<Department> {
     public DepartmentFacade() {
         super(Department.class);
     }
-     
+
+    public Department findByName(String dName) {
+        Object result = em.createNamedQuery("Department.findByDepartmentName")
+                .setParameter("departmentName", dName)
+                .getSingleResult();
+        return ((Department) result);
+    }
+
 }
