@@ -77,7 +77,7 @@ public class UpdateEdrNotesCDIBean implements Serializable {
 
     public String create() {
         this.edrNotesObject = new EdrNotes();
-        return "createImiportHistory";
+        return "createEdrNotes";
     }
 
     public void remove(EdrNotes edrNotes) {
