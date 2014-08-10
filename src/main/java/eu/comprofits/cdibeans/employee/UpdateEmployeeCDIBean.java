@@ -8,19 +8,18 @@ package eu.comprofits.cdibeans.employee;
 import eu.comprofits.entities.employee.Employee;
 import eu.comprofits.entities.main.Department;
 import eu.comprofits.session.employee.EmployeeFacade;
+import eu.comprofits.session.main.DepartmentFacade;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
-import java.security.Principal;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -32,53 +31,35 @@ import org.primefaces.model.UploadedFile;
  *
  * @author george
  */
-@Named(value = "updateEmployeesProfileCDIBean")
+@Named(value = "updateEmployeeCDIBean")
 @SessionScoped
-public class updateEmployeesProfileCDIBean implements Serializable {
+public class UpdateEmployeeCDIBean implements Serializable {
 
     @EJB
     private EmployeeFacade employeeFacade;
+    @EJB
+    private DepartmentFacade departmentFacade;
     private Employee employee;
-    private Employee loggedInUser;
     private List<Employee> employees;
+    private List<Employee> filteredEmployees;
     private UploadedFile photograph;
     private String password;
+    private List<Department> departments;
 
     /**
      * Creates a new instance of UpdateOrganisationalPositionsCDIBean
      */
-    public updateEmployeesProfileCDIBean() {
+    public UpdateEmployeeCDIBean() {
     }
 
     @PostConstruct
     public void init() {
-        refreshDepartmentEmployeesList();
+        refreshEmployeesList();
+        departments = departmentFacade.findAll();
     }
 
-    private void refreshDepartmentEmployeesList() {
-        Department d = this.getDepartment();
-        employees = employeeFacade.getDepartmentEmployees(d);
-    }
-
-    public Department getDepartment() {
-        //get department of currently logged in department head
-        FacesContext context = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = context.getExternalContext();
-        loggedInUser = (Employee) externalContext.getSessionMap().get("user");
-        if (loggedInUser != null) {
-            Department d = loggedInUser.getDepartmentIddepartment();
-            return d;
-        } //get Principal
-        else {
-            Principal principal
-                    = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
-            if (principal != null) {
-                loggedInUser = employeeFacade.getEmployeeByUsername(principal.getName()); // Find User by j_username.
-                Department d = loggedInUser.getDepartmentIddepartment();
-                return d;
-            }
-        }
-        return null;
+    private void refreshEmployeesList() {
+        employees = employeeFacade.findAll();
     }
 
     public String getRoleString(String roleAbbreviation) {
@@ -136,6 +117,18 @@ public class updateEmployeesProfileCDIBean implements Serializable {
         this.employees = employees;
     }
 
+    public List<Employee> getFilteredEmployees() {
+        return filteredEmployees;
+    }
+
+    public void setFilteredEmployees(List<Employee> filteredEmployees) {
+        this.filteredEmployees = filteredEmployees;
+    }
+
+    public List<Department> getDepartments() {
+        return departments;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -167,7 +160,7 @@ public class updateEmployeesProfileCDIBean implements Serializable {
                 }
             }
             employeeFacade.remove(e);
-            refreshDepartmentEmployeesList();
+            refreshEmployeesList();
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -177,41 +170,12 @@ public class updateEmployeesProfileCDIBean implements Serializable {
 
     public String edit(Employee e) {
         this.employee = e;
-        return "editEmployeeProfile";
+        return "editEmployee";
     }
 
     public String create() {
         this.employee = new Employee();
-        employee.setDepartmentIddepartment(this.getDepartment());
-        return "editEmployeeProfile";
-    }
-
-    public String callEditInCompanyEmployment(Employee e) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = context.getExternalContext();
-        externalContext.getSessionMap().put("employee", e);
-        return "editInCompanyEmployment";
-    }
-
-    public String callEditPastCompanyEmployments(Employee e) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = context.getExternalContext();
-        externalContext.getSessionMap().put("employee", e);
-        return "editPastCompanyEmployments";
-    }
-
-    public String callEditProExperience(Employee e) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = context.getExternalContext();
-        externalContext.getSessionMap().put("employee", e);
-        return "updateProExperience";
-    }
-
-    public String callEditStudies(Employee e) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = context.getExternalContext();
-        externalContext.getSessionMap().put("employee", e);
-        return "updateStudies";
+        return "editEmployee";
     }
 
     public String update() {
@@ -277,14 +241,14 @@ public class updateEmployeesProfileCDIBean implements Serializable {
                 }
                 employeeFacade.edit(employee);
             }
-            refreshDepartmentEmployeesList();
+            refreshEmployeesList();
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             e.getMessage(), null));
         }
-        refreshDepartmentEmployeesList();
-        return "updateEmployeeProfile";
+        refreshEmployeesList();
+        return "updateEmployee";
     }
 
 }
