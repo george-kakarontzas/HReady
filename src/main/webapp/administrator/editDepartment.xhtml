@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./adminPagesTemplate.xhtml">
+
+            <ui:define name="title">
+                #{msgs.edit_department}
+            </ui:define>
+
+            <ui:define name="content">
+                <f:view>
+                    <h:form>
+                        <p:messages  />
+                        <h1><h:outputText value="#{msgs.create_edit_department}"/></h1>
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value="#{msgs.department_name}:" 
+                                               for="departmentName" />
+                                <p:inputText id="departmentName" 
+                                             value="#{updateDepartmentsCDIBean.department.departmentName}" 
+                                             title="DepartmentName"
+                                             size="100" />
+                                <p:outputLabel value="#{msgs.head_of_department}:" for="headOfDepartmentIdemployee" />
+                                <p:selectOneMenu id="headOfDepartmentIdemployee" value="#{updateDepartmentsCDIBean.department.headOfDepartmentIdemployee}" 
+                                                 converter="#{employeeConverter}">
+                                    <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{updateDepartmentsCDIBean.department.employeeCollection}" 
+                                                   var="e" itemValue="#{e}" itemLabel="#{e.lastName}, #{e.firstName}" 
+                                                   />
+                                </p:selectOneMenu>
+                                <p:outputLabel value="#{msgs.company_name}" for="companyIdcompany" />
+                                <p:selectOneMenu id="companyIdcompany" value="#{updateDepartmentsCDIBean.department.companyIdcompany}" 
+                                                 required="true" requiredMessage="#{msgs.required_company_message}." 
+                                                 converter="#{companyConverter}">
+                                    <f:selectItems value="#{updateDepartmentsCDIBean.companies}" 
+                                                   var="c" itemValue="#{c}" itemLabel="#{c.companyName1}" 
+                                                   />
+                                </p:selectOneMenu>
+                                <h:commandButton id="back" value="#{msgs.back}" action="updateDepartments"/>  
+                                <h:commandButton id="update" value="Update" action="#{updateDepartmentsCDIBean.update()}"/>
+                            </p:panelGrid>
+                    </h:form>
+
+                </f:view>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
