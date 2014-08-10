@@ -55,6 +55,16 @@ public class updateProExperienceCDIBean implements Serializable {
     public List<ProfessionalExperienceRecord> getProrecs() {
         return prorecs;
     }
+
+    public ProfessionalExperienceRecord getProfessionalExperienceRec() {
+        return professionalExperienceRec;
+    }
+
+    public void setProfessionalExperienceRec(ProfessionalExperienceRecord professionalExperienceRec) {
+        this.professionalExperienceRec = professionalExperienceRec;
+    }
+    
+    
  
     private void refreshProRecsList() {
         prorecs = 
