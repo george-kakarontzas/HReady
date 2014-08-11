@@ -28,7 +28,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>/faces/*</url-pattern>
+        <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -36,14 +36,14 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/index.xhtml</welcome-file>
+        <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
     <security-constraint>
         <display-name>HeadsOfDepartmentsConstraint</display-name>
         <web-resource-collection>
             <web-resource-name>depthead_pages</web-resource-name>
             <description/>
-            <url-pattern>/faces/depthead/*</url-pattern>
+            <url-pattern>/depthead/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description/>
@@ -55,7 +55,7 @@
         <web-resource-collection>
             <web-resource-name>admin_pages</web-resource-name>
             <description/>
-            <url-pattern>/faces/administrator/*</url-pattern>
+            <url-pattern>/administrator/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description/>
@@ -67,7 +67,7 @@
         <web-resource-collection>
             <web-resource-name>HRM_recruiter_pages</web-resource-name>
             <description/>
-            <url-pattern>/faces/hrm/*</url-pattern>
+            <url-pattern>/hrm/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description/>
@@ -78,8 +78,8 @@
         <auth-method>FORM</auth-method>
         <realm-name>comprofits_jdbc_realm</realm-name>
         <form-login-config>
-            <form-login-page>/faces/login.xhtml</form-login-page>
-            <form-error-page>/faces/loginerror.xhtml</form-error-page>
+            <form-login-page>/login.xhtml</form-login-page>
+            <form-error-page>/loginerror.xhtml</form-error-page>
         </form-login-config>
     </login-config>
     <security-role>

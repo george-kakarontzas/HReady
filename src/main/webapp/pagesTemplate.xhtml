@@ -89,12 +89,14 @@
                         <p:growl id="messages" autoUpdate="true"/>  
                         <p:panelMenu>
                             <p:submenu label="Menu" >  
-                                <p:menuitem value="#{msgs.home}" icon="ui-icon-home" url="faces/index.xhtml"/>
-                                <p:menuitem value="#{msgs.password_reminder}" icon="ui-icon-key" url="faces/passwordReminder.xhtml"/>  
+                                <p:menuitem value="#{msgs.home}" icon="ui-icon-home" 
+                                            action="index.xhtml?faces-redirect=true"/>
+                               <!-- <p:menuitem value="#{msgs.password_reminder}" icon="ui-icon-key" 
+                                            action="passwordReminder.xhtml?faces-redirect=true"/>  
                                 <p:submenu label="#{msgs.open_positions}">  
                                     <p:menuitem value="#{msgs.view_open_positions}" icon="ui-icon-search"  />
                                     <p:menuitem value="#{msgs.apply_for_position}" icon="ui-icon-pencil" />
-                                </p:submenu>
+                                </p:submenu> -->
                             </p:submenu>  
                         </p:panelMenu>  
                     </h:form>

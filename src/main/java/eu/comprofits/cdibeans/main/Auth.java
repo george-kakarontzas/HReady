@@ -93,16 +93,16 @@ public class Auth implements Serializable {
             String role = e.getRole();
             switch (role) {
                 case "depthead":
-                    gotoPage="./faces/depthead/deptheadHomePage.xhtml";
+                    gotoPage="./depthead/deptheadHomePage.xhtml";
                     break;
                 case "administrator":
-                    gotoPage="./faces/administrator/adminHomePage.xhtml";
+                    gotoPage="./administrator/adminHomePage.xhtml";
                     break;
                 case "hrrecruiter":
-                    gotoPage="./faces/hrm/hrmHomePage.xhtml";
+                    gotoPage="./hrm/hrmHomePage.xhtml";
                     break;
                 default:
-                    gotoPage="./faces/index.xhtml";
+                    gotoPage="./index.xhtml";
             }
             externalContext.redirect(gotoPage);
         } catch (ServletException e) {
