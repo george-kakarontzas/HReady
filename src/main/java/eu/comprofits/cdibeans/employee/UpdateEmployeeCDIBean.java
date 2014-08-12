@@ -160,6 +160,9 @@ public class UpdateEmployeeCDIBean implements Serializable {
                 }
             }
             employeeFacade.remove(e);
+            if (filteredEmployees != null) { 
+                filteredEmployees.remove(e);
+            }
             refreshEmployeesList();
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -234,6 +237,20 @@ public class UpdateEmployeeCDIBean implements Serializable {
                 String sha256hex = DigestUtils.sha256Hex(password);
                 employee.setPassword(sha256hex);
                 employeeFacade.create(employee);
+                //if new add also in the filtered list
+                if (filteredEmployees != null) {
+                    boolean exists = false;
+                    for (Employee e : filteredEmployees) {
+                        if (e.equals(employee)) {
+                            exists = true;
+                            break;
+                        }
+                    }
+                    if (!exists) {
+                        filteredEmployees.add(employee);
+                    }
+                }
+
             } else {
                 if (!password.isEmpty()) {
                     String sha256hex = DigestUtils.sha256Hex(password);

@@ -50,6 +50,9 @@ public class UpdateStudiesCDIBean implements Serializable {
     }
 
     public Employee getEmployee() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        employee = (Employee) externalContext.getSessionMap().get("employee");
         return employee;
     }
 

@@ -6,11 +6,11 @@
 
 package eu.comprofits.entities.main;
 
+import eu.comprofits.entities.assessment.EmployeeCompetenceAssessment;
 import eu.comprofits.entities.edr.CompetenceGoal;
 import eu.comprofits.entities.employee.CurrentCompetenceAssessment;
-import eu.comprofits.entities.assessment.EmployeeCompetenceAssessment;
-import eu.comprofits.entities.jobprofile.CompetencesRequirement;
 import eu.comprofits.entities.jobapplicant.ApplicantCompetenceAssessment;
+import eu.comprofits.entities.jobprofile.CompetencesRequirement;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -26,6 +26,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -114,6 +115,17 @@ public class Competence implements Serializable {
 
     public void setParentId(Competence parentId) {
         this.parentId = parentId;
+    }
+    
+    @Transient 
+    public int getLevel() {
+        int level=1;
+        Competence p = this.getParentId();
+        while (p!=null) {
+            p=p.getParentId();
+            level++;
+        }
+        return level;
     }
 
     @XmlTransient

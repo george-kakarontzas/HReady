@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.comprofits.cdibeans.employee;
 
 import eu.comprofits.entities.employee.Employee;
@@ -25,15 +24,15 @@ import javax.inject.Named;
  */
 @Named(value = "updateProExperienceCDIBean")
 @SessionScoped
-public class updateProExperienceCDIBean implements Serializable {   
+public class updateProExperienceCDIBean implements Serializable {
+
     @EJB
     private ProfessionalExperienceRecordFacade professionalExperienceRecordFacade;
-    
+
     private Employee employee;
     private ProfessionalExperienceRecord professionalExperienceRec;
     private List<ProfessionalExperienceRecord> prorecs;
-   
-    
+
     /**
      * Creates a new instance of updateProExperienceCDIBean
      */
@@ -49,6 +48,9 @@ public class updateProExperienceCDIBean implements Serializable {
     }
 
     public Employee getEmployee() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        employee = (Employee) externalContext.getSessionMap().get("employee");
         return employee;
     }
 
@@ -63,19 +65,15 @@ public class updateProExperienceCDIBean implements Serializable {
     public void setProfessionalExperienceRec(ProfessionalExperienceRecord professionalExperienceRec) {
         this.professionalExperienceRec = professionalExperienceRec;
     }
-    
-    
- 
+
     private void refreshProRecsList() {
-        prorecs = 
-            professionalExperienceRecordFacade.getProRecsForEmployee(employee);
+        prorecs
+                = professionalExperienceRecordFacade.getProRecsForEmployee(employee);
     }
-
-
 
     public void remove(ProfessionalExperienceRecord p) {
         try {
-            professionalExperienceRecordFacade.remove(p);           
+            professionalExperienceRecordFacade.remove(p);
             refreshProRecsList();
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -90,19 +88,19 @@ public class updateProExperienceCDIBean implements Serializable {
     }
 
     public String create() {
-        this.professionalExperienceRec =
-                new ProfessionalExperienceRecord();
+        this.professionalExperienceRec
+                = new ProfessionalExperienceRecord();
         professionalExperienceRec.setEmployeeIdemployee(employee);
         return "editProfessionalExperienceRecord";
     }
-   
+
     public String update() {
         try {
-            if (professionalExperienceRec.getIdprofessionalExperienceRecord()==null) {
-               professionalExperienceRecordFacade.create(professionalExperienceRec);
+            if (professionalExperienceRec.getIdprofessionalExperienceRecord() == null) {
+                professionalExperienceRecordFacade.create(professionalExperienceRec);
             } else {
                 professionalExperienceRecordFacade.edit(professionalExperienceRec);
-            }           
+            }
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -110,5 +108,5 @@ public class updateProExperienceCDIBean implements Serializable {
         }
         refreshProRecsList();
         return "updateProExperience";
-    }   
+    }
 }
