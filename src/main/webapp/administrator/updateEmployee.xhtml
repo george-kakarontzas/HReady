@@ -22,7 +22,8 @@
                         <p:commandButton icon="ui-icon-pencil"
                                          value="#{msgs.create_new_employee}"
                                          action="#{updateEmployeeCDIBean.create()}"
-                                         ajax="false" />
+                                         ajax="false"
+                                          />
                         <p:dataTable var="item" value="#{updateEmployeeCDIBean.employees}" widgetVar="employeesTable"
                                      emptyMessage="#{msgs.no_employees_found_with_given_criteria}" 
                                      filteredValue="#{updateEmployeeCDIBean.filteredEmployees}"
