@@ -15,12 +15,24 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author alexanderhoelzemann
  */
 @Entity
+@Table(name = "edrHistory")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "EdrHistory.findAll", query = "SELECT e FROM EdrHistory e"),
+    @NamedQuery(name = "EdrHistory.findByIdEdrHistory", query = "SELECT e FROM EdrHistory e WHERE e.idedrHistory = :idedrHistory"),
+    @NamedQuery(name = "EdrHistory.findByDate", query = "SELECT e FROM EdrHistory e WHERE e.date = :date"),
+    @NamedQuery(name = "EdrHistory.findByIdEdr", query = "SELECT e FROM EdrHistory e WHERE e.idedr = :idedr")})
+
 public class EdrHistory implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
