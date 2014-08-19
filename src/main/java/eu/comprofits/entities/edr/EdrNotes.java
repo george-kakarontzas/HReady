@@ -5,10 +5,8 @@
  */
 package eu.comprofits.entities.edr;
 
-import eu.comprofits.session.edr.ImportHistoryFacade;
 import java.io.Serializable;
 import java.sql.Date;
-import javax.ejb.EJB;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,12 +14,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author alexanderhoelzemann
  */
 @Entity
+@Table(name = "edrNotes")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "EdrNotes.findAll", query = "SELECT e FROM EdrNotes e"),
+    @NamedQuery(name = "EdrNotes.findByIdNotes", query = "SELECT e FROM EdrNotes e WHERE e.idnote = :idnote"),
+    @NamedQuery(name = "EdrNotes.findByDate", query = "SELECT e FROM EdrNotes e WHERE e.date = :date"),
+    @NamedQuery(name = "EdrNotes.findByIdEdr", query = "SELECT e FROM EdrNotes e WHERE e.edrIdedr = :idedr")})
 public class EdrNotes implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

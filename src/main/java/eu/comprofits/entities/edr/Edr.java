@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.comprofits.entities.edr;
 
 import eu.comprofits.entities.employee.Employee;
@@ -42,6 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Edr.findByStatus", query = "SELECT e FROM Edr e WHERE e.status = :status"),
     @NamedQuery(name = "Edr.findByVerdict", query = "SELECT e FROM Edr e WHERE e.verdict = :verdict")})
 public class Edr implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,6 +69,8 @@ public class Edr implements Serializable {
     @JoinColumn(name = "previous_edr_idedr", referencedColumnName = "idedr")
     @ManyToOne
     private Edr previousEdrIdedr;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "edrIdedr")
+    private Collection<EdrNotes> edrNotesCollection;
 
     public Edr() {
     }
@@ -107,6 +109,15 @@ public class Edr implements Serializable {
 
     public void setVerdict(String verdict) {
         this.verdict = verdict;
+    }
+
+    @XmlTransient
+    public Collection<EdrNotes> getEdrNotesCollection() {
+        return edrNotesCollection;
+    }
+
+    public void setEdrNotesCollection(Collection<EdrNotes> edrNotesCollection) {
+        this.edrNotesCollection = edrNotesCollection;
     }
 
     @XmlTransient
@@ -175,13 +186,13 @@ public class Edr implements Serializable {
     public String toString() {
         return "com.mycompany.mavenproject1.Edr[ idedr=" + idedr + " ]";
     }
-     
+
     public Edr followUpOnLatestEdr(Edr edr, Employee employee) {
         return null;
     }
-    
+
     public boolean closeEdrStatusByEmployee(Edr edr, Employee employee) {
-        
+
         if (employee == this.reviewedEmployeeIdemployee) {
             this.status = edr.getStatus();
             return true;
@@ -189,12 +200,12 @@ public class Edr implements Serializable {
             return false;
         }
     }
-    
+
     public boolean addMoreNotesToEdr(Collection<String> notes, Edr edr) {
         return false;
     }
-    
-        public String edrToFormattedString() {
+
+    public String edrToFormattedString() {
 
         //need to talk with Mahdi for the detailed look of the string
         Integer localEdrId = this.idedr;
@@ -267,5 +278,5 @@ public class Edr implements Serializable {
 
         return output;
     }
-    
+
 }
