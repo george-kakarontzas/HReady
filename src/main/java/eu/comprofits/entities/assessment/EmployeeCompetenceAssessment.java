@@ -34,6 +34,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "EmployeeCompetenceAssessment.findByIdemployeeCompetenceAssessment", query = "SELECT e FROM EmployeeCompetenceAssessment e WHERE e.idemployeeCompetenceAssessment = :idemployeeCompetenceAssessment"),
     @NamedQuery(name = "EmployeeCompetenceAssessment.findByAssessment", query = "SELECT e FROM EmployeeCompetenceAssessment e WHERE e.assessment = :assessment")})
 public class EmployeeCompetenceAssessment implements Serializable {
+    @JoinColumn(name = "statement_idstatement", referencedColumnName = "idstatement")
+    @ManyToOne(optional = false)
+    private Statement statementIdstatement;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -122,6 +125,14 @@ public class EmployeeCompetenceAssessment implements Serializable {
     @Override
     public String toString() {
         return "com.mycompany.mavenproject1.EmployeeCompetenceAssessment[ idemployeeCompetenceAssessment=" + idemployeeCompetenceAssessment + " ]";
+    }
+
+    public Statement getStatementIdstatement() {
+        return statementIdstatement;
+    }
+
+    public void setStatementIdstatement(Statement statementIdstatement) {
+        this.statementIdstatement = statementIdstatement;
     }
     
 }

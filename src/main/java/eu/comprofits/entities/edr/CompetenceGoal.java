@@ -37,6 +37,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "CompetenceGoal.findByComments", query = "SELECT c FROM CompetenceGoal c WHERE c.comments = :comments"),
     @NamedQuery(name = "CompetenceGoal.findByEdrIdedr", query = "SELECT c FROM CompetenceGoal c WHERE c.edrIdedr = :edrIdedr")})
 public class CompetenceGoal implements Serializable {
+    @JoinColumn(name = "edr_idedr", referencedColumnName = "idedr")
+    @ManyToOne(optional = false)
+    private Edr edrIdedr;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,10 +51,6 @@ public class CompetenceGoal implements Serializable {
     @Size(max = 255)
     @Column(name = "comments")
     private String comments;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "edr_idedr")
-    private int edrIdedr;
     @JoinColumn(name = "competence_idcompetence", referencedColumnName = "idcompetence")
     @ManyToOne(optional = false)
     private Competence competenceIdcompetence;
@@ -63,7 +62,7 @@ public class CompetenceGoal implements Serializable {
         this.idcompetenceGoal = idcompetenceGoal;
     }
 
-    public CompetenceGoal(Integer idcompetenceGoal, int edrIdedr) {
+    public CompetenceGoal(Integer idcompetenceGoal, Edr edrIdedr) {
         this.idcompetenceGoal = idcompetenceGoal;
         this.edrIdedr = edrIdedr;
     }
@@ -90,14 +89,6 @@ public class CompetenceGoal implements Serializable {
 
     public void setComments(String comments) {
         this.comments = comments;
-    }
-
-    public int getEdrIdedr() {
-        return edrIdedr;
-    }
-
-    public void setEdrIdedr(int edrIdedr) {
-        this.edrIdedr = edrIdedr;
     }
 
     public Competence getCompetenceIdcompetence() {
@@ -131,6 +122,14 @@ public class CompetenceGoal implements Serializable {
     @Override
     public String toString() {
         return "com.mycompany.mavenproject1.CompetenceGoal[ idcompetenceGoal=" + idcompetenceGoal + " ]";
+    }
+
+    public Edr getEdrIdedr() {
+        return edrIdedr;
+    }
+
+    public void setEdrIdedr(Edr edrIdedr) {
+        this.edrIdedr = edrIdedr;
     }
     
 }

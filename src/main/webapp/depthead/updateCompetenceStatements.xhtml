@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <body>
+        <ui:composition template="./deptheadPagesTemplate.xhtml">
+
+            <ui:define name="title">
+                #{msgs.depthead_home_page}
+            </ui:define>
+
+            <ui:define name="content">
+                <f:view>
+                    <h1>#{msgs.update_competence_statements}</h1>
+
+                    <h:form id="statementsUpdateForm">
+                        <h2>#{msgs.select_level_3_competence}</h2>
+                        <p:selectOneMenu value="#{updateCompetenceStatementsCDIBean.selectedCompetence}"
+                                         converter ="#{competenceConverter}">
+                            <p:ajax listener="#{updateCompetenceStatementsCDIBean.competenceValueChange}" 
+                                    update=":statementsUpdateForm" />
+                            <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{updateCompetenceStatementsCDIBean.l3competences}"
+                                           var="competence" itemLabel="#{competence.competenceName}" itemValue="#{competence}"  />
+                        </p:selectOneMenu>
+
+                        <p:panel id="statementsPanel"  visible="#{updateCompetenceStatementsCDIBean.competenceSelected}">
+                            <p:commandButton id="newStatementButton" value="#{msgs.add_statement_for_competence}: 
+                                             #{updateCompetenceStatementsCDIBean.selectedCompetence.competenceName}" 
+                                             onclick="PF('dlg').show();"  
+                                             actionListener="#{updateCompetenceStatementsCDIBean.newStatementBtnPressed}" />
+                            <p:separator />
+                            <h2><p:outputLabel id="statementsTableTitle" value="#{msgs.selected_competence_statements}:
+                                               #{updateCompetenceStatementsCDIBean.selectedCompetence.competenceName}" /></h2>
+                            <p:dataTable id="statementsTable" value="#{updateCompetenceStatementsCDIBean.selectedCompetenceStatements}" var="item">
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Idstatement"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.idstatement}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="StatementText"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.statementText}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="CompetenceId"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.competenceId.competenceName}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                    </h:form>
+
+                    <p:dialog id="dialog" header="#{msgs.add_statement_for_competence}: 
+                              #{updateCompetenceStatementsCDIBean.selectedCompetence.competenceName}"
+                              widgetVar="dlg"   >
+                        <h:form id="dialogForm">
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value="#{msgs.statement_text}:" for="statementText" />
+                                <p:inputTextarea cols="200" rows="10" id="statementText" 
+                                                 value="#{updateCompetenceStatementsCDIBean.newStatement.statementText}" 
+                                                 required="true" 
+                                                 requiredMessage="#{msgs.required_statement_text}"/>
+                                <p:outputLabel value="#{msgs.competence_name}:"  />
+                                <p:outputLabel 
+                                    value="#{updateCompetenceStatementsCDIBean.selectedCompetence.competenceName}" />
+                                <p:commandButton value="add" 
+                                                 actionListener="#{updateCompetenceStatementsCDIBean.saveNewStatement}"
+                                                 update=":statementsUpdateForm:statementsPanel"
+                                                 oncomplete="PF('dlg').hide();"/>
+                                <p:commandButton value="cancel" onclick="PF('dlg').hide();" immediate="true"  />
+                            </p:panelGrid>
+                        </h:form>
+                    </p:dialog>
+                </f:view>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>
