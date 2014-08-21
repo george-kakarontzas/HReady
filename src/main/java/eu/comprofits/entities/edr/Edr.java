@@ -42,6 +42,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Edr.findByStatus", query = "SELECT e FROM Edr e WHERE e.status = :status"),
     @NamedQuery(name = "Edr.findByVerdict", query = "SELECT e FROM Edr e WHERE e.verdict = :verdict")})
 public class Edr implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "edrIdedr")
+    private Collection<CompetenceGoal> competenceGoalCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -266,6 +268,15 @@ public class Edr implements Serializable {
         }
 
         return output;
+    }
+
+    @XmlTransient
+    public Collection<CompetenceGoal> getCompetenceGoalCollection() {
+        return competenceGoalCollection;
+    }
+
+    public void setCompetenceGoalCollection(Collection<CompetenceGoal> competenceGoalCollection) {
+        this.competenceGoalCollection = competenceGoalCollection;
     }
     
 }

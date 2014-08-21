@@ -7,6 +7,7 @@
 package eu.comprofits.entities.main;
 
 import eu.comprofits.entities.assessment.EmployeeCompetenceAssessment;
+import eu.comprofits.entities.assessment.Statement;
 import eu.comprofits.entities.edr.CompetenceGoal;
 import eu.comprofits.entities.employee.CurrentCompetenceAssessment;
 import eu.comprofits.entities.jobapplicant.ApplicantCompetenceAssessment;
@@ -43,6 +44,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Competence.findByIdcompetence", query = "SELECT c FROM Competence c WHERE c.idcompetence = :idcompetence"),
     @NamedQuery(name = "Competence.findByCompetenceName", query = "SELECT c FROM Competence c WHERE c.competenceName = :competenceName")})
 public class Competence implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "competenceId")
+    private Collection<Statement> statementCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -187,6 +190,15 @@ public class Competence implements Serializable {
     @Override
     public String toString() {
         return "com.mycompany.mavenproject1.Competence[ idcompetence=" + idcompetence + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Statement> getStatementCollection() {
+        return statementCollection;
+    }
+
+    public void setStatementCollection(Collection<Statement> statementCollection) {
+        this.statementCollection = statementCollection;
     }
     
 }
