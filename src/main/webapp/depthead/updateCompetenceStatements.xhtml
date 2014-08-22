@@ -17,6 +17,7 @@
                     <h1>#{msgs.update_competence_statements}</h1>
 
                     <h:form id="statementsUpdateForm">
+                        <p:growl id="msgs" showDetail="true"/>
                         <h2>#{msgs.select_level_3_competence}</h2>
                         <p:selectOneMenu value="#{updateCompetenceStatementsCDIBean.selectedCompetence}"
                                          converter ="#{competenceConverter}">
@@ -30,30 +31,59 @@
                         <p:panel id="statementsPanel"  visible="#{updateCompetenceStatementsCDIBean.competenceSelected}">
                             <p:commandButton id="newStatementButton" value="#{msgs.add_statement_for_competence}: 
                                              #{updateCompetenceStatementsCDIBean.selectedCompetence.competenceName}" 
-                                             onclick="PF('dlg').show();"  
+                                             oncomplete="PF('dlg').show();"
                                              actionListener="#{updateCompetenceStatementsCDIBean.newStatementBtnPressed}" />
                             <p:separator />
                             <h2><p:outputLabel id="statementsTableTitle" value="#{msgs.selected_competence_statements}:
                                                #{updateCompetenceStatementsCDIBean.selectedCompetence.competenceName}" /></h2>
-                            <p:dataTable id="statementsTable" value="#{updateCompetenceStatementsCDIBean.selectedCompetenceStatements}" var="item">
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Idstatement"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.idstatement}"/>
+                            <p:dataTable id="statementsTable" value="#{updateCompetenceStatementsCDIBean.selectedCompetenceStatements}" var="item"
+                                         editable="true" rowKey="#{item.idstatement}" >
+                                <p:ajax event="rowEdit" listener="#{updateCompetenceStatementsCDIBean.onRowEdit}" update=":statementsUpdateForm:msgs" />
+                                <p:ajax event="rowEditCancel"  listener="#{updateCompetenceStatementsCDIBean.onRowCancel}" update=":statementsUpdateForm:msgs" />
+                                <p:column headerText="#{msgs.statement_text}">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.statementText}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputTextarea value="#{item.statementText}" 
+                                                             cols="100" rows="10" />
+                                        </f:facet>
+                                    </p:cellEditor>
                                 </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="StatementText"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.statementText}"/>
+
+                                <p:column headerText="#{msgs.competence_name}">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.competenceId.competenceName}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <h:selectOneMenu value="#{item.competenceId}" style="width:100%" converter="#{competenceConverter}">
+                                                <f:selectItems value="#{updateCompetenceStatementsCDIBean.l3competences}" 
+                                                               var="c" itemLabel="#{c.competenceName}" itemValue="#{c}"  
+                                                           />
+                                        </h:selectOneMenu>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                    
                                 </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="CompetenceId"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.competenceId.competenceName}"/>
+
+                                <p:column style="width:32px" headerText="#{msgs.edit}">
+                                    <p:rowEditor />
                                 </p:column>
+
+                                <p:column headerText="#{msgs.remove_statement}">
+                                    <p:commandButton icon="ui-icon-trash"
+                                                     action="#{updateCompetenceStatementsCDIBean.remove(item)}"                                                
+                                                     onclick="if (!confirm('#{msgs.are_you_sure}')) {
+                                                             return false;
+                                                         }
+                                                         ;
+                                                         return true;
+                                                     ">
+                                    </p:commandButton>
+                                </p:column>
+
                             </p:dataTable>
                         </p:panel>
                     </h:form>
