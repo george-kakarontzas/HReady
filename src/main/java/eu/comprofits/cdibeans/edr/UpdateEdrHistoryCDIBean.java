@@ -94,7 +94,7 @@ public class UpdateEdrHistoryCDIBean implements Serializable {
 
     public void update() {
         try {
-            if (edrHistoryObject.getId() == null) {
+            if (edrHistoryObject.getIdedrHistory()== null) {
                 edrHistoryFacade.create(edrHistoryObject);
             } else {
                 edrHistoryFacade.edit(edrHistoryObject);

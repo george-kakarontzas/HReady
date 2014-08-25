@@ -5,16 +5,20 @@
  */
 package eu.comprofits.entities.edr;
 
+import eu.comprofits.entities.employee.Employee;
 import eu.comprofits.session.edr.EdrHistoryFacade;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import javax.ejb.EJB;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -37,20 +41,21 @@ public class EdrHistory implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    
-    private Long id;
+    @Basic(optional = false)
+    @Column
+    private Integer idedrHistory;
     @Column(name = "note")
     private String note;
     @Column(name = "date")
     private Date date;
     @Column(name = "time")
     private Timestamp timestamp;
-    @Column(name = "idemployee")
-    private Integer idemployee;
-    @Column(name = "idedr")
-    private Integer idedr;
-    @Column(name = "idedrHistory")
-    private Integer idedrHistory;
+    @JoinColumn(name = "employee_idemployee", referencedColumnName = "idemployee")
+    @ManyToOne(optional = false)
+    private Employee idemployee;
+    @JoinColumn(name = "edr_idedr", referencedColumnName = "idedr")
+    @ManyToOne(optional = false)
+    private Edr idedr;
 
     public String getNote() {
         return note;
@@ -76,19 +81,19 @@ public class EdrHistory implements Serializable {
         this.timestamp = timestamp;
     }
 
-    public Integer getIdemployee() {
+    public Employee getIdemployee() {
         return idemployee;
     }
 
-    public void setIdemployee(Integer idemployee) {
+    public void setIdemployee(Employee idemployee) {
         this.idemployee = idemployee;
     }
 
-    public Integer getIdedr() {
+    public Edr getIdedr() {
         return idedr;
     }
 
-    public void setIdedr(Integer idedr) {
+    public void setIdedr(Edr idedr) {
         this.idedr = idedr;
     }
 
@@ -100,18 +105,10 @@ public class EdrHistory implements Serializable {
         this.idedrHistory = idedrHistory;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (idedrHistory != null ? idedrHistory.hashCode() : 0);
         return hash;
     }
 
@@ -122,7 +119,7 @@ public class EdrHistory implements Serializable {
             return false;
         }
         EdrHistory other = (EdrHistory) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.idedrHistory == null && other.idedrHistory != null) || (this.idedrHistory != null && !this.idedrHistory.equals(other.idedrHistory))) {
             return false;
         }
         return true;
@@ -130,7 +127,7 @@ public class EdrHistory implements Serializable {
 
     @Override
     public String toString() {
-        return "eu.comprofits.entities.edr.EdrHistory[ id=" + id + " ]";
+        return "eu.comprofits.entities.edr.EdrHistory[ idedrHistory=" + idedrHistory + " ]";
     }
 
 }

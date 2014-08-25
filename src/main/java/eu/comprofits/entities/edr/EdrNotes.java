@@ -39,7 +39,7 @@ public class EdrNotes implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column(name = "idnote")
     private Integer idnote;
-    @JoinColumn(name = "edr_idedr", referencedColumnName = "idedr")
+    @JoinColumn(name = "edr_idEdr", referencedColumnName = "idedr")
     @ManyToOne(optional = false)
     private Edr edrIdedr;
     @Column(name = "note")
