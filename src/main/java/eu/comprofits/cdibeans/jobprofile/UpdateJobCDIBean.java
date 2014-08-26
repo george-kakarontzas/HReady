@@ -20,14 +20,15 @@ import javax.inject.Named;
  *
  * @author alexanderhoelzemann
  */
+@Named(value = "updateJobCDIBean")
+    @SessionScoped
+
 public class UpdateJobCDIBean implements Serializable {
 
     /**
      *
      * @author alexanderhoelzemann
      */
-    @Named(value = "UpdateJobCDIBean")
-    @SessionScoped
 
     private static final long serialVersionUID = 1L;
     @EJB
