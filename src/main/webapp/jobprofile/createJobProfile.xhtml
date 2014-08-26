@@ -15,19 +15,20 @@
                 <h1>Create a New Job Profile</h1><br /> 
                 Please define the details of the job profile by filling the following form:
                 <br /> 
-                
+              
                 <h:form id="createJobProfile">
                     <h:panelGrid columns="2" cellpadding="5" style="width: 500px; ">
+<!--
                         <p:outputLabel value="Job Title:  " for="jobTitle" />
-                        <p:selectOneMenu id="jobTitle" value="#{UpdateJobCDIBean.JobObject.jobTitle}" label="jobtitle" style="width:200px" >
+                        <p:selectOneMenu id="jobTitle" value="#{updateJobCDIBean.jobObject.jobTitle}" label="jobtitle" style="width:200px" >
                             <f:selectItem itemLabel="Select a Job Title" itemValue="" noSelectionOption="false" />
-                            <f:selectItems value="#{UpdateJobCDIBean.JobObject.jobList}" />    
+                            <f:selectItems value="#{updateJobCDIBean.jobList}" />    
                         </p:selectOneMenu>
-                        
+-->                        
                         <p:outputLabel value="Organisational Position:  " for="organisationalPosition" />
-                        <p:selectOneMenu id="organisationalPosition" value="#{updateOrganisationalPositionsCDIBean.organisationalPositions}" label="organisationalPosition" style="width:200px" >
+                        <p:selectOneMenu id="organisationalPosition" value="#{updateOrganisationalPositionsCDIBean.organisationalPosition.organisationalPositionName}" label="organisationalPosition" style="width:200px" >
                             <f:selectItem itemLabel="Select an Organisational Position" itemValue="" noSelectionOption="false" />
-                            <f:selectItems value="#{UpdateJobCDIBean.JobObject.jobList}" />    
+                            <f:selectItems value="#{updateOrganisationalPositionsCDIBean.organisationalPositions}" />    
                         </p:selectOneMenu>
                         
                     </h:panelGrid>
