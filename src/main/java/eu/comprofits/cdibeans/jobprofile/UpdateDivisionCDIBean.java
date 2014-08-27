@@ -22,14 +22,9 @@ import javax.inject.Named;
  *
  * @author alexanderhoelzemann
  */
+@Named(value = "UpdateDivisionCDIBean")
+@SessionScoped
 public class UpdateDivisionCDIBean implements Serializable {
-
-    /**
-     *
-     * @author alexanderhoelzemann
-     */
-    @Named(value = "UpdateDivisionCDIBean")
-    @SessionScoped
 
     private static final long serialVersionUID = 1L;
     @EJB
