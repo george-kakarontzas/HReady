@@ -22,14 +22,9 @@ import javax.inject.Named;
  *
  * @author alexanderhoelzemann
  */
+@Named(value = "UpdateCompetencesRequirementCDIBean")
+@SessionScoped
 public class UpdateCompetencesRequirementCDIBean implements Serializable {
-
-    /**
-     *
-     * @author alexanderhoelzemann
-     */
-    @Named(value = "UpdateCompetencesRequirementCDIBean")
-    @SessionScoped
 
     private static final long serialVersionUID = 1L;
     @EJB

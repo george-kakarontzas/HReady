@@ -61,7 +61,35 @@
     border: solid black 1px;
     height:100%;
 }
-
+.redBackground {
+    background-color: #FF0000;
+    padding: 5px;
+    margin-left: 210px;
+    border: solid black 1px;
+    height:100%;
+}
+.greenBackground {
+    background-color: #00FF00;
+    padding: 5px;
+    margin-left: 210px;
+    border: solid black 1px;
+    height:100%;
+}
+.yellowBackground {
+    background-color: #FFFF00;
+    padding: 5px;
+    margin-left: 210px;
+    border: solid black 1px;
+    height:100%;
+}
+.greyBackground {
+    background-color: #C0C0C0;
+    padding: 5px;
+    margin-left: 210px;
+    border: solid black 1px;
+    height:100%;
+}
+ 	
 .right_content {
     background-color: #dddddd;
     padding: 5px;
