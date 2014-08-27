@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./hrmPagesTemplate.xhtml">
+
+            <ui:define name="title">
+                #{msgs.edit_competence}
+            </ui:define>
+
+            <ui:define name="content">
+                <f:view>
+                    <h:form>
+                        <p:messages  />
+                        <h1><h:outputText value="#{msgs.create_edit_competence}"/></h1>
+                        <p:panelGrid columns="2">
+                          
+                            <p:outputLabel value="#{msgs.competence_name}:" for="competenceName" />
+                            <p:inputText id="competenceName" 
+                                         value="#{updateCompetencePyramidCDIBean.competence.competenceName}" 
+                                         title="#{msgs.competence_name}"
+                                         size="50"/>
+                            <p:outputLabel value="#{msgs.parent_competence}:" for="parentId" />
+                            <p:selectOneMenu id="parentId" value="#{updateCompetencePyramidCDIBean.competence.parentId}" 
+                                             converter="#{competenceConverter}">
+                                <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{updateCompetencePyramidCDIBean.competences}" 
+                                               var="c" itemValue="#{c}" itemLabel="#{c.competenceName}" 
+
+                                               />
+                            </p:selectOneMenu>
+                            <h:commandButton id="back" value="#{msgs.back}" action="updateCompetencesPyramid"/>  
+                            <h:commandButton id="update" value="Update" action="#{updateCompetencePyramidCDIBean.update()}"/>
+                        </p:panelGrid>
+                    </h:form>
+
+                </f:view>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./hrmPagesTemplate.xhtml">
+
+            <ui:define name="title">
+                #{msgs.update_competence_pyramid}
+            </ui:define>
+
+            <ui:define name="content">
+                <f:view>
+                    <h:form id="competencesTableForm">
+                        <p:messages  />
+                        <h1><h:outputText value="#{msgs.list_of_stored_competences}"/></h1>
+                         <p:commandButton icon="ui-icon-pencil"
+                                             value="#{msgs.create_new_competence}"
+                                             action="#{updateCompetencePyramidCDIBean.create()}"
+                                             ajax="false" />
+                        <p:dataTable value="#{updateCompetencePyramidCDIBean.competences}" 
+                                     var="item" 
+                                     paginator="true" rows="10" >
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.competence_name} 
+                                                  &lt;br/&gt;(#{msgs.click_to_edit_record})" escape="false" />
+                                </f:facet>
+
+                                <h:commandLink action="#{updateCompetencePyramidCDIBean.edit(item)}"  
+                                               value="#{item.competenceName}" /> 
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.parent_competence}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.parentId.competenceName}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.remove_competence}"/>
+                                </f:facet>
+                                <p:commandButton icon="ui-icon-trash"
+                                                 action="#{updateCompetencePyramidCDIBean.remove(item)}"                                                
+                                                 onclick="if (! confirm('#{msgs.are_you_sure}') ) { return false;}; return true; ">
+                                </p:commandButton>
+                            </p:column>
+                            
+                        </p:dataTable>
+                       
+                    </h:form>
+                </f:view>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
