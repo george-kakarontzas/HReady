@@ -189,7 +189,7 @@ public class Competence implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.mavenproject1.Competence[ idcompetence=" + idcompetence + " ]";
+        return this.getCompetenceName();
     }
 
     @XmlTransient

@@ -39,4 +39,16 @@ public class StatementFacade extends AbstractFacade<Statement> {
                 setParameter("competence", c).getResultList();
     }
     
+    public Statement getStatementFromText(String text) {
+        try {
+            Statement result = (Statement) em.createNamedQuery("Statement.findByStatementText")
+                    .setParameter("statementText", text)
+                    .getSingleResult();
+            return result;
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+    
 }
