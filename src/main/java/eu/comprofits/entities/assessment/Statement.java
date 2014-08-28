@@ -123,7 +123,7 @@ public class Statement implements Serializable {
 
     @Override
     public String toString() {
-        return "eu.comprofits.entities.assessment.Statement[ idstatement=" + idstatement + " ]";
+        return statementText;
     }
     
 }

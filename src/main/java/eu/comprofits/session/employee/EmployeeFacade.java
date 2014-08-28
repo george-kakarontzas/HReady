@@ -38,10 +38,18 @@ public class EmployeeFacade extends AbstractFacade<Employee> {
                 .getSingleResult();
         return result;
     }
-    
-     public List<Employee> getDepartmentEmployees(Department d) {
+
+    public List<Employee> getDepartmentEmployees(Department d) {
         return em.createQuery(
                 "Select e From Employee e WHERE e.departmentIddepartment=:department").
                 setParameter("department", d).getResultList();
+    }
+
+    public Employee getEmployeeByLnameFnameAndEmail(String l, String f, String e) {
+        return (Employee) em.createQuery(
+                "Select e From Employee e WHERE e.lastName=:lname AND e.firstName=:fname AND e.email=:email").
+                setParameter("lname", l).
+                setParameter("fname", f).
+                setParameter("email", e).getSingleResult();
     }
 }
