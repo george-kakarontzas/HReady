@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./jobprofilePagesTemplate.xhtml">
+            <ui:define name="title">Create Job Profile</ui:define>
+            <ui:define name="content">
+                
+                <h1>Create a New Job Profile</h1><br /> 
+                Please define the details of the job profile by filling the following form:
+                <br /> 
+              
+                <h:form id="createJobProfile">
+                    <h:panelGrid columns="2" cellpadding="5" style="width: 500px; ">
+
+                        <p:outputLabel value="Job Title:  " for="jobTitle" />
+                        <p:selectOneMenu id="jobTitle" value="#{updateJobCDIBean.jobObject.jobTitle}" label="jobtitle" style="width:200px" >
+                            <f:selectItem itemLabel="Select a Job Title" itemValue="" noSelectionOption="false" />
+                            <f:selectItems value="#{updateJobCDIBean.jobList}" />    
+                        </p:selectOneMenu>
+                     
+                        <p:outputLabel value="Organisational Position:  " for="organisationalPosition" />
+                        <p:selectOneMenu id="organisationalPosition" value="#{updateOrganisationalPositionsCDIBean.organisationalPosition.organisationalPositionName}" label="organisationalPosition" style="width:200px" >
+                            <f:selectItem itemLabel="Select an Organisational Position" itemValue="" noSelectionOption="false" />
+                            <f:selectItems value="#{updateOrganisationalPositionsCDIBean.organisationalPositions}" />    
+                        </p:selectOneMenu>
+                        
+                    </h:panelGrid>
+                    <p:separator />
+
+                    <p:commandButton value="msgs.create_new_organisational_position" action="#{UpdateJobCDIBean.create()}" icon="ui-icon-pencil" ajax="false"/>
+
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body> 
+</html>
