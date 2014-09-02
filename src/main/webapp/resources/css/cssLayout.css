@@ -107,9 +107,9 @@
     font-weight : bold;
     text-decoration : underline;
 }
-.column1{min-width: 800px;height:108px;padding: 0px; margin: 0 0 0 0; vertical-align: top; }
-.column2{min-width: 200px;height:108px; vertical-align: top; }
-.column3{min-width: 200px;height:108px; vertical-align: top; }
+.column1{height:108px;padding: 0px; margin: 0 0 0 0; vertical-align: top; }
+.column2{height:108px; vertical-align: top; }
+.column3{height:108px; vertical-align: top; }
 
 .columna{vertical-align: top;}
 

@@ -41,6 +41,14 @@
                                 </f:facet>
                                 <h:outputText value="#{item.parentId.competenceName}"/>
                             </p:column>
+                            
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.competence_level}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.level}"/>
+                            </p:column>
+                            
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs.remove_competence}"/>

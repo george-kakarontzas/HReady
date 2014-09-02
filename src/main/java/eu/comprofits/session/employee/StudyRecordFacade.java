@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.comprofits.session.employee;
 
+import eu.comprofits.entities.employee.Employee;
 import eu.comprofits.entities.employee.StudyRecord;
 import eu.comprofits.session.AbstractFacade;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,6 +19,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class StudyRecordFacade extends AbstractFacade<StudyRecord> {
+
     @PersistenceContext(unitName = "comprofitsPU")
     private EntityManager em;
 
@@ -29,5 +31,11 @@ public class StudyRecordFacade extends AbstractFacade<StudyRecord> {
     public StudyRecordFacade() {
         super(StudyRecord.class);
     }
-    
+
+    public List<StudyRecord> getStudyRecsForEmployee(Employee e) {
+        List<StudyRecord> all = em.createQuery(
+                "Select s From StudyRecord s WHERE s.employeeIdemployee=:emp").
+                setParameter("emp", e).getResultList();
+        return all;
+    }
 }

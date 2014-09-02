@@ -31,9 +31,9 @@
                                     <h:outputText value="#{msgs.name} &lt;br/&gt;(#{msgs.click_to_edit_record})" escape="false" />
                                 </f:facet>
                                 <h:commandLink action="#{updateEmployeesProfileCDIBean.edit(item)}"  
-                                   value="#{item.lastName}, #{item.firstName}"/>
+                                               value="#{item.lastName}, #{item.firstName}"/>
                             </p:column>
-                            
+
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs.phone_private}"/>
@@ -58,35 +58,59 @@
                                 </f:facet>
                                 <h:outputText value="#{updateEmployeesProfileCDIBean.getRoleString(item.role)}" />
                             </p:column>
-                           
+
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs.department_name}"/>
                                 </f:facet>
                                 <h:outputText value="#{item.departmentIddepartment.departmentName}"/>
                             </p:column>
-                            
+
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs.remove_employee}"/>
+                                    <h:outputText value="#{msgs.available_actions}"/>
                                 </f:facet>
-                                <p:commandButton icon="ui-icon-trash"
-                                                 action="#{updateEmployeesProfileCDIBean.remove(item)}"                                                
-                                                 onclick="if (!confirm('#{msgs.are_you_sure}')) {
-                                                                 return false;
-                                                             }
-                                                             ;
-                                                             return true;
-                                                 ">
-                                </p:commandButton>
-                            </p:column>
-                        </p:dataTable>
-                    </h:form>
-                </f:view>
+                                <h:commandLink  
+                                    value="#{msgs.current_job_position}"
+                                    action="#{updateEmployeesProfileCDIBean.callEditInCompanyEmployment(item)}"
+                                     />
+                                <br />
+                                <h:commandLink  
+                                    value="#{msgs.past_job_positions}"
+                                    action="#{updateEmployeesProfileCDIBean.callEditPastCompanyEmployments(item)}"
+                                     />
+                                <br />
+                                <h:commandLink
+                                    value="#{msgs.professional_experience}" 
+                                    action="#{updateEmployeesProfileCDIBean.callEditProExperience(item)}"/>
+                                <br />
+                                <h:commandLink
+                                    value="#{msgs.studies}" 
+                                    action="#{updateEmployeesProfileCDIBean.callEditStudies(item)}"/>
 
-            </ui:define>
+                        </p:column>
 
-        </ui:composition>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.remove_employee}"/>
+                            </f:facet>
+                            <p:commandButton icon="ui-icon-trash"
+                                             action="#{updateEmployeesProfileCDIBean.remove(item)}"                                                
+                                             onclick="if (!confirm('#{msgs.are_you_sure}')) {
+                                                         return false;
+                                                     }
+                                                     ;
+                                                     return true;
+                                             ">
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </f:view>
 
-    </body>
+        </ui:define>
+
+    </ui:composition>
+
+</body>
 </html>

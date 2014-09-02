@@ -6,8 +6,10 @@
 
 package eu.comprofits.session.employee;
 
+import eu.comprofits.entities.employee.Employee;
 import eu.comprofits.entities.employee.ProfessionalExperienceRecord;
 import eu.comprofits.session.AbstractFacade;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,6 +30,13 @@ public class ProfessionalExperienceRecordFacade extends AbstractFacade<Professio
 
     public ProfessionalExperienceRecordFacade() {
         super(ProfessionalExperienceRecord.class);
+    }
+    
+    public List<ProfessionalExperienceRecord> getProRecsForEmployee(Employee e) {
+        List<ProfessionalExperienceRecord> all = em.createQuery(
+                "Select p From ProfessionalExperienceRecord p WHERE p.employeeIdemployee=:emp").
+                setParameter("emp", e).getResultList();
+        return all;
     }
     
 }

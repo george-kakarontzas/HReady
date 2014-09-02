@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./deptheadPagesTemplate.xhtml">
+
+            <ui:define name="title">
+                #{msgs.update_assessments}
+            </ui:define>
+
+            <ui:define name="content">
+                <f:view>
+                    <h:form id="assessmentsForm">
+                        <p:messages  />
+                        <h1><h:outputText value="#{msgs.list_of_stored_assessments}"/></h1>
+                        <h2><h:outputText value="#{msgs.department_name}: 
+                                          #{updateAssessmentsCDIBean.department.departmentName}" /></h2>
+
+                        <p:commandButton icon="ui-icon-pencil"
+                                         value="#{msgs.create_new_assessment}"
+                                         action="#{updateAssessmentsCDIBean.create()}"
+                                         ajax="false" />
+                        <p:dataTable value="#{updateAssessmentsCDIBean.assessments}" var="item"
+                                     paginator="true" rows="10">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.assessee} &lt;br/&gt;(#{msgs.click_to_edit_record})" escape="false" />
+                                </f:facet>
+                                <h:commandLink action="#{updateAssessmentsCDIBean.edit(item)}"  
+                                               value="#{item.assesseeIdemployee.lastName}, 
+                                              #{item.assesseeIdemployee.firstName}" />
+                                <h:outputText  /> 
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.date_created}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.dateCreated}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.immediate_manager}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.immediateManagerIdemployee.lastName}, 
+                                              #{item.immediateManagerIdemployee.firstName}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.colleague} 1"/>
+                                </f:facet>
+                                <h:outputText value="#{item.colleague1Idemployee.lastName},
+                                              #{item.colleague1Idemployee.firstName}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.colleague} 2"/>
+                                </f:facet>
+                                <h:outputText value="#{item.colleague2Idemployee.lastName},
+                                              #{item.colleague2Idemployee.firstName}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.colleague} 3"/>
+                                </f:facet>
+                                <h:outputText value="#{item.colleague3Idemployee.lastName},
+                                              #{item.colleague3Idemployee.firstName}"/>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.remove_assessment}"/>
+                                </f:facet>
+                                <p:commandButton icon="ui-icon-trash"
+                                                 action="#{updateAssessmentsCDIBean.remove(item)}"                                                
+                                                 onclick="if (!confirm('#{msgs.are_you_sure}')) {
+                                                             return false;
+                                                         }
+                                                         ;
+                                                         return true;
+                                                 ">
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </f:view>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
