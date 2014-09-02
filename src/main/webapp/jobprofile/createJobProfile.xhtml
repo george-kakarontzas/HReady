@@ -24,11 +24,10 @@
                             <p:outputLabel value="#{msgs.job_title}" for="jobTitle"  />
                             <p:selectOneMenu id="jobTitle">  
                                 <f:selectItem itemLabel="#{msgs.select_job_title}" itemValue="" ></f:selectItem>
-                                <!--<f:selectItems value="#{updateJobCDIBean}"></f:selectItems>-->
                             </p:selectOneMenu>
 
                             <p:outputLabel value="#{msgs.organizational_position}" for="organizationalPosition" />
-                            <p:selectOneMenu id="organizationalPosition" value="#{updateJobCDIBean.jobObject.jobTitle}">  
+                            <p:selectOneMenu id="organizationalPosition">
                                 <f:selectItem itemLabel="#{msgs.select_organizational_position}" itemValue="" ></f:selectItem>
                                 <f:selectItems value="#{updateOrganisationalPositionsCDIBean.organisationalPositions}" />
                             </p:selectOneMenu>
