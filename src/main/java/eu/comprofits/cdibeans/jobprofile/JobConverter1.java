@@ -25,9 +25,9 @@ import javax.inject.Named;
  *
  * @author alexanderhoelzemann
  */
-@Named(value = "jobConverter")
+@Named(value = "jobConverter1")
 @RequestScoped
-public class JobConverter implements Converter {
+public class JobConverter1 implements Converter {
 
     @EJB
     private JobFacade jobFacade;
@@ -35,7 +35,7 @@ public class JobConverter implements Converter {
     /**
      * Creates a new instance of CompetenceConverter
      */
-    public JobConverter() {
+    public JobConverter1() {
     }
 
     @Override
