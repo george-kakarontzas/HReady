@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./edrPagesTemplate.xhtml">
+            <ui:define name="title">
+                Edr Development Review p.1 
+            </ui:define>
+
+            <ui:define name="content">
+                <h1>Employee Development Review</h1>
+                <h2>Page 1</h2>
+                <h:form id="createEdr">
+                    <p:panelGrid columns="2" style="width: 80%">
+                        <h:panelGrid columns="2" cellpadding="5" columnClasses="left">
+                            <h:panelGroup>
+                                <h:outputLabel for="name" value="Employee Name" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:selectOneMenu id="name">
+                                    <f:selectItem itemLabel="TestName1" itemValue="TestName1"/>
+                                    <f:selectItem itemLabel="TestName2" itemValue="TestName2"/>
+                                    <f:selectItem itemLabel="TestName3" itemValue="TestName3"/>
+                                    <f:selectItem itemLabel="TestName4" itemValue="TestName4"/>
+                                </p:selectOneMenu>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="jobTitle" value="Job Title" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:inputText id="jobTitle" required="true" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="businessArea" value="Business Area" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="businessArea" required="true" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="date" value="Date" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:calendar id="date" value="#{calendarView.date}" showOn="button" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="immediateManager" value="Immediate Manager" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:selectOneMenu id="immediateManager">
+                                    <f:selectItem itemLabel="TestName1" itemValue="TestName1"/>
+                                    <f:selectItem itemLabel="TestName2" itemValue="TestName2"/>
+                                    <f:selectItem itemLabel="TestName3" itemValue="TestName3"/>
+                                    <f:selectItem itemLabel="TestName4" itemValue="TestName4"/>
+                                </p:selectOneMenu>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:button value="Next">
+                                    <f:param name="nextButton" value="10" />
+                                </p:button>
+                            </h:panelGroup>
+                        </h:panelGrid>
+                        <h:panelGrid columns="1" cellpadding="0" style="float: right">
+                            <h:panelGroup style="width: 100%;" layout="block">
+                                <h4 align="center">Goal Status</h4>
+                                <h:panelGrid columns="1" cellpadding="0" columnClasses="greenBackground">
+                                    <h:outputLabel for="name13" value="Achived"/>
+                                </h:panelGrid>
+                                <h:panelGrid columns="1" cellpadding="0" columnClasses="yellowBackground">
+                                    <h:outputLabel for="name11" value="Working on goals"/>
+                                </h:panelGrid>
+                                <h:panelGrid columns="1" cellpadding="0" columnClasses="redBackground">
+                                    <h:outputLabel for="name12" value="Date passed"/>
+                                </h:panelGrid>
+                                <h:panelGrid columns="1" cellpadding="0" columnClasses="greyBackground">
+                                    <h:outputLabel for="name12" value="Not defined"/>
+                                </h:panelGrid>
+                            </h:panelGroup>
+                            <h4 align="center">Edr Status</h4>
+                            <p:button value="Defined">
+                                <f:param name="definedButton" value="10" />
+                            </p:button>
+                            <p:button value="Shown">
+                                <f:param name="shownButton" value="10" />
+                            </p:button>
+                            <p:button value="Modify">
+                                <f:param name="modifyButton" value="10" />
+                            </p:button>
+                            <p:button value="Changed">
+                                <f:param name="changedButton" value="10" />
+                            </p:button>
+                            <p:button value="Approved">
+                                <f:param name="approvedButton" value="10" />
+                            </p:button>
+                            <p:button value="Accept">
+                                <f:param name="acceptButton" value="10" />
+                            </p:button>
+                            <p:button value="Add more notes">
+                                <f:param name="addMoreNotesButton" value="10" />
+                            </p:button>
+                            <p:button value="Completed">
+                                <f:param name="completedButton" value="10" />
+                            </p:button>
+                        </h:panelGrid>
+                    </p:panelGrid>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body> 
+</html>
