@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./edrPagesTemplate.xhtml">
+
+            <ui:define name="title">
+                ${msgs.update_job_profile}
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="createEdrPage8" >
+                    <p:messages  />
+                    <p:panelGrid columns="2"  columnClasses="columna">
+                        <p:panelGrid columns="2" >
+                            <f:facet name="header">Edr plans and goals for the coming year</f:facet>
+                            <p:outputLabel value="#{msgs.professional_competences}" style="font-weight: bold;" />
+                            <h:panelGroup />
+                            <p:outputLabel value="#{msgs.managerial_competences}:" for="managerialCompetences" />
+                            <p:spinner id="managerialCompetences"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.business_orientation}:" for="businessOrientation" />
+                            <p:spinner id="businessOrientation"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.job_related_skills}:" for="jobRelatedSkills" />
+                            <p:spinner id="jobRelatedSkills"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.communication_languages}:" for="communicationLanguages" />
+                            <p:spinner id="communicationLanguages"  min="0" max="1" stepFactor="0.05"/>  
+
+                            <p:outputLabel value="#{msgs.innovative_competences}" style="font-weight: bold;" />
+                            <h:panelGroup />
+                            <p:outputLabel value="#{msgs.creativity_and_holistic_thinking}:" for="creativityAndHolisticThinking" />
+                            <p:spinner id="creativityAndHolisticThinking"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.entrepreneurship}:" for="entrepreneurship" />
+                            <p:spinner id="entrepreneurship"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.proactivity}:" for="proactivity" />
+                            <p:spinner id="proactivity"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.readiness_for_changes}:" for="readinessForChanges" />
+                            <p:spinner id="readinessForChanges"  min="0" max="1" stepFactor="0.05"/>  
+
+                            <p:outputLabel value="#{msgs.social_competences}" style="font-weight: bold;" />
+                            <h:panelGroup />
+                            <p:outputLabel value="#{msgs.teamwork}:" for="teamwork" />
+                            <p:spinner id="teamwork"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.professionalism}:" for="professionalism" />
+                            <p:spinner id="professionalism"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.interpersonal_skills}:" for="interpersonalSkills" />
+                            <p:spinner id="interpersonalSkills"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.motivation_for_learning}:" for="motivationForLearning" />
+                            <p:spinner id="motivationForLearning"  min="0" max="1" stepFactor="0.05"/>  
+
+
+                        </p:panelGrid>
+                        <p:panelGrid columns="1">
+                            <f:facet name="header">Comments</f:facet>
+                            <h:panelGrid columns="1" cellpadding="16" style="float: right">
+                                <h:form>
+                                    <h:panelGroup>
+                                        <h:form>
+                                            <h:panelGroup>
+                                                <p:inputTextarea rows="8" cols="120"/>
+                                            </h:panelGroup> 
+                                        </h:form>
+                                    </h:panelGroup>     
+                                </h:form>
+                            </h:panelGrid>
+                            <h:panelGrid columns="1" cellpadding="16" style="float: right">
+                                <h:form>
+                                    <h:panelGroup>
+                                        <h:form>
+                                            <h:panelGroup>
+                                                <p:inputTextarea rows="8" cols="120"/>
+                                            </h:panelGroup> 
+                                        </h:form>
+                                    </h:panelGroup>     
+                                </h:form>
+                            </h:panelGrid>
+                            <h:panelGrid columns="1" cellpadding="16" style="float: right">
+                                <h:form>
+                                    <h:panelGroup>
+                                        <h:form>
+                                            <h:panelGroup>
+                                                <p:inputTextarea rows="8" cols="120"/>
+                                            </h:panelGroup> 
+                                        </h:form>
+                                    </h:panelGroup>     
+                                </h:form>
+                            </h:panelGrid>
+                        </p:panelGrid>
+
+                        <h:panelGroup />
+                        <p:panelGrid columns="3" >
+                            <p:button value="#{msgs.save}"  />  
+                            <p:button value="#{msgs.print}"  />  
+                            <p:button value="#{msgs.help}" />
+                        </p:panelGrid>
+                    </p:panelGrid>
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
