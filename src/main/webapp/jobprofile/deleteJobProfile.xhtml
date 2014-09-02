@@ -12,20 +12,25 @@
             <ui:define name="title">Delete Job Profile</ui:define>
             <ui:define name="content">
                 
-                <h1>Delete a Job Profile</h1><br /> Please select a job profile that should be deleted:<br /> <br /> <br /> 
+                    <h1>Delete a Job Profile</h1><br /> Please select a job profile that should be deleted:<br /> <br /> <br /> 
                     <h:form id="deleteJobProfile">
                         <h:panelGrid columns="2" cellpadding="2" style="width: 500px; ">
-                            <p:outputLabel value="Job Title:  " for="jobTitle" />
+                            <p:outputLabel value="Job Title:  " for="jobTitle"/>
                             <p:selectOneMenu id="jobTitle" label="jobtitle" style="width:200px" >
-                                <f:selectItem itemLabel="Job Title 1" itemValue="Job Title 1"/>
-                                <f:selectItem itemLabel="Job Title 2" itemValue="Job Title 2"/>
+                                <f:selectItem itemLabel="#{msgs.select_job_title}" itemValue=""/>
+                                <f:selectItems value="#{updateJobCDIBean.jobList}"
+                                               var="j" itemValue="#{j}" itemLabel="#{j.jobTitle}" />
                             </p:selectOneMenu>
                         </h:panelGrid>    
                         
                         <p:separator />
-                        <p:commandButton type="button" value=" Delete" icon="ui-icon-trash" title="Please first create the profile to enable this button." disabled="true" />
+                        <!--The remove function should be tested -->
+                        <p:commandButton type="button" value="msgs.delete" icon="ui-icon-trash"
+                                        action="#{updateJobCDIBean.remove(j)}"                                                
+                                        onclick="if (! confirm('#{msgs.are_you_sure}') ) { return false;}; return true; " /> 
+                                                 
                         <p:commandButton id="cancel" value=" Cancel" action="cancel" icon="ui-icon-cancel" oncomplete = "window.history.back();"/>
-                </h:form>
+                    </h:form>
             </ui:define>
         </ui:composition>
     </body> 
