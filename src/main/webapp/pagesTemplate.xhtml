@@ -21,7 +21,8 @@
             <p:layoutUnit position="north" size="125" >
 
                 <ui:insert name="top">
-                    <h:panelGrid columns="3" border="0"  >
+                    <h:panelGrid columns="3" columnClasses="column1,column2,column3" >
+
                         <h:graphicImage name="comprofits.png" library="images" />
 
                         <h:form id="login" prependId="false">
@@ -59,6 +60,7 @@
                             </ui:fragment>
 
                         </h:form>
+
                         <h:form id="langselect" >
                             <p:panelGrid columns="1">
                                 <f:facet name="header">#{msgs.language_selection}</f:facet>
@@ -68,8 +70,11 @@
                                 </h:selectOneMenu>
                             </p:panelGrid>
                         </h:form>
+
+                        
                     </h:panelGrid>
                 </ui:insert>
+
             </p:layoutUnit>
 
             <!--bottom -->
@@ -84,12 +89,14 @@
                         <p:growl id="messages" autoUpdate="true"/>  
                         <p:panelMenu>
                             <p:submenu label="Menu" >  
-                                <p:menuitem value="#{msgs.home}" icon="ui-icon-home" url="faces/index.xhtml"/>
-                                <p:menuitem value="#{msgs.password_reminder}" icon="ui-icon-key" url="faces/passwordReminder.xhtml"/>  
+                                <p:menuitem value="#{msgs.home}" icon="ui-icon-home" 
+                                            action="index.xhtml?faces-redirect=true"/>
+                               <!-- <p:menuitem value="#{msgs.password_reminder}" icon="ui-icon-key" 
+                                            action="passwordReminder.xhtml?faces-redirect=true"/>  
                                 <p:submenu label="#{msgs.open_positions}">  
                                     <p:menuitem value="#{msgs.view_open_positions}" icon="ui-icon-search"  />
                                     <p:menuitem value="#{msgs.apply_for_position}" icon="ui-icon-pencil" />
-                                </p:submenu>
+                                </p:submenu> -->
                             </p:submenu>  
                         </p:panelMenu>  
                     </h:form>

@@ -36,7 +36,7 @@ public class DepartmentConverter implements Converter {
         if (value == null || value.isEmpty() || value.equals("---")) {
             return null;
         }
-        return departmentFacade.find(Integer.valueOf(value));
+        return departmentFacade.findByName(value);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class DepartmentConverter implements Converter {
         if (!(value instanceof Department)) {
             return null;
         }
-        return ((Department) value).getIddepartment().toString();
+        return ((Department) value).getDepartmentName();
     }
 
 }

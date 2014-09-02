@@ -125,7 +125,7 @@ public class Department implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.mavenproject1.Department[ iddepartment=" + iddepartment + " ]";
+        return this.departmentName;
     }
     
 }

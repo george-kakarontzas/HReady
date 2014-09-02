@@ -57,7 +57,7 @@ public class updateEmployeesProfileCDIBean implements Serializable {
 
     private void refreshDepartmentEmployeesList() {
         Department d = this.getDepartment();
-        employees=employeeFacade.getDepartmentEmployees(d);
+        employees = employeeFacade.getDepartmentEmployees(d);
     }
 
     public Department getDepartment() {
@@ -153,6 +153,19 @@ public class updateEmployeesProfileCDIBean implements Serializable {
 
     public void remove(Employee e) {
         try {
+            //first delete employee's photograph if not empty
+            FacesContext ctx = FacesContext.getCurrentInstance();
+            String outputdir
+                    = ctx.getExternalContext().getInitParameter("FILE_UPLOAD_DIR");
+            String oldFile = e.getPhotoPath();
+            if (oldFile != null) {
+                if (!oldFile.isEmpty()) {
+                    File f = new File(outputdir + File.separator + oldFile);
+                    if (f.exists()) {
+                        f.delete();
+                    }
+                }
+            }
             employeeFacade.remove(e);
             refreshDepartmentEmployeesList();
         } catch (Exception ex) {
@@ -171,6 +184,34 @@ public class updateEmployeesProfileCDIBean implements Serializable {
         this.employee = new Employee();
         employee.setDepartmentIddepartment(this.getDepartment());
         return "editEmployeeProfile";
+    }
+
+    public String callEditInCompanyEmployment(Employee e) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        externalContext.getSessionMap().put("employee", e);
+        return "editInCompanyEmployment";
+    }
+
+    public String callEditPastCompanyEmployments(Employee e) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        externalContext.getSessionMap().put("employee", e);
+        return "editPastCompanyEmployments";
+    }
+
+    public String callEditProExperience(Employee e) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        externalContext.getSessionMap().put("employee", e);
+        return "updateProExperience";
+    }
+
+    public String callEditStudies(Employee e) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        externalContext.getSessionMap().put("employee", e);
+        return "updateStudies";
     }
 
     public String update() {

@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./deptheadPagesTemplate.xhtml">
+
+            <ui:define name="title">
+                #{msgs.update_employee_studies}
+            </ui:define>
+
+            <ui:define name="content">
+                <f:view>
+                    <h:form id="studiesForm">
+                        <p:messages  />
+                        <h1><h:outputText value="#{msgs.list_of_stored_study_records} of Employee 
+                                          #{updateStudiesCDIBean.employee.lastName},
+                                          #{updateStudiesCDIBean.employee.firstName}"/></h1>
+                        <p:commandButton icon="ui-icon-pencil"
+                                         value="#{msgs.create_new_study_record}"
+                                         action="#{updateStudiesCDIBean.create()}"
+                                         ajax="false" />
+                        <p:dataTable value="#{updateStudiesCDIBean.studyrecs}" var="item">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.title} &lt;br/&gt;(#{msgs.click_to_edit_record})" escape="false" />
+                                </f:facet>
+                                <h:commandLink action="#{updateStudiesCDIBean.edit(item)}"  
+                                               value="#{item.title}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="TitleType"/>
+                                </f:facet>
+                                <h:outputText value="#{updateStudiesCDIBean.getTitleName(item.titleType)}" />                               
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.institution}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.institution}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.date_started}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.dateStarted}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.date_acquired}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.dateAcquired}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.remove_study_record}"/>
+                                </f:facet>
+                                <p:commandButton icon="ui-icon-trash"
+                                                 action="#{updateStudiesCDIBean.remove(item)}"                                                
+                                                 onclick="if (!confirm('#{msgs.are_you_sure}')) {
+                                                             return false;
+                                                         }
+                                                         ;
+                                                         return true;
+                                                 ">
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+
+
+
+                    </h:form>
+                </f:view>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

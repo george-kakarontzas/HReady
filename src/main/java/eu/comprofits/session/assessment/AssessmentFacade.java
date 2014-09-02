@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.comprofits.session.assessment;
 
 import eu.comprofits.entities.assessment.Assessment;
+import eu.comprofits.entities.main.Department;
+import eu.comprofits.session.AbstractFacade;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import eu.comprofits.session.AbstractFacade;
 
 /**
  *
@@ -18,6 +19,7 @@ import eu.comprofits.session.AbstractFacade;
  */
 @Stateless
 public class AssessmentFacade extends AbstractFacade<Assessment> {
+
     @PersistenceContext(unitName = "comprofitsPU")
     private EntityManager em;
 
@@ -29,5 +31,16 @@ public class AssessmentFacade extends AbstractFacade<Assessment> {
     public AssessmentFacade() {
         super(Assessment.class);
     }
-    
+
+    public List<Assessment> getDepartmentAssessments(Department department) {
+        try {
+            List results = em.createNamedQuery("Assessment.findByAssesseeDepartment")
+                    .setParameter("department", department)
+                    .getResultList();
+            return results;
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
 }
