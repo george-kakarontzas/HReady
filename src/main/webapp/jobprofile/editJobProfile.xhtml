@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./jobprofilePagesTemplate.xhtml">
+            <ui:define name="title">Edit Job Profile</ui:define>
+            <ui:define name="content">
+                
+                <h1>Edit a Job Profile</h1><br /> Please select a job profile that should be deleted:<br /> <br /> <br /> 
+              
+                <h:form id="editJobProfile">
+                        <h:panelGrid columns="2" cellpadding="2" style="width: 500px; ">
+                            <p:outputLabel value="Job Title:  " for="jobTitle" />
+                            <p:selectOneMenu id="jobTitle" label="jobtitle" style="width:200px" >
+                                <f:selectItem itemLabel="Job Title 1" itemValue="Job Title 1"/>
+                                <f:selectItem itemLabel="Job Title 2" itemValue="Job Title 2"/>
+                            </p:selectOneMenu>
+                        </h:panelGrid> 
+                    
+                        <p:separator />
+                <p:commandButton type="button" value="Save" icon="ui-icon-disk" title="Save the changes" disabled="false" />    
+                <p:commandButton id="cancel" value=" Cancel" action="cancel" icon="ui-icon-cancel" oncomplete = "window.history.back();"/>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body> 
+</html>
