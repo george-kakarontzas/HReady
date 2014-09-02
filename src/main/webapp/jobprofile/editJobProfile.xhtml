@@ -14,6 +14,37 @@
                 
                 <h1>Edit a Job Profile</h1><br /> Please select a job profile that should be deleted:<br /> <br /> <br /> 
               
+
+                <h:form id="createJobProfile">
+                    <p:panelGrid columns="2" style="width: 80%">
+                    <h:panelGrid columns="2" cellpadding="2" style="width: 500px; ">
+
+                        <p:outputLabel value="Job Title:  " for="jobTitle" />
+<!--                    <p:selectOneMenu id="jobTitle" value="#{updateJobCDIBean.jobObject.jobTitle}" label="jobtitle" style="width:200px" >
+                            <f:selectItem itemLabel="Select a Job Title" itemValue="" noSelectionOption="false" />
+                            <f:selectItems value="#{updateJobCDIBean.jobList}" />    -->
+                        <p:selectOneMenu id="jobTitle" label="jobtitle" style="width:200px" >
+                            <f:selectItem itemLabel="Job Title 1" itemValue="Job Title 1"/>
+                            <f:selectItem itemLabel="Job Title 2" itemValue="Job Title 2"/>
+                        </p:selectOneMenu>
+                     
+                        <p:outputLabel value="Organisational Position:  " for="organisationalPosition" />
+                        <p:selectOneMenu id="organisationalPosition" value="#{updateOrganisationalPositionsCDIBean.organisationalPosition}" label="organisationalPosition" style="width:200px" >
+                            <f:selectItem itemLabel="Select an Organisational Position" itemValue="" noSelectionOption="false" />
+                            <f:selectItems value="#{updateOrganisationalPositionsCDIBean.organisationalPositions}" />    
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="Reporting To:  " for="reportingTo" />
+                        <p:selectOneMenu id="reportingTo" value="#{updateEmployeesProfileCDIBean.employee}" label="organisationalPosition" style="width:200px" >
+                            <f:selectItem itemLabel="Select Employee" itemValue="" noSelectionOption="false" />
+                            <f:selectItems value="#{updateEmployeesProfileCDIBean.employees}" />    
+                        </p:selectOneMenu>
+                        
+                        <!-- To select Field of study, which function should be called??????-->
+                        <p:outputLabel value="Field of Responsibility:" for="fieldResponsibility"/>
+                        <p:inputText id="fieldResponsibility" value="#{updateJobCDIBean.jobObject.jobDescription}" label="fieldResponsibility" />
+                    </h:panelGrid></p:panelGrid>
+                </h:form>
                 <h:form id="editJobProfile">
                         <h:panelGrid columns="2" cellpadding="2" style="width: 500px; ">
                             <p:outputLabel value="Job Title:  " for="jobTitle" />
@@ -22,6 +53,7 @@
                                 <f:selectItem itemLabel="Job Title 2" itemValue="Job Title 2"/>
                             </p:selectOneMenu>
                         </h:panelGrid> 
+
                     
                         <p:separator />
                 <p:commandButton type="button" value="Save" icon="ui-icon-disk" title="Save the changes" disabled="false" />    
