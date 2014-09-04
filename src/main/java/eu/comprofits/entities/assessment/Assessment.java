@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.comprofits.entities.assessment;
 
 import eu.comprofits.entities.employee.Employee;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -25,6 +26,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -39,9 +41,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Assessment.findAll", query = "SELECT a FROM Assessment a"),
     @NamedQuery(name = "Assessment.findByIdassessment", query = "SELECT a FROM Assessment a WHERE a.idassessment = :idassessment"),
     @NamedQuery(name = "Assessment.findByDateCreated", query = "SELECT a FROM Assessment a WHERE a.dateCreated = :dateCreated"),
-    @NamedQuery(name = "Assessment.findByAssesseeDepartment", 
+    @NamedQuery(name = "Assessment.findByAssesseeDepartment",
             query = "SELECT a FROM Assessment a WHERE a.assesseeIdemployee.departmentIddepartment = :department")})
 public class Assessment implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -140,7 +143,14 @@ public class Assessment implements Serializable {
     public void setAssesseeIdemployee(Employee assesseeIdemployee) {
         this.assesseeIdemployee = assesseeIdemployee;
     }
-
+    
+    @Transient 
+    public String getShortDate() {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String strDateCreated = df.format(dateCreated);
+        return strDateCreated;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -163,7 +173,9 @@ public class Assessment implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.mavenproject1.Assessment[ idassessment=" + idassessment + " ]";
+        String result = this.getShortDate()+" "+assesseeIdemployee.getLastName()+" "+
+                assesseeIdemployee.getFirstName();
+        return result;
     }
-    
+
 }
