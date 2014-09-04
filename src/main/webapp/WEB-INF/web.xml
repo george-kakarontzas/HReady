@@ -74,6 +74,21 @@
             <role-name>hrrecruiter</role-name>
         </auth-constraint>
     </security-constraint>
+    <security-constraint>
+        <display-name>AllRolesConstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>all_roles_pages</web-resource-name>
+            <description/>
+            <url-pattern>/employee/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>depthead</role-name>
+            <role-name>administrator</role-name>
+            <role-name>hrrecruiter</role-name>
+            <role-name>employee</role-name>
+        </auth-constraint>
+    </security-constraint>
     <login-config>
         <auth-method>FORM</auth-method>
         <realm-name>comprofits_jdbc_realm</realm-name>
@@ -93,6 +108,10 @@
     <security-role>
         <description>HRM recruiter role</description>
         <role-name>hrrecruiter</role-name>
+    </security-role>
+    <security-role>
+        <description>General employee role</description>
+        <role-name>employee</role-name>
     </security-role>
     <resource-ref>
         <description>Connects to database for ComProFITS application</description>

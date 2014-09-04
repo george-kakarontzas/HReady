@@ -16,13 +16,13 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
+
 /**
  *
  * @author alexanderhoelzemann
  */
 @Named(value = "updateJobCDIBean")
 @SessionScoped
-
 public class UpdateJobCDIBean implements Serializable {
 
     /**
@@ -36,6 +36,7 @@ public class UpdateJobCDIBean implements Serializable {
 
     private Job jobObject;
     private List<Job> jobList;
+    private Job selectedJob;
 
     public UpdateJobCDIBean() {
     }
@@ -44,15 +45,7 @@ public class UpdateJobCDIBean implements Serializable {
     public void init() {
         jobList = jobFacade.findAll();
     }
-
-    public JobFacade getJobFacade() {
-        return jobFacade;
-    }
-
-    public void setJobFacade(JobFacade jobFacade) {
-        this.jobFacade = jobFacade;
-    }
-
+    
     public Job getJobObject() {
         return jobObject;
     }
@@ -69,6 +62,14 @@ public class UpdateJobCDIBean implements Serializable {
         this.jobList = jobList;
     }
 
+    public Job getSelectedJob() {
+        return selectedJob;
+    }
+
+    public void setSelectedJob(Job selectedJob) {
+        this.selectedJob = selectedJob;
+    }
+
     public String edit(Job job) {
         this.jobObject = job;
         return "editJob";
@@ -79,9 +80,9 @@ public class UpdateJobCDIBean implements Serializable {
         return "createJob";
     }
 
-    public void remove(Job job) {
+    public String remove() {
         try {
-            jobFacade.remove(job);
+            jobFacade.remove(selectedJob);
             jobList = jobFacade.findAll();
 
         } catch (Exception e) {
@@ -89,6 +90,7 @@ public class UpdateJobCDIBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             e.getMessage(), null));
         }
+        return "deleteJobProfile";
     }
 
     public void update() {

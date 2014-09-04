@@ -1,0 +1,31 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <h:form id="assessmentForm">
+        <p:panelGrid columns="2">
+            <p:outputLabel value="#{msgs.select_assessment}" />
+            <p:selectOneMenu id="employeeAssessments" 
+                             value="#{assessmentCDIBean.selectedAssessment}" 
+                             converter="#{assessmentsConverter}">
+                <p:ajax listener="#{assessmentCDIBean.assessmentValueChange}" 
+                        update="competencesMenu" />
+                <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                <f:selectItems value="#{assessmentCDIBean.employeeAssessments}" 
+                               var="a" itemValue="#{a.shortDate} #{a.assesseeIdemployee.lastName} #{a.assesseeIdemployee.firstName}"/>
+            </p:selectOneMenu>
+            <p:outputLabel value="#{msgs.questionnaire_competences}" />
+            <p:selectOneMenu id="competencesMenu" 
+                             value="#{assessmentCDIBean.selectedCompetence}" 
+                             converter="#{competenceConverter}">
+               <!--<p:ajax update="statements" />-->
+                <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                <f:selectItems value="#{assessmentCDIBean.competences}" 
+                               var="c" itemValue="#{c}" 
+                               />
+            </p:selectOneMenu>
+        </p:panelGrid>
+    </h:form>
+</ui:composition>

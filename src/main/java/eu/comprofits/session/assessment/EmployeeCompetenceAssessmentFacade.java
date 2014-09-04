@@ -57,5 +57,13 @@ public class EmployeeCompetenceAssessmentFacade extends AbstractFacade<EmployeeC
                 getResultList();
         return ecas;
     }
+    
+    public List<EmployeeCompetenceAssessment> findAllForAssessmentAndEmployee(Assessment a, Employee e) {
+        List<EmployeeCompetenceAssessment> ecas = em.createQuery(
+                "Select e From EmployeeCompetenceAssessment e WHERE e.assessmentIdassessment=:a AND e.assessorIdemployee=:e").
+                setParameter("a", a).setParameter("e",e).
+                getResultList();
+        return ecas;
+    }
 
 }
