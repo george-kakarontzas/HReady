@@ -5,27 +5,78 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui">
     <h:form id="assessmentForm">
+        <p:growl id="messages" />
         <p:panelGrid columns="2">
             <p:outputLabel value="#{msgs.select_assessment}" />
             <p:selectOneMenu id="employeeAssessments" 
                              value="#{assessmentCDIBean.selectedAssessment}" 
                              converter="#{assessmentsConverter}">
-                <p:ajax listener="#{assessmentCDIBean.assessmentValueChange}" 
-                        update="competencesMenu" />
+                <p:ajax listener="#{assessmentCDIBean.assessmentValueChange}"
+                        update="assessmentStatus,stable" /> 
                 <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
                 <f:selectItems value="#{assessmentCDIBean.employeeAssessments}" 
                                var="a" itemValue="#{a.shortDate} #{a.assesseeIdemployee.lastName} #{a.assesseeIdemployee.firstName}"/>
             </p:selectOneMenu>
-            <p:outputLabel value="#{msgs.questionnaire_competences}" />
-            <p:selectOneMenu id="competencesMenu" 
-                             value="#{assessmentCDIBean.selectedCompetence}" 
-                             converter="#{competenceConverter}">
-               <!--<p:ajax update="statements" />-->
-                <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
-                <f:selectItems value="#{assessmentCDIBean.competences}" 
-                               var="c" itemValue="#{c}" 
-                               />
-            </p:selectOneMenu>
+
+            <p:outputLabel value="#{msgs.selected_assessment_status}" />
+            <p:outputLabel value="#{assessmentCDIBean.assessmentStatus}" id="assessmentStatus" escape="false" />
+
+            <h:outputLabel value="#{msgs.questionnaire_statements}"/>
+            <p:dataTable id="stable" var="item" value="#{assessmentCDIBean.employeeCompetenceAssessments}"  
+                         widgetVar="statementsTable"
+                         filteredValue="#{assessmentCDIBean.filteredEmployeeCompetenceAssessments}"
+                         editable="true">
+
+                <p:ajax event="rowEdit" listener="#{assessmentCDIBean.onRowEdit}" 
+                        update=":assessmentForm:messages, :assessmentForm:assessmentStatus" />
+                <p:ajax event="rowEditCancel" listener="#{assessmentCDIBean.onRowCancel}" 
+                        update=":assessmentForm:messages" />
+
+                <p:column filterBy="#{item.competenceIdcompetence}" headerText="#{msgs.competence_name}" 
+                          filterMatchMode="exact" style="width:150px">
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('statementsTable').filter()" >
+                            <f:selectItem itemLabel="---" itemValue="#{null}" noSelectionOption="true" />
+                            <f:selectItems value="#{assessmentCDIBean.assessmentCompetences}" />
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <h:outputText value="#{item.competenceIdcompetence.competenceName}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msgs.statement}" style="width:150px"/>
+                    </f:facet>
+                    <h:outputText value="#{item.statementIdstatement.statementText}"/>
+                </p:column>
+
+                <p:column headerText="#{msgs.assessment_value}">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.assessment}"/>
+
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:selectOneRadio value="#{item.assessment}" layout="grid" columns="3"  >  
+                                <f:selectItem itemLabel="#{msgs.strongly_agree}" itemValue="5" />  
+                                <f:selectItem itemLabel="#{msgs.agree}" itemValue="4" />  
+                                <f:selectItem itemLabel="#{msgs.neither_agree}" itemValue="3" />
+                                <f:selectItem itemLabel="#{msgs.disagree}" itemValue="2" />  
+                                <f:selectItem itemLabel="#{msgs.strongly_disagree}" itemValue="1" />
+                            </p:selectOneRadio> 
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column style="width:32px">
+                    <f:facet name="header">
+                        <h:outputText value="#{msgs.assess}" />
+                    </f:facet>
+                    <p:rowEditor />
+                </p:column>
+
+               
+
+            </p:dataTable>
         </p:panelGrid>
     </h:form>
 </ui:composition>
