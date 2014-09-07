@@ -101,6 +101,9 @@ public class Auth implements Serializable {
                 case "hrrecruiter":
                     gotoPage="./hrm/hrmHomePage.xhtml";
                     break;
+                case "employee":
+                    gotoPage="./employee/employeeHomePage.xhtml";
+                    break;
                 default:
                     gotoPage="./index.xhtml";
             }

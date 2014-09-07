@@ -142,36 +142,72 @@ public class AssessmentCDIBean implements Serializable {
         msg.setSummary(message);
         context.addMessage(null, msg);
     }
-    /*
-     public String getAssessmentText() {
-     FacesContext context = FacesContext.getCurrentInstance();
-     ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
-     switch (assessment) {
-     case 1 :
-     return bundle.getString("strongly_disagree");
-     case 2:
-     return bundle.getString("disagree");
-     case 3:
-     return bundle.getString("neither_agree");
-     case 4:
-     return bundle.getString("agree");
-     case 5:
-     return bundle.getString("strongly_agree");
-     }
-     return "not_assessed_yet";                   
-     }
-     */
 
     public String getAssessmentStatus() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+        //get this employee's status first
+        String s1 = "<emph>" + bundle.getString("my_assessment") + "<emph><br />";
+        s1 += this.getStatus(employeeCompetenceAssessments);
+        if (selectedAssessment != null) {
+            Employee manager = selectedAssessment.getImmediateManagerIdemployee();
+            if (this.employee.getIdemployee().equals(manager.getIdemployee())) {
+                String clickToEmailText = bundle.getString("click_to_email");
+                //get the status also for the employee under assessment
+                List<EmployeeCompetenceAssessment> assessee_assessments
+                        = employeeCompetenceAssessmentFacade.findAllForAssessmentAndEmployee(
+                                selectedAssessment, selectedAssessment.getAssesseeIdemployee());
+                s1 += "<hr>";
+                s1 += "<a href=\"mailto:" + selectedAssessment.getAssesseeIdemployee().getEmail() + "\">"
+                        + "<b>" + selectedAssessment.getAssesseeIdemployee().getLastName() + " "
+                        + selectedAssessment.getAssesseeIdemployee().getFirstName() + "</b></a>"
+                        + " ("+clickToEmailText+")"+"<br />";
+                s1 += this.getStatus(assessee_assessments);
+                //get the status for 1st colleague
+                List<EmployeeCompetenceAssessment> col1_assessments
+                        = employeeCompetenceAssessmentFacade.findAllForAssessmentAndEmployee(
+                                selectedAssessment, selectedAssessment.getColleague1Idemployee());
+                s1 += "<hr>";
+                s1 += "<a href=\"mailto:" + selectedAssessment.getColleague1Idemployee().getEmail() + "\">"
+                        + "<b>" + selectedAssessment.getColleague1Idemployee().getLastName() + " "
+                        + selectedAssessment.getColleague1Idemployee().getFirstName() + "</b></a>"
+                        + " ("+clickToEmailText+")"+"<br />";
+                s1 += this.getStatus(col1_assessments);
+                //get the status for 2nd colleague
+                List<EmployeeCompetenceAssessment> col2_assessments
+                        = employeeCompetenceAssessmentFacade.findAllForAssessmentAndEmployee(
+                                selectedAssessment, selectedAssessment.getColleague2Idemployee());
+                s1 += "<hr>";
+                s1 += "<a href=\"mailto:" + selectedAssessment.getColleague2Idemployee().getEmail() + "\">"
+                        + "<b>" + selectedAssessment.getColleague2Idemployee().getLastName() + " "
+                        + selectedAssessment.getColleague2Idemployee().getFirstName() + "</b></a>"
+                        + " ("+clickToEmailText+")"+"<br />";
+                s1 += this.getStatus(col2_assessments);
+                //get the status for 1st colleague
+                List<EmployeeCompetenceAssessment> col3_assessments
+                        = employeeCompetenceAssessmentFacade.findAllForAssessmentAndEmployee(
+                                selectedAssessment, selectedAssessment.getColleague3Idemployee());
+                s1 += "<hr>";
+                s1 += "<a href=\"mailto:" + selectedAssessment.getColleague3Idemployee().getEmail() + "\">"
+                        + "<b>" + selectedAssessment.getColleague3Idemployee().getLastName() + " "
+                        + selectedAssessment.getColleague3Idemployee().getFirstName() + "</b></a>"
+                        + " ("+clickToEmailText+")"+"<br />";
+                s1 += this.getStatus(col3_assessments);
+            }
+        }
+        return s1;
+    }
+
+    private String getStatus(List<EmployeeCompetenceAssessment> eEcas) {
         FacesContext context = FacesContext.getCurrentInstance();
         ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
         //fill map with competences
         Map<Competence, List<EmployeeCompetenceAssessment>> map
                 = new HashMap<>();
-        if (employeeCompetenceAssessments.isEmpty()) {
+        if (eEcas == null) {
             return " ";
         }
-        for (EmployeeCompetenceAssessment eca : employeeCompetenceAssessments) {
+        for (EmployeeCompetenceAssessment eca : eEcas) {
             Competence c = eca.getCompetenceIdcompetence();
             List<EmployeeCompetenceAssessment> ecas;
             if (map.containsKey(c)) {
@@ -183,7 +219,6 @@ public class AssessmentCDIBean implements Serializable {
             ecas.add(eca);
             map.put(c, ecas);
         }
-
         Set<Competence> competences = map.keySet();
         StringBuilder sbuf = new StringBuilder();
         int count = 0;
@@ -226,19 +261,22 @@ public class AssessmentCDIBean implements Serializable {
             double avg = total / count;
             sbuf.append(avg);
         }
-        
         return sbuf.toString();
     }
 
     private double getAverage(List<EmployeeCompetenceAssessment> ecas) {
         double total = 0.0;
         double undefined = 0;
-        double count = 0;
+        int count = 0;
         for (EmployeeCompetenceAssessment eca : ecas) {
-            double mark = eca.getAssessment();
-            if (mark >= 1 && mark <= 5) {
-                total += mark;
-                count++;
+            Integer mark = eca.getAssessment();
+            if (mark != null) {
+                if (mark >= 1 && mark <= 5) {
+                    total += mark;
+                    count++;
+                } else {
+                    undefined++;
+                }
             } else {
                 undefined++;
             }

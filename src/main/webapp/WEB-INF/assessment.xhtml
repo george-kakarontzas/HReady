@@ -18,9 +18,6 @@
                                var="a" itemValue="#{a.shortDate} #{a.assesseeIdemployee.lastName} #{a.assesseeIdemployee.firstName}"/>
             </p:selectOneMenu>
 
-            <p:outputLabel value="#{msgs.selected_assessment_status}" />
-            <p:outputLabel value="#{assessmentCDIBean.assessmentStatus}" id="assessmentStatus" escape="false" />
-
             <h:outputLabel value="#{msgs.questionnaire_statements}"/>
             <p:dataTable id="stable" var="item" value="#{assessmentCDIBean.employeeCompetenceAssessments}"  
                          widgetVar="statementsTable"
@@ -73,10 +70,11 @@
                     </f:facet>
                     <p:rowEditor />
                 </p:column>
-
-               
-
             </p:dataTable>
+
+            <p:outputLabel value="#{msgs.selected_assessment_status}" />
+            <p:outputLabel value="#{assessmentCDIBean.assessmentStatus}" id="assessmentStatus" escape="false" />
+
         </p:panelGrid>
     </h:form>
 </ui:composition>
