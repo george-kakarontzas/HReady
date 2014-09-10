@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./pagesTemplate.xhtml">
+
+            <ui:define name="title">#{msgs.job_applicant_registration}</ui:define>
+            <ui:define name="content">
+                <h1>#{msgs.job_applicant_registration}</h1>             
+                <f:view>
+                    <h:form enctype="multipart/form-data">
+                        <p:messages  />
+                        <table border="0">
+                            <tr >
+                                <td  style="vertical-align: top">
+                                    <p:graphicImage id="image" value="#{registerApplicantCDIBean.photoPath}" height="100px" width="100px"   />
+                                </td>
+                                <td>
+                                    <p:panelGrid columns="4">
+
+                                        
+                                        <p:outputLabel value="#{msgs.first_name}" for="firstName" />
+                                        <p:inputText id="firstName" value="#{registerApplicantCDIBean.jobApplicant.firstName}" 
+                                                     required="true" requiredMessage="#{msgs.required_first_name}."/>
+                                        <p:outputLabel value="#{msgs.last_name}:" for="lastName" />
+                                        <p:inputText id="lastName" value="#{registerApplicantCDIBean.jobApplicant.lastName}" 
+                                                     required="true" requiredMessage="#{msgs.required_last_name}."/>
+                                        <p:outputLabel value="#{msgs.gender}:" for="gender" />
+                                        <p:selectOneMenu id="gender" value="#{registerApplicantCDIBean.jobApplicant.gender}">
+                                            <f:selectItem itemLabel="#{msgs.male}" itemValue="1"/>
+                                            <f:selectItem itemLabel="#{msgs.female}" itemValue="2"/>
+                                        </p:selectOneMenu>   
+                                        <p:outputLabel value="#{msgs.address}:" for="address" />
+                                        <p:inputText id="address" value="#{registerApplicantCDIBean.jobApplicant.address}" 
+                                                     required="true" requiredMessage="#{msgs.required_address}."/>
+                                        <p:outputLabel value="#{msgs.postal_code}:" for="postalCode" />
+                                        <p:inputText id="postalCode" value="#{registerApplicantCDIBean.jobApplicant.postalCode}"
+                                                     required="true" requiredMessage="#{msgs.required_postal_code}."/>
+                                        <p:outputLabel value="#{msgs.city}" for="city" />
+                                        <p:inputText id="city" value="#{registerApplicantCDIBean.jobApplicant.city}" 
+                                                     required="true" requiredMessage="#{msgs.required_city}."/>
+                                        <p:outputLabel value="#{msgs.country}:" for="country" />
+                                        <p:inputText id="country" value="#{registerApplicantCDIBean.jobApplicant.country}" 
+                                                     required="true" requiredMessage="#{msgs.reuired_country}."/>
+                                        <p:outputLabel value="#{msgs.province}:" for="province" />
+                                        <p:inputText id="province" value="#{registerApplicantCDIBean.jobApplicant.province}" />
+                                        <p:outputLabel value="#{msgs.phone_private}:" for="phonePrivate" />
+                                        <p:inputText id="phonePrivate" value="#{registerApplicantCDIBean.jobApplicant.phonePrivate}" />
+                                        <p:outputLabel value="#{msgs.phone_mobile}:" for="phoneMobile" />
+                                        <p:inputText id="phoneMobile" value="#{registerApplicantCDIBean.jobApplicant.phoneMobile}" 
+                                                     required="true" requiredMessage="#{msgs.required_mobie}."/>
+                                        <p:outputLabel value="#{msgs.email}:" for="email" />
+                                        <p:inputText id="email" value="#{registerApplicantCDIBean.jobApplicant.email}" 
+                                                     required="true" requiredMessage="#{msgs.required_email}."/>
+                                        <p:outputLabel value="#{msgs.date_of_birth}:" for="dateOfBirth" />
+                                        <p:calendar id="dateOfBirth" 
+                                                    value="#{registerApplicantCDIBean.jobApplicant.dateOfBirth}" 
+                                                    showOn="button" navigator="true" pattern="dd/MM/yyyy" required="true"
+                                                    requiredMessage="#{msgs.required_date_of_birth}"/>
+                                        <p:outputLabel value="#{msgs.photo}:" for="photoPath" />
+                                        <p:fileUpload id="photoPath" value="#{registerApplicantCDIBean.photograph}"
+                                                      allowTypes="/(\.|\/)(gif|jpe?g|png)$/" mode="advanced"  update="image" 
+                                                      fileUploadListener="#{registerApplicantCDIBean.fileUploadListener}"  fileLimit="1" sizeLimit="1000000"/>
+                                        <p:outputLabel value="#{msgs.username}:" for="username" />
+                                        <p:inputText id="username" value="#{registerApplicantCDIBean.jobApplicant.username}" 
+                                                     required="true" requiredMessage="#{msgs.required_username}."/>
+                                        <p:outputLabel value="#{msgs.password}" for="pwd" />
+                                        <p:password id="pwd" value="#{registerApplicantCDIBean.password}" match="confirm" />
+                                        <p:outputLabel for="confirm" value="#{msgs.confirm_password}" />
+                                        <p:password id="confirm" value="#{registerApplicantCDIBean.password}" />
+                                        <p:outputLabel value="#{msgs.marital_status}:" for="maritalStatus" />
+                                        <p:selectOneMenu id="maritalStatus" value="#{registerApplicantCDIBean.jobApplicant.maritalStatus}">
+                                            <f:selectItem itemLabel="#{msgs.married}" itemValue="M"/>
+                                            <f:selectItem itemLabel="#{msgs.single}" itemValue="S"/>
+                                        </p:selectOneMenu>
+                                        <p:outputLabel value="#{msgs.number_of_children}:" for="numberOfChildren" />
+                                        <p:inputText id="numberOfChildren" value="#{registerApplicantCDIBean.jobApplicant.numberOfChildren}" />
+
+                                         
+                                        <h:commandButton id="register" value="#{msgs.register}" action="#{registerApplicantCDIBean.register}" />
+                                        <h:commandButton id="back" value="#{msgs.back}" action="index"  immediate="true" /> 
+                                    </p:panelGrid>
+                                </td>
+                            </tr>
+                        </table>
+                    </h:form>
+                </f:view>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>
