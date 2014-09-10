@@ -41,7 +41,7 @@
                             <p:selectOneMenu id="reportingTo" value="#{updateJobCDIBean.jobObject.reportingToIdemployee}">  
                                 <f:selectItem itemLabel="#{msgs.select_employee}" itemValue="" ></f:selectItem>
                                 <f:selectItems value="#{updateEmployeesProfileCDIBean.employees}"
-                                               var="e" itemValue="#{e}" itemLabel="#{e.lastName}" />
+                                               var="e" itemValue="#{e}" itemLabel="#{e.firstName}" />
                             </p:selectOneMenu>
 
                             <!--fieldofResponsibility is most probably missing in the updateJobCDIBean.jobObject-->
