@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./jobprofilePagesTemplate.xhtml">
+            <ui:define name="title">Delete Job Profile</ui:define>
+            <ui:define name="content">
+                
+                    <h1>Delete a Job Profile</h1><br /> Please select a job profile that should be deleted:<br /> <br /> <br /> 
+                    <h:form id="deleteJobProfile">
+                        <h:panelGrid columns="2" cellpadding="2" style="width: 500px; ">
+                            <p:outputLabel value="Job Title:  " for="jobTitle"/>
+                            <p:selectOneMenu id="jobTitle" value="#{updateJobCDIBean.selectedJob}" 
+                                             style="width:200px"
+                                             converter="#{jobConverterByJobTitle}">
+                                <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />                         
+                                <f:selectItems value="#{updateJobCDIBean.jobList}"
+                                               var="j" itemValue="#{j}" itemLabel="#{j.jobTitle}" />
+                            </p:selectOneMenu>
+                        </h:panelGrid>    
+                        
+                        <p:separator />
+                        <!--The remove function should be tested -->
+                        <p:commandButton value="#{msgs.delete}" icon="ui-icon-trash"
+                                        action="#{updateJobCDIBean.remove}"                                                
+                                        onclick="if (! confirm('#{msgs.are_you_sure}') ) { return false;}; return true; " /> 
+                                                 
+                        <p:commandButton id="cancel" value=" Cancel" action="cancel" icon="ui-icon-cancel" oncomplete = "window.history.back();"/>
+                    </h:form>
+            </ui:define>
+        </ui:composition>
+    </body> 
+</html>

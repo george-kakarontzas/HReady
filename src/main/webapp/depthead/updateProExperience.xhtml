@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./deptheadPagesTemplate.xhtml">
+
+            <ui:define name="title">
+                #{msgs.update_employee_professional_experience}
+            </ui:define>
+
+            <ui:define name="content">
+                <f:view>
+                    <h:form id="proExperiencesForm">
+                        <p:messages  />
+                        <h1><h:outputText value="#{msgs.list_of_stored_professional_experience_records} of Employee 
+                                          #{updateProExperienceCDIBean.employee.lastName},
+                                          #{updateProExperienceCDIBean.employee.firstName}"/></h1>
+                        <p:commandButton icon="ui-icon-pencil"
+                                         value="#{msgs.create_new_professional_experience_record}"
+                                         action="#{updateProExperienceCDIBean.create()}"
+                                         ajax="false" />
+                        <p:dataTable value="#{updateProExperienceCDIBean.prorecs}" var="item">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.job_title} &lt;br/&gt;(#{msgs.click_to_edit_record})" escape="false"/>
+                                </f:facet>
+                                <h:commandLink action="#{updateProExperienceCDIBean.edit(item)}"  
+                                               value="#{item.jobTitle}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.date_started}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.dateStarted}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.date_finished}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.dateFinished}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.company_name}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.company}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.role}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.role}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.immediate_manager}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.immediateManager}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.remove_professional_experience_record}"/>
+                                </f:facet>
+                                <p:commandButton icon="ui-icon-trash"
+                                                 action="#{updateProExperienceCDIBean.remove(item)}"                                                
+                                                 onclick="if (!confirm('#{msgs.are_you_sure}')) {
+                                                             return false;
+                                                         }
+                                                         ;
+                                                         return true;
+                                                 ">
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </f:view>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

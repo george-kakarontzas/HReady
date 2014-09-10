@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./adminPagesTemplate.xhtml">
+
+            <ui:define name="title">
+                #{msgs.edit_organisational_position}
+            </ui:define>
+
+            <ui:define name="content">
+                <f:view>
+                    <h:form>
+                        <p:messages  />
+                        <h1><h:outputText value="#{msgs.create_edit_organisational_position}"/></h1>
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="#{msgs.organisational_position_name}" for="organisationalPositionName" />
+                            <p:inputText id="organisationalPositionName" 
+                                 value="#{updateOrganisationalPositionsCDIBean.organisationalPosition.organisationalPositionName}" 
+                                 title="#{msgs.organisational_position_name}" required="true" 
+                                 requiredMessage="#{msgs.required_organisational_position_name_message}."
+                                 size="60"/>
+                            <p:outputLabel value="#{msgs.organisational_position_description}" for="organisationalPositionDescription" />
+                            <p:inputText id="organisationalPositionDescription" 
+                                         value="#{updateOrganisationalPositionsCDIBean.organisationalPosition.organisationalPositionDescription}" 
+                                         title="#{msgs.organisational_position_description}" 
+                                         required="true" 
+                                         requiredMessage="#{msgs.required_organisational_position_description_message}."
+                                         size="150"/>
+                            <p:outputLabel value="#{msgs.company_name}" for="companyIdcompany" />
+                            <p:selectOneMenu id="companyIdcompany" value="#{updateOrganisationalPositionsCDIBean.organisationalPosition.companyIdcompany}" 
+                                             required="true" requiredMessage="#{msgs.required_company_message}." 
+                                             converter="#{companyConverter}">
+                                <f:selectItems value="#{updateOrganisationalPositionsCDIBean.companies}" 
+                                               var="c" itemValue="#{c}" itemLabel="#{c.companyName1}" 
+                                               />
+                            </p:selectOneMenu>
+                            <h:commandButton id="back" value="#{msgs.back}" action="updateOrganisationalPositions"  immediate="true"/>  
+                            <h:commandButton id="update" value="Update" action="#{updateOrganisationalPositionsCDIBean.update()}"/>
+                        </p:panelGrid>
+                    </h:form>
+
+                </f:view>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

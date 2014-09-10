@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./jobprofilePagesTemplate.xhtml">
+
+            <ui:define name="title">
+                ${msgs.create_job_profile}
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="jobProfileCreate" >
+                    <p:messages  />
+                    <p:panelGrid columns="2"  columnClasses="columna">
+                        <f:facet name="header">#{msgs.create_job_profile}</f:facet>
+                        <p:panelGrid columns="2" >
+                            <f:facet name="header">Job Profile</f:facet>
+                            <p:outputLabel value="#{msgs.job_title}" for="jobTitle"  />
+                            <!--updateJobCDIBean.jobObject.jobTitle should be corrected in the next command-->
+                            <p:selectOneMenu id="jobTitle" value="#{updateJobCDIBean.jobObject}"> 
+                                <f:selectItem itemLabel="#{msgs.select_job_title}" itemValue="" ></f:selectItem>
+                                <f:selectItems value="#{updateJobCDIBean.jobList}"
+                                               var="j" itemValue="#{j}" itemLabel="#{j.jobTitle}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="#{msgs.organizational_position}" for="organizationalPosition" />
+                            <!--updateJobCDIBean.jobObject.organisationalPositionIdorganisationalPosition should be corrected in the next command-->
+                            <p:selectOneMenu id="organizationalPosition" value="#{updateJobCDIBean.jobObject}">  
+                                <f:selectItem itemLabel="#{msgs.select_organizational_position}" itemValue="" ></f:selectItem>
+                                <f:selectItems value="#{updateOrganisationalPositionsCDIBean.organisationalPositions}" 
+                                               var="o" itemValue="#{o}" itemLabel="#{o.organisationalPositionName}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="#{msgs.reporting_to}" for="reportingTo" />
+                            <p:selectOneMenu id="reportingTo" value="#{updateJobCDIBean.jobObject.reportingToIdemployee}">  
+                                <f:selectItem itemLabel="#{msgs.select_employee}" itemValue="" ></f:selectItem>
+                                <f:selectItems value="#{updateEmployeesProfileCDIBean.employees}"
+                                               var="e" itemValue="#{e}" itemLabel="#{e.firstName}" />
+                            </p:selectOneMenu>
+
+                            <!--fieldofResponsibility is most probably missing in the updateJobCDIBean.jobObject-->
+                            <p:outputLabel value="#{msgs.fields_of_responsibility}:" for="fieldsOfResponsibility" />
+                            <p:inputText id="fieldsOfResponsibility" size="40" required="true" 
+                                         value="#{updateJobCDIBean.jobObject.businessAreaIdbusinessArea}"/> 
+
+                            <p:outputLabel value="#{msgs.job_description}:" for="jobDescription" />
+                            <p:inputText id="jobDescription" size="40" value="#{updateJobCDIBean.jobObject.jobDescription}"/>
+
+                            <!-- is the selected value to selectManyCheckbox correct or should it be inside JOBCDIBean? -->
+                            <!-- What should be itemvalue for the each selectitem? -->
+                            <p:outputLabel value="#{msgs.studies_min_requirements}" for="studiesMinRequirements" />
+                            <p:selectManyCheckbox id="studiesMinRequirements" value="#{UpdateJobStudyMinRequirementsCDIBean.jobStudyMinRequirementsObject.idjobStudyMinRequirements}" >  
+                                <f:selectItem itemLabel="#{msgs.formal_education}" itemValue=""/>  
+                                <f:selectItem itemLabel="#{msgs.professional_education}" itemValue=""/>  
+                                <f:selectItem itemLabel="#{msgs.other_degrees}" itemValue=""/>  
+                                <f:selectItem itemLabel="#{msgs.university_degree}" itemValue=""/>  
+                                <f:selectItem itemLabel="#{msgs.continuing_training}" itemValue=""/>
+                            </p:selectManyCheckbox>                             
+                            
+                            <!--What is the right object for "Practical Experience before current company" in the updateJobCDIBean.jobObject  -->
+                            <p:outputLabel value="#{msgs.practical_experience_before_current_company}:" for="practicalExperienceBeforeCurrentCompany" />
+                            <p:inputText id="practicalExperienceBeforeCurrentCompany" size="5" />
+                            
+                            <!--What is the right object for "Practical Experience after current company" in the updateJobCDIBean.jobObject  -->
+                            <p:outputLabel value="#{msgs.practical_experience_after_current_company}:" for="practicalExperienceAfterCurrentCompany" />
+                            <p:inputText id="practicalExperienceAfterCurrentCompany" size="5" />
+
+                            <!-- Job status is missing in the updateJobCDIBean.jobObject-->
+                            <p:outputLabel value="#{msgs.job_profile_status}" />
+                            <p:selectOneRadio id="options" >  
+                                <f:selectItem itemLabel="#{msgs.enable}" itemValue="1" />  
+                                <f:selectItem itemLabel="#{msgs.disable}" itemValue="2" />  
+                            </p:selectOneRadio>  
+                            
+                        </p:panelGrid>
+                        <p:panelGrid columns="2">
+                            <f:facet name="header">#{msgs.job_competences_weights}</f:facet>
+                            <p:outputLabel value="#{msgs.professional_competences}" style="font-weight: bold;" />
+                            <h:panelGroup />
+                            <p:outputLabel value="#{msgs.managerial_competences}:" for="managerialCompetences" />
+                            <p:spinner id="managerialCompetences"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.business_orientation}:" for="businessOrientation" />
+                            <p:spinner id="businessOrientation"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.job_related_skills}:" for="jobRelatedSkills" />
+                            <p:spinner id="jobRelatedSkills"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.communication_languages}:" for="communicationLanguages" />
+                            <p:spinner id="communicationLanguages"  min="0" max="1" stepFactor="0.05"/>  
+
+                            <p:outputLabel value="#{msgs.innovative_competences}" style="font-weight: bold;" />
+                            <h:panelGroup />
+                            <p:outputLabel value="#{msgs.creativity_and_holistic_thinking}:" for="creativityAndHolisticThinking" />
+                            <p:spinner id="creativityAndHolisticThinking"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.entrepreneurship}:" for="entrepreneurship" />
+                            <p:spinner id="entrepreneurship"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.proactivity}:" for="proactivity" />
+                            <p:spinner id="proactivity"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.readiness_for_changes}:" for="readinessForChanges" />
+                            <p:spinner id="readinessForChanges"  min="0" max="1" stepFactor="0.05"/>  
+
+                            <p:outputLabel value="#{msgs.social_competences}" style="font-weight: bold;" />
+                            <h:panelGroup />
+                            <p:outputLabel value="#{msgs.teamwork}:" for="teamwork" />
+                            <p:spinner id="teamwork"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.professionalism}:" for="professionalism" />
+                            <p:spinner id="professionalism"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.interpersonal_skills}:" for="interpersonalSkills" />
+                            <p:spinner id="interpersonalSkills"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.motivation_for_learning}:" for="motivationForLearning" />
+                            <p:spinner id="motivationForLearning"  min="0" max="1" stepFactor="0.05"/>  
+
+
+                        </p:panelGrid>
+                        
+                        <!--<h:panelGroup />-->
+                        
+                        <p:panelGrid columns="3" >
+                            <p:commandButton type="button" value="#{msgs.create}" icon="ui-icon-disk" />  
+                            <p:commandButton type="button" value="#{msgs.print}" icon="ui-icon-print" ><p:printer /></p:commandButton>
+                            <p:commandButton type="button" value="#{msgs.help}" icon="ui-icon-help" />
+                        </p:panelGrid>
+                    </p:panelGrid>
+
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
