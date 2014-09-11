@@ -6,7 +6,10 @@
 package eu.comprofits.cdibeans.main;
 
 import eu.comprofits.entities.employee.Employee;
+import eu.comprofits.entities.jobapplicant.JobApplicant;
 import eu.comprofits.session.employee.EmployeeFacade;
+import eu.comprofits.session.jobapplicant.JobApplicantFacade;
+import eu.comprofits.session.jobapplicant.JobApplicationFacade;
 import java.io.IOException;
 import java.io.Serializable;
 import java.security.Principal;
@@ -28,8 +31,13 @@ import javax.servlet.http.HttpServletRequest;
 public class Auth implements Serializable {
 
     @EJB
+    private JobApplicantFacade jobApplicantFacade;
+
+    @EJB
     private EmployeeFacade employeeFacade;
+
     private Employee employee;
+    private JobApplicant applicant;
     private String username;
     private String password;
 
@@ -48,12 +56,27 @@ public class Auth implements Serializable {
                     = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
             if (principal != null) {
                 employee = employeeFacade.getEmployeeByUsername(principal.getName()); // Find User by j_username.
-            }
-            else if (e !=null) {
+            } else if (e != null) {
                 employee = e;
             }
         }
         return employee;
+    }
+    
+     public JobApplicant getApplicant() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        JobApplicant a = (JobApplicant) externalContext.getSessionMap().get("applicant");
+        if (applicant == null) {
+            Principal principal
+                    = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
+            if (principal != null) {
+                applicant = jobApplicantFacade.getJobApplicantByUsername(principal.getName()); // Find User by j_username.
+            } else if (a != null) {
+                applicant = a;
+            }
+        }
+        return applicant;
     }
 
     public void setEmployee(Employee employee) {
@@ -81,6 +104,10 @@ public class Auth implements Serializable {
         return "/index?faces-redirect=true";
     }
 
+    public void setApplicant(JobApplicant applicant) {
+        this.applicant = applicant;
+    }
+    
     public String progLogin() throws IOException {
         String gotoPage = "/index.xtml";
         FacesContext context = FacesContext.getCurrentInstance();
@@ -88,24 +115,32 @@ public class Auth implements Serializable {
         HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
         try {
             request.login(username, password);
-            Employee e =  employeeFacade.getEmployeeByUsername(username);
-            externalContext.getSessionMap().put("user", e);
-            String role = e.getRole();
-            switch (role) {
-                case "depthead":
-                    gotoPage="./depthead/deptheadHomePage.xhtml";
-                    break;
-                case "administrator":
-                    gotoPage="./administrator/adminHomePage.xhtml";
-                    break;
-                case "hrrecruiter":
-                    gotoPage="./hrm/hrmHomePage.xhtml";
-                    break;
-                case "employee":
-                    gotoPage="./employee/employeeHomePage.xhtml";
-                    break;
-                default:
-                    gotoPage="./index.xhtml";
+            Employee e = employeeFacade.getEmployeeByUsername(username);
+            if (e != null) {
+                externalContext.getSessionMap().put("user", e);
+                String role = e.getRole();
+                switch (role) {
+                    case "depthead":
+                        gotoPage = "./depthead/deptheadHomePage.xhtml";
+                        break;
+                    case "administrator":
+                        gotoPage = "./administrator/adminHomePage.xhtml";
+                        break;
+                    case "hrrecruiter":
+                        gotoPage = "./hrm/hrmHomePage.xhtml";
+                        break;
+                    case "employee":
+                        gotoPage = "./employee/employeeHomePage.xhtml";
+                        break;
+                    default:
+                        gotoPage = "./index.xhtml";
+                }
+            } else {
+                JobApplicant j = jobApplicantFacade.getJobApplicantByUsername(username);
+                if (j != null) {                         
+                    externalContext.getSessionMap().put("applicant", j);
+                    gotoPage = "./applicant/applicantHomePage.xhtml";
+                }
             }
             externalContext.redirect(gotoPage);
         } catch (ServletException e) {
