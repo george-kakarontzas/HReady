@@ -11,6 +11,7 @@ import eu.comprofits.session.AbstractFacade;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 /**
@@ -33,10 +34,15 @@ public class EmployeeFacade extends AbstractFacade<Employee> {
     }
 
     public Employee getEmployeeByUsername(String username) {
-        Employee result = (Employee) em.createNamedQuery("Employee.findByUsername")
-                .setParameter("username", username)
-                .getSingleResult();
-        return result;
+        try {
+            Employee result = (Employee) em.createNamedQuery("Employee.findByUsername")
+                    .setParameter("username", username)
+                    .getSingleResult();
+            return result;
+        }
+        catch (NoResultException nre) {
+            return null;
+        }    
     }
 
     public List<Employee> getDepartmentEmployees(Department d) {
