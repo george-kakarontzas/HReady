@@ -28,9 +28,10 @@
                                          
                             <p:outputLabel value="#{msgs.organizational_position}" for="organizationalPosition" />
                             <!-- as a value for the next line #{updateJobCDIBean.jobObject.organisationalPositionIdorganisationalPosition.idorganisationalPosition} -->
-                            <p:selectOneMenu id="organizationalPosition" value="" >  
+                            <p:selectOneMenu id="organizationalPosition" value="#{updateJobCDIBean.jobObject.organisationalPositionIdorganisationalPosition}" 
+                                             converter="#{organisationalPositionConverter}">  
                                 <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItems value="#{updateOrganisationalPositionsCDIBean.organisationalPositions}" 
+                                <f:selectItems value="#{updateJobCDIBean.positions}"
                                                var="o" itemValue="#{o}" itemLabel="#{o.organisationalPositionName}" />
                             </p:selectOneMenu>
 
@@ -53,7 +54,7 @@
                             <!-- is the selected value to selectManyCheckbox correct or should it be inside JOBCDIBean? -->
                             <!-- What should be itemvalue for the each selectitem? -->
                             <p:outputLabel value="#{msgs.studies_min_requirements}" for="studiesMinRequirements" />
-                            <p:selectManyCheckbox id="studiesMinRequirements" value="#{UpdateJobStudyMinRequirementsCDIBean.jobStudyMinRequirementsObject.idjobStudyMinRequirements}" >  
+                            <p:selectManyCheckbox id="studiesMinRequirements" value="#{updateJobCDIBean.jobObject}" >  
                                 <f:selectItem itemLabel="#{msgs.formal_education}" itemValue=""/>  
                                 <f:selectItem itemLabel="#{msgs.professional_education}" itemValue=""/>  
                                 <f:selectItem itemLabel="#{msgs.other_degrees}" itemValue=""/>  
