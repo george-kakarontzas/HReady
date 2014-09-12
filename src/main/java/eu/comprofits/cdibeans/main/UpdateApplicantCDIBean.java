@@ -18,6 +18,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -30,9 +31,9 @@ import org.primefaces.model.UploadedFile;
  *
  * @author george
  */
-@Named(value = "registerApplicantCDIBean")
-@RequestScoped 
-public class RegisterApplicantCDIBean implements Serializable {
+@Named(value = "updateApplicantCDIBean")
+@SessionScoped
+public class UpdateApplicantCDIBean implements Serializable {
 
     @EJB
     private JobApplicantFacade jobApplicantFacade;
@@ -42,13 +43,18 @@ public class RegisterApplicantCDIBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        jobApplicant = new JobApplicant();
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        jobApplicant = 
+                (JobApplicant) externalContext.getSessionMap().get("applicant");
+        if (jobApplicant == null)
+            jobApplicant = new JobApplicant();
     }
 
     /**
      * Creates a new instance of UpdateOrganisationalPositionsCDIBean
      */
-    public RegisterApplicantCDIBean() {
+    public UpdateApplicantCDIBean() {
     }
 
     public JobApplicant getJobApplicant() {
@@ -83,15 +89,23 @@ public class RegisterApplicantCDIBean implements Serializable {
         }
         return "/images/user.jpg";
     }
+    
+    
 
     public void upload() {
         if (photograph != null) {
-            FacesMessage message = new FacesMessage("Succesful", photograph.getFileName() + " is uploaded.");
-            FacesContext.getCurrentInstance().addMessage(null, message);
+            FacesContext context = FacesContext.getCurrentInstance();
+            ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+            String message = bundle.getString("file_uploaded_succesfully");
+            FacesMessage m = new FacesMessage(message + ":" + photograph.getFileName());
+            FacesContext.getCurrentInstance().addMessage(null, m);
         }
     }
 
     public void fileUploadListener(FileUploadEvent e) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+
         // Get uploaded file from the FileUploadEvent
         this.photograph = e.getFile();
         File file = null;
@@ -120,78 +134,42 @@ public class RegisterApplicantCDIBean implements Serializable {
             if (file != null) {
                 file.delete();
             }
-
+            String failedMessage=bundle.getString("file_upload_failed");
             // Show error message.
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
-                    FacesMessage.SEVERITY_ERROR, "File upload failed with I/O error.", null));
+                    FacesMessage.SEVERITY_ERROR, failedMessage, null));
 
             // Always log stacktraces (with a real logger).
             ex.printStackTrace();
         } finally {
             IOUtils.closeQuietly(output);
         }
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("File Uploaded Successfully"));
+        String succeededMessage=bundle.getString("file_uploaded_succesfully");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(succeededMessage));
     }
 
-    public String register() {
-        /*
+    public String update() {
+        String whereToReturn="";
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+
         try {
-            //save photo of user if not null
-            if (!photograph.getFileName().isEmpty()) {
-                File file = null;
-                OutputStream output = null;
-                try {
-                    // Prepare filename prefix and suffix for an unique filename in upload folder.
-                    String prefix = FilenameUtils.getBaseName(photograph.getFileName());
-                    String suffix = FilenameUtils.getExtension(photograph.getFileName());
-
-                    // Create file with unique name in upload folder and write to it.
-                    FacesContext ctx = FacesContext.getCurrentInstance();
-                    String outputdir
-                            = ctx.getExternalContext().getInitParameter("FILE_UPLOAD_DIR");
-                    file = File.createTempFile(prefix + "_", "." + suffix, new File(outputdir));
-                    output = new FileOutputStream(file);
-                    IOUtils.copy(photograph.getInputstream(), output);
-                    //remove the old photograph file of the employee if it exists
-                    String oldFile = jobApplicant.getPhotoPath();
-                    File f = new File(outputdir + File.separator + oldFile);
-                    if (f.exists()) {
-                        f.delete();
-                    }
-                    jobApplicant.setPhotoPath(file.getName());
-                    photograph = null;
-                    // Show succes message.
-                    FacesContext.getCurrentInstance().addMessage("uploadForm", new FacesMessage(
-                            FacesMessage.SEVERITY_INFO, "File upload succeed!", null));
-                } catch (IOException e) {
-                    // Cleanup.
-                    if (file != null) {
-                        file.delete();
-                    }
-
-                    // Show error message.
-                    FacesContext.getCurrentInstance().addMessage("uploadForm", new FacesMessage(
-                            FacesMessage.SEVERITY_ERROR, "File upload failed with I/O error.", null));
-
-                    // Always log stacktraces (with a real logger).
-                    e.printStackTrace();
-                } finally {
-                    IOUtils.closeQuietly(output);
-                }
-            }
-*/
-        try{
             if (jobApplicant.getIdjobApplicant() == null) {
+                whereToReturn="registrationSucceeded";
                 if (password.isEmpty()) {
+                    String requiredPwdMessage=
+                            bundle.getString("required_password");
                     FacesContext.getCurrentInstance().addMessage(null,
                             new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                                    "password required for new applicants", null));
+                                    requiredPwdMessage, null));
                     return "";
                 }
                 String sha256hex = DigestUtils.sha256Hex(password);
                 jobApplicant.setPassword(sha256hex);
                 jobApplicantFacade.create(jobApplicant);
             } else {
+                whereToReturn="applicantHomePage";
                 if (!password.isEmpty()) {
                     String sha256hex = DigestUtils.sha256Hex(password);
                     jobApplicant.setPassword(sha256hex);
@@ -206,6 +184,6 @@ public class RegisterApplicantCDIBean implements Serializable {
             return "";
         }
 
-        return "registrationSucceeded";
+        return whereToReturn;
     }
 }

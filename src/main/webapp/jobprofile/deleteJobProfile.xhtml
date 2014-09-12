@@ -9,10 +9,10 @@
     <body>
 
         <ui:composition template="./jobprofilePagesTemplate.xhtml">
-            <ui:define name="title">Delete Job Profile</ui:define>
+            <ui:define name="title">#{msgs.delete_job_profile}</ui:define>
             <ui:define name="content">
                 
-                    <h1>Delete a Job Profile</h1><br /> Please select a job profile that should be deleted:<br /> <br /> <br /> 
+                <h1>#{msgs.delete_job_profile}</h1><br /> #{msgs.select_job_profile}<br /> <br /> <br /> 
                     <h:form id="deleteJobProfile">
                         <h:panelGrid columns="2" cellpadding="2" style="width: 500px; ">
                             <p:outputLabel value="Job Title:  " for="jobTitle"/>
@@ -30,7 +30,6 @@
                         <p:commandButton value="#{msgs.delete}" icon="ui-icon-trash"
                                         action="#{updateJobCDIBean.remove}"                                                
                                         onclick="if (! confirm('#{msgs.are_you_sure}') ) { return false;}; return true; " /> 
-                                                 
                         <p:commandButton id="cancel" value=" Cancel" action="cancel" icon="ui-icon-cancel" oncomplete = "window.history.back();"/>
                     </h:form>
             </ui:define>

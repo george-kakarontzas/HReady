@@ -8,7 +8,7 @@
 
     <body>
 
-        <ui:composition template="./pagesTemplate.xhtml">
+        <ui:composition template="./applicantPagesTemplate.xhtml">
 
             <ui:define name="title">#{msgs.job_applicant_registration}</ui:define>
             <ui:define name="content">
@@ -64,10 +64,9 @@
                                                     showOn="button" navigator="true" pattern="dd/MM/yyyy" required="true"
                                                     requiredMessage="#{msgs.required_date_of_birth}"/>
                                         <p:outputLabel value="#{msgs.photo}:" for="photoPath" />
-                                        <p:fileUpload id="photoPath" value="#{updateApplicantCDIBean.photograph}"
+                                        <p:fileUpload id="photoPath" value="#{updateApplicantCDIBean.photograph}" 
                                                       allowTypes="/(\.|\/)(gif|jpe?g|png)$/" mode="advanced"  update="image" 
-                                                      fileUploadListener="#{updateApplicantCDIBean.fileUploadListener}"  
-                                                      fileLimit="1" sizeLimit="1000000"/>
+                                                      fileUploadListener="#{updateApplicantCDIBean.fileUploadListener}"  fileLimit="1" sizeLimit="1000000"/>
                                         <p:outputLabel value="#{msgs.username}:" for="username" />
                                         <p:inputText id="username" value="#{updateApplicantCDIBean.jobApplicant.username}" 
                                                      required="true" requiredMessage="#{msgs.required_username}."/>
@@ -85,7 +84,7 @@
 
                                          
                                         <h:commandButton id="register" value="#{msgs.update}" action="#{updateApplicantCDIBean.update}" />
-                                        <h:commandButton id="back" value="#{msgs.back}" action="index"  immediate="true" /> 
+                                        <h:commandButton id="back" value="#{msgs.back}" action="applicantHomePage"  immediate="true" /> 
                                     </p:panelGrid>
                                 </td>
                             </tr>

@@ -10,6 +10,7 @@ import eu.comprofits.entities.jobapplicant.JobApplicant;
 import eu.comprofits.session.AbstractFacade;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 /**
@@ -18,6 +19,18 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class JobApplicantFacade extends AbstractFacade<JobApplicant> {
+
+    public JobApplicant getJobApplicantByUsername(String username) {
+        try {
+        JobApplicant result = (JobApplicant) em.createNamedQuery("JobApplicant.findByUsername")
+                .setParameter("username", username)
+                .getSingleResult();
+        return result;
+        }
+        catch (NoResultException nre) {
+            return null;
+        }
+    }
     @PersistenceContext(unitName = "comprofitsPU")
     private EntityManager em;
 

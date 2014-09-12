@@ -28,9 +28,9 @@
                                 <f:facet name="header">#{msgs.login_information}</f:facet>
 
                                 <p:outputLabel value="#{msgs.role}" />
-                                <p:outputLabel value="#{msgs.administrator}" />
+                                <p:outputLabel value="#{msgs.job_applicant}" />
                                 <p:outputLabel value="#{msgs.user_real_name}" />
-                                <p:outputLabel value="#{auth.employee.lastName}, #{auth.employee.firstName}" />
+                                <p:outputLabel value="#{auth.applicant.lastName}, #{auth.applicant.firstName}" />
                                 <f:facet name="footer">
                                     <p:commandButton action="#{auth.logout()}"
                                                      value="#{msgs.logout}" />
@@ -62,17 +62,11 @@
                         <p:growl id="messages" autoUpdate="true"/>  
                         <p:panelMenu >
 
-                            <p:submenu label="#{msgs.administrator_menu}" >  
-                                <p:menuitem value="#{msgs.administrator_home}" icon="ui-icon-home" 
-                                            url="./adminHomePage.xhtml" /> 
-                                <p:menuitem value="#{msgs.update_departments}" icon="ui-icon-pencil" 
-                                            url="./updateDepartments.xhtml" />
-                                <p:menuitem value="#{msgs.update_organisational_positions}" icon="ui-icon-pencil" 
-                                            url="./updateOrganisationalPositions.xhtml" />
-                                <p:menuitem value="#{msgs.create_or_edit_employee}" icon="ui-icon-pencil"
-                                            url="./updateEmployee.xhtml" />
-                                <p:menuitem value="#{msgs.employee_assessment}" icon="ui-icon-pencil" 
-                                            url="./adminEmployeeAssessment.xhtml"/>
+                            <p:submenu label="#{msgs.job_applicant_menu}" >  
+                                <p:menuitem value="#{msgs.job_applicant_home}" icon="ui-icon-home" 
+                                            url="./applicantHomePage.xhtml" /> 
+                                <p:menuitem value="#{msgs.edit_your_profile}" icon="ui-icon-person" 
+                                            url="./updateApplicantProfile.xhtml" />
                             </p:submenu>  
                         </p:panelMenu>  
                     </h:form>

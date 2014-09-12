@@ -26,6 +26,118 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 SET search_path = public, pg_catalog;
 
 --
+-- Name: employee_idemployee_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE employee_idemployee_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.employee_idemployee_seq OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: employee; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE employee (
+    idemployee integer DEFAULT nextval('employee_idemployee_seq'::regclass) NOT NULL,
+    identity_card_number character varying(20) DEFAULT NULL::character varying,
+    social_security_number character varying(50) NOT NULL,
+    first_name character varying(45) NOT NULL,
+    last_name character varying(45) NOT NULL,
+    gender integer,
+    province character varying(45) DEFAULT NULL::character varying,
+    address character varying(100) NOT NULL,
+    postal_code character varying(20) NOT NULL,
+    city character varying(45) NOT NULL,
+    country character varying(45) NOT NULL,
+    date_of_birth date NOT NULL,
+    phone_private character varying(45) DEFAULT NULL::character varying,
+    phone_mobile character varying(45) NOT NULL,
+    email character varying(100) NOT NULL,
+    photo_path character varying(255) DEFAULT NULL::character varying,
+    username character varying(20) NOT NULL,
+    password character varying(65) NOT NULL,
+    marital_status character(1) DEFAULT NULL::bpchar,
+    number_of_children smallint,
+    department_iddepartment integer,
+    current_in_company_employment_id integer,
+    role character varying(50)
+);
+
+
+ALTER TABLE public.employee OWNER TO postgres;
+
+--
+-- Name: job_applicant_idjob_applicant_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE job_applicant_idjob_applicant_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.job_applicant_idjob_applicant_seq OWNER TO postgres;
+
+--
+-- Name: job_applicant; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE job_applicant (
+    idjob_applicant integer DEFAULT nextval('job_applicant_idjob_applicant_seq'::regclass) NOT NULL,
+    date_of_birth date NOT NULL,
+    first_name character varying(45) NOT NULL,
+    last_name character varying(45) NOT NULL,
+    gender integer,
+    address character varying(100) NOT NULL,
+    postal_code character varying(20) NOT NULL,
+    city character varying(45) NOT NULL,
+    country character varying(45) NOT NULL,
+    province character varying(45) DEFAULT NULL::character varying,
+    phone_private character varying(45) DEFAULT NULL::character varying,
+    phone_mobile character varying(45) NOT NULL,
+    email character varying(100) NOT NULL,
+    photo_path character varying(255) DEFAULT NULL::character varying,
+    username character varying(20) NOT NULL,
+    password character varying(65) NOT NULL,
+    marital_status character(1) DEFAULT NULL::bpchar,
+    number_of_children smallint,
+    present_idapplicant_professional_experience_record integer
+);
+
+
+ALTER TABLE public.job_applicant OWNER TO postgres;
+
+--
+-- Name: all_users; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW all_users AS
+         SELECT employee.username AS uname,
+            employee.password AS pwd,
+            employee.role AS rol
+           FROM employee
+UNION ALL
+         SELECT job_applicant.username AS uname,
+            job_applicant.password AS pwd,
+            'APPLICANT'::character varying AS rol
+           FROM job_applicant;
+
+
+ALTER TABLE public.all_users OWNER TO postgres;
+
+--
 -- Name: idapplicant_competence_assessment_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -38,10 +150,6 @@ CREATE SEQUENCE idapplicant_competence_assessment_seq
 
 
 ALTER TABLE public.idapplicant_competence_assessment_seq OWNER TO postgres;
-
-SET default_tablespace = '';
-
-SET default_with_oids = false;
 
 --
 -- Name: applicant_competence_assessment; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -229,7 +337,7 @@ COMMENT ON COLUMN company.idcompany IS 'The company ID';
 -- Name: COLUMN company.company_name1; Type: COMMENT; Schema: public; Owner: postgres
 --
 
-COMMENT ON COLUMN company.company_name1 IS 'First line of company address\n';
+COMMENT ON COLUMN company.company_name1 IS 'First line of company address';
 
 
 --
@@ -560,53 +668,6 @@ CREATE TABLE "edrNotes" (
 ALTER TABLE public."edrNotes" OWNER TO comprofits;
 
 --
--- Name: employee_idemployee_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE employee_idemployee_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.employee_idemployee_seq OWNER TO postgres;
-
---
--- Name: employee; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE employee (
-    idemployee integer DEFAULT nextval('employee_idemployee_seq'::regclass) NOT NULL,
-    identity_card_number character varying(20) DEFAULT NULL::character varying,
-    social_security_number character varying(50) NOT NULL,
-    first_name character varying(45) NOT NULL,
-    last_name character varying(45) NOT NULL,
-    gender integer,
-    province character varying(45) DEFAULT NULL::character varying,
-    address character varying(100) NOT NULL,
-    postal_code character varying(20) NOT NULL,
-    city character varying(45) NOT NULL,
-    country character varying(45) NOT NULL,
-    date_of_birth date NOT NULL,
-    phone_private character varying(45) DEFAULT NULL::character varying,
-    phone_mobile character varying(45) NOT NULL,
-    email character varying(100) NOT NULL,
-    photo_path character varying(255) DEFAULT NULL::character varying,
-    username character varying(20) NOT NULL,
-    password character varying(65) NOT NULL,
-    marital_status character(1) DEFAULT NULL::bpchar,
-    number_of_children smallint,
-    department_iddepartment integer,
-    current_in_company_employment_id integer,
-    role character varying(50)
-);
-
-
-ALTER TABLE public.employee OWNER TO postgres;
-
---
 -- Name: idemployee_competence_assessment_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -860,49 +921,6 @@ ALTER TABLE public.job_advertisement OWNER TO postgres;
 
 COMMENT ON COLUMN job_advertisement.job_title IS 'The title of  the job';
 
-
---
--- Name: job_applicant_idjob_applicant_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE job_applicant_idjob_applicant_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.job_applicant_idjob_applicant_seq OWNER TO postgres;
-
---
--- Name: job_applicant; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE job_applicant (
-    idjob_applicant integer DEFAULT nextval('job_applicant_idjob_applicant_seq'::regclass) NOT NULL,
-    date_of_birth date NOT NULL,
-    first_name character varying(45) NOT NULL,
-    last_name character varying(45) NOT NULL,
-    gender integer,
-    address character varying(100) NOT NULL,
-    postal_code character varying(20) NOT NULL,
-    city character varying(45) NOT NULL,
-    country character varying(45) NOT NULL,
-    province character varying(45) DEFAULT NULL::character varying,
-    phone_private character varying(45) DEFAULT NULL::character varying,
-    phone_mobile character varying(45) NOT NULL,
-    email character varying(100) NOT NULL,
-    photo_path character varying(255) DEFAULT NULL::character varying,
-    username character varying(20) NOT NULL,
-    password character varying(20) NOT NULL,
-    marital_status character(1) DEFAULT NULL::bpchar,
-    number_of_children smallint,
-    present_idapplicant_professional_experience_record integer
-);
-
-
-ALTER TABLE public.job_applicant OWNER TO postgres;
 
 --
 -- Name: job_application; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -2104,6 +2122,56 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
 --
+-- Name: employee_idemployee_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON SEQUENCE employee_idemployee_seq FROM PUBLIC;
+REVOKE ALL ON SEQUENCE employee_idemployee_seq FROM postgres;
+GRANT ALL ON SEQUENCE employee_idemployee_seq TO postgres;
+GRANT ALL ON SEQUENCE employee_idemployee_seq TO comprofits_accessor_role;
+
+
+--
+-- Name: employee; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON TABLE employee FROM PUBLIC;
+REVOKE ALL ON TABLE employee FROM postgres;
+GRANT ALL ON TABLE employee TO postgres;
+GRANT ALL ON TABLE employee TO comprofits_accessor_role;
+
+
+--
+-- Name: job_applicant_idjob_applicant_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON SEQUENCE job_applicant_idjob_applicant_seq FROM PUBLIC;
+REVOKE ALL ON SEQUENCE job_applicant_idjob_applicant_seq FROM postgres;
+GRANT ALL ON SEQUENCE job_applicant_idjob_applicant_seq TO postgres;
+GRANT ALL ON SEQUENCE job_applicant_idjob_applicant_seq TO comprofits_accessor_role;
+
+
+--
+-- Name: job_applicant; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON TABLE job_applicant FROM PUBLIC;
+REVOKE ALL ON TABLE job_applicant FROM postgres;
+GRANT ALL ON TABLE job_applicant TO postgres;
+GRANT ALL ON TABLE job_applicant TO comprofits_accessor_role;
+
+
+--
+-- Name: all_users; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON TABLE all_users FROM PUBLIC;
+REVOKE ALL ON TABLE all_users FROM postgres;
+GRANT ALL ON TABLE all_users TO postgres;
+GRANT ALL ON TABLE all_users TO comprofits_accessor_role;
+
+
+--
 -- Name: idapplicant_competence_assessment_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -2364,26 +2432,6 @@ GRANT ALL ON TABLE edr TO comprofits_accessor_role;
 
 
 --
--- Name: employee_idemployee_seq; Type: ACL; Schema: public; Owner: postgres
---
-
-REVOKE ALL ON SEQUENCE employee_idemployee_seq FROM PUBLIC;
-REVOKE ALL ON SEQUENCE employee_idemployee_seq FROM postgres;
-GRANT ALL ON SEQUENCE employee_idemployee_seq TO postgres;
-GRANT ALL ON SEQUENCE employee_idemployee_seq TO comprofits_accessor_role;
-
-
---
--- Name: employee; Type: ACL; Schema: public; Owner: postgres
---
-
-REVOKE ALL ON TABLE employee FROM PUBLIC;
-REVOKE ALL ON TABLE employee FROM postgres;
-GRANT ALL ON TABLE employee TO postgres;
-GRANT ALL ON TABLE employee TO comprofits_accessor_role;
-
-
---
 -- Name: idemployee_competence_assessment_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -2521,26 +2569,6 @@ REVOKE ALL ON TABLE job_advertisement FROM PUBLIC;
 REVOKE ALL ON TABLE job_advertisement FROM postgres;
 GRANT ALL ON TABLE job_advertisement TO postgres;
 GRANT ALL ON TABLE job_advertisement TO comprofits_accessor_role;
-
-
---
--- Name: job_applicant_idjob_applicant_seq; Type: ACL; Schema: public; Owner: postgres
---
-
-REVOKE ALL ON SEQUENCE job_applicant_idjob_applicant_seq FROM PUBLIC;
-REVOKE ALL ON SEQUENCE job_applicant_idjob_applicant_seq FROM postgres;
-GRANT ALL ON SEQUENCE job_applicant_idjob_applicant_seq TO postgres;
-GRANT ALL ON SEQUENCE job_applicant_idjob_applicant_seq TO comprofits_accessor_role;
-
-
---
--- Name: job_applicant; Type: ACL; Schema: public; Owner: postgres
---
-
-REVOKE ALL ON TABLE job_applicant FROM PUBLIC;
-REVOKE ALL ON TABLE job_applicant FROM postgres;
-GRANT ALL ON TABLE job_applicant TO postgres;
-GRANT ALL ON TABLE job_applicant TO comprofits_accessor_role;
 
 
 --
