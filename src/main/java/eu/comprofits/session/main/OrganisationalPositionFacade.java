@@ -29,7 +29,7 @@ public class OrganisationalPositionFacade extends AbstractFacade<OrganisationalP
     public OrganisationalPositionFacade() {
         super(OrganisationalPosition.class);
     }
-
+    
     public OrganisationalPosition findByName(String name) {
         Object result = em.createNamedQuery("OrganisationalPosition.findByOrganisationalPositionName")
                 .setParameter("organisationalPositionName", name)

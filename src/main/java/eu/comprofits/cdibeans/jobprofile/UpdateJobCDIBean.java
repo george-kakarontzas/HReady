@@ -49,6 +49,7 @@ public class UpdateJobCDIBean implements Serializable {
 
     @PostConstruct
     public void init() {
+        jobObject = new Job();
         jobList = jobFacade.findAll();
         positions=organisationalPositionFacade.findAll();
     }

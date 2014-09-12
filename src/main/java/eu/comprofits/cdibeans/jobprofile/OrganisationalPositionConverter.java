@@ -12,9 +12,7 @@ package eu.comprofits.cdibeans.jobprofile;
  */
 
 
-import eu.comprofits.entities.jobprofile.Job;
 import eu.comprofits.entities.main.OrganisationalPosition;
-import eu.comprofits.session.jobprofile.JobFacade;
 import eu.comprofits.session.main.OrganisationalPositionFacade;
 import javax.ejb.EJB;
 import javax.faces.component.UIComponent;

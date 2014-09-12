@@ -27,7 +27,7 @@
                                          value="#{updateJobCDIBean.jobObject.jobTitle}" />
                                          
                             <p:outputLabel value="#{msgs.organizational_position}" for="organizationalPosition" />
-                            <!-- as a value for the next line #{updateJobCDIBean.jobObject.organisationalPositionIdorganisationalPosition.idorganisationalPosition} -->
+                           
                             <p:selectOneMenu id="organizationalPosition" value="#{updateJobCDIBean.jobObject.organisationalPositionIdorganisationalPosition}" 
                                              converter="#{organisationalPositionConverter}">  
                                 <f:selectItem itemLabel="---" itemValue="" />
@@ -52,7 +52,7 @@
                             <p:inputText id="jobDescription" size="40" value="#{updateJobCDIBean.jobObject.jobDescription}"/>
 
                             <!-- is the selected value to selectManyCheckbox correct or should it be inside JOBCDIBean? -->
-                            <!-- What should be itemvalue for the each selectitem? -->
+                            <!-- 
                             <p:outputLabel value="#{msgs.studies_min_requirements}" for="studiesMinRequirements" />
                             <p:selectManyCheckbox id="studiesMinRequirements" value="#{updateJobCDIBean.jobObject}" >  
                                 <f:selectItem itemLabel="#{msgs.formal_education}" itemValue=""/>  
@@ -60,7 +60,7 @@
                                 <f:selectItem itemLabel="#{msgs.other_degrees}" itemValue=""/>  
                                 <f:selectItem itemLabel="#{msgs.university_degree}" itemValue=""/>  
                                 <f:selectItem itemLabel="#{msgs.continuing_training}" itemValue=""/>
-                            </p:selectManyCheckbox>                             
+                            </p:selectManyCheckbox>                             -->
                             
                             <!--What is the right object for "Practical Experience before current company" in the updateJobCDIBean.jobObject  -->
                             <p:outputLabel value="#{msgs.practical_experience_before_current_company}:" for="practicalExperienceBeforeCurrentCompany" />
