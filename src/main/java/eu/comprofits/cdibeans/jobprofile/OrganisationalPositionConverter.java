@@ -13,7 +13,9 @@ package eu.comprofits.cdibeans.jobprofile;
 
 
 import eu.comprofits.entities.jobprofile.Job;
+import eu.comprofits.entities.main.OrganisationalPosition;
 import eu.comprofits.session.jobprofile.JobFacade;
+import eu.comprofits.session.main.OrganisationalPositionFacade;
 import javax.ejb.EJB;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -24,16 +26,17 @@ import javax.inject.Named;
  *
  * @author alexanderhoelzemann
  */
-@Named(value = "jobConverter1")
-public class JobConverter1 implements Converter {
+@Named(value = "organisationalPositionConverter")
+
+public class OrganisationalPositionConverter implements Converter {
 
     @EJB
-    private JobFacade jobFacade;
+    private OrganisationalPositionFacade positionFacade;
 
     /**
      * Creates a new instance of CompetenceConverter
      */
-    public JobConverter1() {
+    public OrganisationalPositionConverter() {
     }
 
     @Override
@@ -41,15 +44,15 @@ public class JobConverter1 implements Converter {
         if (value == null || value.isEmpty() || value.equals("---")) {
             return null;
         }
-        return jobFacade.find(Integer.valueOf(value));
+        return positionFacade.findByName(value);
     }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-        if (!(value instanceof Job)) {
+        if (!(value instanceof OrganisationalPosition)) {
             return null;
         }
-        return ((Job) value).getIdjob().toString();
+        return ((OrganisationalPosition) value).getOrganisationalPositionName();
     }
 
 }

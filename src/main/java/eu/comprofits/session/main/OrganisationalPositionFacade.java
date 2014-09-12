@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.comprofits.session.main;
 
 import eu.comprofits.entities.main.OrganisationalPosition;
@@ -18,6 +17,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class OrganisationalPositionFacade extends AbstractFacade<OrganisationalPosition> {
+
     @PersistenceContext(unitName = "comprofitsPU")
     private EntityManager em;
 
@@ -29,5 +29,11 @@ public class OrganisationalPositionFacade extends AbstractFacade<OrganisationalP
     public OrganisationalPositionFacade() {
         super(OrganisationalPosition.class);
     }
-    
+
+    public OrganisationalPosition findByName(String name) {
+        Object result = em.createNamedQuery("OrganisationalPosition.findByOrganisationalPositionName")
+                .setParameter("organisationalPositionName", name)
+                .getSingleResult();
+        return ((OrganisationalPosition) result);
+    }
 }

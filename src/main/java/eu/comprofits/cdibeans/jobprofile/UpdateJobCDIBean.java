@@ -6,7 +6,9 @@
 package eu.comprofits.cdibeans.jobprofile;
 
 import eu.comprofits.entities.jobprofile.Job;
+import eu.comprofits.entities.main.OrganisationalPosition;
 import eu.comprofits.session.jobprofile.JobFacade;
+import eu.comprofits.session.main.OrganisationalPositionFacade;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -24,6 +26,8 @@ import javax.inject.Named;
 @Named(value = "updateJobCDIBean")
 @SessionScoped
 public class UpdateJobCDIBean implements Serializable {
+    @EJB
+    private OrganisationalPositionFacade organisationalPositionFacade;
 
     /**
      *
@@ -33,10 +37,12 @@ public class UpdateJobCDIBean implements Serializable {
     private static final long serialVersionUID = 1L;
     @EJB
     private JobFacade jobFacade;
+    
 
     private Job jobObject;
     private List<Job> jobList;
     private Job selectedJob;
+    private List<OrganisationalPosition> positions;
 
     public UpdateJobCDIBean() {
     }
@@ -44,8 +50,17 @@ public class UpdateJobCDIBean implements Serializable {
     @PostConstruct
     public void init() {
         jobList = jobFacade.findAll();
+        positions=organisationalPositionFacade.findAll();
     }
-    
+
+    public List<OrganisationalPosition> getPositions() {
+        return positions;
+    }
+
+    public void setPositions(List<OrganisationalPosition> positions) {
+        this.positions = positions;
+    }
+        
     public Job getJobObject() {
         return jobObject;
     }
