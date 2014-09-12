@@ -20,34 +20,32 @@
                     <p:panelGrid columns="2"  columnClasses="columna">
                         <f:facet name="header">#{msgs.create_job_profile}</f:facet>
                         <p:panelGrid columns="2" >
-                            <f:facet name="header">Job Profile</f:facet>
+                            <f:facet name="header">#{msgs.job_profile}</f:facet>
+                            
                             <p:outputLabel value="#{msgs.job_title}" for="jobTitle"  />
-                            <!--updateJobCDIBean.jobObject.jobTitle should be corrected in the next command-->
-                            <p:selectOneMenu id="jobTitle" value="#{updateJobCDIBean.jobObject}"> 
-                                <f:selectItem itemLabel="#{msgs.select_job_title}" itemValue="" ></f:selectItem>
-                                <f:selectItems value="#{updateJobCDIBean.jobList}"
-                                               var="j" itemValue="#{j}" itemLabel="#{j.jobTitle}" />
-                            </p:selectOneMenu>
-
+                            <p:inputText id="jobTitle" size="40" required="true"
+                                         value="#{updateJobCDIBean.jobObject.jobTitle}" />
+                                         
                             <p:outputLabel value="#{msgs.organizational_position}" for="organizationalPosition" />
-                            <!--updateJobCDIBean.jobObject.organisationalPositionIdorganisationalPosition should be corrected in the next command-->
-                            <p:selectOneMenu id="organizationalPosition" value="#{updateJobCDIBean.jobObject}">  
-                                <f:selectItem itemLabel="#{msgs.select_organizational_position}" itemValue="" ></f:selectItem>
+                            <!-- as a value for the next line #{updateJobCDIBean.jobObject.organisationalPositionIdorganisationalPosition.idorganisationalPosition} -->
+                            <p:selectOneMenu id="organizationalPosition" value="" >  
+                                <f:selectItem itemLabel="---" itemValue="" />
                                 <f:selectItems value="#{updateOrganisationalPositionsCDIBean.organisationalPositions}" 
                                                var="o" itemValue="#{o}" itemLabel="#{o.organisationalPositionName}" />
                             </p:selectOneMenu>
 
                             <p:outputLabel value="#{msgs.reporting_to}" for="reportingTo" />
-                            <p:selectOneMenu id="reportingTo" value="#{updateJobCDIBean.jobObject.reportingToIdemployee}">  
-                                <f:selectItem itemLabel="#{msgs.select_employee}" itemValue="" ></f:selectItem>
-                                <f:selectItems value="#{updateEmployeesProfileCDIBean.employees}"
-                                               var="e" itemValue="#{e}" itemLabel="#{e.firstName}" />
+                            <!-- as a value for the next line #{updateJobCDIBean.jobObject.reportingToIdemployee} -->
+                            <p:selectOneMenu id="reportingTo" value="">  
+                                <f:selectItem itemLabel="---" itemValue="" />
+                                <f:selectItems value="#{updateEmployeeCDIBean.employees}"
+                                               var="e" itemValue="#{e}" itemLabel="#{e.lastName}" />
                             </p:selectOneMenu>
 
                             <!--fieldofResponsibility is most probably missing in the updateJobCDIBean.jobObject-->
                             <p:outputLabel value="#{msgs.fields_of_responsibility}:" for="fieldsOfResponsibility" />
                             <p:inputText id="fieldsOfResponsibility" size="40" required="true" 
-                                         value="#{updateJobCDIBean.jobObject.businessAreaIdbusinessArea}"/> 
+                                         value=""/> 
 
                             <p:outputLabel value="#{msgs.job_description}:" for="jobDescription" />
                             <p:inputText id="jobDescription" size="40" value="#{updateJobCDIBean.jobObject.jobDescription}"/>
@@ -75,7 +73,7 @@
                             <p:outputLabel value="#{msgs.job_profile_status}" />
                             <p:selectOneRadio id="options" >  
                                 <f:selectItem itemLabel="#{msgs.enable}" itemValue="1" />  
-                                <f:selectItem itemLabel="#{msgs.disable}" itemValue="2" />  
+                                <f:selectItem itemLabel="#{msgs.disable}" itemValue="0" />  
                             </p:selectOneRadio>  
                             
                         </p:panelGrid>
@@ -84,7 +82,7 @@
                             <p:outputLabel value="#{msgs.professional_competences}" style="font-weight: bold;" />
                             <h:panelGroup />
                             <p:outputLabel value="#{msgs.managerial_competences}:" for="managerialCompetences" />
-                            <p:spinner id="managerialCompetences"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:spinner id="managerialCompetences"  min="0" max="1" stepFactor="0.05" value=""/>  
                             <p:outputLabel value="#{msgs.business_orientation}:" for="businessOrientation" />
                             <p:spinner id="businessOrientation"  min="0" max="1" stepFactor="0.05"/>  
                             <p:outputLabel value="#{msgs.job_related_skills}:" for="jobRelatedSkills" />
