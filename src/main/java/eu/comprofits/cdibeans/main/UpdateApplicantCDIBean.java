@@ -15,7 +15,6 @@ import java.io.Serializable;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -180,7 +179,7 @@ public class UpdateApplicantCDIBean implements Serializable {
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            e.getMessage(), null));
+                            e.getLocalizedMessage(), null));
             return "";
         }
 
