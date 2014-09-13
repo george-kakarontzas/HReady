@@ -24,7 +24,7 @@
                                 <td>
                                     <p:panelGrid columns="4">
 
-                                        
+
                                         <p:outputLabel value="#{msgs.first_name}" for="firstName" />
                                         <p:inputText id="firstName" value="#{updateApplicantCDIBean.jobApplicant.firstName}" 
                                                      required="true" requiredMessage="#{msgs.required_first_name}."/>
@@ -57,12 +57,16 @@
                                                      required="true" requiredMessage="#{msgs.required_mobie}."/>
                                         <p:outputLabel value="#{msgs.email}:" for="email" />
                                         <p:inputText id="email" value="#{updateApplicantCDIBean.jobApplicant.email}" 
-                                                     required="true" requiredMessage="#{msgs.required_email}."/>
+                                                     required="true" requiredMessage="#{msgs.required_email}."
+                                                     validatorMessage="#{msgs.invalid_email_format}">
+                                            <f:validateRegex
+                                                pattern="([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)" />
+                                        </p:inputText>
                                         <p:outputLabel value="#{msgs.date_of_birth}:" for="dateOfBirth" />
                                         <p:calendar id="dateOfBirth" 
                                                     value="#{updateApplicantCDIBean.jobApplicant.dateOfBirth}" 
                                                     showOn="button" navigator="true" pattern="dd/MM/yyyy" required="true"
-                                                    requiredMessage="#{msgs.required_date_of_birth}"/>
+                                                    requiredMessage="#{msgs.required_date_of_birth}" yearRange="-50:+0"/>
                                         <p:outputLabel value="#{msgs.photo}:" for="photoPath" />
                                         <p:fileUpload id="photoPath" value="#{updateApplicantCDIBean.photograph}"
                                                       allowTypes="/(\.|\/)(gif|jpe?g|png)$/" mode="advanced"  update="image" 
@@ -70,7 +74,9 @@
                                                       fileLimit="1" sizeLimit="1000000"/>
                                         <p:outputLabel value="#{msgs.username}:" for="username" />
                                         <p:inputText id="username" value="#{updateApplicantCDIBean.jobApplicant.username}" 
-                                                     required="true" requiredMessage="#{msgs.required_username}."/>
+                                                     required="true" requiredMessage="#{msgs.required_username}.">
+                                            <f:validator validatorId="usernameValidator" />
+                                        </p:inputText>
                                         <p:outputLabel value="#{msgs.password}" for="pwd" />
                                         <p:password id="pwd" value="#{updateApplicantCDIBean.password}" match="confirm" />
                                         <p:outputLabel for="confirm" value="#{msgs.confirm_password}" />
@@ -83,7 +89,7 @@
                                         <p:outputLabel value="#{msgs.number_of_children}:" for="numberOfChildren" />
                                         <p:inputText id="numberOfChildren" value="#{updateApplicantCDIBean.jobApplicant.numberOfChildren}" />
 
-                                         
+
                                         <h:commandButton id="register" value="#{msgs.update}" action="#{updateApplicantCDIBean.update}" />
                                         <h:commandButton id="back" value="#{msgs.back}" action="index"  immediate="true" /> 
                                     </p:panelGrid>
