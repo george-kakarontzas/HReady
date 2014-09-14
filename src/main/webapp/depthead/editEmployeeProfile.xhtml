@@ -18,7 +18,8 @@
                         <table border="0">
                             <tr >
                                 <td  style="vertical-align: top">
-                                    <h:graphicImage value="#{updateEmployeesProfileCDIBean.photoPath}" height="100px" width="100px"  />
+                                    <h:graphicImage id="image" value="#{updateEmployeesProfileCDIBean.photoPath}" 
+                                                    height="100px" width="100px"  />
                                 </td>
                                 <td>
                                     <p:panelGrid columns="4">
@@ -52,26 +53,36 @@
                                         <p:outputLabel value="#{msgs.country}:" for="country" />
                                         <p:inputText id="country" value="#{updateEmployeesProfileCDIBean.employee.country}" 
                                                      required="true" requiredMessage="#{msgs.reuired_country}."/>
+                                        
                                         <p:outputLabel value="#{msgs.date_of_birth}:" for="dateOfBirth" />
-                                        <p:inputText id="dateOfBirth" value="#{updateEmployeesProfileCDIBean.employee.dateOfBirth}" 
-                                                     required="true" requiredMessage="#{msgs.required_date_of_birth}.">
-                                            <f:convertDateTime pattern="dd/MM/yyyy" />
-                                        </p:inputText>
+                                        <p:calendar id="dateOfBirth" 
+                                                    value="#{updateEmployeesProfileCDIBean.employee.dateOfBirth}" 
+                                                    showOn="button" navigator="true" pattern="dd/MM/yyyy" required="true"
+                                                    requiredMessage="#{msgs.required_date_of_birth}" yearRange="-50:+0"/>
                                         <p:outputLabel value="#{msgs.phone_private}:" for="phonePrivate" />
                                         <p:inputText id="phonePrivate" value="#{updateEmployeesProfileCDIBean.employee.phonePrivate}" />
                                         <p:outputLabel value="#{msgs.phone_mobile}:" for="phoneMobile" />
                                         <p:inputText id="phoneMobile" value="#{updateEmployeesProfileCDIBean.employee.phoneMobile}" 
                                                      required="true" requiredMessage="#{msgs.required_mobie}."/>
-                                        <p:outputLabel value="#{msgs.email}:" for="email" />
+                                        <p:outputLabel value="#{msgs.email}:" for="email" /> 
                                         <p:inputText id="email" value="#{updateEmployeesProfileCDIBean.employee.email}" 
-                                                     required="true" requiredMessage="#{msgs.required_email}."/>
-                                        <p:outputLabel value="#{msgs.photo}:" for="photoPath" />
+                                                     required="true" requiredMessage="#{msgs.required_email}."
+                                                     validatorMessage="#{msgs.invalid_email_format}">
+                                            <f:validateRegex
+                                                pattern="([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)" />
+                                        </p:inputText>
+                                        <p:outputLabel value="#{msgs.photo}:" for="photoPath" />    
                                         <p:fileUpload id="photoPath" value="#{updateEmployeesProfileCDIBean.photograph}"
-                                                      allowTypes="/(\.|\/)(gif|jpe?g|png)$/" mode="simple"  />
+                                                      allowTypes="/(\.|\/)(gif|jpe?g|png)$/" mode="advanced" update="image"
+                                                      fileUploadListener="#{updateEmployeesProfileCDIBean.fileUploadListener}"
+                                                      fileLimit="1" sizeLimit="1000000"/>          
                                         <p:outputLabel value="#{msgs.username}:" for="username" />
                                         <p:inputText id="username" value="#{updateEmployeesProfileCDIBean.employee.username}" 
-                                                     required="true" requiredMessage="#{msgs.required_username}."/>
-
+                                                     required="true" requiredMessage="#{msgs.required_username}.">
+                                            <f:validator validatorId="employeeUsernameValidator" />
+                                        </p:inputText>
+                                        
+                                        
                                         <p:outputLabel value="#{msgs.password}" for="pwd" />
                                         <p:password id="pwd" value="#{updateEmployeesProfileCDIBean.password}" 
                                                     match="confirm" />
