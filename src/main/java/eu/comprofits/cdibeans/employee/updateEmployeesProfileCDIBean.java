@@ -26,6 +26,7 @@ import javax.inject.Named;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
 /**
@@ -214,57 +215,64 @@ public class updateEmployeesProfileCDIBean implements Serializable {
         return "updateStudies";
     }
 
-    public String update() {
+    
+    public void fileUploadListener(FileUploadEvent e) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+
+        // Get uploaded file from the FileUploadEvent
+        this.photograph = e.getFile();
+        File file = null;
+        OutputStream output = null;
         try {
-            //save photo of user if not null
-            if (!photograph.getFileName().isEmpty()) {
-                File file = null;
-                OutputStream output = null;
-                try {
-                    // Prepare filename prefix and suffix for an unique filename in upload folder.
-                    String prefix = FilenameUtils.getBaseName(photograph.getFileName());
-                    String suffix = FilenameUtils.getExtension(photograph.getFileName());
+            // Prepare filename prefix and suffix for an unique filename in upload folder.
+            String prefix = FilenameUtils.getBaseName(photograph.getFileName());
+            String suffix = FilenameUtils.getExtension(photograph.getFileName());
 
-                    // Create file with unique name in upload folder and write to it.
-                    FacesContext ctx = FacesContext.getCurrentInstance();
-                    String outputdir
-                            = ctx.getExternalContext().getInitParameter("FILE_UPLOAD_DIR");
-                    file = File.createTempFile(prefix + "_", "." + suffix, new File(outputdir));
-                    output = new FileOutputStream(file);
-                    IOUtils.copy(photograph.getInputstream(), output);
-                    //remove the old photograph file of the employee if it exists
-                    String oldFile = employee.getPhotoPath();
-                    File f = new File(outputdir + File.separator + oldFile);
-                    if (f.exists()) {
-                        f.delete();
-                    }
-                    employee.setPhotoPath(file.getName());
-                    photograph = null;
-                    // Show succes message.
-                    FacesContext.getCurrentInstance().addMessage("uploadForm", new FacesMessage(
-                            FacesMessage.SEVERITY_INFO, "File upload succeed!", null));
-                } catch (IOException e) {
-                    // Cleanup.
-                    if (file != null) {
-                        file.delete();
-                    }
-
-                    // Show error message.
-                    FacesContext.getCurrentInstance().addMessage("uploadForm", new FacesMessage(
-                            FacesMessage.SEVERITY_ERROR, "File upload failed with I/O error.", null));
-
-                    // Always log stacktraces (with a real logger).
-                    e.printStackTrace();
-                } finally {
-                    IOUtils.closeQuietly(output);
-                }
+            // Create file with unique name in upload folder and write to it.
+            FacesContext ctx = FacesContext.getCurrentInstance();
+            String outputdir
+                    = ctx.getExternalContext().getInitParameter("FILE_UPLOAD_DIR");
+            file = File.createTempFile(prefix + "_", "." + suffix, new File(outputdir));
+            output = new FileOutputStream(file);
+            IOUtils.copy(photograph.getInputstream(), output);
+            //remove the old photograph file of the employee if it exists
+            String oldFile = employee.getPhotoPath();
+            File f = new File(outputdir + File.separator + oldFile);
+            if (f.exists()) {
+                f.delete();
             }
+            employee.setPhotoPath(file.getName());
+        } catch (IOException ex) {
+            // Cleanup.
+            if (file != null) {
+                file.delete();
+            }
+            String failedMessage=bundle.getString("file_upload_failed");
+            // Show error message.
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, failedMessage, null));
 
+            // Always log stacktraces (with a real logger).
+            ex.printStackTrace();
+        } finally {
+            IOUtils.closeQuietly(output);
+        }
+        String succeededMessage=bundle.getString("file_uploaded_succesfully");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(succeededMessage));
+    }
+    
+    public String update() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+        try {
             if (employee.getIdemployee() == null) {
                 if (password.isEmpty()) {
+                    String pwdRequiredMessage = 
+                            bundle.getString("required_password");
                     FacesContext.getCurrentInstance().addMessage(null,
                             new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                                    "password required for new employees", null));
+                                    pwdRequiredMessage, null));
                     return "";
                 }
                 String sha256hex = DigestUtils.sha256Hex(password);
