@@ -58,4 +58,7 @@ public class EmployeeFacade extends AbstractFacade<Employee> {
                 setParameter("fname", f).
                 setParameter("email", e).getSingleResult();
     }
+    public Employee getEmployeeById(Integer id) {
+        return (Employee) em.createQuery("Select e From Employee e WHERE e.idemployee=:lid").setParameter("lid", id).getSingleResult();
+    }
 }

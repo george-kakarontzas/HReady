@@ -8,6 +8,7 @@ package eu.comprofits.session.edr;
 
 import eu.comprofits.entities.edr.Edr;
 import eu.comprofits.entities.employee.Employee;
+import eu.comprofits.entities.jobprofile.Job;
 import eu.comprofits.session.AbstractFacade;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -30,4 +31,5 @@ public class EdrFacade extends AbstractFacade<Edr> {
     public EdrFacade() {
         super(Edr.class);
     }
+    
 }
