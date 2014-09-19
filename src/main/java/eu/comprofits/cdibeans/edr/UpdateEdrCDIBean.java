@@ -7,10 +7,16 @@ package eu.comprofits.cdibeans.edr;
 
 import eu.comprofits.entities.edr.Edr;
 import eu.comprofits.entities.employee.Employee;
+import eu.comprofits.entities.jobprofile.BusinessArea;
+import eu.comprofits.entities.jobprofile.Job;
 import eu.comprofits.session.edr.EdrFacade;
+import eu.comprofits.session.employee.EmployeeFacade;
+import eu.comprofits.session.jobprofile.BusinessAreaFacade;
+import eu.comprofits.session.jobprofile.JobFacade;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -22,18 +28,30 @@ import javax.inject.Named;
  *
  * @author alexanderhoelzemann
  */
-@Named(value = "UpdateEdrCDIBean")
+@Named(value = "updateEdrCDIBean")
 @SessionScoped
 public class UpdateEdrCDIBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EJB
     private EdrFacade edrFacade;
-
+    @EJB
+    private EmployeeFacade employeeFacade;
+    @EJB
+    private JobFacade jobFacade;
+    @EJB
+    private BusinessAreaFacade businessAreaFacade;
+    
+    private BusinessArea selectedBusinessArea;
     private Edr edrObject;
     private Edr latestEdr;
+    private Employee selectedEmployee;
+    private Job selectedJob;
+    private List<BusinessArea> businessAreaList;
+    private List<Job> jobList;
     private List<Edr> edrList;
     private List<Employee> employeeList;
+    private boolean firstTime;
 
     public UpdateEdrCDIBean() {
     }
@@ -41,8 +59,91 @@ public class UpdateEdrCDIBean implements Serializable {
     @PostConstruct
     public void init() {
         edrList = edrFacade.findAll();
+        employeeList = employeeFacade.findAll();
+        jobList = jobFacade.findAll();
+        businessAreaList = businessAreaFacade.findAll();
     }
 
+    public BusinessArea getSelectedBusinessArea() {
+        return selectedBusinessArea;
+    }
+
+    public void setSelectedBusinessArea(BusinessArea selectedBusinessArea) {
+        this.selectedBusinessArea = selectedBusinessArea;
+    }
+
+    public List<BusinessArea> getBusinessAreaList() {
+        return businessAreaList;
+    }
+
+    public void setBusinessAreaList(List<BusinessArea> businessAreaList) {
+        this.businessAreaList = businessAreaList;
+    }
+    
+    public Job getSelectedJob() {
+        return selectedJob;
+    }
+
+    public void setSelectedJob(Job selectedJob) {
+        this.selectedJob = selectedJob;
+    }
+
+    public List<Job> getJobList() {
+        return jobList;
+    }
+
+    public void setJobList(List<Job> jobList) {
+        this.jobList = jobList;
+    }
+    
+    public boolean isFirstTime() {
+        return firstTime;
+    }
+
+    public void setFirstTime(boolean firstTime) {
+        this.firstTime = firstTime;
+    }
+
+    public Edr getLatestEdr() {
+        return latestEdr;
+    }
+
+    public void setLatestEdr(Edr latestEdr) {
+        this.latestEdr = latestEdr;
+    }
+
+    public Employee getSelectedEmployee() {
+        return selectedEmployee;
+    }
+
+    public void setSelectedEmployee(Employee selectedEmployee) {
+        this.selectedEmployee = selectedEmployee;
+    }
+
+    public List<Employee> getEmployeeList() {
+        return employeeList;
+    }
+
+    public void setEmployeeList(List<Employee> employeeList) {
+        this.employeeList = employeeList;
+    }
+    
+    public Edr getEdrObject() {
+        return edrObject;
+    }
+
+    public List<Edr> getEdrList() {
+        return edrList;
+    }
+
+    public void setEdrObject(Edr edrObject) {
+        this.edrObject = edrObject;
+    }
+
+    public void setEdrList(List<Edr> edrList) {
+        this.edrList = edrList;
+    }
+    
     public String getEdrByEdrId(Edr edr) {
         for (Edr edrtemp : edrList) {
             if (edrtemp.getIdedr().equals(edr.getIdedr())) {
@@ -103,22 +204,6 @@ public class UpdateEdrCDIBean implements Serializable {
         }
     }
 
-    public Edr getEdrObject() {
-        return edrObject;
-    }
-
-    public List<Edr> getEdrList() {
-        return edrList;
-    }
-
-    public void setEdrObject(Edr edrObject) {
-        this.edrObject = edrObject;
-    }
-
-    public void setEdrList(List<Edr> edrList) {
-        this.edrList = edrList;
-    }
-
     public String edit(Edr edr) {
         this.edrObject = edr;
         return "editEdr";
@@ -154,6 +239,22 @@ public class UpdateEdrCDIBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             e.getMessage(), null));
         }
+    }
+    
+    public String save() throws InterruptedException {
+        if (edrObject != null) {
+            if (firstTime) {
+                edrFacade.create(edrObject);
+            } else {
+                edrFacade.edit(edrObject);
+            }
+        }
+        FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle text = ResourceBundle.getBundle("messages", context.getViewRoot().getLocale());
+        String message = text.getString("succesful_save_message");
+        context.addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, message, message));
+        return "";
     }
 
 }
