@@ -20,7 +20,7 @@ import javax.inject.Named;
  *
  * @author alexanderhoelzemann
  */
-@Named(value = "emplyeeConverterById")
+@Named(value = "employeeConverterById")
 @RequestScoped
 public class EmployeeConverterById implements Converter {
 
