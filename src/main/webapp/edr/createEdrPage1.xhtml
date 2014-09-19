@@ -57,18 +57,16 @@
                                 <!-- <p:inputText id="businessArea" required="true" /> -->
                             </h:panelGroup>
                             <h:panelGroup>
-                                <h:outputLabel for="date" value="Date" />
+                                <h:outputLabel for="year" value="Year" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <p:inputText id="date" required="true" />
-                                <!-- <p:calendar id="date" value="#{calendarView.date}" showOn="button" /> -->
+                                <p:inputText id="year" required="#{updateEdrCDIBean.edrObject.year}" />
                             </h:panelGroup>
                             <h:panelGroup>
                                 <h:outputLabel for="verdict" value="Verdict" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <p:inputText id="verdict" required="true" />
-                                <!-- <p:calendar id="date" value="#{calendarView.date}" showOn="button" /> -->
+                                <p:inputText id="verdict" required="#{updateEdrCDIBean.edrObject.verdict}" />
                             </h:panelGroup>
                             <h:panelGroup>
                                 <h:outputLabel for="immediateManager" value="#{msgs.immediate_manager}" />
@@ -91,7 +89,7 @@
                                 </p:selectOneMenu>  
                             </h:panelGroup>
                             <h:panelGroup>
-                                <p:commandButton value="#{msgs.next}" icon="ui-icon-check"
+                                <p:commandButton value="#{msgs.save}" icon="ui-icon-check"
                                         action="#{updateEdrCDIBean.save}"                                                
                                         onclick="if (! confirm('#{msgs.are_you_sure}') ) { return false;}; return true; " />
                             </h:panelGroup>
