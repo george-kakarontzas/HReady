@@ -32,31 +32,6 @@
                                 </p:selectOneMenu>
                             </h:panelGroup>
                             <h:panelGroup>
-                                <h:outputLabel for="jobTitle" value="#{msgs.job_title}" />
-                            </h:panelGroup>
-                            <h:panelGroup> 
-                                <p:selectOneMenu id="jobTitle" value="#{updateEdrCDIBean.selectedJob}" 
-                                                 style="width:200px"
-                                                 converter="#{jobConverterByJobTitle}">
-                                    <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />                         
-                                    <f:selectItems value="#{updateEdrCDIBean.jobList}"
-                                                   var="j" itemValue="#{j}" itemLabel="#{j.jobTitle}" />
-                                </p:selectOneMenu>
-                            </h:panelGroup>
-                            <h:panelGroup>
-                                <h:outputLabel for="businessArea" value="#{msgs.business_area}" />
-                            </h:panelGroup>
-                            <h:panelGroup>
-                                <p:selectOneMenu id="businessArea" value="#{updateEdrCDIBean.selectedBusinessArea}" 
-                                                 style="width:200px"
-                                                 converter="#{businessAreaConverterById}">
-                                    <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />                         
-                                    <f:selectItems value="#{updateEdrCDIBean.businessAreaList}"
-                                                   var="b" itemValue="#{b}" itemLabel="#{b.name}" />
-                                </p:selectOneMenu>
-                                <!-- <p:inputText id="businessArea" required="true" /> -->
-                            </h:panelGroup>
-                            <h:panelGroup>
                                 <h:outputLabel for="year" value="Year" />
                             </h:panelGroup>
                             <h:panelGroup>

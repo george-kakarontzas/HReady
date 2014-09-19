@@ -28,7 +28,7 @@ public class EmployeeConverterById implements Converter {
     private EmployeeFacade employeeFacade;
 
     /**
-     * Creates a new instance of CompetenceConverter
+     * Creates a new instance of Converter
      */
     public EmployeeConverterById() {
     }
