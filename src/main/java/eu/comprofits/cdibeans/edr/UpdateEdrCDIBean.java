@@ -58,6 +58,7 @@ public class UpdateEdrCDIBean implements Serializable {
 
     @PostConstruct
     public void init() {
+        edrObject = new Edr();
         edrList = edrFacade.findAll();
         employeeList = employeeFacade.findAll();
         jobList = jobFacade.findAll();
