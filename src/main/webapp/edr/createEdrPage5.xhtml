@@ -9,18 +9,18 @@
     <body>
         <ui:composition template="./edrPagesTemplate.xhtml">
             <ui:define name="title">
-                Edr Development Review p.5
+               ${msgs.edr_title5}
             </ui:define>
 
             <ui:define name="content">
-                <h1>Employee Development Review</h1>
-                <h2>Page 5</h2>
+                <h1>${msgs.edr}</h1>
+                <h2>${msgs.page5}</h2>
                 <p:panelGrid columnClasses="left" columns="2" style="width: 100%">
                     <h:panelGrid columns="1" cellpadding="0" style="float: right">
                         <h:form>
                             <h:panelGroup>
                                 <p:outputPanel deferred="false" deferredMode="visible">
-                                    <p>Have goals and other agreements from the latest EDR been reached and carried through?</p>
+                                    <p>#{msgs.edr_question41}</p>
                                 </p:outputPanel>
                             </h:panelGroup>
                         </h:form>
@@ -36,7 +36,7 @@
                         <h:form>
                             <h:panelGroup>
                                 <p:outputPanel deferred="false" deferredMode="visible">
-                                    <p>Have goals and other agreements from the latest EDR been reached and carried through?</p>
+                                    <p>#{msgs.edr_question42}</p>
                                 </p:outputPanel>
                             </h:panelGroup>
                         </h:form>
@@ -52,7 +52,7 @@
                         <h:form>
                             <h:panelGroup>
                                 <p:outputPanel deferred="false" deferredMode="visible">
-                                    <p>Have goals and other agreements from the latest EDR been reached and carried through?</p>
+                                    <p>#{msgs.edr_question43}</p>
                                 </p:outputPanel>
                             </h:panelGroup>
                         </h:form>
@@ -68,7 +68,7 @@
                         <h:form>
                             <h:panelGroup>
                                 <p:outputPanel deferred="false" deferredMode="visible">
-                                    <p>Have goals and other agreements from the latest EDR been reached and carried through?</p>
+                                    <p>#{msgs.edr_question44}</p>
                                 </p:outputPanel>
                             </h:panelGroup>     
                         </h:form>
