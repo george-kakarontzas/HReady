@@ -10,12 +10,12 @@
 
         <ui:composition template="./edrPagesTemplate.xhtml">
             <ui:define name="title">
-                Edr Development Review p.1 
+                ${msgs.edr_title1}
             </ui:define>
 
             <ui:define name="content">
-                <h1>Employee Development Review</h1>
-                <h2>Page 1</h2>
+                <h1>${msgs.edr}</h1>
+                <h2>${msgs.page1}</h2>
                 <h:form id="createEdr">
                     <p:panelGrid columns="2" style="width: 100%">
                         <h:panelGrid columns="2" cellpadding="5" columnClasses="left">

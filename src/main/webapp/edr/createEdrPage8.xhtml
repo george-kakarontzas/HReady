@@ -11,7 +11,7 @@
         <ui:composition template="./edrPagesTemplate.xhtml">
 
             <ui:define name="title">
-                ${msgs.update_job_profile}
+                ${msgs.edr_title8}
             </ui:define>
 
             <ui:define name="content">
@@ -19,7 +19,7 @@
                     <p:messages  />
                     <p:panelGrid columns="2"  columnClasses="columna">
                         <p:panelGrid columns="2" >
-                            <f:facet name="header">Edr plans and goals for the coming year</f:facet>
+                            <f:facet name="header">#{msgs.edr_plans}</f:facet>
                             <p:outputLabel value="#{msgs.professional_competences}" style="font-weight: bold;" />
                             <h:panelGroup />
                             <p:outputLabel value="#{msgs.managerial_competences}:" for="managerialCompetences" />
@@ -56,7 +56,7 @@
 
                         </p:panelGrid>
                         <p:panelGrid columns="1">
-                            <f:facet name="header">Comments</f:facet>
+                            <f:facet name="header">#{msgs.comments}</f:facet>
                             <h:panelGrid columns="1" cellpadding="16" style="float: right">
                                 <h:form>
                                     <h:panelGroup>
