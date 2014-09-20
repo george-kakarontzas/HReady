@@ -596,7 +596,7 @@ CREATE TABLE edr (
     idedr integer DEFAULT nextval('idedr_seq'::regclass) NOT NULL,
     year character varying(45) DEFAULT NULL::character varying,
     status integer,
-    verdict character varying(45) DEFAULT NULL::character varying,
+    verdict text DEFAULT NULL::character varying,
     reviewed_employee_idemployee integer NOT NULL,
     immediate_manager_idemployee integer NOT NULL,
     previous_edr_idedr integer

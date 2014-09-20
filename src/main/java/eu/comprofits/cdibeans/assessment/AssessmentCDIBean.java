@@ -331,6 +331,9 @@ public class AssessmentCDIBean implements Serializable {
             selectedAssessment.setConclusion(mark+status);
             assessmentFacade.edit(selectedAssessment);
             employeeAssessments = assessmentFacade.getOngoingEmployeeAssessments(employee);
+            selectedAssessment=null;
+            employeeCompetenceAssessments = new ArrayList<>();
+            filteredEmployeeCompetenceAssessments = null;
         }
         return "";
     }

@@ -43,7 +43,9 @@
                                 <h:outputLabel for="verdict" value="Verdict" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <p:inputText id="verdict" style="width:100px" value="#{updateEdrCDIBean.edrObject.verdict}" />
+                                <p:editor id="editor" widgetVar="editorWidget" 
+                                          value="#{updateEdrCDIBean.edrObject.verdict}" width="600" />
+                               
                             </h:panelGroup>
                             <h:panelGroup>
                                 <h:outputLabel for="immediateManager" value="#{msgs.immediate_manager}" />
