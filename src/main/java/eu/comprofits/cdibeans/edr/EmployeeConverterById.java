@@ -5,9 +5,7 @@
  */
 package eu.comprofits.cdibeans.edr;
 
-import eu.comprofits.entities.edr.Edr;
 import eu.comprofits.entities.employee.Employee;
-import eu.comprofits.session.edr.EdrFacade;
 import eu.comprofits.session.employee.EmployeeFacade;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -21,7 +19,6 @@ import javax.inject.Named;
  * @author alexanderhoelzemann
  */
 @Named(value = "employeeConverterById")
-@RequestScoped
 public class EmployeeConverterById implements Converter {
 
     @EJB
@@ -38,7 +35,8 @@ public class EmployeeConverterById implements Converter {
         if (value == null || value.isEmpty() || value.equals("---")) {
             return null;
         }
-        return employeeFacade.find(Integer.valueOf(value));
+        Integer aInteger  = Integer.parseInt(value);
+        return aInteger;
     }
 
     @Override
