@@ -257,7 +257,10 @@ CREATE TABLE assessment (
     immediate_manager_idemployee integer NOT NULL,
     colleague1_idemployee integer NOT NULL,
     colleague2_idemployee integer NOT NULL,
-    colleague3_idemployee integer NOT NULL
+    colleague3_idemployee integer NOT NULL,
+    deadline date NOT NULL,
+    completed boolean,
+    conclusion text
 );
 
 
@@ -1298,6 +1301,14 @@ ALTER TABLE ONLY job_advertisement
 
 ALTER TABLE ONLY job_applicant
     ADD CONSTRAINT job_applicant_pkey PRIMARY KEY (idjob_applicant);
+
+
+--
+-- Name: job_applicant_username_unique_constraint; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY job_applicant
+    ADD CONSTRAINT job_applicant_username_unique_constraint UNIQUE (username);
 
 
 --
