@@ -78,9 +78,10 @@ public class AssessmentFacade extends AbstractFacade<Assessment> {
         }
     }
     
-     public List<Assessment> getCompletedEmployeeAssessments(Employee employee) {
+     public List<Assessment> getAssesseeEmployeeAssessments(Employee employee) {
         try {
-            List results = em.createQuery("SELECT a FROM Assessment a WHERE a.assesseeIdemployee=:e AND a.completed")
+            List results;
+            results = em.createQuery("SELECT a FROM Assessment a WHERE a.assesseeIdemployee=:e")
                     .setParameter("e", employee)
                     .getResultList();
             return results;
