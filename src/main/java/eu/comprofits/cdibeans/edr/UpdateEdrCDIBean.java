@@ -45,8 +45,6 @@ public class UpdateEdrCDIBean implements Serializable {
     private BusinessArea selectedBusinessArea;
     private Edr edrObject;
     private Edr latestEdr;
-    private Employee reviewedEmployee;
-    private Employee immediateManager;
     private Job selectedJob;
     private List<BusinessArea> businessAreaList;
     private List<Job> jobList;
@@ -60,8 +58,6 @@ public class UpdateEdrCDIBean implements Serializable {
     @PostConstruct
     public void init() {
         edrObject = new Edr();
-        reviewedEmployee = new Employee();
-        immediateManager = new Employee();
         edrList = edrFacade.findAll();
         employeeList = employeeFacade.findAll();
         jobList = jobFacade.findAll();
@@ -115,24 +111,7 @@ public class UpdateEdrCDIBean implements Serializable {
     public void setLatestEdr(Edr latestEdr) {
         this.latestEdr = latestEdr;
     }
-
-    public Employee getReviewedEmployee() {
-        return reviewedEmployee;
-    }
-
-    public void setReviewedEmployee(Employee reviewedEmployee) {
-        this.reviewedEmployee = reviewedEmployee;
-    }
-
-    public Employee getImmediateManager() {
-        return immediateManager;
-    }
-
-    public void setImmediateManager(Employee immediateManager) {
-        this.immediateManager = immediateManager;
-    }
-
-
+    
     public List<Employee> getEmployeeList() {
         return employeeList;
     }

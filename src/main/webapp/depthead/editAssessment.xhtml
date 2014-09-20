@@ -28,7 +28,11 @@
                                                     value="#{updateAssessmentsCDIBean.assessment.dateCreated}" 
                                                     showOn="button" navigator="true" pattern="dd/MM/yyyy" 
                                                     />
-
+                                        <p:outputLabel value="#{msgs.deadline}:" for="deadline" />
+                                        <p:calendar id="deadline" 
+                                                    value="#{updateAssessmentsCDIBean.assessment.deadline}" 
+                                                    showOn="button" navigator="true" pattern="dd/MM/yyyy" 
+                                                    />
                                         <p:outputLabel value="#{msgs.assessee}:" for="assesseeIdemployee" />
                                         <p:selectOneMenu id="assesseeIdemployee" 
                                                          value="#{updateAssessmentsCDIBean.assessment.assesseeIdemployee}" 

@@ -47,6 +47,14 @@
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
+                                    <h:outputText value="#{msgs.deadline}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.deadline}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
                                     <h:outputText value="#{msgs.immediate_manager}"/>
                                 </f:facet>
                                 <h:outputText value="#{item.immediateManagerIdemployee.lastName}, 
@@ -73,7 +81,12 @@
                                 <h:outputText value="#{item.colleague3Idemployee.lastName},
                                               #{item.colleague3Idemployee.firstName}"/>
                             </p:column>
-
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.completed}?"/>
+                                </f:facet>
+                                <h:outputText value="#{msgs.completed ? msgs.yes : msgs.no}" />
+                            </p:column>
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs.remove_assessment}"/>

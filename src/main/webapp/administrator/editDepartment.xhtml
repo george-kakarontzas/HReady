@@ -30,7 +30,7 @@
                                 <p:selectOneMenu id="headOfDepartmentIdemployee" value="#{updateDepartmentsCDIBean.department.headOfDepartmentIdemployee}" 
                                                  converter="#{employeeConverter}">
                                     <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
-                                    <f:selectItems value="#{updateDepartmentsCDIBean.department.employeeCollection}" 
+                                    <f:selectItems value="#{updateDepartmentsCDIBean.departmentEmployees}" 
                                                    var="e" itemValue="#{e}" itemLabel="#{e.lastName}, #{e.firstName}" 
                                                    />
                                 </p:selectOneMenu>

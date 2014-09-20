@@ -71,6 +71,13 @@ public class Assessment implements Serializable {
     @JoinColumn(name = "assessee_idemployee", referencedColumnName = "idemployee")
     @ManyToOne(optional = false)
     private Employee assesseeIdemployee;
+    @Column(name = "deadline")
+    @Temporal(TemporalType.DATE)
+    private Date deadline;
+    @Column(name = "completed")
+    private boolean completed;
+    @Column(name="conclusion")
+    private String conclusion;
 
     public Assessment() {
     }
@@ -95,6 +102,32 @@ public class Assessment implements Serializable {
         this.dateCreated = dateCreated;
     }
 
+    public Date getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
+    public String getConclusion() {
+        return conclusion;
+    }
+
+    public void setConclusion(String conclusion) {
+        this.conclusion = conclusion;
+    }
+
+    
+    
     @XmlTransient
     public Collection<EmployeeCompetenceAssessment> getEmployeeCompetenceAssessmentCollection() {
         return employeeCompetenceAssessmentCollection;
@@ -149,6 +182,14 @@ public class Assessment implements Serializable {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         String strDateCreated = df.format(dateCreated);
         return strDateCreated;
+    }
+    
+    
+    @Transient 
+    public String getShortDeadlineDate() {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String strDeadline = df.format(deadline);
+        return strDeadline;
     }
     
     @Override

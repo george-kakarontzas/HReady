@@ -23,12 +23,14 @@
                                 <h:outputLabel for="idemployee" value="#{msgs.reviewed_employee_name}" />
                             </h:panelGroup>
                             <h:panelGroup> 
-                                <p:selectOneMenu id="idemployee" value="#{updateEdrCDIBean.reviewedEmployee.idemployee}" 
+                                <p:selectOneMenu id="idemployee" 
+                                                 value="#{updateEdrCDIBean.edrObject.reviewedEmployeeIdemployee}" 
                                                  style="width:200px"
-                                                 converter="#{employeeConverterById}">
+                                                 converter="#{employeeConverter1}">
                                     <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />                         
                                     <f:selectItems value="#{updateEdrCDIBean.employeeList}"
-                                                   var="e" itemValue="#{e}" itemLabel="#{e.lastName}, #{e.firstName}" />
+                                                   var="e" itemValue="#{e}" 
+                                                   itemLabel="#{e.lastName} #{e.firstName} #{e.email}" />
                                 </p:selectOneMenu>
                             </h:panelGroup>
                             <h:panelGroup>
@@ -47,12 +49,13 @@
                                 <h:outputLabel for="immediateManager" value="#{msgs.immediate_manager}" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <p:selectOneMenu id="immediateManager" value="#{updateEdrCDIBean.immediateManager.idemployee}" 
+                                <p:selectOneMenu id="immediateManager" 
+                                                 value="#{updateEdrCDIBean.edrObject.immediateManagerIdemployee}" 
                                                  style="width:200px"
-                                                 converter="#{employeeConverterById}">
+                                                 converter="#{employeeConverter1}">
                                     <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />                         
                                     <f:selectItems value="#{updateEdrCDIBean.employeeList}"
-                                                   var="e" itemValue="#{e}" itemLabel="#{e.lastName}, #{e.firstName}" />
+                                                   var="e" itemValue="#{e}" itemLabel="#{e.lastName} #{e.firstName} #{e.email}" />
                                 </p:selectOneMenu>
                             </h:panelGroup>
                             <h:panelGroup>

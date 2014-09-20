@@ -5,8 +5,10 @@
  */
 package eu.comprofits.cdibeans.main;
 
+import eu.comprofits.entities.employee.Employee;
 import eu.comprofits.entities.main.Company;
 import eu.comprofits.entities.main.Department;
+import eu.comprofits.session.employee.EmployeeFacade;
 import eu.comprofits.session.main.CompanyFacade;
 import eu.comprofits.session.main.DepartmentFacade;
 import java.io.Serializable;
@@ -25,13 +27,17 @@ import javax.inject.Named;
 @Named(value = "updateDepartmentsCDIBean")
 @SessionScoped
 public class updateDepartmentsCDIBean implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @EJB
     private CompanyFacade companyFacade;
 
     @EJB
     private DepartmentFacade departmentFacade;
-    
+
+    @EJB
+    private EmployeeFacade employeeFacade;
+
     private Department department;
     private List<Department> departments;
     private List<Company> companies;
@@ -72,8 +78,6 @@ public class updateDepartmentsCDIBean implements Serializable {
         this.companies = companies;
     }
 
-    
-    
     public void remove(Department d) {
         try {
             departmentFacade.remove(d);
@@ -93,6 +97,10 @@ public class updateDepartmentsCDIBean implements Serializable {
     public String create() {
         this.department = new Department();
         return "editDepartment";
+    }
+
+    public List<Employee> getDepartmentEmployees() {
+        return employeeFacade.getDepartmentEmployees(department);
     }
 
     public String update() {
