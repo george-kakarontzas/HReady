@@ -62,6 +62,34 @@ public class AssessmentFacade extends AbstractFacade<Assessment> {
         }
     }
     
+    
+    
+    public List<Assessment> getOngoingEmployeeAssessments(Employee employee) {
+        try {
+            List results = em.createQuery("SELECT a FROM Assessment a WHERE (a.assesseeIdemployee=:e OR "+
+                    "a.immediateManagerIdemployee=:e OR a.colleague1Idemployee=:e OR a.colleague2Idemployee=:e OR "+
+                    "a.colleague3Idemployee=:e) AND NOT a.completed")
+                    .setParameter("e", employee)
+                    .getResultList();
+            return results;
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+    
+     public List<Assessment> getCompletedEmployeeAssessments(Employee employee) {
+        try {
+            List results = em.createQuery("SELECT a FROM Assessment a WHERE a.assesseeIdemployee=:e AND a.completed")
+                    .setParameter("e", employee)
+                    .getResultList();
+            return results;
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+    
     public Assessment getAssessmentByDateAndAssessee(String date, String lname, String fname) {
         try {
             DateFormat df = new SimpleDateFormat("dd/MM/yyyy");

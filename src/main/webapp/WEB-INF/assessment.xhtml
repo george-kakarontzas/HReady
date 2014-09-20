@@ -6,18 +6,21 @@
     xmlns:p="http://primefaces.org/ui">
     <h:form id="assessmentForm">
         <p:growl id="messages" />
-        <p:panelGrid columns="2">
+        <p:panelGrid columns="2" id="all">
             <p:outputLabel value="#{msgs.select_assessment}" />
             <p:selectOneMenu id="employeeAssessments" 
                              value="#{assessmentCDIBean.selectedAssessment}" 
                              converter="#{assessmentsConverter}">
-                <p:ajax listener="#{assessmentCDIBean.assessmentValueChange}"
-                        update="assessmentStatus,stable" /> 
+                <p:ajax listener="#{assessmentCDIBean.assessmentValueChange}" 
+                        update="assessmentStatus,stable,deadline,panelTotalAverageLabel,panelTotalAverage,panelCompleteAssessmentLabel,panelCompleteAssessment" 
+                        /> 
                 <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
                 <f:selectItems value="#{assessmentCDIBean.employeeAssessments}" 
                                var="a" itemValue="#{a.shortDate} #{a.assesseeIdemployee.lastName} #{a.assesseeIdemployee.firstName}"/>
             </p:selectOneMenu>
 
+            <p:outputLabel value="#{msgs.deadline}" />
+            <p:outputLabel id="deadline" value="#{assessmentCDIBean.selectedAssessment.shortDeadlineDate}" />
             <h:outputLabel value="#{msgs.questionnaire_statements}"/>
             <p:dataTable id="stable" var="item" value="#{assessmentCDIBean.employeeCompetenceAssessments}"  
                          widgetVar="statementsTable"
@@ -72,8 +75,41 @@
                 </p:column>
             </p:dataTable>
 
+
             <p:outputLabel value="#{msgs.selected_assessment_status}" />
             <p:outputLabel value="#{assessmentCDIBean.assessmentStatus}" id="assessmentStatus" escape="false" />
+
+            <p:outputPanel id="panelTotalAverageLabel"  >
+                <p:outputLabel value="#{msgs.running_total_average}" id="totalAverageLabel"                             
+                               rendered="#{assessmentCDIBean.immediateManager}" />
+            </p:outputPanel>
+            <p:outputPanel id="panelTotalAverage" >
+                <p:outputLabel value="#{assessmentCDIBean.totalAverage}" id="totalAverage" 
+                               rendered="#{assessmentCDIBean.immediateManager}"/>
+            </p:outputPanel>
+
+            <p:outputPanel id="panelCompleteAssessmentLabel"   >
+                <p:outputLabel value="#{msgs.complete_assessment}" rendered="#{assessmentCDIBean.immediateManager}" />
+            </p:outputPanel>
+            <p:outputPanel id="panelCompleteAssessment"  >
+                <p:commandButton 
+                    rendered="#{assessmentCDIBean.immediateManager}" 
+                    value="#{msgs.complete_assessment}"
+                    action="#{assessmentCDIBean.completeAssessment}"                                                
+                    onclick="if (!confirm('#{msgs.are_you_sure} #{msgs.no_editing_will_be_possible_after_that}')) {
+                                return false;
+                            }
+                            ;
+                            return true;
+                    " 
+                    >
+
+                </p:commandButton>
+
+
+            </p:outputPanel>
+
+
 
         </p:panelGrid>
     </h:form>

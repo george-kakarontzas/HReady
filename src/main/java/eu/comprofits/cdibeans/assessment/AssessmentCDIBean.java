@@ -7,7 +7,6 @@ package eu.comprofits.cdibeans.assessment;
 
 import eu.comprofits.entities.assessment.Assessment;
 import eu.comprofits.entities.assessment.EmployeeCompetenceAssessment;
-import eu.comprofits.entities.assessment.Statement;
 import eu.comprofits.entities.employee.Employee;
 import eu.comprofits.entities.main.Competence;
 import eu.comprofits.session.assessment.AssessmentFacade;
@@ -30,7 +29,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
 import org.primefaces.event.RowEditEvent;
-import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -51,6 +49,8 @@ public class AssessmentCDIBean implements Serializable {
     private List<Assessment> employeeAssessments;
     private List<EmployeeCompetenceAssessment> employeeCompetenceAssessments;
     private List<EmployeeCompetenceAssessment> filteredEmployeeCompetenceAssessments;
+    private double totalScore;
+    private double noOfCompetedAssessments;
 
     public AssessmentCDIBean() {
     }
@@ -67,7 +67,8 @@ public class AssessmentCDIBean implements Serializable {
                 employee = employeeFacade.getEmployeeByUsername(principal.getName()); // Find User by j_username.
             }
         }
-        employeeAssessments = assessmentFacade.getEmployeeAssessments(employee);
+        //employeeAssessments = assessmentFacade.getEmployeeAssessments(employee);
+        employeeAssessments = assessmentFacade.getOngoingEmployeeAssessments(employee);
         employeeCompetenceAssessments = new ArrayList<>();
     }
 
@@ -85,6 +86,30 @@ public class AssessmentCDIBean implements Serializable {
 
     public void setSelectedAssessment(Assessment selectedAssessment) {
         this.selectedAssessment = selectedAssessment;
+    }
+
+    public double getTotalScore() {
+        return totalScore;
+    }
+
+    public String getTotalAverage() {
+
+        if (noOfCompetedAssessments == 0) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+            String message = bundle.getString("no_competed_assessments_yet");
+            return message;
+        }
+        return "" + (totalScore / noOfCompetedAssessments);
+    }
+
+    public boolean isImmediateManager() {
+        if (selectedAssessment != null) {
+            Employee manager = selectedAssessment.getImmediateManagerIdemployee();
+            return this.employee.getIdemployee().equals(manager.getIdemployee());
+        }
+        else 
+            return false;
     }
 
     public List<EmployeeCompetenceAssessment> getEmployeeCompetenceAssessments() {
@@ -146,8 +171,12 @@ public class AssessmentCDIBean implements Serializable {
     public String getAssessmentStatus() {
         FacesContext context = FacesContext.getCurrentInstance();
         ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+        //set the runnint total to 0.0
+        totalScore = 0.0;
+        //set the number of competed assessments to 0
+        noOfCompetedAssessments = 0;
         //get this employee's status first
-        String s1 = "<emph>" + bundle.getString("my_assessment") + "<emph><br />";
+        String s1 = "<emph>"+employee.getLastName()+" "+employee.getFirstName()+ "</emph><br />";
         s1 += this.getStatus(employeeCompetenceAssessments);
         if (selectedAssessment != null) {
             Employee manager = selectedAssessment.getImmediateManagerIdemployee();
@@ -161,7 +190,7 @@ public class AssessmentCDIBean implements Serializable {
                 s1 += "<a href=\"mailto:" + selectedAssessment.getAssesseeIdemployee().getEmail() + "\">"
                         + "<b>" + selectedAssessment.getAssesseeIdemployee().getLastName() + " "
                         + selectedAssessment.getAssesseeIdemployee().getFirstName() + "</b></a>"
-                        + " ("+clickToEmailText+")"+"<br />";
+                        + " (" + clickToEmailText + ")" + "<br />";
                 s1 += this.getStatus(assessee_assessments);
                 //get the status for 1st colleague
                 List<EmployeeCompetenceAssessment> col1_assessments
@@ -171,7 +200,7 @@ public class AssessmentCDIBean implements Serializable {
                 s1 += "<a href=\"mailto:" + selectedAssessment.getColleague1Idemployee().getEmail() + "\">"
                         + "<b>" + selectedAssessment.getColleague1Idemployee().getLastName() + " "
                         + selectedAssessment.getColleague1Idemployee().getFirstName() + "</b></a>"
-                        + " ("+clickToEmailText+")"+"<br />";
+                        + " (" + clickToEmailText + ")" + "<br />";
                 s1 += this.getStatus(col1_assessments);
                 //get the status for 2nd colleague
                 List<EmployeeCompetenceAssessment> col2_assessments
@@ -181,7 +210,7 @@ public class AssessmentCDIBean implements Serializable {
                 s1 += "<a href=\"mailto:" + selectedAssessment.getColleague2Idemployee().getEmail() + "\">"
                         + "<b>" + selectedAssessment.getColleague2Idemployee().getLastName() + " "
                         + selectedAssessment.getColleague2Idemployee().getFirstName() + "</b></a>"
-                        + " ("+clickToEmailText+")"+"<br />";
+                        + " (" + clickToEmailText + ")" + "<br />";
                 s1 += this.getStatus(col2_assessments);
                 //get the status for 1st colleague
                 List<EmployeeCompetenceAssessment> col3_assessments
@@ -191,7 +220,7 @@ public class AssessmentCDIBean implements Serializable {
                 s1 += "<a href=\"mailto:" + selectedAssessment.getColleague3Idemployee().getEmail() + "\">"
                         + "<b>" + selectedAssessment.getColleague3Idemployee().getLastName() + " "
                         + selectedAssessment.getColleague3Idemployee().getFirstName() + "</b></a>"
-                        + " ("+clickToEmailText+")"+"<br />";
+                        + " (" + clickToEmailText + ")" + "<br />";
                 s1 += this.getStatus(col3_assessments);
             }
         }
@@ -260,6 +289,9 @@ public class AssessmentCDIBean implements Serializable {
             sbuf.append(": ");
             double avg = total / count;
             sbuf.append(avg);
+            sbuf.append("<br />");
+            totalScore += avg;
+            noOfCompetedAssessments++;
         }
         return sbuf.toString();
     }
@@ -287,6 +319,21 @@ public class AssessmentCDIBean implements Serializable {
             return total / count;
         }
     }
+    
+    public String completeAssessment() {
+        if (selectedAssessment!=null) {
+            selectedAssessment.setCompleted(true);
+            String status=this.getAssessmentStatus();
+            FacesContext context = FacesContext.getCurrentInstance();
+            ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+            String m = bundle.getString("final_score");
+            String mark = "<h2>"+m+": = "+this.getTotalAverage()+"</h2>< br/>";
+            selectedAssessment.setConclusion(mark+status);
+            assessmentFacade.edit(selectedAssessment);
+            employeeAssessments = assessmentFacade.getOngoingEmployeeAssessments(employee);
+        }
+        return "";
+    }
 
     public void assessmentValueChange(AjaxBehaviorEvent event) {
         employeeCompetenceAssessments
@@ -294,4 +341,5 @@ public class AssessmentCDIBean implements Serializable {
         filteredEmployeeCompetenceAssessments = null;
 
     }
+
 }
