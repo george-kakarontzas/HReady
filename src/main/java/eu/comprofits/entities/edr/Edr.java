@@ -53,7 +53,7 @@ public class Edr implements Serializable {
     private String year;
     @Column(name = "status")
     private Integer status;
-    @Size(max = 45)
+    @Size(max = 2147483647)
     @Column(name = "verdict")
     private String verdict;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "edrIdedr")
