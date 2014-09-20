@@ -215,6 +215,12 @@ public class updateEmployeesProfileCDIBean implements Serializable {
         return "updateStudies";
     }
 
+    public String callShowLastAssessment(Employee e) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        externalContext.getSessionMap().put("employee", e);
+        return "showLastAssessment";
+    }
     
     public void fileUploadListener(FileUploadEvent e) {
         FacesContext context = FacesContext.getCurrentInstance();
