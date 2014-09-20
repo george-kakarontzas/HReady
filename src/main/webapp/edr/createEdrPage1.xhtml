@@ -20,10 +20,10 @@
                     <p:panelGrid columns="2" style="width: 100%">
                         <h:panelGrid columns="2" cellpadding="5" columnClasses="left">
                             <h:panelGroup>
-                                <h:outputLabel for="employeeID" value="#{msgs.employee_ID}" />
+                                <h:outputLabel for="idemployee" value="#{msgs.reviewed_employee_name}" />
                             </h:panelGroup>
                             <h:panelGroup> 
-                                <p:selectOneMenu id="employeeID" value="#{updateEdrCDIBean.selectedEmployee.idemployee}" 
+                                <p:selectOneMenu id="idemployee" value="#{updateEdrCDIBean.reviewedEmployee.idemployee}" 
                                                  style="width:200px"
                                                  converter="#{employeeConverterById}">
                                     <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />                         
@@ -35,19 +35,19 @@
                                 <h:outputLabel for="year" value="Year" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <p:inputText id="year" value="#{updateEdrCDIBean.edrObject.year}" />
+                                <p:inputText id="year" style="width:100px" value="#{updateEdrCDIBean.edrObject.year}" />
                             </h:panelGroup>
                             <h:panelGroup>
                                 <h:outputLabel for="verdict" value="Verdict" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <p:inputText id="verdict" value="#{updateEdrCDIBean.edrObject.verdict}" />
+                                <p:inputText id="verdict" style="width:100px" value="#{updateEdrCDIBean.edrObject.verdict}" />
                             </h:panelGroup>
                             <h:panelGroup>
                                 <h:outputLabel for="immediateManager" value="#{msgs.immediate_manager}" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <p:selectOneMenu id="immediateManager" value="#{updateEdrCDIBean.selectedEmployee.idemployee}" 
+                                <p:selectOneMenu id="immediateManager" value="#{updateEdrCDIBean.immediateManager.idemployee}" 
                                                  style="width:200px"
                                                  converter="#{employeeConverterById}">
                                     <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />                         
@@ -59,7 +59,7 @@
                                 <h:outputLabel for="status" value="#{msgs.edr_status}" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <p:selectOneMenu id="status" value="#{updateEdrCDIBean.edrObject.status}">
+                                <p:selectOneMenu id="status" style="width:100px" value="#{updateEdrCDIBean.edrObject.status}">
                                             <f:selectItem itemLabel="#{msgs.status_undefined}" itemValue="0"/>
                                 </p:selectOneMenu>  
                             </h:panelGroup>
