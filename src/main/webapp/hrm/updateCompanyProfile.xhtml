@@ -18,9 +18,8 @@
                 <h:form id="companyProfileUpdate">
                     <p:messages  />
                     <p:panelGrid columns="2" >
-                        <p:outputLabel value="#{msgs.company_id_number}:"  />
-                        <p:outputLabel value="#{updateCompanyProfileCDIBean.company.idcompany}"  />
-                        
+                       
+
                         <f:facet name="header">#{msgs.update_company_profile}</f:facet>
 
                         <p:outputLabel value="#{msgs.company_name} 1:" for="companyName1" 
@@ -308,13 +307,10 @@
 
                         <p:outputLabel value="#{msgs.website}:" for="website" />
                         <p:inputText id="website" size="50"  value="#{updateCompanyProfileCDIBean.company.website}" />
-                        <h:panelGroup />
-                        <p:panelGrid columns="3" >
-                            <p:commandButton value="#{msgs.save}" action="#{updateCompanyProfileCDIBean.save()}" />  
-                            <p:button value="#{msgs.print}"  />  
-                            <p:button value="#{msgs.help}" />
 
-                        </p:panelGrid>
+                        <h:commandButton id="back" value="#{msgs.cancel}" action="hrmHomePage" immediate="true"/>  
+                        <h:commandButton id="update" value="#{msgs.update}" action="#{updateCompanyProfileCDIBean.save()}"  />
+                        
 
                     </p:panelGrid>
                 </h:form>
