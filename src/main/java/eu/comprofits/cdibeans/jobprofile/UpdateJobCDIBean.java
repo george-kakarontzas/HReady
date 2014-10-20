@@ -41,6 +41,7 @@ public class UpdateJobCDIBean implements Serializable {
 
     private Job jobObject;
     private List<Job> jobList;
+    private List<Job> filteredJobList;
     private Job selectedJob;
     private List<OrganisationalPosition> positions;
 
@@ -54,6 +55,14 @@ public class UpdateJobCDIBean implements Serializable {
         positions=organisationalPositionFacade.findAll();
     }
 
+    public List<Job> getFilteredJobList() {
+        return filteredJobList;
+    }
+
+    public void setFilteredJobList(List<Job> filteredJobList) {
+        this.filteredJobList = filteredJobList;
+    }
+    
     public List<OrganisationalPosition> getPositions() {
         return positions;
     }
@@ -88,25 +97,31 @@ public class UpdateJobCDIBean implements Serializable {
 
     public String edit(Job job) {
         this.jobObject = job;
-        return "editJob";
+        return "editJobProfile";
     }
 
     public String create() {
         this.jobObject = new Job();
-        return "createJob";
+        return "createJobProfile";
     }
 
-    public String remove() {
+     private void refreshJobList() {
+        jobList = jobFacade.findAll();
+    }
+    public String remove(Job e) {
+        
         try {
-            jobFacade.remove(selectedJob);
-            jobList = jobFacade.findAll();
-
-        } catch (Exception e) {
+        jobFacade.remove(e);
+            if (filteredJobList != null) { 
+                filteredJobList.remove(e);
+            }
+            refreshJobList();
+        } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            e.getMessage(), null));
+                            ex.getMessage(), null));
         }
-        return "deleteJobProfile";
+        return "updateJobProfile";
     }
 
     public void update() {
