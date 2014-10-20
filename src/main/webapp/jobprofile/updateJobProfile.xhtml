@@ -31,7 +31,7 @@
                         updateEmployeeCDIBean.filteredEmployees -->
                         <p:dataTable var="item" value="#{updateJobCDIBean.jobList}" widgetVar="jobprofilesTable"
                                      emptyMessage="#{msgs.no_jobprofiles_found_with_given_criteria}" 
-                                     filteredValue="#{updatejobCDIBean.filteredJobprofiles}"
+                                     filteredValue="#{updateJobCDIBean.filteredJobList}"
                                      >
 
                             <f:facet name="header">
@@ -49,65 +49,29 @@
                                                value="#{item.jobTitle}"/>
                             </p:column>
                             
-                            <!-- Make sure if I need converter or not??!! -->
-                            <p:column filterBy="#{item.businessAreaIdbusinessArea}" 
-                                      headerText="#{msgs.businessAreaIdbusinessArea}"
+                            <p:column filterBy="#{item.jobDescription}" 
+                                      headerText="#{msgs.job_description}"
                                       filterMatchMode="contains">
-                                <h:outputText value="#{item.businessAreaIdbusinessArea}"/>
+                                <h:outputText value="#{item.jobDescription}"/>
                             </p:column>
-                            <!-- I checked the file till here --------------------------------------------------->
                             
-                            <p:column filterBy="#{item.departmentIddepartment}" headerText="#{msgs.department_name}" 
-                                      filterMatchMode="exact">
-                                <f:facet name="filter">
-                                    <p:selectOneMenu onchange="PF('employeesTable').filter()" 
-                                                     converter="#{departmentConverter}" >
-                                        <f:selectItem itemLabel="---" 
-                                                      itemValue="#{null}" noSelectionOption="true" />
-                                        <f:selectItems value="#{updateEmployeeCDIBean.departments}" />
-                                    </p:selectOneMenu>
-                                </f:facet>
-                                <h:outputText value="#{item.departmentIddepartment.departmentName}" />
+                            <p:column filterBy="#{item.reportingToIdemployee.fullName}" 
+                                      headerText="#{msgs.reporting_to}"
+                                      filterMatchMode="contains">
+                                <h:outputText value="#{item.reportingToIdemployee.fullName}"/>
                             </p:column>
-
+                   
+                            <!-- ToDo edit remove method and create button does not work -->
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs.phone_private}"/>
-                                </f:facet>
-                                <h:outputText value="#{item.phonePrivate}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs.phone_mobile}"/>
-                                </f:facet>
-                                <h:outputText value="#{item.phoneMobile}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs.email}"/>
-                                </f:facet>
-                                <h:outputText value="&lt;a href='mailto:#{item.email}' target='_top'&gt;#{item.email}&lt;/a&gt;" escape="false" />
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs.role}"/>
-                                </f:facet>
-                                <h:outputText value="#{updateEmployeesProfileCDIBean.getRoleString(item.role)}" />
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs.remove_employee}"/>
+                                    <h:outputText value="#{msgs.delete_job_profile}"/>
                                 </f:facet>
                                 <p:commandButton icon="ui-icon-trash"
-                                                 action="#{updateEmployeeCDIBean.remove(item)}"                                                
-                                                 onclick="if (!confirm('#{msgs.are_you_sure}')) {
-                                                             return false;
-                                                         }
-                                                         ;
-                                                         return true;
-                                                 ">
-                                </p:commandButton>
-                            </p:column>
+                                                 
+                                        action="#{updateJobCDIBean.remove(item)}"                                                
+                                        onclick="if (! confirm('#{msgs.are_you_sure}') ) { return false;}; return true; " /> 
+                                
+                            </p:column> 
                         </p:dataTable>
                     </h:form>
                 </f:view>

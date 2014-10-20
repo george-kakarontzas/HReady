@@ -242,6 +242,9 @@ public class Employee implements Serializable {
         return firstName;
     }
 
+    public String getFullName() {
+        return firstName+" "+lastName;
+    }
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
