@@ -4,77 +4,63 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <body>
 
         <ui:composition template="./jobprofilePagesTemplate.xhtml">
-            <ui:define name="title">#{msgs.edit_job_profile}</ui:define>
+
+            <ui:define name="title">
+                ${msgs.create_job_profile}
+            </ui:define>
+
             <ui:define name="content">
-                
-                <h1>#{msgs.edit_job_profile}</h1><br /> #{msgs.select_job_profile}<br /> <br /> <br /> 
-              
-
-                <h:form id="editJobProfile">
-                    <h:panelGrid columns="2" cellpadding="2" style="width: 500px; ">
-                        <p:outputLabel value="Job Title:  " for="jobTitle" />
-                        <p:selectOneMenu id="jobTitle" value="#{updateJobCDIBean.selectedJob}" 
-                                         style="width:200px" 
-                                         converter="#{jobConverterByJobTitle}">
-                            <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
-                            <f:selectItems value="#{updateJobCDIBean.jobList}" 
-                                           var="j" itemValue="#{j}" itemLabel="#{j.jobTitle}"/>
-                        </p:selectOneMenu>
-                    </h:panelGrid>  
-                     
-                                 
-                    
-                    
-                    <p:separator />
-                    
-                    <p:panelGrid columns="2" >
-                        <f:facet name="header">#{msgs.job_profile}</f:facet>
-                            <p:outputLabel value="#{msgs.job_title}" for="jobTitle"  />
+                <h:form id="jobProfileCreate" >
+                    <p:messages  />
+                    <p:panelGrid columns="2"  columnClasses="columna">
+                        <f:facet name="header">#{msgs.create_job_profile}</f:facet>
+                        <p:panelGrid columns="2" >
+                            <f:facet name="header">#{msgs.job_profile}</f:facet>
                             
-                            <p:selectOneMenu id="selectedjob" value="#{updateJobCDIBean.selectedJob}"> 
-                                <f:selectItem itemLabel="#{updateJobCDIBean.jobObject.jobTitle}" itemValue="" noSelectionOption="true" />
-                                <f:selectItems value="#{updateJobCDIBean.jobList}"
-                                               var="j" itemValue="#{j}" itemLabel="#{j.jobTitle}" />
-                            </p:selectOneMenu>
-
+                            <p:outputLabel value="#{msgs.job_title}" for="jobTitle"  />
+                            <p:inputText id="jobTitle" size="40" required="true"
+                                         value="#{updateJobCDIBean.jobObject.jobTitle}" />
+                                         
                             <p:outputLabel value="#{msgs.organizational_position}" for="organizationalPosition" />
-                            <!--updateJobCDIBean.jobObject.organisationalPositionIdorganisationalPosition should be corrected in the next command-->
-                            <p:selectOneMenu id="organizationalPosition" value="#{updateJobCDIBean.jobObject}">  
-                                <f:selectItem itemLabel="#{msgs.select_organizational_position}" itemValue="" ></f:selectItem>
-                                <f:selectItems value="#{updateOrganisationalPositionsCDIBean.organisationalPositions}" 
+                           
+                            <p:selectOneMenu id="organizationalPosition" value="#{updateJobCDIBean.jobObject.organisationalPositionIdorganisationalPosition}" 
+                                             converter="#{organisationalPositionConverter}">  
+                                <f:selectItem itemLabel="---" itemValue="" />
+                                <f:selectItems value="#{updateJobCDIBean.positions}"
                                                var="o" itemValue="#{o}" itemLabel="#{o.organisationalPositionName}" />
                             </p:selectOneMenu>
 
                             <p:outputLabel value="#{msgs.reporting_to}" for="reportingTo" />
-                            <p:selectOneMenu id="reportingTo" value="#{updateJobCDIBean.jobObject.reportingToIdemployee}">  
-                                <f:selectItem itemLabel="#{msgs.select_employee}" itemValue="" ></f:selectItem>
-                                <f:selectItems value="#{updateEmployeesProfileCDIBean.employees}"
-                                               var="e" itemValue="#{e}" itemLabel="#{e.firstName}" />
+                            <!-- as a value for the next line #{updateJobCDIBean.jobObject.reportingToIdemployee} -->
+                            <p:selectOneMenu id="reportingTo" value="">  
+                                <f:selectItem itemLabel="---" itemValue="" />
+                                <f:selectItems value="#{updateEmployeeCDIBean.employees}"
+                                               var="e" itemValue="#{e}" itemLabel="#{e.lastName}" />
                             </p:selectOneMenu>
 
                             <!--fieldofResponsibility is most probably missing in the updateJobCDIBean.jobObject-->
                             <p:outputLabel value="#{msgs.fields_of_responsibility}:" for="fieldsOfResponsibility" />
                             <p:inputText id="fieldsOfResponsibility" size="40" required="true" 
-                                         value="#{updateJobCDIBean.jobObject.businessAreaIdbusinessArea}"/> 
+                                         value=""/> 
 
                             <p:outputLabel value="#{msgs.job_description}:" for="jobDescription" />
                             <p:inputText id="jobDescription" size="40" value="#{updateJobCDIBean.jobObject.jobDescription}"/>
 
                             <!-- is the selected value to selectManyCheckbox correct or should it be inside JOBCDIBean? -->
-                            <!-- What should be itemvalue for the each selectitem? -->
+                            <!-- 
                             <p:outputLabel value="#{msgs.studies_min_requirements}" for="studiesMinRequirements" />
-                            <p:selectManyCheckbox id="studiesMinRequirements" value="#{UpdateJobStudyMinRequirementsCDIBean.jobStudyMinRequirementsObject.idjobStudyMinRequirements}" >  
+                            <p:selectManyCheckbox id="studiesMinRequirements" value="#{updateJobCDIBean.jobObject}" >  
                                 <f:selectItem itemLabel="#{msgs.formal_education}" itemValue=""/>  
                                 <f:selectItem itemLabel="#{msgs.professional_education}" itemValue=""/>  
                                 <f:selectItem itemLabel="#{msgs.other_degrees}" itemValue=""/>  
                                 <f:selectItem itemLabel="#{msgs.university_degree}" itemValue=""/>  
                                 <f:selectItem itemLabel="#{msgs.continuing_training}" itemValue=""/>
-                            </p:selectManyCheckbox>                             
+                            </p:selectManyCheckbox>                             -->
                             
                             <!--What is the right object for "Practical Experience before current company" in the updateJobCDIBean.jobObject  -->
                             <p:outputLabel value="#{msgs.practical_experience_before_current_company}:" for="practicalExperienceBeforeCurrentCompany" />
@@ -88,19 +74,61 @@
                             <p:outputLabel value="#{msgs.job_profile_status}" />
                             <p:selectOneRadio id="options" >  
                                 <f:selectItem itemLabel="#{msgs.enable}" itemValue="1" />  
-                                <f:selectItem itemLabel="#{msgs.disable}" itemValue="2" />  
+                                <f:selectItem itemLabel="#{msgs.disable}" itemValue="0" />  
                             </p:selectOneRadio>  
                             
                         </p:panelGrid>
-                    
-                    
-                    
-                    <p:separator />
-                <p:commandButton type="button" value="msgs.save" icon="ui-icon-disk" 
-                                 action="#{updateJobCDIBean.update()}"/>    
-                <p:commandButton id="cancel" value=" Cancel" action="cancel" icon="ui-icon-cancel" oncomplete = "window.history.back();"/>
+                        <p:panelGrid columns="2">
+                            <f:facet name="header">#{msgs.job_competences_weights}</f:facet>
+                            <p:outputLabel value="#{msgs.professional_competences}" style="font-weight: bold;" />
+                            <h:panelGroup />
+                            <p:outputLabel value="#{msgs.managerial_competences}:" for="managerialCompetences" />
+                            <p:spinner id="managerialCompetences"  min="0" max="1" stepFactor="0.05" value=""/>  
+                            <p:outputLabel value="#{msgs.business_orientation}:" for="businessOrientation" />
+                            <p:spinner id="businessOrientation"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.job_related_skills}:" for="jobRelatedSkills" />
+                            <p:spinner id="jobRelatedSkills"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.communication_languages}:" for="communicationLanguages" />
+                            <p:spinner id="communicationLanguages"  min="0" max="1" stepFactor="0.05"/>  
+
+                            <p:outputLabel value="#{msgs.innovative_competences}" style="font-weight: bold;" />
+                            <h:panelGroup />
+                            <p:outputLabel value="#{msgs.creativity_and_holistic_thinking}:" for="creativityAndHolisticThinking" />
+                            <p:spinner id="creativityAndHolisticThinking"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.entrepreneurship}:" for="entrepreneurship" />
+                            <p:spinner id="entrepreneurship"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.proactivity}:" for="proactivity" />
+                            <p:spinner id="proactivity"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.readiness_for_changes}:" for="readinessForChanges" />
+                            <p:spinner id="readinessForChanges"  min="0" max="1" stepFactor="0.05"/>  
+
+                            <p:outputLabel value="#{msgs.social_competences}" style="font-weight: bold;" />
+                            <h:panelGroup />
+                            <p:outputLabel value="#{msgs.teamwork}:" for="teamwork" />
+                            <p:spinner id="teamwork"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.professionalism}:" for="professionalism" />
+                            <p:spinner id="professionalism"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.interpersonal_skills}:" for="interpersonalSkills" />
+                            <p:spinner id="interpersonalSkills"  min="0" max="1" stepFactor="0.05"/>  
+                            <p:outputLabel value="#{msgs.motivation_for_learning}:" for="motivationForLearning" />
+                            <p:spinner id="motivationForLearning"  min="0" max="1" stepFactor="0.05"/>  
+
+                        </p:panelGrid>
+                        
+                        <p:panelGrid columns="5" >
+                            <h:commandButton id="back" value="#{msgs.back}" action="updateJobProfile"  immediate="true" />  
+                            <h:commandButton id="update" value="Update" action="#{updateJobCDIBean.update()}" />     
+                            <h:commandButton id="saveAsNew" value="Save as new" action="#{updateJobCDIBean.saveAsNew()}" /> 
+                            <p:commandButton id="print" value="#{msgs.print}" icon="ui-icon-print" ><p:printer /></p:commandButton>
+                            <p:commandButton id="help" value="#{msgs.help}" icon="ui-icon-help" />
+                        </p:panelGrid>
+                    </p:panelGrid>
+
                 </h:form>
+
             </ui:define>
+
         </ui:composition>
-    </body> 
+
+    </body>
 </html>

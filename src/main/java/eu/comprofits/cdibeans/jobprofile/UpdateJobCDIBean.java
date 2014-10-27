@@ -102,6 +102,11 @@ public class UpdateJobCDIBean implements Serializable {
 
     public String create() {
         this.jobObject = new Job();
+        return "editJobProfile";
+    }
+    
+     public String saveAsNew() {
+        this.jobObject = new Job();
         return "createJobProfile";
     }
 
