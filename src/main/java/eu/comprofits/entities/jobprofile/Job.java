@@ -81,7 +81,8 @@ public class Job implements Serializable {
     private Collection<InCompanyEmployment> inCompanyEmploymentCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "jobIdjob")
     private Collection<CompetencesRequirement> competencesRequirementCollection;
-
+    @Column(name = "job_status")
+    private boolean status;
     public Job() {
     }
 
@@ -95,6 +96,14 @@ public class Job implements Serializable {
         this.jobDescription = jobDescription;
     }
 
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+    
     public Integer getIdjob() {
         return idjob;
     }
