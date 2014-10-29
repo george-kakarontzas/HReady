@@ -12,9 +12,10 @@ package eu.comprofits.cdibeans.jobprofile;
  */
 
 
+import eu.comprofits.entities.jobprofile.Job;
 import eu.comprofits.entities.main.OrganisationalPosition;
+import eu.comprofits.session.jobprofile.JobFacade;
 import eu.comprofits.session.main.OrganisationalPositionFacade;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -25,18 +26,15 @@ import javax.inject.Named;
  *
  * @author alexanderhoelzemann
  */
-@Named(value = "organisationalPositionConverter")
+@Named(value = "jobStatusConverter")
 
-public class OrganisationalPositionConverter implements Converter {
+public class JobStatusConverter implements Converter {
 
     @EJB
-    private OrganisationalPositionFacade positionFacade;
-    
-    List<OrganisationalPosition> positions;
-    OrganisationalPosition output;
+    private JobFacade jobFacade;
 
     
-    public OrganisationalPositionConverter() {
+    public JobStatusConverter() {
     }
 
     @Override
@@ -44,25 +42,7 @@ public class OrganisationalPositionConverter implements Converter {
         if (value == null || value.isEmpty() || value.equals("---")) {
             return null;
         }
-        
-//        positions = positionFacade.findAll();
-//        
-//        for (OrganisationalPosition aPosition : positions) {
-//            if (value.equals(aPosition.getOrganisationalPositionName())) {
-//                output = aPosition;
-//                break;
-//            } else {
-//                output = null;
-//            }
-//        }
-//       
-//            return positionFacade.findByName(output.getOrganisationalPositionName()).getIdorganisationalPosition();
-//       
-//    return positionFacade.findByName(value).getIdorganisationalPosition();
-        
-        return (OrganisationalPosition) positionFacade.findByName(value);
-        
-        
+        return jobFacade.findByJobTitle(value);
     }
 
     @Override
@@ -70,8 +50,7 @@ public class OrganisationalPositionConverter implements Converter {
         if (!(value instanceof OrganisationalPosition)) {
             return null;
         }
-        
-        return ((OrganisationalPosition) value).getOrganisationalPositionName();
+        return ((Job) value).toString();
     }
 
 }

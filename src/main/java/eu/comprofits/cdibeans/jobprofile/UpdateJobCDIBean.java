@@ -5,8 +5,10 @@
  */
 package eu.comprofits.cdibeans.jobprofile;
 
+import eu.comprofits.entities.jobapplicant.JobAdvertisement;
 import eu.comprofits.entities.jobprofile.Job;
 import eu.comprofits.entities.main.OrganisationalPosition;
+import eu.comprofits.session.jobapplicant.JobAdvertisementFacade;
 import eu.comprofits.session.jobprofile.JobFacade;
 import eu.comprofits.session.main.OrganisationalPositionFacade;
 import java.io.Serializable;
@@ -18,7 +20,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
-
 /**
  *
  * @author alexanderhoelzemann
@@ -26,6 +27,7 @@ import javax.inject.Named;
 @Named(value = "updateJobCDIBean")
 @SessionScoped
 public class UpdateJobCDIBean implements Serializable {
+
     @EJB
     private OrganisationalPositionFacade organisationalPositionFacade;
 
@@ -33,17 +35,21 @@ public class UpdateJobCDIBean implements Serializable {
      *
      * @author alexanderhoelzemann
      */
-
     private static final long serialVersionUID = 1L;
     @EJB
     private JobFacade jobFacade;
-    
 
+    @EJB
+    private JobAdvertisementFacade jobAdvertisementFacade;
+
+    private JobAdvertisement jobAdvertisementObject;
+    private List<JobAdvertisement> jobAdvertisementList;
     private Job jobObject;
     private List<Job> jobList;
     private List<Job> filteredJobList;
     private Job selectedJob;
     private List<OrganisationalPosition> positions;
+    private OrganisationalPosition position;
 
     public UpdateJobCDIBean() {
     }
@@ -51,8 +57,10 @@ public class UpdateJobCDIBean implements Serializable {
     @PostConstruct
     public void init() {
         jobObject = new Job();
+        
         jobList = jobFacade.findAll();
-        positions=organisationalPositionFacade.findAll();
+        positions = organisationalPositionFacade.findAll();
+       
     }
 
     public List<Job> getFilteredJobList() {
@@ -62,7 +70,7 @@ public class UpdateJobCDIBean implements Serializable {
     public void setFilteredJobList(List<Job> filteredJobList) {
         this.filteredJobList = filteredJobList;
     }
-    
+
     public List<OrganisationalPosition> getPositions() {
         return positions;
     }
@@ -70,7 +78,7 @@ public class UpdateJobCDIBean implements Serializable {
     public void setPositions(List<OrganisationalPosition> positions) {
         this.positions = positions;
     }
-        
+
     public Job getJobObject() {
         return jobObject;
     }
@@ -95,6 +103,22 @@ public class UpdateJobCDIBean implements Serializable {
         this.selectedJob = selectedJob;
     }
 
+    public JobAdvertisement getJobAdvertisementObject() {
+        return jobAdvertisementObject;
+    }
+
+    public void setJobAdvertisementObject(JobAdvertisement jobAdvertisementObject) {
+        this.jobAdvertisementObject = jobAdvertisementObject;
+    }
+
+    public List<JobAdvertisement> getJobAdvertisementList() {
+        return jobAdvertisementList;
+    }
+
+    public void setJobAdvertisementList(List<JobAdvertisement> jobAdvertisementList) {
+        this.jobAdvertisementList = jobAdvertisementList;
+    }
+
     public String edit(Job job) {
         this.jobObject = job;
         return "editJobProfile";
@@ -102,22 +126,47 @@ public class UpdateJobCDIBean implements Serializable {
 
     public String create() {
         this.jobObject = new Job();
-        return "editJobProfile";
-    }
-    
-     public String saveAsNew() {
-        this.jobObject = new Job();
         return "createJobProfile";
     }
 
-     private void refreshJobList() {
+    public String saveAsNew() {
+        this.jobObject = new Job();
+        return "updateJobProfile";
+    }
+
+    private void refreshJobList() {
         jobList = jobFacade.findAll();
     }
+
+    public JobAdvertisement getSpecificJobAdvertisement(Integer jobId) {
+
+        JobAdvertisement jobAdvertisement = new JobAdvertisement();
+        for (JobAdvertisement jobAd : jobAdvertisementList) {
+            if (jobId.equals(jobAd.getJobIdjob().getIdjob())) {
+                jobAdvertisement = jobAd;
+            } else {
+                jobAdvertisement = null;
+            }
+        }
+        return jobAdvertisement;
+    }
+
+    public String getFieldOfResponsibilityForAJob(Integer jobId) {
+
+        JobAdvertisement jobAdvertisement = new JobAdvertisement();
+        for (JobAdvertisement jobAd : jobAdvertisementList) {
+            if (jobId.equals(jobAd.getJobIdjob().getIdjob())) {
+                jobAdvertisement = jobAd;
+            }
+        }
+        return jobAdvertisement.getFieldsOfResponsibility();
+    }
+
     public String remove(Job e) {
-        
+
         try {
-        jobFacade.remove(e);
-            if (filteredJobList != null) { 
+            jobFacade.remove(e);
+            if (filteredJobList != null) {
                 filteredJobList.remove(e);
             }
             refreshJobList();
@@ -133,6 +182,8 @@ public class UpdateJobCDIBean implements Serializable {
         try {
             if (jobObject.getIdjob() == null) {
                 jobFacade.create(jobObject);
+
+                jobAdvertisementFacade.create(jobAdvertisementObject);
             } else {
                 jobFacade.edit(jobObject);
             }
@@ -143,6 +194,4 @@ public class UpdateJobCDIBean implements Serializable {
                             e.getMessage(), null));
         }
     }
-
-    
 }

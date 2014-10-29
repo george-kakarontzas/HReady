@@ -16,19 +16,17 @@
 
             <ui:define name="content">
                 <f:view>
-                    <!--The file updateEmployee.xhtml is used as a source -->
+                    
                     <h:form id="jobProfilesTableForm">
                         <p:messages  />
-                        <!-- create() method in updateJobCDIBean should be checked for correctness. The best is to compare it with the 
-                        updateEmployeeCDIBean -->
+                        
                         <h1><h:outputText value="#{msgs.list_of_stored_jobprofiles}"/></h1>
                         <p:commandButton icon="ui-icon-pencil"
                                          value="#{msgs.create_new_jobprofile}"
                                          action="#{updateJobCDIBean.create()}"
                                          ajax="false"
                                           />
-                        <!-- filteredJobprofiles should be created in updateJobCDIBean. The best source to be used is 
-                        updateEmployeeCDIBean.filteredEmployees -->
+                        
                         <p:dataTable var="item" value="#{updateJobCDIBean.jobList}" widgetVar="jobprofilesTable"
                                      emptyMessage="#{msgs.no_jobprofiles_found_with_given_criteria}" 
                                      filteredValue="#{updateJobCDIBean.filteredJobList}"
@@ -44,7 +42,7 @@
                             <p:column filterBy="#{item.jobTitle}" 
                                       headerText="#{msgs.job_title} &lt;br/&gt;(#{msgs.click_to_edit_record})"
                                       filterMatchMode="contains">
-                                <!--updateJobCDIBean.edit(item) should be compared with updateEmployeeCDIBean.edit(item)-->
+                                
                                 <h:commandLink action="#{updateJobCDIBean.edit(item)}"  
                                                value="#{item.jobTitle}"/>
                             </p:column>
@@ -61,7 +59,6 @@
                                 <h:outputText value="#{item.reportingToIdemployee.fullName}"/>
                             </p:column>
                    
-                            <!-- ToDo edit remove method and create button does not work -->
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs.delete_job_profile}"/>
