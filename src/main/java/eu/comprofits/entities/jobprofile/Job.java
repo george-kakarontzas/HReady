@@ -42,6 +42,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Job.findByIdjob", query = "SELECT j FROM Job j WHERE j.idjob = :idjob"),
     @NamedQuery(name = "Job.findByJobTitle", query = "SELECT j FROM Job j WHERE j.jobTitle = :jobTitle"),
     @NamedQuery(name = "Job.findByJobDescription", query = "SELECT j FROM Job j WHERE j.jobDescription = :jobDescription")})
+
 public class Job implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -82,7 +83,8 @@ public class Job implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "jobIdjob")
     private Collection<CompetencesRequirement> competencesRequirementCollection;
     @Column(name = "job_status")
-    private boolean status;
+    private Integer status;
+    
     public Job() {
     }
 
@@ -96,11 +98,11 @@ public class Job implements Serializable {
         this.jobDescription = jobDescription;
     }
 
-    public boolean isStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
     
@@ -146,6 +148,7 @@ public class Job implements Serializable {
         this.jobAdvertisementCollection = jobAdvertisementCollection;
     }
 
+    
     @XmlTransient
     public Collection<JobStudyMinRequirements> getJobStudyMinRequirementsCollection() {
         return jobStudyMinRequirementsCollection;

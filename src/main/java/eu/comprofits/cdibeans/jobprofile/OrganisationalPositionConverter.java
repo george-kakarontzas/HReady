@@ -16,6 +16,7 @@ import eu.comprofits.entities.main.OrganisationalPosition;
 import eu.comprofits.session.main.OrganisationalPositionFacade;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -26,7 +27,7 @@ import javax.inject.Named;
  * @author alexanderhoelzemann
  */
 @Named(value = "organisationalPositionConverter")
-
+@RequestScoped
 public class OrganisationalPositionConverter implements Converter {
 
     @EJB
@@ -44,21 +45,7 @@ public class OrganisationalPositionConverter implements Converter {
         if (value == null || value.isEmpty() || value.equals("---")) {
             return null;
         }
-        
-//        positions = positionFacade.findAll();
-//        
-//        for (OrganisationalPosition aPosition : positions) {
-//            if (value.equals(aPosition.getOrganisationalPositionName())) {
-//                output = aPosition;
-//                break;
-//            } else {
-//                output = null;
-//            }
-//        }
-//       
-//            return positionFacade.findByName(output.getOrganisationalPositionName()).getIdorganisationalPosition();
-//       
-//    return positionFacade.findByName(value).getIdorganisationalPosition();
+       
         
         return (OrganisationalPosition) positionFacade.findByName(value);
         
