@@ -36,6 +36,7 @@ public class CompetencesRequirementConverter implements Converter {
         if (value == null || value.isEmpty() || value.equals("---")) {
             return null;
         }
+        
         return competenceRequirementFacade.find(Integer.valueOf(value));
     }
 
