@@ -7,10 +7,13 @@
 package eu.comprofits.session.jobapplicant;
 
 import eu.comprofits.entities.jobapplicant.ApplicantStudyRecord;
+import eu.comprofits.entities.jobapplicant.JobApplicant;
 import eu.comprofits.session.AbstractFacade;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,6 +31,12 @@ public class ApplicantStudyRecordFacade extends AbstractFacade<ApplicantStudyRec
 
     public ApplicantStudyRecordFacade() {
         super(ApplicantStudyRecord.class);
+    }
+    
+    public List<ApplicantStudyRecord> findByApplicant(JobApplicant applicant) {
+        Query q = em.createQuery("SELECT a FROM ApplicantStudyRecord a WHERE a.jobApplicantIdjobApplicant = :applicant ORDER by a.dateStarted DESC, a.dateAcquired ASC");
+        q.setParameter("applicant", applicant);
+        return q.getResultList();
     }
     
 }
