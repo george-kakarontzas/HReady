@@ -63,6 +63,18 @@
         </auth-constraint>
     </security-constraint>
     <security-constraint>
+        <display-name>ApplicantConstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>applicant_pages</web-resource-name>
+            <description/>
+            <url-pattern>/applicant/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>APPLICANT</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
         <display-name>HRMRecruiterConstraint</display-name>
         <web-resource-collection>
             <web-resource-name>HRM_recruiter_pages</web-resource-name>
@@ -112,6 +124,10 @@
     <security-role>
         <description>General employee role</description>
         <role-name>employee</role-name>
+    </security-role>
+    <security-role>
+        <description>Applicant role</description>
+        <role-name>APPLICANT</role-name>
     </security-role>
     <resource-ref>
         <description>Connects to database for ComProFITS application</description>

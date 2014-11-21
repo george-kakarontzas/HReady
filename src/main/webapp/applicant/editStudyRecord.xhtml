@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./applicantPagesTemplate.xhtml">
+
+            <ui:define name="title">
+                #{msgs.edit_study}
+            </ui:define>
+
+            <ui:define name="content">
+                <f:view>
+                    <h:form>
+                        <p:messages  />
+                        <h1><h:outputText value="#{msgs.create_edit_study}"/></h1>
+                            <p:panelGrid columns="2">
+                            <p:outputLabel value="#{msgs.title}:" for="title" />
+                            <p:inputText id="title" value="#{updateApplicantStudiesCDIBean.studyRecord.title}" size="100" required="true" requiredMessage="#{msgs.required_title}."/>
+                            <p:outputLabel value="#{msgs.title_type}:" for="titleType" />
+                            
+                            <p:selectOneMenu id="titleType" value="#{updateApplicantStudiesCDIBean.studyRecord.titleType}" required="true" requiredMessage="#{msgs.required_title_type}" >
+                                <f:selectItem itemLabel="#{msgs.university_degree}" itemValue="1" />
+                                <f:selectItem itemLabel="#{msgs.master_degree}" itemValue="2" />
+                                <f:selectItem itemLabel="#{msgs.phd}" itemValue="3" />
+                                <f:selectItem itemLabel="#{msgs.postdoc}" itemValue="4" />
+                                <f:selectItem itemLabel="#{msgs.professional_education}" itemValue="5" />
+                                <f:selectItem itemLabel="#{msgs.continuing_training}" itemValue="6" />
+                            </p:selectOneMenu>
+                            
+                            <p:outputLabel value="#{msgs.institution}" for="institution" />
+                            <p:inputText id="institution" value="#{updateApplicantStudiesCDIBean.studyRecord.institution}" size="100" required="true" requiredMessage="#{msgs.required_institution}" />
+                            
+                            
+                            <p:outputLabel value="#{msgs.date_started}" for="dateStarted" />
+                            <p:calendar id="dateStarted" binding="#{startDateComponent}"
+                                        value="#{updateApplicantStudiesCDIBean.studyRecord.dateStarted}" 
+                                        showOn="button" navigator="true" pattern="dd/MM/yyyy" required="true" requiredMessage="#{msgs.required_date_started}">
+                            </p:calendar>
+                            
+                            <p:outputLabel value="#{msgs.date_acquired}" for="dateAcquired" />
+                            <p:calendar id="dateAcquired"  required="true" requiredMessage="#{msgs.required_date_acquired}"
+                                        value="#{updateApplicantStudiesCDIBean.studyRecord.dateAcquired}" 
+                                        showOn="button" navigator="true" pattern="dd/MM/yyyy">
+                            <f:validator validatorId="dateRangeValidator"/>
+                            <f:attribute name="startDateComponent" value="#{startDateComponent}" />
+                            </p:calendar>
+
+                            <h:commandButton id="back" value="#{msgs.back}" action="updateStudies" immediate="true"/>  
+                            <h:commandButton id="update" value="Update" action="#{updateApplicantStudiesCDIBean.update()}"  />
+                            </p:panelGrid>
+                    </h:form>
+
+                </f:view>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

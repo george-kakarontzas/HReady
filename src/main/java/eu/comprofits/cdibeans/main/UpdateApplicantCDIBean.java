@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -25,7 +26,11 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-
+import eu.comprofits.cdibeans.main.CountryList;
+import eu.comprofits.cdibeans.main.CountryList.Country;
+import static java.lang.System.out;
+import java.util.List;
+import java.util.Set;
 /**
  *
  * @author george
@@ -88,8 +93,23 @@ public class UpdateApplicantCDIBean implements Serializable {
         }
         return "/images/user.jpg";
     }
+
+    public List<CountryList.Country> getCountries() {
+        // Present a menu with language code, languate title 
+        // better store country code in db.
+        // this is irrespective of the chosen language and displays correctly
+        // both in english and spanish
+        CountryList countriesList = new CountryList(FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        return countriesList.getCountries();
+    }
     
+    public String getCountryName(Country country) {
+        return country.getName(); 
+    }
     
+      public String getCountryCode(Country country) {
+        return country.getCode(); 
+    }  
 
     public void upload() {
         if (photograph != null) {

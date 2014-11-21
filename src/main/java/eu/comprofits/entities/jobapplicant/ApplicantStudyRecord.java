@@ -8,6 +8,8 @@ package eu.comprofits.entities.jobapplicant;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.ResourceBundle;
+import javax.faces.context.FacesContext;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,7 +40,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ApplicantStudyRecord.findByTitleType", query = "SELECT a FROM ApplicantStudyRecord a WHERE a.titleType = :titleType"),
     @NamedQuery(name = "ApplicantStudyRecord.findByInstitution", query = "SELECT a FROM ApplicantStudyRecord a WHERE a.institution = :institution"),
     @NamedQuery(name = "ApplicantStudyRecord.findByDateStarted", query = "SELECT a FROM ApplicantStudyRecord a WHERE a.dateStarted = :dateStarted"),
-    @NamedQuery(name = "ApplicantStudyRecord.findByDateAcquired", query = "SELECT a FROM ApplicantStudyRecord a WHERE a.dateAcquired = :dateAcquired")})
+    @NamedQuery(name = "ApplicantStudyRecord.findByDateAcquired", query = "SELECT a FROM ApplicantStudyRecord a WHERE a.dateAcquired = :dateAcquired"),
+    @NamedQuery(name = "ApplicantStudyRecord.findByApplicant", query = "SELECT a FROM ApplicantStudyRecord a WHERE a.jobApplicantIdjobApplicant = :applicant")})
 public class ApplicantStudyRecord implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -150,6 +153,26 @@ public class ApplicantStudyRecord implements Serializable {
     @Override
     public String toString() {
         return "com.mycompany.mavenproject1.ApplicantStudyRecord[ idstudyRecord=" + idstudyRecord + " ]";
+    }
+    
+    public String getTitleTypeName() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+        switch (titleType) {
+            case 1:
+                return bundle.getString("university_degree");
+            case 2:
+                return bundle.getString("master_degree");
+            case 3:
+                return bundle.getString("phd");
+            case 4:
+                return bundle.getString("postdoc");
+            case 5: 
+                return bundle.getString("professional_education");
+            case 6: 
+                return bundle.getString("continuing_training");
+        }
+        return " ";
     }
     
 }
