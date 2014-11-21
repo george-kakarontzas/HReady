@@ -18,6 +18,10 @@
         <role-name>employee</role-name>
         <group-name>employee</group-name>
     </security-role-mapping>
+    <security-role-mapping>
+        <role-name>APPLICANT</role-name>
+        <group-name>APPLICANT</group-name>
+    </security-role-mapping>
     <class-loader delegate="true"/>
     <jsp-config>
         <property name="keepgenerated" value="true">
