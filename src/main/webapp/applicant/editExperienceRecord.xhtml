@@ -24,11 +24,11 @@
                             
                             <p:calendar id="dateStarted" binding="#{startDateComponent}"
                                         value="#{updateApplicantProfessionalExperience.experienceRecord.dateStarted}" 
-                                        showOn="button" navigator="true" pattern="dd/MM/yyyy"
+                                        showOn="button" navigator="true" pattern="dd/MM/yyyy"  yearRange="-50:+0"
                                         required="true" requiredMessage="#{msgs.required_date_started}">
                             </p:calendar>
                             <p:outputLabel value="#{msgs.date_finished}:" for="dateFinished" />
-                            <p:calendar id="dateFinished" 
+                            <p:calendar id="dateFinished"   yearRange="-50:+0"
                                         value="#{updateApplicantProfessionalExperience.experienceRecord.dateFinished}" 
                                         showOn="button" navigator="true" pattern="dd/MM/yyyy" required="true" requiredMessage="#{msgs.required_date_finished}">
                                 <f:validator validatorId="dateRangeValidator"/>

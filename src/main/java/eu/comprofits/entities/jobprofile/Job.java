@@ -83,7 +83,7 @@ public class Job implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "jobIdjob")
     private Collection<CompetencesRequirement> competencesRequirementCollection;
     @Column(name = "job_status")
-    private Integer status;
+    private Boolean status;
     
     public Job() {
     }
@@ -98,11 +98,11 @@ public class Job implements Serializable {
         this.jobDescription = jobDescription;
     }
 
-    public Integer getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
     

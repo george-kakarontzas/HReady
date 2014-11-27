@@ -38,7 +38,7 @@
                             
                             
                             <p:outputLabel value="#{msgs.date_started}" for="dateStarted" />
-                            <p:calendar id="dateStarted" binding="#{startDateComponent}"
+                            <p:calendar id="dateStarted" binding="#{startDateComponent}" yearRange="-50:+0"
                                         value="#{updateApplicantStudiesCDIBean.studyRecord.dateStarted}" 
                                         showOn="button" navigator="true" pattern="dd/MM/yyyy" required="true" requiredMessage="#{msgs.required_date_started}">
                             </p:calendar>
@@ -46,7 +46,7 @@
                             <p:outputLabel value="#{msgs.date_acquired}" for="dateAcquired" />
                             <p:calendar id="dateAcquired"  required="true" requiredMessage="#{msgs.required_date_acquired}"
                                         value="#{updateApplicantStudiesCDIBean.studyRecord.dateAcquired}" 
-                                        showOn="button" navigator="true" pattern="dd/MM/yyyy">
+                                        showOn="button" navigator="true" pattern="dd/MM/yyyy" yearRange="-50:+0">
                             <f:validator validatorId="dateRangeValidator"/>
                             <f:attribute name="startDateComponent" value="#{startDateComponent}" />
                             </p:calendar>

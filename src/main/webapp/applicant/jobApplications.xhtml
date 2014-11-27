@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./applicantPagesTemplate.xhtml">
+
+            <ui:define name="title">
+                #{msgs.your_job_applications}
+            </ui:define>
+
+            <ui:define name="content">
+                <f:view>
+                    <h:form id="availablejobs">
+                        <p:messages  />
+                        <h1><h:outputText value="#{msgs.your_job_applications}"/></h1>
+                        <p:dataTable value="#{applicantJobApplications.jobApplications}" var="item"
+                                     paginator="true" rows="10">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.title}" escape="false"/>
+                                </f:facet>
+                                <h:outputText value="#{item.jobAdvertisementIdjobAdvertisement.jobTitle}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.company}"/>
+                                </f:facet>
+                                <h:outputText value="#{applicantJobApplications.getCompanyName(item.jobAdvertisementIdjobAdvertisement)}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.date_created}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.date}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.remove_job_application}"/>
+                                </f:facet>
+                                <p:commandButton icon="ui-icon-trash"
+                                                 action="#{applicantJobApplications.remove(item)}"                                                
+                                                 onclick="if (!confirm('#{msgs.are_you_sure}')) {
+                                                             return false;
+                                                         }
+                                                         ;
+                                                         return true;
+                                                 ">
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </f:view>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
