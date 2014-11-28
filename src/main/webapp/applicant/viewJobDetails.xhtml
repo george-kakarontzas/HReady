@@ -15,9 +15,9 @@
             </ui:define>
 
             <ui:define name="content">
-                <f:view> <h1><h:outputText value="#{applicantJobApplication.selectedJob.jobTitle }"/></h1>
+                <f:view><h1><h:outputText value="#{applicantJobApplication.selectedJob.jobTitle }"/></h1>
                         <p:messages  />
-                        <h:form>
+                        <h:form id="jobDetailsForm">
                         <p:panelGrid columns="2">
                         <h3>#{msgs.company}</h3>
                         <h:outputText value="#{applicantJobApplication.getCompanyName(applicantJobApplication.selectedJob)}"/>
@@ -25,7 +25,6 @@
                         <h:outputText value="#{applicantJobApplication.selectedJob.fieldsOfResponsibility}"/>
                         <h3>#{msgs.job_description}</h3>
                         <h:outputText value="#{applicantJobApplication.selectedJob.jobDescription}"/>
-
                             <h:commandButton id="back" value="#{msgs.back}" action="availableJobs" immediate="true"/>  
                             <h:commandButton id="update" value="#{msgs.apply_for_job}" action="#{applicantJobApplication.applyForJob()}" rendered="#{!applicantJobApplication.hasAppliedForJob(applicantJobApplication.selectedJob)}" />
                         </p:panelGrid>

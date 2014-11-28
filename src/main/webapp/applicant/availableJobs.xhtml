@@ -25,21 +25,14 @@
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs.title}" escape="false"/>
                                 </f:facet>
-                                <h:outputText value="#{item.jobTitle}"/>
+                                <h:commandLink action="#{applicantJobApplication.view(item)}"  
+                                               value="#{item.jobTitle}" />
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs.company}"/>
                                 </f:facet>
                                 <h:outputText value="#{applicantJobApplication.getCompanyName(item)}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs.view_details}"/>
-                                </f:facet>
-                                <p:commandButton icon="ui-icon-info"
-                                                 action="#{applicantJobApplication.view(item)}">
-                                </p:commandButton>
                             </p:column>
                         </p:dataTable>
                     </h:form>
