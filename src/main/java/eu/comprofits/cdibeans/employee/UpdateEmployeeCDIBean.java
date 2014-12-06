@@ -144,6 +144,12 @@ public class UpdateEmployeeCDIBean implements Serializable {
         }
     }
 
+    public void changeActiveStatus(Employee e) {
+        e.setIsActive(!e.getIsActive());
+        employeeFacade.edit(e);
+        this.refreshEmployeesList();
+    }
+    
     public void remove(Employee e) {
         try {
             //first delete employee's photograph if not empty
