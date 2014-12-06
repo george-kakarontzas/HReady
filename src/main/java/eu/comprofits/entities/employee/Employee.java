@@ -64,7 +64,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Employee.findByPassword", query = "SELECT e FROM Employee e WHERE e.password = :password"),
     @NamedQuery(name = "Employee.findByMaritalStatus", query = "SELECT e FROM Employee e WHERE e.maritalStatus = :maritalStatus"),
     @NamedQuery(name = "Employee.findByNumberOfChildren", query = "SELECT e FROM Employee e WHERE e.numberOfChildren = :numberOfChildren"),
-    @NamedQuery(name = "Employee.findByRole", query = "SELECT e FROM Employee e WHERE e.role = :role")})
+    @NamedQuery(name = "Employee.findByRole", query = "SELECT e FROM Employee e WHERE e.role = :role"),
+    @NamedQuery(name = "Employee.findByIsActive", query = "SELECT e FROM Employee e WHERE e.isActive = :isActive")})
 public class Employee implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -151,6 +152,8 @@ public class Employee implements Serializable {
     private Character maritalStatus;
     @Column(name = "number_of_children")
     private Short numberOfChildren;
+    @Column(name = "is_active")
+    private Boolean isActive;
     @Size(max = 50)
     @Column(name = "role")
     private String role;
@@ -536,6 +539,16 @@ public class Employee implements Serializable {
         this.assessmentCollection4 = assessmentCollection4;
     }
 
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

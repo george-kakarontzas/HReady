@@ -88,6 +88,20 @@
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
+                                    <h:outputText value="#{msgs.activation_status}"/>
+                                </f:facet>
+                                <p:commandButton icon="#{item.isActive?'ui-icon-circle-check':'ui-icon-circle-close'}" title="#{item.isActive?msgs.active:msgs.not_active}"
+                                                 action="#{updateEmployeeCDIBean.changeActiveStatus(item)}"                                                
+                                                 onclick="if (!confirm('#{msgs.are_you_sure}')) {
+                                                             return false;
+                                                         }
+                                                         ;
+                                                         return true;
+                                                 " >
+                                    </p:commandButton>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
                                     <h:outputText value="#{msgs.remove_employee}"/>
                                 </f:facet>
                                 <p:commandButton icon="ui-icon-trash"
