@@ -64,7 +64,7 @@ public class CountryList {
     
  
 
-    static class Country {
+    public static class Country {
         private String code;
         private String name;
  

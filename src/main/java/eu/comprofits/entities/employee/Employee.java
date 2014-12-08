@@ -201,7 +201,7 @@ public class Employee implements Serializable {
         this.idemployee = idemployee;
     }
 
-    public Employee(Integer idemployee, String socialSecurityNumber, String firstName, String lastName, String address, String postalCode, String city, String country, Date dateOfBirth, String phoneMobile, String email, String username, String password) {
+    public Employee(Integer idemployee, String socialSecurityNumber, String firstName, String lastName, String address, String postalCode, String city, String country, Date dateOfBirth, String phoneMobile, String email, String username, String password, Boolean isActive) {
         this.idemployee = idemployee;
         this.socialSecurityNumber = socialSecurityNumber;
         this.firstName = firstName;
@@ -215,6 +215,7 @@ public class Employee implements Serializable {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.isActive = isActive;
     }
 
     public Integer getIdemployee() {

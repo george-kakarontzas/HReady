@@ -84,6 +84,8 @@ public class UpdateStudiesCDIBean implements Serializable {
                 return bundle.getString("professional_education");
             case 6: 
                 return bundle.getString("continuing_training");
+            case 7: 
+                return bundle.getString("other_training");
         }
         return " ";
     }

@@ -5,6 +5,7 @@
  */
 package eu.comprofits.cdibeans.employee;
 
+import eu.comprofits.cdibeans.main.CountryList;
 import eu.comprofits.entities.employee.Employee;
 import eu.comprofits.entities.main.Department;
 import eu.comprofits.session.employee.EmployeeFacade;
@@ -300,5 +301,23 @@ public class updateEmployeesProfileCDIBean implements Serializable {
         refreshDepartmentEmployeesList();
         return "updateEmployeeProfile";
     }
+    
+    
+    public List<CountryList.Country> getCountries() {
+        // Present a menu with language code, languate title 
+        // better store country code in db.
+        // this is irrespective of the chosen language and displays correctly
+        // both in english and spanish
+        CountryList countriesList = new CountryList(FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        return countriesList.getCountries();
+    }
+    
+    public String getCountryName(CountryList.Country country) {
+        return country.getName(); 
+    }
+    
+      public String getCountryCode(CountryList.Country country) {
+        return country.getCode(); 
+    }  
 
 }
