@@ -71,6 +71,9 @@ public class Assessment implements Serializable {
     @JoinColumn(name = "assessee_idemployee", referencedColumnName = "idemployee")
     @ManyToOne(optional = false)
     private Employee assesseeIdemployee;
+    @Column(name = "issue_date")
+    @Temporal(TemporalType.DATE)
+    private Date issueDate;
     @Column(name = "deadline")
     @Temporal(TemporalType.DATE)
     private Date deadline;
@@ -173,6 +176,16 @@ public class Assessment implements Serializable {
         return assesseeIdemployee;
     }
 
+    public Date getIssueDate() {
+        return issueDate;
+    }
+
+    public void setIssueDate(Date issueDate) {
+        this.issueDate = issueDate;
+    }
+
+    
+    
     public void setAssesseeIdemployee(Employee assesseeIdemployee) {
         this.assesseeIdemployee = assesseeIdemployee;
     }
@@ -183,7 +196,13 @@ public class Assessment implements Serializable {
         String strDateCreated = df.format(dateCreated);
         return strDateCreated;
     }
-    
+ 
+    @Transient 
+    public String getShortIssueDate() {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String strDeadline = df.format(issueDate);
+        return strDeadline;
+    }
     
     @Transient 
     public String getShortDeadlineDate() {

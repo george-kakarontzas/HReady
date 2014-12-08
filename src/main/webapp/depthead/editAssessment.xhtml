@@ -23,9 +23,9 @@
                                 <p:panel header="#{msgs.assessment_team}">
                                     <p:messages />
                                     <p:panelGrid columns="2">
-                                        <p:outputLabel value="#{msgs.date_created}:" for="dateCreated" />
-                                        <p:calendar id="dateCreated" 
-                                                    value="#{updateAssessmentsCDIBean.assessment.dateCreated}" 
+                                        <p:outputLabel value="#{msgs.issue_date}:" for="issueDate" />
+                                        <p:calendar id="issueDate" 
+                                                    value="#{updateAssessmentsCDIBean.assessment.issueDate}" 
                                                     showOn="button" navigator="true" pattern="dd/MM/yyyy" 
                                                     />
                                         <p:outputLabel value="#{msgs.deadline}:" for="deadline" />

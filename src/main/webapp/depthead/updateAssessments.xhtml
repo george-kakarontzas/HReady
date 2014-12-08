@@ -47,6 +47,14 @@
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
+                                    <h:outputText value="#{msgs.issue_date}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.issueDate}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
                                     <h:outputText value="#{msgs.deadline}"/>
                                 </f:facet>
                                 <h:outputText value="#{item.deadline}">

@@ -19,6 +19,7 @@ import eu.comprofits.session.main.CompetenceFacade;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -321,6 +322,7 @@ public class UpdateAssessmentsCDIBean implements Serializable {
 
     public String create() {
         this.assessment = new Assessment();
+        this.assessment.setDateCreated(new Date());
         //initialize the level 3 competences array
         List<Competence> allCompetences = competenceFacade.findAll();
         List<Competence> level3Competences = new ArrayList<>();

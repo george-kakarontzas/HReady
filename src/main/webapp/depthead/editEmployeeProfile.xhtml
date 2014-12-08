@@ -51,9 +51,10 @@
                                         <p:inputText id="city" value="#{updateEmployeesProfileCDIBean.employee.city}" 
                                                      required="true" requiredMessage="#{msgs.required_city}."/>
                                         <p:outputLabel value="#{msgs.country}:" for="country" />
-                                        <p:inputText id="country" value="#{updateEmployeesProfileCDIBean.employee.country}" 
-                                                     required="true" requiredMessage="#{msgs.reuired_country}."/>
-                                        
+                                        <p:selectOneMenu id="country" value="#{updateEmployeesProfileCDIBean.employee.country}" required="true" requiredMessage="#{msgs.reuired_country}.">  
+                            <f:selectItems value="#{updateEmployeesProfileCDIBean.countries}" var="country"
+                        actionListener="" itemLabel="#{updateEmployeesProfileCDIBean.getCountryName(country)}" itemValue="#{updateEmployeesProfileCDIBean.getCountryCode(country)}" />
+                                        </p:selectOneMenu>
                                         <p:outputLabel value="#{msgs.date_of_birth}:" for="dateOfBirth" />
                                         <p:calendar id="dateOfBirth" 
                                                     value="#{updateEmployeesProfileCDIBean.employee.dateOfBirth}" 
