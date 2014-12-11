@@ -78,6 +78,7 @@ public class UpdateJobCDIBean implements Serializable {
 
     private Employee employeeObject;
     private List<Employee> employeeList;
+    private List<Employee> employeeReportingToList;
 
     public UpdateJobCDIBean() {
     }
@@ -86,11 +87,19 @@ public class UpdateJobCDIBean implements Serializable {
     public void init() {
         jobObject = new Job();
         employeeObject = new Employee();
+        employeeReportingToList = employeeFacade.findAll();
+        employeeReportingToList.clear();
         jobList = jobFacade.findAll();
         employeeList = employeeFacade.findAll();
         positions = organisationalPositionFacade.findAll();
         competenceRequirements = competencesRequirementFacade.findAll();
-
+        
+        for (Employee e :employeeList) {
+            if (e.getRole().equals("depthead")) {
+                employeeReportingToList.add(e);
+            }
+        }
+        
         c1 = new CompetencesRequirement();
         c2 = new CompetencesRequirement();
         c3 = new CompetencesRequirement();
@@ -185,6 +194,15 @@ public class UpdateJobCDIBean implements Serializable {
         this.jobAdvertisementList = jobAdvertisementList;
     }
 
+    public List<Employee> getEmployeeReportingToList() {
+        return employeeReportingToList;
+    }
+
+    public void setEmployeeReportingToList(List<Employee> employeeReportingToList) {
+        this.employeeReportingToList = employeeReportingToList;
+    }
+    
+    
     public CompetencesRequirement getC1() {
         return c1;
     }

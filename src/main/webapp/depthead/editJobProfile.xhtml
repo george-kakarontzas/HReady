@@ -38,7 +38,7 @@
                             <p:outputLabel value="#{msgs.reporting_to}" for="reportingTo" />
                             <p:selectOneMenu id="reportingTo" value="#{updateJobCDIBean.jobObject.reportingToIdemployee}" converter="#{reportingToConverter}">  
                                 <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true"/>
-                                <f:selectItems value="#{updateJobCDIBean.employeeList}"
+                                <f:selectItems value="#{updateJobCDIBean.employeeReportingToList}"
                                                var="e" itemValue="#{e}" itemLabel="##{e.lastName} #{e.firstName} #{e.email}" />
                             </p:selectOneMenu>
 
@@ -65,7 +65,7 @@
                                 <f:selectItem itemLabel="#{msgs.continuing_training}" itemValue=""/>
                             </p:selectManyCheckbox>                             -->
 
-                            <!--What is the right object for "Practical Experience before current company" in the updateJobCDIBean.jobObject 
+                            <!--What is the right object for "Practical Experience before current company" in the updateJobCDIBean.jobObject  
                             <p:outputLabel value="#{msgs.practical_experience_before_current_company}:" for="practicalExperienceBeforeCurrentCompany" />
                             <p:inputText id="practicalExperienceBeforeCurrentCompany" size="5" /> -->
              
@@ -224,10 +224,11 @@
                             </p:selectOneMenu> 
 
                         </p:panelGrid> 
-                        
+
                         <p:panelGrid columns="5" >
-                            <h:commandButton id="back" value="#{msgs.back}" action="updateJobProfile"  immediate="true" />       
-                            <h:commandButton id="saveAsNew" value="Save" action="#{updateJobCDIBean.save()}" /> 
+                            <h:commandButton id="back" value="#{msgs.back}" action="updateJobProfile"  immediate="true" />  
+                            <h:commandButton id="update" value="Update" action="#{updateJobCDIBean.updateWithCompetenceWeights()}" />     
+                            <h:commandButton id="saveAsNew" value="Save as new" action="#{updateJobCDIBean.saveAsNew()}" /> 
                             <p:commandButton id="print" value="#{msgs.print}" icon="ui-icon-print" ><p:printer /></p:commandButton>
                             <p:commandButton id="help" value="#{msgs.help}" icon="ui-icon-help" />
                         </p:panelGrid>
