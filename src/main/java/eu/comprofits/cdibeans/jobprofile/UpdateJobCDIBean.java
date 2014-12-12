@@ -19,6 +19,7 @@ import eu.comprofits.session.main.OrganisationalPositionFacade;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -298,7 +299,7 @@ public class UpdateJobCDIBean implements Serializable {
     public void setC12(CompetencesRequirement c12) {
         this.c12 = c12;
     }
-
+    @PreDestroy
     public String edit(Job job) {
         this.jobObject = job;
 
