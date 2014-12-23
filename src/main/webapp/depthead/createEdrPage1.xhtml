@@ -8,7 +8,8 @@
 
     <body>
 
-        <ui:composition template="./edrPagesTemplate.xhtml">
+        <ui:composition template="./deptheadPagesTemplate.xhtml"> 
+        <!-- <ui:composition> -->
             <ui:define name="title">
                 ${msgs.edr_title1}
             </ui:define>
@@ -25,19 +26,17 @@
                             <h:panelGroup> 
                                 <p:selectOneMenu id="idemployee" 
                                                  value="#{updateEdrCDIBean.edrObject.reviewedEmployeeIdemployee}" 
-                                                 style="width:200px"
-                                                 converter="#{employeeConverter1}">
-                                    <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />                         
+                                                 converter="#{reportingToConverter}">  
+                                    <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true"/>
                                     <f:selectItems value="#{updateEdrCDIBean.employeeList}"
-                                                   var="e" itemValue="#{e}" 
-                                                   itemLabel="#{e.lastName} #{e.firstName} #{e.email}" />
+                                                   var="e" itemValue="#{e}" itemLabel="##{e.lastName} #{e.firstName} #{e.email}" />
                                 </p:selectOneMenu>
                             </h:panelGroup>
                             <h:panelGroup>
                                 <h:outputLabel for="year" value="Year" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <p:inputText id="year" style="width:100px" value="#{updateEdrCDIBean.edrObject.year}" />
+                                <p:inputText id="year" value="#{updateEdrCDIBean.edrObject.year}" />
                             </h:panelGroup>
                             <h:panelGroup>
                                 <h:outputLabel for="verdict" value="Verdict" />
@@ -53,7 +52,6 @@
                             <h:panelGroup>
                                 <p:selectOneMenu id="immediateManager" 
                                                  value="#{updateEdrCDIBean.edrObject.immediateManagerIdemployee}" 
-                                                 style="width:200px"
                                                  converter="#{employeeConverter1}">
                                     <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />                         
                                     <f:selectItems value="#{updateEdrCDIBean.employeeList}"
@@ -64,60 +62,15 @@
                                 <h:outputLabel for="status" value="#{msgs.edr_status}" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <p:selectOneMenu id="status" style="width:100px" value="#{updateEdrCDIBean.edrObject.status}">
+                                <p:selectOneMenu id="status" value="#{updateEdrCDIBean.edrObject.status}">
                                             <f:selectItem itemLabel="#{msgs.status_undefined}" itemValue="0"/>
                                 </p:selectOneMenu>  
                             </h:panelGroup>
                             <h:panelGroup>
-                                <p:commandButton value="#{msgs.save}" icon="ui-icon-check"
-                                        action="#{updateEdrCDIBean.save}"                                                
-                                        onclick="if (! confirm('#{msgs.are_you_sure}') ) { return false;}; return true; " />
+                                <p:commandButton value="#{msgs.next}" icon="ui-icon-check"
+                                        action="#{updateEdrCDIBean.next("createEdrPage2")}" />
                             </h:panelGroup>
                         </h:panelGrid>
-                        <!--
-                        <h:panelGrid columns="1" cellpadding="0" style="float: right">
-                            <h:panelGroup style="width: 100%;" layout="block">
-                                <h4 align="center">Goal Status</h4>
-                                <h:panelGrid columns="1" cellpadding="0" columnClasses="greenBackground">
-                                    <h:outputLabel for="name13" value="Achived"/>
-                                </h:panelGrid>
-                                <h:panelGrid columns="1" cellpadding="0" columnClasses="yellowBackground">
-                                    <h:outputLabel for="name11" value="Working on goals"/>
-                                </h:panelGrid>
-                                <h:panelGrid columns="1" cellpadding="0" columnClasses="redBackground">
-                                    <h:outputLabel for="name12" value="Date passed"/>
-                                </h:panelGrid>
-                                <h:panelGrid columns="1" cellpadding="0" columnClasses="greyBackground">
-                                    <h:outputLabel for="name12" value="Not defined"/>
-                                </h:panelGrid>
-                            </h:panelGroup>
-                            
-                            <h4 align="center">Edr Status</h4>
-                            <p:button value="Defined">
-                                <f:param name="definedButton" value="10" />
-                            </p:button>
-                            <p:button value="Shown">
-                                <f:param name="shownButton" value="10" />
-                            </p:button>
-                            <p:button value="Modify">
-                                <f:param name="modifyButton" value="10" />
-                            </p:button>
-                            <p:button value="Changed">
-                                <f:param name="changedButton" value="10" />
-                            </p:button>
-                            <p:button value="Approved">
-                                <f:param name="approvedButton" value="10" />
-                            </p:button>
-                            <p:button value="Accept">
-                                <f:param name="acceptButton" value="10" />
-                            </p:button>
-                            <p:button value="Add more notes">
-                                <f:param name="addMoreNotesButton" value="10" />
-                            </p:button>
-                            <p:button value="Completed">
-                                <f:param name="completedButton" value="10" />
-                            </p:button> 
-                        </h:panelGrid> -->
                     </p:panelGrid>
                 </h:form>
             </ui:define>

@@ -299,7 +299,7 @@ public class UpdateJobCDIBean implements Serializable {
     public void setC12(CompetencesRequirement c12) {
         this.c12 = c12;
     }
-    @PreDestroy
+    
     public String edit(Job job) {
         this.jobObject = job;
 

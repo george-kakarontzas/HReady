@@ -41,7 +41,7 @@ public class UpdateEdrCDIBean implements Serializable {
     private JobFacade jobFacade;
     @EJB
     private BusinessAreaFacade businessAreaFacade;
-    
+
     private BusinessArea selectedBusinessArea;
     private Edr edrObject;
     private Edr latestEdr;
@@ -52,11 +52,22 @@ public class UpdateEdrCDIBean implements Serializable {
     private List<Employee> employeeList;
     private boolean firstTime;
 
+    private String year;
+    private Employee reviewedEmployee;
+    private String verdict;
+    private Employee immediateManager;
+    private String edrStatus;
+
     public UpdateEdrCDIBean() {
     }
 
     @PostConstruct
     public void init() {
+        year = new String();
+        reviewedEmployee = new Employee();
+        verdict = new String();
+        immediateManager = new Employee();
+        edrStatus = new String();
         edrObject = new Edr();
         edrList = edrFacade.findAll();
         employeeList = employeeFacade.findAll();
@@ -79,7 +90,7 @@ public class UpdateEdrCDIBean implements Serializable {
     public void setBusinessAreaList(List<BusinessArea> businessAreaList) {
         this.businessAreaList = businessAreaList;
     }
-    
+
     public Job getSelectedJob() {
         return selectedJob;
     }
@@ -95,7 +106,7 @@ public class UpdateEdrCDIBean implements Serializable {
     public void setJobList(List<Job> jobList) {
         this.jobList = jobList;
     }
-    
+
     public boolean isFirstTime() {
         return firstTime;
     }
@@ -111,7 +122,7 @@ public class UpdateEdrCDIBean implements Serializable {
     public void setLatestEdr(Edr latestEdr) {
         this.latestEdr = latestEdr;
     }
-    
+
     public List<Employee> getEmployeeList() {
         return employeeList;
     }
@@ -119,7 +130,7 @@ public class UpdateEdrCDIBean implements Serializable {
     public void setEmployeeList(List<Employee> employeeList) {
         this.employeeList = employeeList;
     }
-    
+
     public Edr getEdrObject() {
         return edrObject;
     }
@@ -135,7 +146,47 @@ public class UpdateEdrCDIBean implements Serializable {
     public void setEdrList(List<Edr> edrList) {
         this.edrList = edrList;
     }
-    
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public Employee getReviewedEmployee() {
+        return reviewedEmployee;
+    }
+
+    public void setReviewedEmployee(Employee reviewedEmployee) {
+        this.reviewedEmployee = reviewedEmployee;
+    }
+
+    public String getVerdict() {
+        return verdict;
+    }
+
+    public void setVerdict(String verdict) {
+        this.verdict = verdict;
+    }
+
+    public Employee getImmediateManager() {
+        return immediateManager;
+    }
+
+    public void setImmediateManager(Employee immediateManager) {
+        this.immediateManager = immediateManager;
+    }
+
+    public String getEdrStatus() {
+        return edrStatus;
+    }
+
+    public void setEdrStatus(String edrStatus) {
+        this.edrStatus = edrStatus;
+    }
+
     public String getEdrByEdrId(Edr edr) {
         for (Edr edrtemp : edrList) {
             if (edrtemp.getIdedr().equals(edr.getIdedr())) {
@@ -145,22 +196,23 @@ public class UpdateEdrCDIBean implements Serializable {
         }
         return " edrNotFound";
     }
-    
+
     public String getEdrsByEmployeeId(Employee employee) {
-        
+
         ArrayList<Edr> tempList = new ArrayList<Edr>();
         for (Edr edrtemp : edrList) {
             if (edrtemp.getReviewedEmployeeIdemployee().equals(employee.getIdemployee())) {
                 tempList.add(edrtemp);
                 this.edrObject = edrtemp;
-                
+
             }
-        } if (tempList.isEmpty()) {
+        }
+        if (tempList.isEmpty()) {
             return "edrNotFound";
         } else {
             edrList.clear();
             edrList = tempList;
-            
+
             return "EdrsFound";
         }
     }
@@ -180,9 +232,9 @@ public class UpdateEdrCDIBean implements Serializable {
 
     public String followUpOnLatestEdr(Edr edr) {
         ArrayList<Edr> temp = new ArrayList<Edr>();
-        
+
         latestEdr = new Edr();
-        
+
         for (Edr e : edrList) {
             if (e.getReviewedEmployeeIdemployee().getIdemployee().equals(edr.getReviewedEmployeeIdemployee())) {
                 temp.add(e);
@@ -232,7 +284,7 @@ public class UpdateEdrCDIBean implements Serializable {
                             e.getMessage(), null));
         }
     }
-    
+
     public String save() throws InterruptedException {
         if (edrObject != null) {
             if (firstTime) {
@@ -241,12 +293,24 @@ public class UpdateEdrCDIBean implements Serializable {
                 edrFacade.edit(edrObject);
             }
         }
+
         FacesContext context = FacesContext.getCurrentInstance();
         ResourceBundle text = ResourceBundle.getBundle("messages", context.getViewRoot().getLocale());
         String message = text.getString("succesful_save_message");
         context.addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, message, message));
-        return "";
+
+        return "createEdrPage2";
     }
 
+    public String next(String returnStatement) throws InterruptedException {
+
+       
+   
+        
+    return returnStatement;
+        
+        
+        
+    }
 }
