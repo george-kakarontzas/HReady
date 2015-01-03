@@ -6,6 +6,7 @@
 
 package eu.comprofits.entities.main;
 
+
 import eu.comprofits.entities.assessment.EmployeeCompetenceAssessment;
 import eu.comprofits.entities.assessment.Statement;
 import eu.comprofits.entities.edr.CompetenceGoal;
@@ -129,6 +130,16 @@ public class Competence implements Serializable {
             level++;
         }
         return level;
+    }
+    
+    public String getLeveledLabel() {
+        String pad = "-";
+        int level = this.getLevel();
+        while (level>1) {
+            pad += "-";
+            level--;
+        }
+        return pad+this.getCompetenceName();
     }
 
     @XmlTransient

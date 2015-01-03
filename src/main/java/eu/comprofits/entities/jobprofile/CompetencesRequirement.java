@@ -120,4 +120,12 @@ public class CompetencesRequirement implements Serializable {
         return "com.mycompany.mavenproject1.CompetencesRequirement[ idcompetencesRequirement=" + idcompetencesRequirement + " ]";
     }
     
+    public String getCompetenceName() {
+        return this.getCompetenceIdcompetence().getCompetenceName();
+    }
+    
+    public String getJobTitle() {
+        return this.getJobIdjob().getJobTitle();
+    }
+    
 }

@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./hrmPagesTemplate.xhtml">
+
+            <ui:define name="title">
+                #{msgs.edit_requirement}
+            </ui:define>
+
+            <ui:define name="content">
+                <f:view>
+                    <h:form>
+                        <p:messages  />
+                        <h1><h:outputText value="#{msgs.create_edit_requirement}"/></h1>
+                        <p:panelGrid columns="2">
+                         
+                            <p:outputLabel value="#{msgs.competence_name}:" for="competence_id" />
+                            <p:selectOneMenu id="competence_id" value="#{updateCompetencesRequirement.requirement.competenceIdcompetence}" converter="#{competenceConverter}">
+                                <f:selectItems value="#{updateCompetencesRequirement.competences}" 
+                                               var="c" itemValue="#{c}" itemLabel="#{c.leveledLabel}" 
+                                               />
+                            </p:selectOneMenu>
+                            <p:outputLabel value="#{msgs.job_title}:" for="job_id" />
+                            <p:selectOneMenu id="job_id" value="#{updateCompetencesRequirement.requirement.jobIdjob}" converter="#{jobConverter}">
+                                <f:selectItems value="#{updateCompetencesRequirement.jobs}" 
+                                               var="j" itemValue="#{j}" itemLabel="#{j.jobTitle}" 
+                                               />
+                            </p:selectOneMenu>
+                            <p:outputLabel value="#{msgs.competence_requirement_weight}:" for="weight" />
+                            <p:inputText id="weight" 
+                                         value="#{updateCompetencesRequirement.requirement.weight}" 
+                                         title="#{msgs.competence_requirement_weight}"/>
+                            <h:commandButton id="back" value="#{msgs.back}" action="updateCompetencesRequirements"  immediate="true"/>  
+                            <h:commandButton id="update" value="Update" action="#{updateCompetencesRequirement.update()}"/>
+                        </p:panelGrid>
+                    </h:form>
+
+                </f:view>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
