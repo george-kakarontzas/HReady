@@ -7,93 +7,60 @@
       xmlns:h="http://java.sun.com/jsf/html">
 
     <body>
-        <ui:composition template="./edrPagesTemplate.xhtml">
+
+        <ui:composition template="./deptheadPagesTemplate.xhtml"> 
+       
             <ui:define name="title">
                 ${msgs.edr_title3}
             </ui:define>
 
             <ui:define name="content">
                 <h1>${msgs.edr}</h1>
-                <h2>${msgs.page3}</h2>
-                <p:panelGrid columnClasses="left" columns="2" style="width: 100%">
-                    <h:panelGrid columns="1" cellpadding="0" style="float: right">
-                        <h:form>
+                <h:form id="createEdr">
+                    <p:panelGrid columns="2" style="width: 100%">
+                        <h:panelGrid columns="2" cellpadding="5" columnClasses="left">
                             <h:panelGroup>
-                                <p:outputPanel deferred="false" deferredMode="visible">
-                                    <p>#{msgs.edr_question21}</p>
-                                </p:outputPanel>
+                                <h:outputLabel for="answer21" value="#{msgs.edr_question21}" />
                             </h:panelGroup>
-                        </h:form>
-                    </h:panelGrid>
-                    <h:panelGrid columns="1" cellpadding="0" style="float: left">
-                        <h:form>
-                            <h:panelGroup>
-                                <p:inputTextarea rows="6" cols="120"/>
-                            </h:panelGroup> 
-                        </h:form>
-                    </h:panelGrid>
-                    <h:panelGrid columns="1" cellpadding="0" style="float: right">
-                        <h:form>
-                            <h:panelGroup>
-                                <p:outputPanel deferred="false" deferredMode="visible">
-                                    <p>#{msgs.edr_question22}</p>
-                                </p:outputPanel>
+                            <h:panelGroup> 
+                                <p:editor id="answer21" widgetVar="editorWidget" 
+                                          value="#{updateEdrCDIBean.questionAnswer5.answer}" width="600" />
                             </h:panelGroup>
-                        </h:form>
-                    </h:panelGrid>
-                    <h:panelGrid columns="1" cellpadding="0" style="float: left">
-                        <h:form>
                             <h:panelGroup>
-                                <p:inputTextarea rows="6" cols="120"/>
-                            </h:panelGroup> 
-                        </h:form>
-                    </h:panelGrid>
-                    <h:panelGrid columns="1" cellpadding="0" style="float: right">
-                        <h:form>
-                            <h:panelGroup>
-                                <p:outputPanel deferred="false" deferredMode="visible">
-                                    <p>#{msgs.edr_question23}</p>
-                                </p:outputPanel>
+                                <h:outputLabel for="answer22" value="#{msgs.edr_question22}" />
                             </h:panelGroup>
-                        </h:form>
-                    </h:panelGrid>
-                    <h:panelGrid columns="1" cellpadding="0" style="float: left">
-                        <h:form>
+                            <h:panelGroup> 
+                                <p:editor id="answer22" widgetVar="editorWidget" 
+                                          value="#{updateEdrCDIBean.questionAnswer6.answer}" width="600" />
+                            </h:panelGroup>
                             <h:panelGroup>
-                                <p:inputTextarea rows="6" cols="120"/>
-                            </h:panelGroup> 
-                        </h:form>
-                    </h:panelGrid>
-                    <h:panelGrid columns="1" cellpadding="0" style="float: right">
-                        <h:form>
+                                <h:outputLabel for="answer23" value="#{msgs.edr_question23}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer23" widgetVar="editorWidget" 
+                                          value="#{updateEdrCDIBean.questionAnswer7.answer}" width="600" />
+                            </h:panelGroup>
                             <h:panelGroup>
-                                <p:outputPanel deferred="false" deferredMode="visible">
-                                    <p>#{msgs.edr_question24}</p>
-                                </p:outputPanel>
-                            </h:panelGroup>     
-                        </h:form>
-                    </h:panelGrid>
-                    <h:panelGrid columns="1" cellpadding="0" style="float: left">
-                        <h:form>
+                                <h:outputLabel for="answer24" value="#{msgs.edr_question24}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer24" widgetVar="editorWidget" 
+                                          value="#{updateEdrCDIBean.questionAnswer8.answer}" width="600" />
+                            </h:panelGroup>
                             <h:panelGroup>
-                                <p:inputTextarea rows="6" cols="120"/>
-                            </h:panelGroup> 
-                        </h:form>
-                    </h:panelGrid>
-                    <h:panelGrid columns="1" cellpadding="0">
-                        
-                    </h:panelGrid>
-                    <h:panelGrid columns="1" cellpadding="0" style="float: right">
-                        <h:form>
+                                <h:commandButton value="#{msgs.back}" 
+                                        action="createEdrPage2?faces-redirect=true" />
+                            </h:panelGroup>
                             <h:panelGroup>
-                                <p:button value="Next">
-                                    <f:param name="nextButton" value="10" />
-                                </p:button>
-                            </h:panelGroup>  
-                        </h:form>
-                    </h:panelGrid>
-                </p:panelGrid>
+                                <h:commandButton value="#{msgs.next}" 
+                                        action="createEdrPage4?faces-redirect=true" />
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </p:panelGrid>
+                </h:form>
             </ui:define>
+
         </ui:composition>
-    </body>
+
+    </body> 
 </html>

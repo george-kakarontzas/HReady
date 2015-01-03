@@ -8,13 +8,14 @@
 
     <body>
 
-        <ui:composition template="./edrPagesTemplate.xhtml">
+        <ui:composition template="./deptheadPagesTemplate.xhtml">
 
             <ui:define name="title">
                 ${msgs.edr_title8}
             </ui:define>
 
             <ui:define name="content">
+                <h1>${msgs.edr}</h1>
                 <h:form id="createEdrPage8" >
                     <p:messages  />
                     <p:panelGrid columns="2"  columnClasses="columna">
@@ -93,10 +94,23 @@
                         </p:panelGrid>
 
                         <h:panelGroup />
-                        <p:panelGrid columns="3" >
-                            <p:button value="#{msgs.save}"  />  
-                            <p:button value="#{msgs.print}"  />  
-                            <p:button value="#{msgs.help}" />
+                        <p:panelGrid columns="4" >
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.back}"
+                                        action="createEdrPage7?faces-redirect=true" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.save()}" 
+                                       action="#{updateEdrCDIBean.save("a Note")}" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.print}" 
+                                        action="#{updateEdrCDIBean.print()}" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.help}" 
+                                        action="#{updateEdrCDIBean.help()}" />
+                            </h:panelGroup>
                         </p:panelGrid>
                     </p:panelGrid>
                 </h:form>

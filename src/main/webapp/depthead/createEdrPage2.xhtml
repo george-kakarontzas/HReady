@@ -7,97 +7,60 @@
       xmlns:h="http://java.sun.com/jsf/html">
 
     <body>
-        <ui:composition template="./edrPagesTemplate.xhtml">
+
+        <ui:composition template="./deptheadPagesTemplate.xhtml"> 
+       
             <ui:define name="title">
                 ${msgs.edr_title2}
             </ui:define>
 
             <ui:define name="content">
                 <h1>${msgs.edr}</h1>
-                <h2>${msgs.page2}</h2>
-                <p:panelGrid columnClasses="left" columns="2" style="width: 100%">
-                    <h:panelGrid columns="1" cellpadding="0" style="float: right">
-                        <h:form>
+                <h:form id="createEdr">
+                    <p:panelGrid columns="2" style="width: 100%">
+                        <h:panelGrid columns="2" cellpadding="5" columnClasses="left">
                             <h:panelGroup>
-                                <p:outputPanel id="question11" deferred="false" deferredMode="visible">
-                                    <p>#{msgs.edr_question11}</p>
-                                </p:outputPanel>
+                                <h:outputLabel for="answer11" value="#{msgs.edr_question11}" />
                             </h:panelGroup>
-                        </h:form>
-                    </h:panelGrid>
-                    <h:panelGrid columns="1" cellpadding="0" style="float: left">
-                        <h:form>
-                            <h:panelGroup>
+                            <h:panelGroup> 
                                 <p:editor id="answer11" widgetVar="editorWidget" 
-                                          value="#{updateQuestionAnswerCDIBean.questionAnswerObject1.answer}" width="600" />
-                            </h:panelGroup> 
-                        </h:form>
-                    </h:panelGrid>
-                    <h:panelGrid columns="1" cellpadding="0" style="float: right">
-                        <h:form>
-                            <h:panelGroup>
-                                <p:outputPanel deferred="false" deferredMode="visible">
-                                    <p>#{msgs.edr_question12}</p>
-                                </p:outputPanel>
+                                          value="#{updateEdrCDIBean.questionAnswer1.answer}" width="600" />
                             </h:panelGroup>
-                        </h:form>
-                    </h:panelGrid>
-                    <h:panelGrid columns="1" cellpadding="0" style="float: left">
-                        <h:form>
                             <h:panelGroup>
-                                <p:editor id="answer11" widgetVar="editorWidget" 
-                                          value="#{updateQuestionAnswerCDIBean.questionAnswerObject2.answer}" width="600" />
-                            </h:panelGroup> 
-                        </h:form>
-                    </h:panelGrid>
-                    <h:panelGrid columns="1" cellpadding="0" style="float: right">
-                        <h:form>
-                            <h:panelGroup>
-                                <p:outputPanel deferred="false" deferredMode="visible">
-                                    <p>#{msgs.edr_question13}</p>
-                                </p:outputPanel>
+                                <h:outputLabel for="answer12" value="#{msgs.edr_question12}" />
                             </h:panelGroup>
-                        </h:form>
-                    </h:panelGrid>
-                    <h:panelGrid columns="1" cellpadding="0" style="float: left">
-                        <h:form>
-                            <h:panelGroup>
-                                <p:editor id="answer11" widgetVar="editorWidget" 
-                                          value="#{updateQuestionAnswerCDIBean.questionAnswerObject3.answer}" width="600" />
-                            </h:panelGroup> 
-                        </h:form>
-                    </h:panelGrid>
-                    <h:panelGrid columns="1" cellpadding="0" style="float: right">
-                        <h:form>
-                            <h:panelGroup>
-                                <p:outputPanel deferred="false" deferredMode="visible">
-                                    <p>#{msgs.edr_question14}</p>
-                                </p:outputPanel>
-                            </h:panelGroup>     
-                        </h:form>
-                    </h:panelGrid>
-                    <h:panelGrid columns="1" cellpadding="0" style="float: left">
-                        <h:form>
-                           <h:panelGroup>
-                                <p:editor id="answer11" widgetVar="editorWidget" 
-                                          value="#{updateQuestionAnswerCDIBean.questionAnswerObject4.answer}" width="600" />
-                            </h:panelGroup> 
-                        </h:form>
-                    </h:panelGrid>
-                    <h:panelGrid columns="1" cellpadding="0">
-
-                    </h:panelGrid>
-                    <h:panelGrid columns="1" cellpadding="0" style="float: right">
-                        <h:form>
-                            <h:panelGroup>
-                                <p:commandButton value="#{msgs.save}" icon="ui-icon-check"
-                                                 action="#{updateQuestionAnswerCDIBean.save()}"                                                
-                                        onclick="if (! confirm('#{msgs.are_you_sure}') ) { return false;}; return true; " />
+                            <h:panelGroup> 
+                                <p:editor id="answer12" widgetVar="editorWidget" 
+                                          value="#{updateEdrCDIBean.questionAnswer2.answer}" width="600" />
                             </h:panelGroup>
-                        </h:form>
-                    </h:panelGrid>
-                </p:panelGrid>
+                            <h:panelGroup>
+                                <h:outputLabel for="answer13" value="#{msgs.edr_question13}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer13" widgetVar="editorWidget" 
+                                          value="#{updateEdrCDIBean.questionAnswer3.answer}" width="600" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="answer14" value="#{msgs.edr_question14}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer14" widgetVar="editorWidget" 
+                                          value="#{updateEdrCDIBean.questionAnswer4.answer}" width="600" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.back}" 
+                                        action="createEdrPage1?faces-redirect=true" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.next}" 
+                                        action="createEdrPage3?faces-redirect=true" />
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </p:panelGrid>
+                </h:form>
             </ui:define>
+
         </ui:composition>
-    </body>
+
+    </body> 
 </html>
