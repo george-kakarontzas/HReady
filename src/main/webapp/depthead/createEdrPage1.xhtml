@@ -9,14 +9,13 @@
     <body>
 
         <ui:composition template="./deptheadPagesTemplate.xhtml"> 
-        <!-- <ui:composition> -->
+       
             <ui:define name="title">
                 ${msgs.edr_title1}
             </ui:define>
 
             <ui:define name="content">
                 <h1>${msgs.edr}</h1>
-                <h2>${msgs.page1}</h2>
                 <h:form id="createEdr">
                     <p:panelGrid columns="2" style="width: 100%">
                         <h:panelGrid columns="2" cellpadding="5" columnClasses="left">
@@ -42,7 +41,7 @@
                                 <h:outputLabel for="verdict" value="Verdict" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <p:editor id="editor" widgetVar="editorWidget" 
+                                <p:editor id="verdict" widgetVar="editorWidget" 
                                           value="#{updateEdrCDIBean.edrObject.verdict}" width="600" />
                                
                             </h:panelGroup>
@@ -67,8 +66,12 @@
                                 </p:selectOneMenu>  
                             </h:panelGroup>
                             <h:panelGroup>
-                                <p:commandButton value="#{msgs.next}" icon="ui-icon-check"
-                                        action="#{updateEdrCDIBean.next("createEdrPage2")}" />
+                                <h:commandButton value="#{msgs.back}" 
+                                        action="updateEdr?faces-redirect=true" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.next}" 
+                                                 action="createEdrPage2" />
                             </h:panelGroup>
                         </h:panelGrid>
                     </p:panelGrid>

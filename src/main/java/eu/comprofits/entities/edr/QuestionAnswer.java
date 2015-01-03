@@ -43,11 +43,11 @@ public class QuestionAnswer implements Serializable {
     private Integer idquestion;
     @Column(name = "question_category")
     private Integer questionCategory;
-    @Size(max = 2147483647)
     @Column(name = "question")
-    private String question;
     @Size(max = 2147483647)
+    private String question;
     @Column(name = "answer")
+    @Size(max = 2147483647)
     private String answer;
     @JoinColumn(name = "edr_idedr", referencedColumnName = "idedr")
     @ManyToOne(optional = false)
