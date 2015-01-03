@@ -27,10 +27,10 @@
                         statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" 
                         wrap-jdbc-objects="false">
       <description>Connects to the comprofits postgres database</description>
-      <property name="ServerName" value="192.168.1.10"/>
+      <property name="ServerName" value="localhost"/>
       <property name="PortNumber" value="5432"/>
       <property name="DatabaseName" value="comprofits"/>
       <property name="User" value="comprofits"/>
-      <property name="Password" value="52648235"/>
+      <property name="Password" value="c0mpr0f1ts4004!"/>
   </jdbc-connection-pool>
 </resources>
