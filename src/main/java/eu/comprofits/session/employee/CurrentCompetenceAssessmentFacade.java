@@ -7,10 +7,14 @@
 package eu.comprofits.session.employee;
 
 import eu.comprofits.entities.employee.CurrentCompetenceAssessment;
+import eu.comprofits.entities.employee.Employee;
+import eu.comprofits.entities.main.Competence;
 import eu.comprofits.session.AbstractFacade;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,6 +32,17 @@ public class CurrentCompetenceAssessmentFacade extends AbstractFacade<CurrentCom
 
     public CurrentCompetenceAssessmentFacade() {
         super(CurrentCompetenceAssessment.class);
+    }
+    
+    public CurrentCompetenceAssessment getAssessmentForEmployeeAndCompetence(Employee emp,Competence com) {
+        Query q = em.createQuery("SELECT c FROM CurrentCompetenceAssessment c WHERE c.employeeIdemployee=:emp AND c.competenceIdcompetence=:com");
+        q.setParameter("emp",emp);
+        q.setParameter("com",com);
+        CurrentCompetenceAssessment c = null;
+        try {
+            c = (CurrentCompetenceAssessment) q.getSingleResult();
+        } catch (NoResultException e) {}
+        return c;
     }
     
 }

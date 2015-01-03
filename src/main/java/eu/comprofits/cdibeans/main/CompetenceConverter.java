@@ -36,7 +36,7 @@ public class CompetenceConverter implements Converter {
         if (value == null || value.isEmpty() || value.equals("---")) {
             return null;
         }
-        return competenceFacade.findByName(value);       
+        return competenceFacade.find(Integer.valueOf(value));
     }
 
     @Override
@@ -44,7 +44,7 @@ public class CompetenceConverter implements Converter {
         if (!(value instanceof Competence)) {
             return null;
         }
-        return ((Competence) value).getCompetenceName();
+        return ((Competence) value).getIdcompetence().toString();
     }
 
 }

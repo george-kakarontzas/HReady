@@ -31,7 +31,7 @@
                                              converter="#{competenceConverter}">
                                 <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
                                 <f:selectItems value="#{updateCompetencePyramidCDIBean.competences}" 
-                                               var="c" itemValue="#{c}" itemLabel="#{c.competenceName}" 
+                                               var="c" itemValue="#{c}" itemLabel="#{c.leveledLabel}" 
 
                                                />
                             </p:selectOneMenu>

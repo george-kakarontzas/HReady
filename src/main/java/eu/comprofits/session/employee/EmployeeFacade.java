@@ -13,6 +13,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -68,5 +69,10 @@ public class EmployeeFacade extends AbstractFacade<Employee> {
                 "Select e From Employee e WHERE e.lastName=:lname AND e.firstName=:fname").
                 setParameter("lname", names[1]).
                 setParameter("fname", names[0]).getSingleResult();
+    }
+    
+    public List<Employee> getEmployeesForEvaluation() {
+        Query q = em.createQuery("Select e From Employee e WHERE e.idemployee IN (SELECT c.employeeIdemployee.idemployee FROM CurrentCompetenceAssessment c)");
+        return q.getResultList();
     }
 }

@@ -38,7 +38,11 @@ public class updateCompetencePyramidCDIBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        competences = competenceFacade.findAll();
+        refreshCompetences();
+    }
+    
+    public void refreshCompetences() {
+        competences = competenceFacade.getOrderedCompetences();
     }
 
     public Competence getCompetence() {
@@ -60,7 +64,7 @@ public class updateCompetencePyramidCDIBean implements Serializable {
     public void remove(Competence c) {
         try {
             competenceFacade.remove(c);
-            competences = competenceFacade.findAll();
+            refreshCompetences();
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -85,7 +89,7 @@ public class updateCompetencePyramidCDIBean implements Serializable {
             } else {
                 competenceFacade.edit(competence);
             }
-            competences = competenceFacade.findAll();
+            refreshCompetences();
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
