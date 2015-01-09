@@ -152,7 +152,7 @@ public class ComprofitsRRunner {
             candindateCompetencyCodeNames[i] = "CompetencyL2C"+i;
 			candindateCompetencyCode[i] = candindateCompetencyCodeNames[i]+" <- mean(Candidate1[Candidate1[,\"Level2\"]==\""+labelsL2[i]+"\",\"CompetencyL3\"])\n";
         }
-        int each = (int) Math.ceil(labelsL2.length/labelsL1.length);
+        int each = (int) Math.ceil(labelsL3.length/labelsL2.length);
         String ActualCompetencyL2 = "ActualCompetencyL2 <- function(Candidate1){\n"
                 + "  \n"
                 + "\n"
@@ -182,7 +182,6 @@ public class ComprofitsRRunner {
                 + "\n"
                 + "}";
         try {
-
             //this.caller.cleanRCode();
             this.code.addDoubleArray("CompetencyL3", actualCompetencyL3);
             this.code.addStringArray("Level3", level3);
@@ -220,7 +219,7 @@ public class ComprofitsRRunner {
             candindateCompetencyCodeNames[i] = "CompetencyL2"+i;
 			candindateCompetencyCode[i] = candindateCompetencyCodeNames[i]+" <- mean(Candidate1[Candidate1[,\"Level2\"]==\""+labelsL2[i]+"\",\"CompetencyL3\"])\n";
         }
-        int each = (int) Math.ceil(labelsL2.length/labelsL1.length);
+        int each = (int) Math.ceil(labelsL3.length/labelsL2.length);
         int l2length = level2Labels.length;
         String actualCompetencyScores = "";
         String[] actualCompetencyScoresMethods = new String[each-1];
@@ -705,7 +704,7 @@ public class ComprofitsRRunner {
             candindateCompetencyCodeNames[i] = "CompetencyRequiredL2C"+i;
             candindateCompetencyCode[i] = candindateCompetencyCodeNames[i]+" <- mean(Job[Job[,\"Level2\"]==\""+labelsL2[i]+"\",\"CompetencyRequiredL3\"])\n";
         }
-        int each = (int) Math.ceil(labelsL2.length/labelsL1.length);
+        int each = (int) Math.ceil(labelsL3.length/labelsL2.length);
         String RequestedCompetencyL2 = "RequestedCompetencyL2 <- function(Job){\n"
                 + "  \n"
                 + "  #### Construction of Column for Names of Level 2\n"
@@ -773,7 +772,7 @@ public class ComprofitsRRunner {
             candindateCompetencyCodeNames[i] = "CompetencyRequiredL2C"+i;
             candindateCompetencyCode[i] = candindateCompetencyCodeNames[i]+" <- mean(Job[Job[,\"Level2\"]==\""+labelsL2[i]+"\",\"CompetencyRequiredL3\"])\n";
         }
-        int each = (int) Math.ceil(labelsL2.length/labelsL1.length);
+        int each = (int) Math.ceil(labelsL3.length/labelsL2.length);
         String requiredCompetencyScores = "";
         String[] requiredCompetencyScoresMethods = new String[each-1];
         int next = each;
