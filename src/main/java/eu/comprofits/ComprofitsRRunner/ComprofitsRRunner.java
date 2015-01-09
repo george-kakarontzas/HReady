@@ -1,3 +1,5 @@
+
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -220,12 +222,13 @@ public class ComprofitsRRunner {
 			candindateCompetencyCode[i] = candindateCompetencyCodeNames[i]+" <- mean(Candidate1[Candidate1[,\"Level2\"]==\""+labelsL2[i]+"\",\"CompetencyL3\"])\n";
         }
         int each = (int) Math.ceil(labelsL3.length/labelsL2.length);
+        int parts = labelsL1.length;
         int l2length = level2Labels.length;
         String actualCompetencyScores = "";
-        String[] actualCompetencyScoresMethods = new String[each-1];
+        String[] actualCompetencyScoresMethods = new String[parts];
         int next = each;
         int start = 1;
-        for (int i = 1; i < each; i++) {
+        for (int i = 1; i <= parts; i++) {
             actualCompetencyScoresMethods[i-1] = "ActualCompetencyScoresC"+i;
             actualCompetencyScores += actualCompetencyScoresMethods[i-1]+" <- mean(ActualCompetencyScores["+start+":"+next+"])\n";
             start += each;
@@ -773,11 +776,12 @@ public class ComprofitsRRunner {
             candindateCompetencyCode[i] = candindateCompetencyCodeNames[i]+" <- mean(Job[Job[,\"Level2\"]==\""+labelsL2[i]+"\",\"CompetencyRequiredL3\"])\n";
         }
         int each = (int) Math.ceil(labelsL3.length/labelsL2.length);
+        int parts = labelsL1.length;
         String requiredCompetencyScores = "";
-        String[] requiredCompetencyScoresMethods = new String[each-1];
+        String[] requiredCompetencyScoresMethods = new String[parts];
         int next = each;
         int start =1 ;
-        for (int i = 1; i < each; i++) {
+        for (int i = 1; i <= parts; i++) {
             requiredCompetencyScoresMethods[i-1] = "RequiredCompetencyScoresC"+i;
             requiredCompetencyScores += requiredCompetencyScoresMethods[i-1]+" <- mean(RequiredCompetencyScores["+start+":"+next+"])\n";
             start += each;
