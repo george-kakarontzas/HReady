@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="default.css" library="css" />
+        <h:outputStylesheet name="cssLayout.css" library="css"/>
+        <title><ui:insert name="title">Facelets Template</ui:insert></title>
+    </h:head>
+
+    <h:body>
+
+        <p:layout   fullPage="true">
+
+            <!-- top of page -->
+            <p:layoutUnit position="north" size="130" >
+
+                <ui:insert name="top" >
+                    <h:panelGrid columnClasses="column1,column2,column3" columns="3">
+                        <h:graphicImage library="images" name="comprofits.png"  /> 
+                        <h:form id="loginForm" >
+                            <p:panelGrid columns="2">
+                                <f:facet name="header">#{msgs.login_information}</f:facet>
+
+                                <p:outputLabel value="#{msgs.role}" />
+                                <p:outputLabel value="#{msgs.depthead}: #{auth.employee.departmentIddepartment.departmentName}" />
+                                <p:outputLabel value="#{msgs.user_real_name}" />
+                                <p:outputLabel value="#{auth.employee.lastName}, #{auth.employee.firstName}" />
+                                <f:facet name="footer">
+                                    <p:commandButton action="#{auth.logout()}"
+                                                     value="#{msgs.logout}" />
+                                </f:facet>
+                            </p:panelGrid>
+                        </h:form>
+                        <h:form id="langselect">
+                            <p:panelGrid columns="1">
+                                <f:facet name="header">#{msgs.language_selection}</f:facet>
+                                <h:selectOneMenu value="#{languageSelector.locale}" onchange="submit()"
+                                                 valueChangeListener="#{languageSelector.countryLocaleCodeChanged}">  
+                                    <f:selectItems value="#{languageSelector.countriesInMap}" />      
+                                </h:selectOneMenu>
+                            </p:panelGrid>
+                        </h:form>
+                    </h:panelGrid>
+                </ui:insert>
+            </p:layoutUnit>
+
+            <!--bottom -->
+            <p:layoutUnit position="south" size="20" >
+                <ui:insert name="bottom"><h:outputText value="Copyright @ 2014, The ComProFITS Consoritum. All rights reserved." /></ui:insert>
+            </p:layoutUnit>
+
+            <!-- west -->
+            <p:layoutUnit position="west" size="200">
+                <ui:insert name="left">
+                    <h:form>  
+                        <p:growl id="messages" autoUpdate="true"/>  
+                        <p:panelMenu>
+
+                            <p:submenu label="#{msgs.depthead_menu}" >  
+                                <p:menuitem value="#{msgs.depthead_home_page}" icon="ui-icon-home" 
+                                            url="./deptheadHomePage.xhtml" /> 
+                                <!--<p:menuitem value="#{msgs.update_company_profile}" icon="ui-icon-pencil" 
+                                            url="./updateCompanyProfile.xhtml" />-->
+                                <!--<p:menuitem value="Update Job profile table" icon="ui-icon-pencil" />-->
+                                <p:menuitem value="#{msgs.update_employee_profile}" icon="ui-icon-pencil" 
+                                            url="./updateEmployeeProfile.xhtml"/>
+                                <p:menuitem value="#{msgs.update_competence_statements}" icon="ui-icon-pencil" 
+                                            url="./updateCompetenceStatements.xhtml"/>
+                                <p:menuitem value="#{msgs.update_assessments}" icon="ui-icon-pencil" 
+                                            url="./updateAssessments.xhtml"/>
+                                <p:menuitem value="#{msgs.employee_assessment}" icon="ui-icon-pencil" 
+                                            url="./deptheadEmployeeAssessment.xhtml"/>
+                                 <p:menuitem value="#{msgs.update_job_profile}" icon="ui-icon-pencil" 
+                                            url="./updateJobProfile.xhtml" />
+                                <p:menuitem value="#{msgs.edr_update}" icon="ui-icon-pencil" 
+                                            url="./updateEdr.xhtml" />
+                                
+                                <!--<p:menuitem value="Initiate assessment activity" icon="ui-icon-calculator" />-->
+                                <!--<p:menuitem value="#{msgs.update_competence_pyramid}" icon="ui-icon-pencil" 
+                                            url="./updateCompetencesPyramid.xhtml" />-->
+                                <!--<p:menuitem value="EDR Employee development review" icon="ui-icon-arrowthick-1-ne" />-->
+                                <!--<p:menuitem value="EDR Interview documents" icon="ui-icon-document" />-->
+                                <!--<p:menuitem value="Complete assessment" icon="ui-icon-circle-check" />-->
+                            </p:submenu>  
+                        </p:panelMenu>  
+                    </h:form>
+                </ui:insert>
+            </p:layoutUnit>
+
+
+            <!-- center -->
+            <p:layoutUnit id="centerUnit" position="center">
+                <ui:insert name="content"><h:outputText value="Content." /></ui:insert>
+            </p:layoutUnit>
+        </p:layout>
+
+    </h:body>
+</html>

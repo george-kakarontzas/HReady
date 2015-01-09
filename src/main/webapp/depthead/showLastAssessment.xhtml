@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./deptheadPagesTemplate.xhtml">
+
+            <ui:define name="title">
+                #{msgs.employee_last_assessment}
+            </ui:define>
+
+            <ui:define name="content">
+                <f:view>
+
+                    <h:form >
+                        <p:messages  />
+                         <h1><h:outputText value="#{msgs.employee_last_assessment}: #{showLastAssessmentCDIBean.employee.lastName}, #{showLastAssessmentCDIBean.employee.firstName}"/></h1>
+                         <p:panelGrid columns="2">
+                            <p:outputLabel value="#{msgs.employee_last_assessment}" />
+                            <p:outputLabel rendered="#{showLastAssessmentCDIBean.lastAssessmentNotNull}"
+                                             value="#{showLastAssessmentCDIBean.lastAssessment.conclusion}"  
+                                             escape="false"/>
+                            <p:outputLabel value="#{msgs.no_assessments_yet_for_this_employee}" rendered="#{!showLastAssessmentCDIBean.lastAssessmentNotNull}" />
+                            <h:commandButton id="back" value="#{msgs.back}" action="updateEmployeeProfile"  immediate="true" />  
+                            <h:panelGroup />
+                        </p:panelGrid>
+
+                    </h:form>
+                </f:view>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

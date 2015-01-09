@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>redmond</param-value>
+    </context-param>
+    <context-param>
+        <param-name>facelets.SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <description>The location of the R executable.</description>
+        <param-name>R_EXE</param-name>
+        <param-value>/usr/bin/R</param-value>
+    </context-param>
+    <context-param>
+        <description>The location of the wkthmltopdf executable for pdf creation.</description>
+        <param-name>WKHTMLTOPDF_EXE</param-name>
+        <param-value>/usr/bin/wkhtmltopdf</param-value>
+    </context-param>
+    <context-param>
+        <description>The location in which various uploaded files are stored. E.g. the employees photographs.</description>
+        <param-name>FILE_UPLOAD_DIR</param-name>
+        <param-value>/var/webapp/images</param-value>
+    </context-param>
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>index.xhtml</welcome-file>
+    </welcome-file-list>
+    <security-constraint>
+        <display-name>HeadsOfDepartmentsConstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>depthead_pages</web-resource-name>
+            <description/>
+            <url-pattern>/depthead/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>depthead</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>AdminstratorConstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>admin_pages</web-resource-name>
+            <description/>
+            <url-pattern>/administrator/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>administrator</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>ApplicantConstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>applicant_pages</web-resource-name>
+            <description/>
+            <url-pattern>/applicant/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>APPLICANT</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>HRMRecruiterConstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>HRM_recruiter_pages</web-resource-name>
+            <description/>
+            <url-pattern>/hrm/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>hrrecruiter</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>AllRolesConstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>all_roles_pages</web-resource-name>
+            <description/>
+            <url-pattern>/employee/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>depthead</role-name>
+            <role-name>administrator</role-name>
+            <role-name>hrrecruiter</role-name>
+            <role-name>employee</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>comprofits_jdbc_realm</realm-name>
+        <form-login-config>
+            <form-login-page>/login.xhtml</form-login-page>
+            <form-error-page>/loginerror.xhtml</form-error-page>
+        </form-login-config>
+    </login-config>
+    <security-role>
+        <description>Heads of the various departments</description>
+        <role-name>depthead</role-name>
+    </security-role>
+    <security-role>
+        <description>Role for the administrator of the comprofits application</description>
+        <role-name>administrator</role-name>
+    </security-role>
+    <security-role>
+        <description>HRM recruiter role</description>
+        <role-name>hrrecruiter</role-name>
+    </security-role>
+    <security-role>
+        <description>General employee role</description>
+        <role-name>employee</role-name>
+    </security-role>
+    <security-role>
+        <description>Applicant role</description>
+        <role-name>APPLICANT</role-name>
+    </security-role>
+    <resource-ref>
+        <description>Connects to database for ComProFITS application</description>
+        <res-ref-name>jdbc/comprofitspgdb</res-ref-name>
+        <res-type>javax.sql.ConnectionPoolDataSource</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
+</web-app>

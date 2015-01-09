@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./applicantPagesTemplate.xhtml">
+
+            <ui:define name="title">
+                #{msgs.create_edit_professional_experience_record}
+            </ui:define>
+
+            <ui:define name="content">
+                <f:view>
+                    <h:form>
+                        <p:messages  />
+                        <h1><h:outputText value="#{msgs.create_edit_professional_experience_record}"/></h1>
+                        <p:panelGrid columns="2">    
+                        <p:outputLabel value="#{msgs.date_started}:" for="dateStarted" />
+                            
+                            <p:calendar id="dateStarted" binding="#{startDateComponent}"
+                                        value="#{updateApplicantProfessionalExperience.experienceRecord.dateStarted}" 
+                                        showOn="button" navigator="true" pattern="dd/MM/yyyy"  yearRange="-50:+0"
+                                        required="true" requiredMessage="#{msgs.required_date_started}">
+                            </p:calendar>
+                            <p:outputLabel value="#{msgs.date_finished}:" for="dateFinished" />
+                            <p:calendar id="dateFinished"   yearRange="-50:+0"
+                                        value="#{updateApplicantProfessionalExperience.experienceRecord.dateFinished}" 
+                                        showOn="button" navigator="true" pattern="dd/MM/yyyy" required="true" requiredMessage="#{msgs.required_date_finished}">
+                                <f:validator validatorId="dateRangeValidator"/>
+                            <f:attribute name="startDateComponent" value="#{startDateComponent}" />
+                            </p:calendar>
+                            <p:outputLabel value="#{msgs.company_name}:" for="company" />
+                            <p:inputText id="company" value="#{updateApplicantProfessionalExperience.experienceRecord.company}" 
+                                         required="true" requiredMessage="#{msgs.required_company_message}" size="100"/>
+                            <p:outputLabel value="#{msgs.role}:" for="role" />
+                            <p:inputText id="role" value="#{updateApplicantProfessionalExperience.experienceRecord.role}" 
+                                         required="true" requiredMessage="#{msgs.required_role}" size="100"/>
+                            <p:outputLabel value="#{msgs.job_title}:" for="jobTitle" />
+                            <p:inputText id="jobTitle" value="#{updateApplicantProfessionalExperience.experienceRecord.jobTitle}" size="100" required="true" requiredMessage="#{msgs.required_job_title_message}"/>
+                            <p:outputLabel value="#{msgs.field_of_work}:" for="fieldOfWork" />
+                            <p:inputText id="fieldOfWork" value="#{updateApplicantProfessionalExperience.experienceRecord.fieldOfWork}" size="100" />
+                            <p:outputLabel value="#{msgs.place_of_employment}:" for="placeOfEmployment" />
+                            <p:inputText id="placeOfEmployment" value="#{updateApplicantProfessionalExperience.experienceRecord.placeOfEmployment}" size="100" />
+                            <p:outputLabel value="#{msgs.immediate_manager}:" for="immediateManager" />
+                            <p:inputText id="immediateManager" value="#{updateApplicantProfessionalExperience.experienceRecord.immediateManager}" size="100"/>
+                            <p:outputLabel value="#{msgs.business_area}:" for="businessArea" />
+                            <p:inputText id="businessArea" value="#{updateApplicantProfessionalExperience.experienceRecord.businessArea}" size="100"/>
+                            <p:outputLabel value="#{msgs.division}:" for="division" />
+                            <p:inputText id="division" value="#{updateApplicantProfessionalExperience.experienceRecord.division}" size="100"/>
+                            
+                            <h:commandButton id="back" value="#{msgs.back}" action="updateProfessionalExperience" immediate="true"/>  
+                            <h:commandButton id="update" value="Update" action="#{updateApplicantProfessionalExperience.update()}"  />
+                            </p:panelGrid>
+                    </h:form>
+
+                </f:view>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

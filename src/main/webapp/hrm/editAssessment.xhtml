@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./hrmPagesTemplate.xhtml">
+
+            <ui:define name="title">
+                #{msgs.edit_requirement}
+            </ui:define>
+
+            <ui:define name="content">
+                <f:view>
+                    <h:form>
+                        <p:messages  />
+                        <h1><h:outputText value="#{msgs.create_edit_assessment}"/></h1>
+                        <p:panelGrid columns="2">
+                         
+                            <p:outputLabel value="#{msgs.competence_name}:" for="competence_id" />
+                            <p:selectOneMenu id="competence_id" value="#{currentCompetenceAssessment.assessment.competenceIdcompetence}" converter="#{competenceConverter}">
+                                <f:selectItems value="#{currentCompetenceAssessment.l3competences}" 
+                                               var="c" itemValue="#{c}" itemLabel="#{c.competenceName}" 
+                                               />
+                            </p:selectOneMenu>
+                            <p:outputLabel value="#{msgs.employee}:" for="employee_id" />
+                            <p:selectOneMenu id="employee_id" value="#{currentCompetenceAssessment.assessment.employeeIdemployee}" converter="#{employeeConverter}">
+                                <f:selectItems value="#{currentCompetenceAssessment.employees}" 
+                                               var="e" itemValue="#{e}" itemLabel="#{e.fullName}" 
+                                               />
+                            </p:selectOneMenu>
+                            <p:outputLabel value="#{msgs.assessment_value}:" for="assessement_value" />
+                            <p:inputText id="assessement_value" 
+                                         value="#{currentCompetenceAssessment.assessment.assessment}" 
+                                         title="#{msgs.assessment_value}"/>
+                            <h:commandButton id="back" value="#{msgs.back}" action="updateCurrentCompetenceAssessment"  immediate="true"/>  
+                            <h:commandButton id="update" value="Update" action="#{currentCompetenceAssessment.update()}"/>
+                        </p:panelGrid>
+                    </h:form>
+
+                </f:view>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

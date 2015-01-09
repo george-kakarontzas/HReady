@@ -1,0 +1,116 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <h:form id="assessmentForm">
+        <p:growl id="messages" />
+        <p:panelGrid columns="2" id="all">
+            <p:outputLabel value="#{msgs.select_assessment}" />
+            <p:selectOneMenu id="employeeAssessments" 
+                             value="#{assessmentCDIBean.selectedAssessment}" 
+                             converter="#{assessmentsConverter}">
+                <p:ajax listener="#{assessmentCDIBean.assessmentValueChange}" 
+                        update="assessmentStatus,stable,deadline,panelTotalAverageLabel,panelTotalAverage,panelCompleteAssessmentLabel,panelCompleteAssessment" 
+                        /> 
+                <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                <f:selectItems value="#{assessmentCDIBean.employeeAssessments}" 
+                               var="a" itemValue="#{a.shortDate} #{a.assesseeIdemployee.lastName} #{a.assesseeIdemployee.firstName}"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel value="#{msgs.deadline}" />
+            <p:outputLabel id="deadline" value="#{assessmentCDIBean.selectedAssessment.shortDeadlineDate}" />
+            <h:outputLabel value="#{msgs.questionnaire_statements}"/>
+            <p:dataTable id="stable" var="item" value="#{assessmentCDIBean.employeeCompetenceAssessments}"  
+                         widgetVar="statementsTable"
+                         filteredValue="#{assessmentCDIBean.filteredEmployeeCompetenceAssessments}"
+                         editable="true">
+
+                <p:ajax event="rowEdit" listener="#{assessmentCDIBean.onRowEdit}" 
+                        update=":assessmentForm:messages, :assessmentForm:assessmentStatus" />
+                <p:ajax event="rowEditCancel" listener="#{assessmentCDIBean.onRowCancel}" 
+                        update=":assessmentForm:messages" />
+
+                <p:column filterBy="#{item.competenceIdcompetence}" headerText="#{msgs.competence_name}" 
+                          filterMatchMode="exact" style="width:150px">
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('statementsTable').filter()" >
+                            <f:selectItem itemLabel="---" itemValue="#{null}" noSelectionOption="true" />
+                            <f:selectItems value="#{assessmentCDIBean.assessmentCompetences}" />
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <h:outputText value="#{item.competenceIdcompetence.competenceName}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msgs.statement}" style="width:150px"/>
+                    </f:facet>
+                    <h:outputText value="#{item.statementIdstatement.statementText}"/>
+                </p:column>
+
+                <p:column headerText="#{msgs.assessment_value}">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.assessment}"/>
+
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:selectOneRadio value="#{item.assessment}" layout="grid" columns="3"  >  
+                                <f:selectItem itemLabel="#{msgs.strongly_agree}" itemValue="5" />  
+                                <f:selectItem itemLabel="#{msgs.agree}" itemValue="4" />  
+                                <f:selectItem itemLabel="#{msgs.neither_agree}" itemValue="3" />
+                                <f:selectItem itemLabel="#{msgs.disagree}" itemValue="2" />  
+                                <f:selectItem itemLabel="#{msgs.strongly_disagree}" itemValue="1" />
+                            </p:selectOneRadio> 
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column style="width:32px">
+                    <f:facet name="header">
+                        <h:outputText value="#{msgs.assess}" />
+                    </f:facet>
+                    <p:rowEditor />
+                </p:column>
+            </p:dataTable>
+
+
+            <p:outputLabel value="#{msgs.selected_assessment_status}" />
+            <p:outputLabel value="#{assessmentCDIBean.assessmentStatus}" id="assessmentStatus" escape="false" />
+
+            <p:outputPanel id="panelTotalAverageLabel"  >
+                <p:outputLabel value="#{msgs.running_total_average}" id="totalAverageLabel"                             
+                               rendered="#{assessmentCDIBean.immediateManager}" />
+            </p:outputPanel>
+            <p:outputPanel id="panelTotalAverage" >
+                <p:outputLabel value="#{assessmentCDIBean.totalAverage}" id="totalAverage" 
+                               rendered="#{assessmentCDIBean.immediateManager}"/>
+            </p:outputPanel>
+
+            <p:outputPanel id="panelCompleteAssessmentLabel"   >
+                <p:outputLabel value="#{msgs.complete_assessment}" rendered="#{assessmentCDIBean.immediateManager}" />
+            </p:outputPanel>
+            <p:outputPanel id="panelCompleteAssessment"  >
+                <p:commandButton 
+                    rendered="#{assessmentCDIBean.immediateManager}" 
+                    value="#{msgs.complete_assessment}"
+                    action="#{assessmentCDIBean.completeAssessment}"                                                
+                    onclick="if (!confirm('#{msgs.are_you_sure} #{msgs.no_editing_will_be_possible_after_that}')) {
+                                return false;
+                            }
+                            ;
+                            return true;
+                    " 
+                    >
+
+                </p:commandButton>
+
+
+            </p:outputPanel>
+
+
+
+        </p:panelGrid>
+    </h:form>
+</ui:composition>
