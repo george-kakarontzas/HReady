@@ -6,11 +6,12 @@
 package eu.comprofits.ComprofitsRRunner;
 
 
+import java.util.Arrays;
 import java.util.HashMap;
-import javax.faces.context.FacesContext;
 import org.apache.commons.lang.StringUtils;
 import rcaller.RCaller;
 import rcaller.RCode;
+import javax.faces.context.FacesContext;
 
 /**
  * A class for linking the statistical language R to the rest of the information
@@ -69,7 +70,6 @@ public class ComprofitsRRunner {
 
         try {
             // tell java to run specified code in R
-            //this.caller.setRscriptExecutable("/usr/bin/Rscript");
             FacesContext context = FacesContext.getCurrentInstance();
             this.caller.setRExecutable(context.getExternalContext().getInitParameter("R_EXE"));
             this.code.clear();
@@ -94,6 +94,7 @@ public class ComprofitsRRunner {
     public void Weights(double[] CompetencyPriorityL1, double[] CompetencyPriorityL2) throws ComprofitsRRunnerException {
         String[] level1 = labelsL1;
         String[] level2 = labelsL2;
+        int each = (int) Math.ceil(labelsL2.length/labelsL1.length);
         double[] weightsL1 = CompetencyPriorityL1;
         double[] weightsL2 = CompetencyPriorityL2;
         String weights = "WeightsFunction <- function(Weights){\n"
@@ -107,8 +108,8 @@ public class ComprofitsRRunner {
                 + "list(WeightsCalculation=WeightsCalculation)\n"
                 + "}";
         String weightsDataFrame = "weights.data.frame <- function(Level2,CompetencyPriorityL2,Level1,CompetencyPriorityL1){\n"
-                + "Level1new <- rep(Level1,each="+labelsL1.length+")\n"
-                + "CompetencyPriorityL1new <- rep(CompetencyPriorityL1,each="+labelsL1.length+")\n"
+                + "Level1new <- rep(Level1,each="+each+")\n"
+                + "CompetencyPriorityL1new <- rep(CompetencyPriorityL1,each="+each+")\n"
                 + "Weights <- data.frame(Level2,CompetencyPriorityL2,Level1new,CompetencyPriorityL1new)\n"
                 + "colnames(Weights) <- c(\"Level2\",\"CompetencyPriorityL2\",\"Level1\",\"CompetencyPriorityL1\")\n"
                 + "return(Weights)\n"
@@ -151,7 +152,7 @@ public class ComprofitsRRunner {
             candindateCompetencyCodeNames[i] = "CompetencyL2C"+i;
 			candindateCompetencyCode[i] = candindateCompetencyCodeNames[i]+" <- mean(Candidate1[Candidate1[,\"Level2\"]==\""+labelsL2[i]+"\",\"CompetencyL3\"])\n";
         }
-        int each = this.getLabelsL1().length;
+        int each = (int) Math.ceil(labelsL2.length/labelsL1.length);
         String ActualCompetencyL2 = "ActualCompetencyL2 <- function(Candidate1){\n"
                 + "  \n"
                 + "\n"
@@ -181,11 +182,11 @@ public class ComprofitsRRunner {
                 + "\n"
                 + "}";
         try {
+
             //this.caller.cleanRCode();
             this.code.addDoubleArray("CompetencyL3", actualCompetencyL3);
             this.code.addStringArray("Level3", level3);
             this.code.addRCode("Candidate1 <- data.frame(Level3,CompetencyL3)");
-
             this.code.addRCode(ActualCompetencyL2);
             this.caller.runAndReturnResultOnline("ActualCompetencyL2(Candidate1)");
 
@@ -219,16 +220,17 @@ public class ComprofitsRRunner {
             candindateCompetencyCodeNames[i] = "CompetencyL2"+i;
 			candindateCompetencyCode[i] = candindateCompetencyCodeNames[i]+" <- mean(Candidate1[Candidate1[,\"Level2\"]==\""+labelsL2[i]+"\",\"CompetencyL3\"])\n";
         }
-        int each = this.getLabelsL1().length;
+        int each = (int) Math.ceil(labelsL2.length/labelsL1.length);
         int l2length = level2Labels.length;
-        int competenceParts = (int) Math.ceil(l2length/each);
         String actualCompetencyScores = "";
-        String[] actualCompetencyScoresMethods = new String[competenceParts];
+        String[] actualCompetencyScoresMethods = new String[each-1];
         int next = each;
-        for (int i = 1; i <= competenceParts; i++) {
+        int start = 1;
+        for (int i = 1; i < each; i++) {
             actualCompetencyScoresMethods[i-1] = "ActualCompetencyScoresC"+i;
-            actualCompetencyScores += actualCompetencyScoresMethods[i-1]+" <- mean(ActualCompetencyScores["+i+":"+next+"])\n";
-            next += each-1;
+            actualCompetencyScores += actualCompetencyScoresMethods[i-1]+" <- mean(ActualCompetencyScores["+start+":"+next+"])\n";
+            start += each;
+            next += each;
         }
         String ActualCompetencyL1 = "ActualCompetencyL1 <- function(Candidate1){\n"
                 + "  \n"
@@ -703,7 +705,7 @@ public class ComprofitsRRunner {
             candindateCompetencyCodeNames[i] = "CompetencyRequiredL2C"+i;
             candindateCompetencyCode[i] = candindateCompetencyCodeNames[i]+" <- mean(Job[Job[,\"Level2\"]==\""+labelsL2[i]+"\",\"CompetencyRequiredL3\"])\n";
         }
-        int each = this.getLabelsL1().length;
+        int each = (int) Math.ceil(labelsL2.length/labelsL1.length);
         String RequestedCompetencyL2 = "RequestedCompetencyL2 <- function(Job){\n"
                 + "  \n"
                 + "  #### Construction of Column for Names of Level 2\n"
@@ -771,16 +773,16 @@ public class ComprofitsRRunner {
             candindateCompetencyCodeNames[i] = "CompetencyRequiredL2C"+i;
             candindateCompetencyCode[i] = candindateCompetencyCodeNames[i]+" <- mean(Job[Job[,\"Level2\"]==\""+labelsL2[i]+"\",\"CompetencyRequiredL3\"])\n";
         }
-        int each = this.getLabelsL1().length;
-        int l2length = level2Labels.length;
-        int competenceParts = (int) Math.ceil(l2length/each);
+        int each = (int) Math.ceil(labelsL2.length/labelsL1.length);
         String requiredCompetencyScores = "";
-        String[] requiredCompetencyScoresMethods = new String[competenceParts];
+        String[] requiredCompetencyScoresMethods = new String[each-1];
         int next = each;
-        for (int i = 1; i <= competenceParts; i++) {
+        int start =1 ;
+        for (int i = 1; i < each; i++) {
             requiredCompetencyScoresMethods[i-1] = "RequiredCompetencyScoresC"+i;
-            requiredCompetencyScores += requiredCompetencyScoresMethods[i-1]+" <- mean(RequiredCompetencyScores["+i+":"+next+"])\n";
-            next += each-1;
+            requiredCompetencyScores += requiredCompetencyScoresMethods[i-1]+" <- mean(RequiredCompetencyScores["+start+":"+next+"])\n";
+            start += each;
+            next += each;
         }
         String RequestedCompetencyL1 = "RequestedCompetencyL1 <- function(Job){\n"
                 + "  \n"
