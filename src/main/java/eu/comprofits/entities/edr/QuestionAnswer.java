@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "QuestionAnswer.findByQuestionCategory", query = "SELECT q FROM QuestionAnswer q WHERE q.questionCategory = :questionCategory"),
     @NamedQuery(name = "QuestionAnswer.findByQuestion", query = "SELECT q FROM QuestionAnswer q WHERE q.question = :question"),
     @NamedQuery(name = "QuestionAnswer.findByAnswer", query = "SELECT q FROM QuestionAnswer q WHERE q.answer = :answer")})
+
 public class QuestionAnswer implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
