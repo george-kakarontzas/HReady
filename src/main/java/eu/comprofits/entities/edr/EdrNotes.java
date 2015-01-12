@@ -7,6 +7,7 @@ package eu.comprofits.entities.edr;
 
 import java.io.Serializable;
 import java.sql.Date;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,22 +25,23 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author alexanderhoelzemann
  */
 @Entity
-@Table(name = "edrNotes")
+@Table(name = "edrnotes")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "EdrNotes.findAll", query = "SELECT e FROM EdrNotes e"),
     @NamedQuery(name = "EdrNotes.findByIdNotes", query = "SELECT e FROM EdrNotes e WHERE e.idnote = :idnote"),
     @NamedQuery(name = "EdrNotes.findByDate", query = "SELECT e FROM EdrNotes e WHERE e.date = :date"),
-    @NamedQuery(name = "EdrNotes.findByIdEdr", query = "SELECT e FROM EdrNotes e WHERE e.edrIdedr = :idedr")})
-public class EdrNotes implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @NamedQuery(name = "EdrNotes.findByIdEdr", query = "SELECT e FROM EdrNotes e WHERE e.edrIdedr = :edr_idedr")})
 
+public class EdrNotes implements Serializable {
+   
     private static final long serialVersionUID = 1L;
     @Column(name = "idnote")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
     private Integer idnote;
-    @JoinColumn(name = "edr_idEdr", referencedColumnName = "idedr")
+    @JoinColumn(name = "edr_idedr", referencedColumnName = "idedr")
     @ManyToOne(optional = false)
     private Edr edrIdedr;
     @Column(name = "note")
@@ -79,18 +81,10 @@ public class EdrNotes implements Serializable {
         this.date = date;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (idnote != null ? idnote.hashCode() : 0);
         return hash;
     }
 
@@ -101,7 +95,7 @@ public class EdrNotes implements Serializable {
             return false;
         }
         EdrNotes other = (EdrNotes) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.idnote == null && other.idnote != null) || (this.idnote != null && !this.idnote.equals(other.idnote))) {
             return false;
         }
         return true;
@@ -109,7 +103,7 @@ public class EdrNotes implements Serializable {
 
     @Override
     public String toString() {
-        return "eu.comprofits.entities.edr.EdrNotes[ id=" + id + " ]";
+        return "eu.comprofits.entities.edr.EdrNotes[ id=" + idnote + " ]";
     }
 
 }
