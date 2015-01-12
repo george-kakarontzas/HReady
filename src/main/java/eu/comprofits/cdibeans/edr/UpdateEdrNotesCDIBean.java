@@ -94,7 +94,7 @@ public class UpdateEdrNotesCDIBean implements Serializable {
 
     public void update() {
         try {
-            if (edrNotesObject.getId() == null) {
+            if (edrNotesObject.getIdnote()== null) {
                 edrNotesFacade.create(edrNotesObject);
             } else {
                 edrNotesFacade.edit(edrNotesObject);

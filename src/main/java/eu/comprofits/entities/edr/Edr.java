@@ -8,7 +8,6 @@ package eu.comprofits.entities.edr;
 import eu.comprofits.entities.employee.Employee;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Iterator;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -31,6 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author george
  */
+
 @Entity
 @Table(name = "edr")
 @XmlRootElement
@@ -40,6 +40,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Edr.findByYear", query = "SELECT e FROM Edr e WHERE e.year = :year"),
     @NamedQuery(name = "Edr.findByStatus", query = "SELECT e FROM Edr e WHERE e.status = :status"),
     @NamedQuery(name = "Edr.findByVerdict", query = "SELECT e FROM Edr e WHERE e.verdict = :verdict")})
+
 public class Edr implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -69,8 +70,6 @@ public class Edr implements Serializable {
     @JoinColumn(name = "previous_edr_idedr", referencedColumnName = "idedr")
     @ManyToOne
     private Edr previousEdrIdedr;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "edrIdedr")
-    private Collection<EdrNotes> edrNotesCollection;
 
     public Edr() {
     }
@@ -109,15 +108,6 @@ public class Edr implements Serializable {
 
     public void setVerdict(String verdict) {
         this.verdict = verdict;
-    }
-
-    @XmlTransient
-    public Collection<EdrNotes> getEdrNotesCollection() {
-        return edrNotesCollection;
-    }
-
-    public void setEdrNotesCollection(Collection<EdrNotes> edrNotesCollection) {
-        this.edrNotesCollection = edrNotesCollection;
     }
 
     @XmlTransient
@@ -171,7 +161,6 @@ public class Edr implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Edr)) {
             return false;
         }
@@ -201,82 +190,80 @@ public class Edr implements Serializable {
         }
     }
 
-    public boolean addMoreNotesToEdr(Collection<String> notes, Edr edr) {
-        return false;
-    }
+ 
 
-    public String edrToFormattedString() {
-
-        //need to talk with Mahdi for the detailed look of the string
-        Integer localEdrId = this.idedr;
-        String localYear = this.year;
-        String localVerdict = this.verdict;
-        Integer localStatus = this.status;
-        Collection<QuestionAnswer> localQuestionAnswerCollection = this.questionAnswerCollection;
-        Employee localImmediateManagerEmployee = this.immediateManagerIdemployee;
-        Employee localReviewedEmployee = this.reviewedEmployeeIdemployee;
-        Edr localPreviousEdr = this.previousEdrIdedr;
-        Collection<Edr> localEdrCollection = this.edrCollection;
-
-        //String output = "";
-        String output = "Employee Development Review \n\n"
-                + "Edr-Number: " + localEdrId + "\n"
-                + "Reviewed Year: " + localYear + "\n"
-                + "Verdict: " + localVerdict + "\n"
-                + "Actual status: " + localStatus + "\n"
-                + "Evaluator: " + localImmediateManagerEmployee.getIdemployee() + "\n"
-                + "Surveyed: " + localReviewedEmployee.getIdemployee() + "\n"
-                + "Previous-Edr: " + localPreviousEdr.getIdedr() + "\n\n"
-                + "Related Questions: \n\n"; //needs to be changed -> better subject
-
-        Iterator<QuestionAnswer> itQa = localQuestionAnswerCollection.iterator();
-
-        int i = 0;
-        int x = 1;
-
-        if (localQuestionAnswerCollection != null) {
-
-            while (i < localQuestionAnswerCollection.size()) {
-
-                QuestionAnswer questionAnswerObject = itQa.next();
-                String localQuestion = questionAnswerObject.getQuestion();
-                String localAnswer = questionAnswerObject.getAnswer();
-                Integer localIdQuestion = questionAnswerObject.getIdquestion();
-                Integer localQuestionCategory = questionAnswerObject.getQuestionCategory();
-
-                output = output + "Question " + x + ":\n"
-                        + "Question Id: " + localIdQuestion + "\n"
-                        + "Question Category: " + localQuestionCategory + "\n"
-                        + "Question: " + localQuestion + "\n"
-                        + "Answer: " + localAnswer + "\n\n";
-
-                i++;
-                if (i == localQuestionAnswerCollection.size()) {
-                    x = 1;
-                } else {
-                    x++;
-                }
-
-            }
-        } else {
-            output = output + "no related Questions \n";
-        }
-
-        output = output + "Related Edr's: \n\n";
-        i = 0;
-        if (localEdrCollection != null) {
-            Iterator<Edr> itEdr = localEdrCollection.iterator();
-
-            while (i < localEdrCollection.size()) {
-                output = output + "Edr :" + itEdr.next().getIdedr() + "\n";
-
-                i++;
-            }
-        } else {
-            output = output + "no previous Edr's\n";
-        }
-
-        return output;
-    }
+//    public String edrToFormattedString() {
+//
+//       
+//        Integer localEdrId = this.idedr;
+//        String localYear = this.year;
+//        String localVerdict = this.verdict;
+//        Integer localStatus = this.status;
+//        Collection<QuestionAnswer> localQuestionAnswerCollection = this.questionAnswerCollection;
+//        Employee localImmediateManagerEmployee = this.immediateManagerIdemployee;
+//        Employee localReviewedEmployee = this.reviewedEmployeeIdemployee;
+//        Edr localPreviousEdr = this.previousEdrIdedr;
+//        Collection<Edr> localEdrCollection = this.edrCollection;
+//
+//        //String output = "";
+//        String output = "Employee Development Review \n\n"
+//                + "Edr-Number: " + localEdrId + "\n"
+//                + "Reviewed Year: " + localYear + "\n"
+//                + "Verdict: " + localVerdict + "\n"
+//                + "Actual status: " + localStatus + "\n"
+//                + "Evaluator: " + localImmediateManagerEmployee.getIdemployee() + "\n"
+//                + "Surveyed: " + localReviewedEmployee.getIdemployee() + "\n"
+//                + "Previous-Edr: " + localPreviousEdr.getIdedr() + "\n\n"
+//                + "Related Questions: \n\n"; //needs to be changed -> better subject
+//
+//        Iterator<QuestionAnswer> itQa = localQuestionAnswerCollection.iterator();
+//
+//        int i = 0;
+//        int x = 1;
+//
+//        if (localQuestionAnswerCollection != null) {
+//
+//            while (i < localQuestionAnswerCollection.size()) {
+//
+//                QuestionAnswer questionAnswerObject = itQa.next();
+//                String localQuestion = questionAnswerObject.getQuestion();
+//                String localAnswer = questionAnswerObject.getAnswer();
+//                Integer localIdQuestion = questionAnswerObject.getIdquestion();
+//                Integer localQuestionCategory = questionAnswerObject.getQuestionCategory();
+//
+//                output = output + "Question " + x + ":\n"
+//                        + "Question Id: " + localIdQuestion + "\n"
+//                        + "Question Category: " + localQuestionCategory + "\n"
+//                        + "Question: " + localQuestion + "\n"
+//                        + "Answer: " + localAnswer + "\n\n";
+//
+//                i++;
+//                if (i == localQuestionAnswerCollection.size()) {
+//                    x = 1;
+//                } else {
+//                    x++;
+//                }
+//
+//            }
+//        } else {
+//            output = output + "no related Questions \n";
+//        }
+//
+//        output = output + "Related Edr's: \n\n";
+//        i = 0;
+//        if (localEdrCollection != null) {
+//            Iterator<Edr> itEdr = localEdrCollection.iterator();
+//
+//            while (i < localEdrCollection.size()) {
+//                output = output + "Edr :" + itEdr.next().getIdedr() + "\n";
+//
+//                i++;
+//            }
+//        } else {
+//            output = output + "no previous Edr's\n";
+//        }
+//
+//        return output;
+//    }
 
 }
