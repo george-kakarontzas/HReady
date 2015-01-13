@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./employeePagesTemplate.xhtml"> 
+       
+            <ui:define name="title">
+                ${msgs.edr_title4}
+            </ui:define>
+
+            <ui:define name="content">
+                <h1>${msgs.edr}</h1>
+                <h:form id="createEdr">
+                    <p:panelGrid columns="2" style="width: 100%">
+                        <h:panelGrid columns="2" cellpadding="5" columnClasses="left">
+                            <h:panelGroup>
+                                <h:outputLabel for="answer31" value="#{msgs.edr_question31}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer31" widgetVar="editorWidget1" 
+                                          value="#{updateEdrCDIBean.questionAnswer9.answer}" width="600" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="answer32" value="#{msgs.edr_question32}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer32" widgetVar="editorWidget2" 
+                                          value="#{updateEdrCDIBean.questionAnswer10.answer}" width="600" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="answer33" value="#{msgs.edr_question33}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer33" widgetVar="editorWidget3" 
+                                          value="#{updateEdrCDIBean.questionAnswer11.answer}" width="600" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="answer34" value="#{msgs.edr_question34}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer34" widgetVar="editorWidget4" 
+                                          value="#{updateEdrCDIBean.questionAnswer12.answer}" width="600" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.back}" 
+                                        action="createEdrPage3?faces-redirect=true" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.next}" 
+                                        action="createEdrPage5?faces-redirect=true" />
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </p:panelGrid>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body> 
+</html>

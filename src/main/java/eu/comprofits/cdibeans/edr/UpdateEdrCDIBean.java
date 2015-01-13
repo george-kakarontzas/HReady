@@ -28,6 +28,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
@@ -1161,6 +1162,23 @@ public class UpdateEdrCDIBean implements Serializable {
         
         edrFacade.remove(edr);
         edrList = edrFacade.findAll();
+    }
+    
+    public String reviewEdr() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        Employee e1 = (Employee) externalContext.getSessionMap().get("user");
+        List <Edr> filteredList = edrFacade.findAll();
+        filteredList.clear();
+        
+        for (Edr e: edrList) {
+            if (e.getReviewedEmployeeIdemployee().getUsername().equals(e1.getUsername())) {
+                filteredList.add(e);
+            }
+        }
+        edrList.clear();
+        edrList = filteredList;
+        return "./updateEdr.xhtml";
     }
 
     public String print() throws InterruptedException {
