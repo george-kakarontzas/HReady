@@ -104,14 +104,14 @@ public class CurrentCompetenceAssessmentCDIBean implements Serializable {
         this.assessment = assessment;
         this.l3competences = this.getL3competences();
         this.employees = this.emfacade.findAll();
-        return "editAssessment";
+        return "editCurrentAssessment";
     }
 
     public String create() {
         this.assessment = new CurrentCompetenceAssessment();
         this.l3competences = this.getL3competences();
         this.employees = this.emfacade.findAll();
-        return "editAssessment";
+        return "editCurrentAssessment";
     }
 
 
@@ -130,7 +130,7 @@ public class CurrentCompetenceAssessmentCDIBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                            requirement_exists , null));
                  this.refreshAssessments();;
-                 return "editAssessment";
+                 return "editCurrentAssessment";
                 }
                 this.ccfacade.create(this.assessment);
 
@@ -145,7 +145,7 @@ public class CurrentCompetenceAssessmentCDIBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                            requirement_exists , null));
                  this.refreshAssessments();
-                 return "editAssessment";
+                 return "editCurrentAssessment";
                 }
                 this.ccfacade.edit(this.assessment);
             }
