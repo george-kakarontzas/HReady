@@ -40,4 +40,6 @@ public class InCompanyEmploymentFacade extends AbstractFacade<InCompanyEmploymen
         all.remove(current);
         return all;
     }   
+    
+    
 }
