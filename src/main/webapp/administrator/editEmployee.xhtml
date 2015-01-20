@@ -59,13 +59,18 @@
                                                     value="#{updateEmployeeCDIBean.employee.dateOfBirth}" 
                                                     showOn="button" navigator="true" pattern="dd/MM/yyyy" />
                                         <p:outputLabel value="#{msgs.phone_private}:" for="phonePrivate" />
-                                        <p:inputText id="phonePrivate" value="#{updateEmployeeCDIBean.employee.phonePrivate}" />
+                                        <p:inputText id="phonePrivate" value="#{updateEmployeeCDIBean.employee.phonePrivate}" validatorMessage="#{msgs.invalid_phone_number}">
+                                            <f:validateRegex
+                                                pattern="\d*" /></p:inputText>
                                         <p:outputLabel value="#{msgs.phone_mobile}:" for="phoneMobile" />
                                         <p:inputText id="phoneMobile" value="#{updateEmployeeCDIBean.employee.phoneMobile}" 
-                                                     required="true" requiredMessage="#{msgs.required_mobie}."/>
+                                                     required="true" requiredMessage="#{msgs.required_mobie}." validatorMessage="#{msgs.invalid_phone_number}">
+                                            <f:validateRegex pattern="\d+" /></p:inputText>
                                         <p:outputLabel value="#{msgs.email}:" for="email" />
                                         <p:inputText id="email" value="#{updateEmployeeCDIBean.employee.email}" 
-                                                     required="true" requiredMessage="#{msgs.required_email}."/>
+                                                     required="true" requiredMessage="#{msgs.required_email}." validatorMessage="#{msgs.invalid_email_format}">
+                                            <f:validateRegex
+                                                pattern="([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)" /></p:inputText>
                                         <p:outputLabel value="#{msgs.photo}:" for="photoPath" />
                                         <p:fileUpload id="photoPath" value="#{updateEmployeeCDIBean.photograph}"
                                                       allowTypes="/(\.|\/)(gif|jpe?g|png)$/" mode="simple"  />
