@@ -190,6 +190,19 @@ public class UpdateEmployeeCDIBean implements Serializable {
     }
 
     public String update() {
+        ResourceBundle bundle = FacesContext.getCurrentInstance().getApplication().getResourceBundle(FacesContext.getCurrentInstance(), "msgs");
+                if (!employeeFacade.hasUniqueIdentityCard(employee)) {
+                    FacesContext.getCurrentInstance().addMessage(null,
+                            new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                    bundle.getString("non_unique_identity_card"), null));
+                    return "";
+                }
+                if (!employeeFacade.hasUniqueSocialNumber(employee)) {
+                    FacesContext.getCurrentInstance().addMessage(null,
+                            new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                    bundle.getString("non_unique_social_number"), null));
+                    return "";
+                }
         try {
             //save photo of user if not null
             if (!photograph.getFileName().isEmpty()) {
@@ -234,7 +247,6 @@ public class UpdateEmployeeCDIBean implements Serializable {
                     IOUtils.closeQuietly(output);
                 }
             }
-
             if (employee.getIdemployee() == null) {
                 if (password.isEmpty()) {
                     FacesContext.getCurrentInstance().addMessage(null,
