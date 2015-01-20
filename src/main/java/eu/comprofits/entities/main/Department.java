@@ -43,7 +43,7 @@ public class Department implements Serializable {
     @Basic(optional = false)
     @Column(name = "iddepartment")
     private Integer iddepartment;
-    @Size(max = 45)
+    @Size(max = 255)
     @Column(name = "department_name")
     private String departmentName;
     @JoinColumn(name = "head_of_department_idemployee", referencedColumnName = "idemployee")
