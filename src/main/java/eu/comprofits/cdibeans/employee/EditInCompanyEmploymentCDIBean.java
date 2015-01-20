@@ -119,7 +119,9 @@ public class EditInCompanyEmploymentCDIBean {
             } else {
                 inCompanyEmploymentFacade.edit(inCompanyEmployment);
                 if (savePreviousEmployment) {
+                    employmentBeforeChanges.setDepartmentName(employee.getDepartmentIddepartment().getDepartmentName());
                     inCompanyEmploymentFacade.create(employmentBeforeChanges);
+                    
                     FacesContext context = FacesContext.getCurrentInstance();
                     ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
                     String str = bundle.getString("old_employment_was_saved");

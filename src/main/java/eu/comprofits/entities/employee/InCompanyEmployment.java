@@ -52,6 +52,8 @@ public class InCompanyEmployment implements Serializable {
     @Column(name = "end_date")
     @Temporal(TemporalType.DATE)
     private Date endDate;
+    @Column(name = "department_name")
+    private String departmentName;
     @OneToMany(mappedBy = "currentInCompanyEmploymentId")
     private Collection<Employee> employeeCollection;
     @JoinColumn(name = "job_idjob", referencedColumnName = "idjob")
@@ -137,6 +139,16 @@ public class InCompanyEmployment implements Serializable {
         return true;
     }
 
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    
+    
     @Override
     public String toString() {
         return "com.mycompany.mavenproject1.InCompanyEmployment[ idinCompanyEmployment=" + idinCompanyEmployment + " ]";
