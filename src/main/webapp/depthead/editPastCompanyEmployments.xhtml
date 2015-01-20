@@ -61,7 +61,12 @@
                                 </f:facet>
                                 <h:outputText value="#{item.employeeIdemployee.lastName}, #{item.employeeIdemployee.firstName}"/>
                             </p:column>
-
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.department_name}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.employeeIdemployee.departmentIddepartment.departmentName}"/>
+                            </p:column>
                             <p:column style="width:32px" headerText="#{msgs.edit}">
                                 <p:rowEditor />
                             </p:column>
