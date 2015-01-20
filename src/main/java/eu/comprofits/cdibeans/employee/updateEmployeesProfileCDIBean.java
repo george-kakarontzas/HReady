@@ -272,6 +272,18 @@ public class updateEmployeesProfileCDIBean implements Serializable {
     public String update() {
         FacesContext context = FacesContext.getCurrentInstance();
         ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+                        if (!employeeFacade.hasUniqueIdentityCard(employee)) {
+                    FacesContext.getCurrentInstance().addMessage(null,
+                            new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                    bundle.getString("non_unique_identity_card"), null));
+                    return "";
+                }
+                if (!employeeFacade.hasUniqueSocialNumber(employee)) {
+                    FacesContext.getCurrentInstance().addMessage(null,
+                            new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                    bundle.getString("non_unique_social_number"), null));
+                    return "";
+                }
         try {
             if (employee.getIdemployee() == null) {
                 if (password.isEmpty()) {

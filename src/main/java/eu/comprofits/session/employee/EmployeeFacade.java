@@ -75,4 +75,38 @@ public class EmployeeFacade extends AbstractFacade<Employee> {
         Query q = em.createQuery("Select e From Employee e WHERE e.idemployee IN (SELECT c.employeeIdemployee.idemployee FROM CurrentCompetenceAssessment c)");
         return q.getResultList();
     }
+
+    @Override
+    public void create(Employee entity) {
+        if (entity.getIsActive() == null) {
+            entity.setIsActive(Boolean.TRUE);
+        }
+        super.create(entity); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public Boolean hasUniqueIdentityCard(Employee emp) {
+        
+        Query q = em.createQuery("Select e From Employee e WHERE e.identityCardNumber IS NOT NULL AND e.identityCardNumber=:cardnumber");
+        if (emp.getIdemployee()!=null) {
+            q = em.createQuery("Select e From Employee e WHERE e.identityCardNumber IS NOT NULL AND e.identityCardNumber=:cardnumber AND e.idemployee!=:employee_id");
+            q.setParameter("employee_id", emp.getIdemployee());
+        }
+        q.setParameter("cardnumber",emp.getIdentityCardNumber());
+        return q.getResultList().isEmpty()?true:false;
+        
+    }
+    
+        public Boolean hasUniqueSocialNumber(Employee emp) {
+        
+        Query q = em.createQuery("Select e From Employee e WHERE e.socialSecurityNumber=:socialnumber");
+        if (emp.getIdemployee()!=null) {
+            q = em.createQuery("Select e From Employee e WHERE e.socialSecurityNumber=:socialnumber AND e.idemployee!=:employee_id");
+            q.setParameter("employee_id", emp.getIdemployee());
+        }
+        q.setParameter("socialnumber",emp.getSocialSecurityNumber());
+        return q.getResultList().isEmpty()?true:false;
+        
+    }
+    
+    
 }
