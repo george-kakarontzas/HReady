@@ -75,7 +75,7 @@ public class ProfessionalExperienceRecord implements Serializable {
     @Size(max = 45)
     @Column(name = "job_title")
     private String jobTitle;
-    @Size(max = 45)
+    @Size(max = 100)
     @Column(name = "field_of_work")
     private String fieldOfWork;
     @Size(max = 45)
