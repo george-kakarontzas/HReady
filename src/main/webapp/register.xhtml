@@ -67,10 +67,10 @@
                                                 pattern="([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)" />
                                         </p:inputText>
                                         <p:outputLabel value="#{msgs.date_of_birth}:" for="dateOfBirth" />
-                                        <p:calendar id="dateOfBirth" 
+                                        <p:calendar id="dateOfBirth"  yearRange="c-70:c"
                                                     value="#{updateApplicantCDIBean.jobApplicant.dateOfBirth}" 
                                                     showOn="button" navigator="true" pattern="dd/MM/yyyy" required="true"
-                                                    requiredMessage="#{msgs.required_date_of_birth}" yearRange="-50:+0"/>
+                                                    requiredMessage="#{msgs.required_date_of_birth}" />
                                         <p:outputLabel value="#{msgs.photo}:" for="photoPath" />
                                         <p:fileUpload id="photoPath" value="#{updateApplicantCDIBean.photograph}"
                                                       allowTypes="/(\.|\/)(gif|jpe?g|png)$/" mode="advanced"  update="image" 

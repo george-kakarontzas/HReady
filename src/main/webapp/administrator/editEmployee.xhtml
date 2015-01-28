@@ -55,7 +55,7 @@
                         actionListener="" itemLabel="#{updateEmployeeCDIBean.getCountryName(country)}" itemValue="#{updateEmployeeCDIBean.getCountryCode(country)}" />
                                         </p:selectOneMenu>
                                         <p:outputLabel value="#{msgs.date_of_birth}:" for="dateOfBirth" />
-                                        <p:calendar id="dateOfBirth" 
+                                        <p:calendar id="dateOfBirth" yearRange="c-70:c"
                                                     value="#{updateEmployeeCDIBean.employee.dateOfBirth}" 
                                                     showOn="button" navigator="true" pattern="dd/MM/yyyy" />
                                         <p:outputLabel value="#{msgs.phone_private}:" for="phonePrivate" />
