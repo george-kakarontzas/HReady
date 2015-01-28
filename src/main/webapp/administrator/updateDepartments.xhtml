@@ -26,7 +26,7 @@
 
                         <h1><h:outputText value="#{msgs.list_of_stored_departments}"/></h1>
                         <p:dataTable value="#{updateDepartmentsCDIBean.departments}" var="item"
-                                     paginator="true" rows="10">
+                                     paginator="true" rows="10" rowsPerPageTemplate="10,20,50,100,200">
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs.department_name}&lt;br/&gt;(#{msgs.click_to_edit_record})" escape="false" />
