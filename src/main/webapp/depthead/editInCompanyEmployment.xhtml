@@ -20,7 +20,7 @@
                             <p:outputLabel value="#{editInCompanyEmploymentCDIBean.employee.lastName}, 
                                            #{editInCompanyEmploymentCDIBean.employee.firstName}" />
                             <p:outputLabel value="#{msgs.start_date_of_employement}" for="startDate" />
-                            <p:calendar id="startDate" 
+                            <p:calendar id="startDate" yearRange="c-70:c"
                                         value="#{editInCompanyEmploymentCDIBean.employee.currentInCompanyEmploymentId.startDate}" 
                                         showOn="button" navigator="true" pattern="dd/MM/yyyy">
                             </p:calendar>
@@ -42,12 +42,12 @@
                             <p:outputLabel value="#{editInCompanyEmploymentCDIBean.employmentBeforeChanges.employeeIdemployee.lastName}, 
                                            #{editInCompanyEmploymentCDIBean.employmentBeforeChanges.employeeIdemployee.firstName}" />
                             <p:outputLabel value="#{msgs.start_date_of_employement}" for="pstartDate" />
-                            <p:calendar id="pstartDate" 
+                            <p:calendar id="pstartDate" yearRange="c-70:c"
                                         value="#{editInCompanyEmploymentCDIBean.employmentBeforeChanges.startDate}" 
                                         showOn="button" navigator="true" pattern="dd/MM/yyyy">
                             </p:calendar>
                             <p:outputLabel value="#{msgs.end_date_of_employment}" for="pendDate" />
-                            <p:calendar id="pendDate" 
+                            <p:calendar id="pendDate" yearRange="c-70:c"
                                         value="#{editInCompanyEmploymentCDIBean.employmentBeforeChanges.endDate}" 
                                         showOn="button" navigator="true" pattern="dd/MM/yyyy">
                             </p:calendar>
