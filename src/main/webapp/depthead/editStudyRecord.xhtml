@@ -37,12 +37,12 @@
                             
                             
                             <p:outputLabel value="#{msgs.date_started}" for="dateStarted" />
-                            <p:calendar id="dateStarted" 
+                            <p:calendar id="dateStarted" yearRange="c-70:c"
                                         value="#{updateStudiesCDIBean.studyRecord.dateStarted}" 
                                         showOn="button" navigator="true" pattern="dd/MM/yyyy" />
                             
                             <p:outputLabel value="#{msgs.date_acquired}" for="dateAcquired" />
-                            <p:calendar id="dateAcquired" 
+                            <p:calendar id="dateAcquired" yearRange="c-70:c"
                                         value="#{updateStudiesCDIBean.studyRecord.dateAcquired}" 
                                         showOn="button" navigator="true" pattern="dd/MM/yyyy" />
 
