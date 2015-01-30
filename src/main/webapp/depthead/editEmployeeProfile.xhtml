@@ -59,7 +59,9 @@
                                         <p:calendar id="dateOfBirth"  yearRange="c-70:c"
                                                     value="#{updateEmployeesProfileCDIBean.employee.dateOfBirth}" 
                                                     showOn="button" navigator="true" pattern="dd/MM/yyyy" required="true"
-                                                    requiredMessage="#{msgs.required_date_of_birth}"/>
+                                                    requiredMessage="#{msgs.required_date_of_birth}">
+                                        <f:validator validatorId="properAgeValidator"/>
+                                        </p:calendar>
                                         <p:outputLabel value="#{msgs.phone_private}:" for="phonePrivate" />
                                         <p:inputText id="phonePrivate" value="#{updateEmployeesProfileCDIBean.employee.phonePrivate}" validatorMessage="#{msgs.invalid_phone_number}">
                                             <f:validateRegex pattern="\d*" /></p:inputText>
