@@ -11,17 +11,17 @@
         <ui:composition template="./deptheadPagesTemplate.xhtml">
 
             <ui:define name="title">
-                ${msgs.update_or_create_job_profile}
+                #{msgs.update_or_create_job_profile}
             </ui:define>
 
             <ui:define name="content">
                 <h:form id="jobProfileCreate" >
                     <p:messages  />
-                    <p:panelGrid columns="2"  columnClasses="columna">
+                    <h1><h:outputText value="#{msgs.update_or_create_job_profile}"/></h1>
+                    
                         <f:facet name="header">#{msgs.update_or_create_job_profile}</f:facet>
                         <p:panelGrid columns="2" >
-                            <f:facet name="header">#{msgs.job_profile}</f:facet>
-
+                            
                             <p:outputLabel value="#{msgs.job_title}" for="jobTitle"  />
                             <p:inputText id="jobTitle" size="40" required="true"
                                          value="#{updateJobCDIBean.jobObject.jobTitle}" />
@@ -38,7 +38,7 @@
                             <p:outputLabel value="#{msgs.reporting_to}" for="reportingTo" />
                             <p:selectOneMenu id="reportingTo" value="#{updateJobCDIBean.jobObject.reportingToIdemployee}" converter="#{reportingToConverter}">  
                                 <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true"/>
-                                <f:selectItems value="#{updateJobCDIBean.employeeReportingToList}"
+                                <f:selectItems value="#{updateJobCDIBean.employeeList}"
                                                var="e" itemValue="#{e}" itemLabel="##{e.lastName} #{e.firstName} #{e.email}" />
                             </p:selectOneMenu>
 
@@ -79,160 +79,14 @@
                          
 
                         </p:panelGrid>
-                        <p:panelGrid columns="2">
-                            <f:facet name="header">#{msgs.job_competences_weights}</f:facet>
-                            <p:outputLabel value="#{msgs.professional_competences}" style="font-weight: bold;" />
-                            <h:panelGroup />
-                            
-                            <p:outputLabel value="#{msgs.managerial_competences}:" for="managerialCompetences" />
-                            <p:selectOneMenu id="managerialCompetences" value="#{updateJobCDIBean.c1.weight}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-                            
-                            <p:outputLabel value="#{msgs.business_orientation}:" for="businessOrientation" />
-                            <p:selectOneMenu id="businessOrientation" value="#{updateJobCDIBean.c2.weight}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-                            
-                            <p:outputLabel value="#{msgs.job_related_skills}:" for="jobRelatedSkills" />
-                            <p:selectOneMenu id="jobRelatedSkills" value="#{updateJobCDIBean.c3.weight}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-                            
-                            <p:outputLabel value="#{msgs.communication_languages}:" for="communicationLanguages" />
-                            <p:selectOneMenu id="communicationLanguages" value="#{updateJobCDIBean.c4.weight}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-                            
-                            
-                            <p:outputLabel value="#{msgs.innovative_competences}" style="font-weight: bold;" />
-                            <h:panelGroup />
-                            
-                            <p:outputLabel value="#{msgs.creativity_and_holistic_thinking}:" for="creativityAndHolisticThinking" />
-                            <p:selectOneMenu id="creativityAndHolisticThinking" value="#{updateJobCDIBean.c5.weight}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-                            
-                            <p:outputLabel value="#{msgs.entrepreneurship}:" for="entrepreneurship" />
-                            <p:selectOneMenu id="entrepreneurship" value="#{updateJobCDIBean.c6.weight}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-                            
-                            <p:outputLabel value="#{msgs.proactivity}:" for="proactivity" />
-                            <p:selectOneMenu id="proactivity" value="#{updateJobCDIBean.c7.weight}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-                            
-                            <p:outputLabel value="#{msgs.readiness_for_changes}:" for="readinessForChanges" />
-                            <p:selectOneMenu id="readinessForChanges" value="#{updateJobCDIBean.c8.weight}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-                            
-                            <p:outputLabel value="#{msgs.social_competences}" style="font-weight: bold;" />
-                            <h:panelGroup />
-                            
-                            <p:outputLabel value="#{msgs.teamwork}:" for="teamwork" />
-                            <p:selectOneMenu id="teamwork" value="#{updateJobCDIBean.c9.weight}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-                            
-                            <p:outputLabel value="#{msgs.professionalism}:" for="professionalism" />
-                            <p:selectOneMenu id="professionalism" value="#{updateJobCDIBean.c10.weight}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-                            
-                            <p:outputLabel value="#{msgs.interpersonal_skills}:" for="interpersonalSkills" />
-                            <p:selectOneMenu id="interpersonalSkills" value="#{updateJobCDIBean.c11.weight}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-                            
-                            <p:outputLabel value="#{msgs.motivation_for_learning}:" for="motivationForLearning" />
-                            <p:selectOneMenu id="motivationForLearning" value="#{updateJobCDIBean.c12.weight}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-
-                        </p:panelGrid> 
-
-                        <p:panelGrid columns="5" >
+                        
+                        <p:panelGrid columns="4" >
                             <h:commandButton id="back" value="#{msgs.back}" action="updateJobProfile"  immediate="true" />  
-                            <h:commandButton id="update" value="Update" action="#{updateJobCDIBean.updateWithCompetenceWeights()}" />     
-                            <h:commandButton id="saveAsNew" value="Save as new" action="#{updateJobCDIBean.saveAsNew()}" /> 
+                            <h:commandButton id="update" value="Update" action="#{updateJobCDIBean.update()}" />      
                             <p:commandButton id="print" value="#{msgs.print}" icon="ui-icon-print" ><p:printer /></p:commandButton>
                             <p:commandButton id="help" value="#{msgs.help}" icon="ui-icon-help" />
                         </p:panelGrid>
-                    </p:panelGrid>
+                    
 
                 </h:form>
 

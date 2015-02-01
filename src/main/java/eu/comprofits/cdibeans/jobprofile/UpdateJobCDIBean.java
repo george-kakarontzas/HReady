@@ -59,24 +59,9 @@ public class UpdateJobCDIBean implements Serializable {
     private Job jobObject;
     private List<Job> jobList;
     private List<Job> filteredJobList;
-    private Job selectedJob;
+    //private Job selectedJob;
     private List<OrganisationalPosition> positions;
     private OrganisationalPosition position;
-
-    private List<CompetencesRequirement> competenceRequirements;
-    private CompetencesRequirement c1;
-    private CompetencesRequirement c2;
-    private CompetencesRequirement c3;
-    private CompetencesRequirement c4;
-    private CompetencesRequirement c5;
-    private CompetencesRequirement c6;
-    private CompetencesRequirement c7;
-    private CompetencesRequirement c8;
-    private CompetencesRequirement c9;
-    private CompetencesRequirement c10;
-    private CompetencesRequirement c11;
-    private CompetencesRequirement c12;
-
     private Employee employeeObject;
     private List<Employee> employeeList;
     private List<Employee> employeeReportingToList;
@@ -86,33 +71,7 @@ public class UpdateJobCDIBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        jobObject = new Job();
-        employeeObject = new Employee();
-        employeeReportingToList = employeeFacade.findAll();
-        employeeReportingToList.clear();
-        jobList = jobFacade.findAll();
-        employeeList = employeeFacade.findAll();
-        positions = organisationalPositionFacade.findAll();
-        competenceRequirements = competencesRequirementFacade.findAll();
-        
-        for (Employee e :employeeList) {
-            if (e.getRole().equals("depthead")) {
-                employeeReportingToList.add(e);
-            }
-        }
-        
-        c1 = new CompetencesRequirement();
-        c2 = new CompetencesRequirement();
-        c3 = new CompetencesRequirement();
-        c4 = new CompetencesRequirement();
-        c5 = new CompetencesRequirement();
-        c6 = new CompetencesRequirement();
-        c7 = new CompetencesRequirement();
-        c8 = new CompetencesRequirement();
-        c9 = new CompetencesRequirement();
-        c10 = new CompetencesRequirement();
-        c11 = new CompetencesRequirement();
-        c12 = new CompetencesRequirement();
+        refreshJobList();
     }
 
     public List<Job> getFilteredJobList() {
@@ -171,14 +130,6 @@ public class UpdateJobCDIBean implements Serializable {
         this.jobList = jobList;
     }
 
-    public Job getSelectedJob() {
-        return selectedJob;
-    }
-
-    public void setSelectedJob(Job selectedJob) {
-        this.selectedJob = selectedJob;
-    }
-
     public JobAdvertisement getJobAdvertisementObject() {
         return jobAdvertisementObject;
     }
@@ -203,350 +154,21 @@ public class UpdateJobCDIBean implements Serializable {
         this.employeeReportingToList = employeeReportingToList;
     }
     
-    
-    public CompetencesRequirement getC1() {
-        return c1;
-    }
-
-    public void setC1(CompetencesRequirement c1) {
-        this.c1 = c1;
-    }
-
-    public CompetencesRequirement getC2() {
-        return c2;
-    }
-
-    public void setC2(CompetencesRequirement c2) {
-        this.c2 = c2;
-    }
-
-    public CompetencesRequirement getC3() {
-        return c3;
-    }
-
-    public void setC3(CompetencesRequirement c3) {
-        this.c3 = c3;
-    }
-
-    public CompetencesRequirement getC4() {
-        return c4;
-    }
-
-    public void setC4(CompetencesRequirement c4) {
-        this.c4 = c4;
-    }
-
-    public CompetencesRequirement getC5() {
-        return c5;
-    }
-
-    public void setC5(CompetencesRequirement c5) {
-        this.c5 = c5;
-    }
-
-    public CompetencesRequirement getC6() {
-        return c6;
-    }
-
-    public void setC6(CompetencesRequirement c6) {
-        this.c6 = c6;
-    }
-
-    public CompetencesRequirement getC7() {
-        return c7;
-    }
-
-    public void setC7(CompetencesRequirement c7) {
-        this.c7 = c7;
-    }
-
-    public CompetencesRequirement getC8() {
-        return c8;
-    }
-
-    public void setC8(CompetencesRequirement c8) {
-        this.c8 = c8;
-    }
-
-    public CompetencesRequirement getC9() {
-        return c9;
-    }
-
-    public void setC9(CompetencesRequirement c9) {
-        this.c9 = c9;
-    }
-
-    public CompetencesRequirement getC10() {
-        return c10;
-    }
-
-    public void setC10(CompetencesRequirement c10) {
-        this.c10 = c10;
-    }
-
-    public CompetencesRequirement getC11() {
-        return c11;
-    }
-
-    public void setC11(CompetencesRequirement c11) {
-        this.c11 = c11;
-    }
-
-    public CompetencesRequirement getC12() {
-        return c12;
-    }
-
-    public void setC12(CompetencesRequirement c12) {
-        this.c12 = c12;
-    }
-    
     public String edit(Job job) {
         this.jobObject = job;
-
-        for (CompetencesRequirement cr : competenceRequirements) {
-            if (cr.getJobIdjob().getIdjob().equals(jobObject.getIdjob()) && cr.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Managerial competences")) {
-                this.c1 = cr;
-                break;
-            } else {
-                this.c1 = new CompetencesRequirement();
-            }
-        }
-
-        for (CompetencesRequirement cr : competenceRequirements) {
-            if (cr.getJobIdjob().getIdjob().equals(jobObject.getIdjob()) && cr.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Business orientation")) {
-                this.c2 = cr;
-                break;
-            } else {
-                this.c2 = new CompetencesRequirement();
-            }
-        }
-
-        for (CompetencesRequirement cr : competenceRequirements) {
-            if (cr.getJobIdjob().getIdjob().equals(jobObject.getIdjob()) && cr.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Job related skills")) {
-                this.c3 = cr;
-                break;
-            } else {
-                this.c3 = new CompetencesRequirement();
-            }
-        }
-
-        for (CompetencesRequirement cr : competenceRequirements) {
-            if (cr.getJobIdjob().getIdjob().equals(jobObject.getIdjob()) && cr.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Oral and written communication / languages")) {
-                this.c4 = cr;
-                break;
-            } else {
-                this.c4 = new CompetencesRequirement();
-            }
-        }
-
-        for (CompetencesRequirement cr : competenceRequirements) {
-            if (cr.getJobIdjob().getIdjob().equals(jobObject.getIdjob()) && cr.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Creativity and holistic thinking")) {
-                this.c5 = cr;
-                break;
-            } else {
-                this.c5 = new CompetencesRequirement();
-            }
-        }
-
-        for (CompetencesRequirement cr : competenceRequirements) {
-            if (cr.getJobIdjob().getIdjob().equals(jobObject.getIdjob()) && cr.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Entrepreneurship")) {
-                this.c6 = cr;
-                break;
-            } else {
-                this.c6 = new CompetencesRequirement();
-            }
-        }
-
-        for (CompetencesRequirement cr : competenceRequirements) {
-            if (cr.getJobIdjob().getIdjob().equals(jobObject.getIdjob()) && cr.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Proactivity")) {
-                this.c7 = cr;
-                break;
-            } else {
-                this.c7 = new CompetencesRequirement();
-            }
-        }
-
-        for (CompetencesRequirement cr : competenceRequirements) {
-            if (cr.getJobIdjob().getIdjob().equals(jobObject.getIdjob()) && cr.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Readiness for changes")) {
-                this.c8 = cr;
-                break;
-            } else {
-                this.c8 = new CompetencesRequirement();
-            }
-        }
-
-        for (CompetencesRequirement cr : competenceRequirements) {
-            if (cr.getJobIdjob().getIdjob().equals(jobObject.getIdjob()) && cr.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Teamwork")) {
-                this.c9 = cr;
-                break;
-            } else {
-                this.c9 = new CompetencesRequirement();
-            }
-        }
-
-        for (CompetencesRequirement cr : competenceRequirements) {
-            if (cr.getJobIdjob().getIdjob().equals(jobObject.getIdjob()) && cr.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Professionalism")) {
-                this.c10 = cr;
-                break;
-            } else {
-                this.c10 = new CompetencesRequirement();
-            }
-        }
-
-        for (CompetencesRequirement cr : competenceRequirements) {
-            if (cr.getJobIdjob().getIdjob().equals(jobObject.getIdjob()) && cr.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Interpersonal skills")) {
-                this.c11 = cr;
-                break;
-            } else {
-                this.c11 = new CompetencesRequirement();
-            }
-        }
-
-        for (CompetencesRequirement cr : competenceRequirements) {
-            if (cr.getJobIdjob().getIdjob().equals(jobObject.getIdjob()) && cr.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Motivation for learning")) {
-                this.c12 = cr;
-                break;
-            } else {
-                this.c12 = new CompetencesRequirement();
-            }
-        }
-
-        employeeList = employeeFacade.findAll();
-        positions = organisationalPositionFacade.findAll();
-        competenceRequirements = competencesRequirementFacade.findAll();
-
+        this.employeeList = this.employeeFacade.findAll();
+        this.positions = this.organisationalPositionFacade.findAll();
         return "editJobProfile";
     }
 
     public String create() {
         this.jobObject = new Job();
-
-        this.c1 = new CompetencesRequirement();
-        this.c2 = new CompetencesRequirement();
-        this.c3 = new CompetencesRequirement();
-        this.c4 = new CompetencesRequirement();
-        this.c5 = new CompetencesRequirement();
-        this.c6 = new CompetencesRequirement();
-        this.c7 = new CompetencesRequirement();
-        this.c8 = new CompetencesRequirement();
-        this.c9 = new CompetencesRequirement();
-        this.c10 = new CompetencesRequirement();
-        this.c11 = new CompetencesRequirement();
-        this.c12 = new CompetencesRequirement();
-
-        employeeList = employeeFacade.findAll();
-        positions = organisationalPositionFacade.findAll();
-        jobList = jobFacade.findAll();
-        competenceRequirements = competencesRequirementFacade.findAll();
-
-        return "createJobProfile";
+        this.employeeList = this.employeeFacade.findAll();
+        this.positions = this.organisationalPositionFacade.findAll();
+        return "editJobProfile";
     }
 
-    public String saveAsNew() {
-
-        c1.setJobIdjob(jobObject);
-        c1.setCompetenceIdcompetence(competenceFacade.findByName("Managerial competences"));
-        c2.setJobIdjob(jobObject);
-        c2.setCompetenceIdcompetence(competenceFacade.findByName("Business orientation"));
-        c3.setJobIdjob(jobObject);
-        c3.setCompetenceIdcompetence(competenceFacade.findByName("Job related skills"));
-        c4.setJobIdjob(jobObject);
-        c4.setCompetenceIdcompetence(competenceFacade.findByName("Oral and written communication / languages"));
-        c5.setJobIdjob(jobObject);
-        c5.setCompetenceIdcompetence(competenceFacade.findByName("Creativity and holistic thinking"));
-        c6.setJobIdjob(jobObject);
-        c6.setCompetenceIdcompetence(competenceFacade.findByName("Entrepreneurship"));
-        c7.setJobIdjob(jobObject);
-        c7.setCompetenceIdcompetence(competenceFacade.findByName("Proactivity"));
-        c8.setJobIdjob(jobObject);
-        c8.setCompetenceIdcompetence(competenceFacade.findByName("Readiness for changes"));
-        c9.setJobIdjob(jobObject);
-        c9.setCompetenceIdcompetence(competenceFacade.findByName("Teamwork"));
-        c10.setJobIdjob(jobObject);
-        c10.setCompetenceIdcompetence(competenceFacade.findByName("Professionalism"));
-        c11.setJobIdjob(jobObject);
-        c11.setCompetenceIdcompetence(competenceFacade.findByName("Interpersonal skills"));
-        c12.setJobIdjob(jobObject);
-        c12.setCompetenceIdcompetence(competenceFacade.findByName("Motivation for learning"));
-
-        jobFacade.create(jobObject);
-        // jobAdvertisementFacade.create(jobAdvertisementObject);
-        competencesRequirementFacade.create(c1);
-        competencesRequirementFacade.create(c2);
-        competencesRequirementFacade.create(c3);
-        competencesRequirementFacade.create(c4);
-
-        competencesRequirementFacade.create(c5);
-        competencesRequirementFacade.create(c6);
-        competencesRequirementFacade.create(c7);
-        competencesRequirementFacade.create(c8);
-
-        competencesRequirementFacade.create(c9);
-        competencesRequirementFacade.create(c10);
-        competencesRequirementFacade.create(c11);
-        competencesRequirementFacade.create(c12);
-
-        employeeList = employeeFacade.findAll();
-        positions = organisationalPositionFacade.findAll();
-        competenceRequirements = competencesRequirementFacade.findAll();
-        jobList = jobFacade.findAll();
-
-        return "updateJobProfile";
-    }
-
-    public String save() {
-
-        c1.setJobIdjob(jobObject);
-        c1.setCompetenceIdcompetence(competenceFacade.findByName("Managerial competences"));
-        c2.setJobIdjob(jobObject);
-        c2.setCompetenceIdcompetence(competenceFacade.findByName("Business orientation"));
-        c3.setJobIdjob(jobObject);
-        c3.setCompetenceIdcompetence(competenceFacade.findByName("Job related skills"));
-        c4.setJobIdjob(jobObject);
-        c4.setCompetenceIdcompetence(competenceFacade.findByName("Oral and written communication / languages"));
-        c5.setJobIdjob(jobObject);
-        c5.setCompetenceIdcompetence(competenceFacade.findByName("Creativity and holistic thinking"));
-        c6.setJobIdjob(jobObject);
-        c6.setCompetenceIdcompetence(competenceFacade.findByName("Entrepreneurship"));
-        c7.setJobIdjob(jobObject);
-        c7.setCompetenceIdcompetence(competenceFacade.findByName("Proactivity"));
-        c8.setJobIdjob(jobObject);
-        c8.setCompetenceIdcompetence(competenceFacade.findByName("Readiness for changes"));
-        c9.setJobIdjob(jobObject);
-        c9.setCompetenceIdcompetence(competenceFacade.findByName("Teamwork"));
-        c10.setJobIdjob(jobObject);
-        c10.setCompetenceIdcompetence(competenceFacade.findByName("Professionalism"));
-        c11.setJobIdjob(jobObject);
-        c11.setCompetenceIdcompetence(competenceFacade.findByName("Interpersonal skills"));
-        c12.setJobIdjob(jobObject);
-        c12.setCompetenceIdcompetence(competenceFacade.findByName("Motivation for learning"));
-
-        jobFacade.create(jobObject);
-        //jobAdvertisementFacade.create(jobAdvertisementObject);
-        competencesRequirementFacade.create(c1);
-        competencesRequirementFacade.create(c2);
-        competencesRequirementFacade.create(c3);
-        competencesRequirementFacade.create(c4);
-
-        competencesRequirementFacade.create(c5);
-        competencesRequirementFacade.create(c6);
-        competencesRequirementFacade.create(c7);
-        competencesRequirementFacade.create(c8);
-
-        competencesRequirementFacade.create(c9);
-        competencesRequirementFacade.create(c10);
-        competencesRequirementFacade.create(c11);
-        competencesRequirementFacade.create(c12);
-
-        employeeList = employeeFacade.findAll();
-        positions = organisationalPositionFacade.findAll();
-        competenceRequirements = competencesRequirementFacade.findAll();
-        jobList = jobFacade.findAll();
-
-        return "updateJobProfile";
-    }
-
-    private void refreshJobList() {
+    public void refreshJobList() {
         jobList = jobFacade.findAll();
     }
 
@@ -578,11 +200,11 @@ public class UpdateJobCDIBean implements Serializable {
 
         try {
 
-            for (CompetencesRequirement cr : competenceRequirements) {
+            /*for (CompetencesRequirement cr : competenceRequirements) {
                 if (cr.getJobIdjob().getIdjob().equals(e.getIdjob())) {
                     competencesRequirementFacade.remove(cr);
                 }
-            }
+            }*/
             jobFacade.remove(e);
             if (filteredJobList != null) {
                 filteredJobList.remove(e);
@@ -594,12 +216,11 @@ public class UpdateJobCDIBean implements Serializable {
                             ex.getMessage(), null));
         }
         jobList = jobFacade.findAll();
-        competenceRequirements = competencesRequirementFacade.findAll();
 
         return "updateJobProfile";
     }
 
-    public void update() {
+    public String update() {
         try {
             if (jobObject.getIdjob() == null) {
                 jobFacade.create(jobObject);
@@ -614,81 +235,6 @@ public class UpdateJobCDIBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             e.getMessage(), null));
         }
-    }
-
-    public void updateWithCompetenceWeights() {
-
-        c1.setJobIdjob(jobObject);
-        c1.setCompetenceIdcompetence(competenceFacade.findByName("Managerial competences"));
-        c2.setJobIdjob(jobObject);
-        c2.setCompetenceIdcompetence(competenceFacade.findByName("Business orientation"));
-        c3.setJobIdjob(jobObject);
-        c3.setCompetenceIdcompetence(competenceFacade.findByName("Job related skills"));
-        c4.setJobIdjob(jobObject);
-        c4.setCompetenceIdcompetence(competenceFacade.findByName("Oral and written communication / languages"));
-        c5.setJobIdjob(jobObject);
-        c5.setCompetenceIdcompetence(competenceFacade.findByName("Creativity and holistic thinking"));
-        c6.setJobIdjob(jobObject);
-        c6.setCompetenceIdcompetence(competenceFacade.findByName("Entrepreneurship"));
-        c7.setJobIdjob(jobObject);
-        c7.setCompetenceIdcompetence(competenceFacade.findByName("Proactivity"));
-        c8.setJobIdjob(jobObject);
-        c8.setCompetenceIdcompetence(competenceFacade.findByName("Readiness for changes"));
-        c9.setJobIdjob(jobObject);
-        c9.setCompetenceIdcompetence(competenceFacade.findByName("Teamwork"));
-        c10.setJobIdjob(jobObject);
-        c10.setCompetenceIdcompetence(competenceFacade.findByName("Professionalism"));
-        c11.setJobIdjob(jobObject);
-        c11.setCompetenceIdcompetence(competenceFacade.findByName("Interpersonal skills"));
-        c12.setJobIdjob(jobObject);
-        c12.setCompetenceIdcompetence(competenceFacade.findByName("Motivation for learning"));
-
-        try {
-            if (jobObject.getIdjob() == null) {
-                jobFacade.create(jobObject);
-                competencesRequirementFacade.create(c1);
-                competencesRequirementFacade.create(c2);
-                competencesRequirementFacade.create(c3);
-                competencesRequirementFacade.create(c4);
-
-                competencesRequirementFacade.create(c5);
-                competencesRequirementFacade.create(c6);
-                competencesRequirementFacade.create(c7);
-                competencesRequirementFacade.create(c8);
-
-                competencesRequirementFacade.create(c9);
-                competencesRequirementFacade.create(c10);
-                competencesRequirementFacade.create(c11);
-                competencesRequirementFacade.create(c12);
-
-                // jobAdvertisementFacade.create(jobAdvertisementObject);
-            } else {
-                jobFacade.edit(jobObject);
-                competencesRequirementFacade.edit(c1);
-                competencesRequirementFacade.edit(c2);
-                competencesRequirementFacade.edit(c3);
-                competencesRequirementFacade.edit(c4);
-
-                competencesRequirementFacade.edit(c5);
-                competencesRequirementFacade.edit(c6);
-                competencesRequirementFacade.edit(c7);
-                competencesRequirementFacade.edit(c8);
-
-                competencesRequirementFacade.edit(c9);
-                competencesRequirementFacade.edit(c10);
-                competencesRequirementFacade.edit(c11);
-                competencesRequirementFacade.edit(c12);
-
-            }
-
-            employeeList = employeeFacade.findAll();
-            positions = organisationalPositionFacade.findAll();
-            competenceRequirements = competencesRequirementFacade.findAll();
-            jobList = jobFacade.findAll();
-        } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            e.getMessage(), null));
-        }
+        return "updateJobProfile";
     }
 }
