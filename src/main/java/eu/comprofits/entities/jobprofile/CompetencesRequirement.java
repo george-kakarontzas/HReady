@@ -43,7 +43,11 @@ public class CompetencesRequirement implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "weight")
-    private int weight;
+    private float weight;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "importance")
+    private float importance;
     @JoinColumn(name = "job_idjob", referencedColumnName = "idjob")
     @ManyToOne(optional = false)
     private Job jobIdjob;
@@ -58,9 +62,10 @@ public class CompetencesRequirement implements Serializable {
         this.idcompetencesRequirement = idcompetencesRequirement;
     }
 
-    public CompetencesRequirement(Integer idcompetencesRequirement, int weight) {
+    public CompetencesRequirement(Integer idcompetencesRequirement, float weight, float importance) {
         this.idcompetencesRequirement = idcompetencesRequirement;
         this.weight = weight;
+        this.importance = importance;
     }
 
     public Integer getIdcompetencesRequirement() {
@@ -71,12 +76,20 @@ public class CompetencesRequirement implements Serializable {
         this.idcompetencesRequirement = idcompetencesRequirement;
     }
 
-    public int getWeight() {
+    public float getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(float weight) {
         this.weight = weight;
+    }
+    
+    public float getImportance() {
+        return importance;
+    }
+
+    public void setImportance(float importance) {
+        this.importance = importance;
     }
 
     public Job getJobIdjob() {

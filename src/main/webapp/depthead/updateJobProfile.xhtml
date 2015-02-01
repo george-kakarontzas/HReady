@@ -58,7 +58,18 @@
                                       filterMatchMode="contains">
                                 <h:outputText value="#{item.reportingToIdemployee.fullName}"/>
                             </p:column>
-                   
+                            
+                            <!--<p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.available_actions}"/>
+                                </f:facet>
+                            <p:commandLink 
+                                                 value="#{msgs.edit_job_competences}"
+                                                 action="#{updateJobCompetencesRequirementCDIBean.linkIt(item)}"
+                                                 />
+                        
+                            </p:column>-->
+                            
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs.delete_job_profile}"/>
