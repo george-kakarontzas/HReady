@@ -38,7 +38,7 @@
                                                          value="#{updateAssessmentsCDIBean.assessment.assesseeIdemployee}" 
                                                          required="true" 
                                                          requiredMessage="#{msgs.required_assessee}"
-                                                         converter="#{employeeConverter1}">
+                                                         converter="#{employeeConverter}">
                                             <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
                                             <f:selectItems value="#{updateAssessmentsCDIBean.departmentEmployees}" 
                                                            var="e" itemValue="#{e}" 
@@ -51,7 +51,7 @@
                                                          value="#{updateAssessmentsCDIBean.assessment.immediateManagerIdemployee}" 
                                                          required="true" 
                                                          requiredMessage="#{msgs.required_immediate_manager}"
-                                                         converter="#{employeeConverter1}">
+                                                         converter="#{employeeConverter}">
                                             <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
                                             <f:selectItems value="#{updateAssessmentsCDIBean.departmentEmployees}" 
                                                            var="e" itemValue="#{e}"  
@@ -64,7 +64,7 @@
                                                          value="#{updateAssessmentsCDIBean.assessment.colleague1Idemployee}" 
                                                          required="true" 
                                                          requiredMessage="#{msgs.required_colleague1}"
-                                                         converter="#{employeeConverter1}">
+                                                         converter="#{employeeConverter}">
                                             <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
                                             <f:selectItems value="#{updateAssessmentsCDIBean.departmentEmployees}" 
                                                            var="e" itemValue="#{e}" 
@@ -77,7 +77,7 @@
                                                          value="#{updateAssessmentsCDIBean.assessment.colleague2Idemployee}" 
                                                          required="true" 
                                                          requiredMessage="#{msgs.required_colleague2}"
-                                                         converter="#{employeeConverter1}">
+                                                         converter="#{employeeConverter}">
                                             <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
                                             <f:selectItems value="#{updateAssessmentsCDIBean.departmentEmployees}" 
                                                            var="e" itemValue="#{e}"  
@@ -90,7 +90,7 @@
                                                          value="#{updateAssessmentsCDIBean.assessment.colleague3Idemployee}" 
                                                          required="true" 
                                                          requiredMessage="#{msgs.required_colleague3}"
-                                                         converter="#{employeeConverter1}">
+                                                         converter="#{employeeConverter}">
                                             <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
                                             <f:selectItems value="#{updateAssessmentsCDIBean.departmentEmployees}" 
                                                            var="e" itemValue="#{e}"  
