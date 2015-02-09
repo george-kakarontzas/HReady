@@ -199,7 +199,10 @@ public class UpdateJobCDIBean implements Serializable {
     public String remove(Job e) {
 
         try {
-
+            for (CompetencesRequirement cr : competencesRequirementFacade.getRequirementsForJob(this.jobObject))
+            {
+                competencesRequirementFacade.remove(cr);
+            }
             /*for (CompetencesRequirement cr : competenceRequirements) {
                 if (cr.getJobIdjob().getIdjob().equals(e.getIdjob())) {
                     competencesRequirementFacade.remove(cr);

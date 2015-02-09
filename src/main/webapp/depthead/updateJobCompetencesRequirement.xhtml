@@ -25,7 +25,7 @@
                                              ajax="false" />
                         <p:dataTable value="#{updateJobCompetencesRequirementCDIBean.requirements}" 
                                      var="item" 
-                                     paginator="true" rows="10" >
+                                      >
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs.competence_name} 
@@ -53,7 +53,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs.competence_requirement_weight}"/>
                                 </f:facet>
-                                <h:outputText value="#{item.weight}"/>
+                                <h:outputText value="#{item.weight}%"/>
                             </p:column>
                             
                             <p:column>
