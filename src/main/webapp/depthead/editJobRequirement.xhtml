@@ -29,9 +29,9 @@
                             </p:selectOneMenu>
                             
                             <p:outputLabel value="#{msgs.competence_requirement_weight}:" for="weight" />
-                            <p:inputText id="weight" 
+                            <p:spinner id="weight" 
                                          value="#{updateJobCompetencesRequirementCDIBean.requirement.weight}" 
-                                         title="#{msgs.competence_requirement_weight}"/>
+                                         suffix="%" stepFactor="1" min="0" max="100"/>
                             
                             <p:outputLabel value="#{msgs.importance}:" for="importance" />
                             <p:selectOneMenu id="importance" value="#{updateJobCompetencesRequirementCDIBean.requirement.importance}" >  

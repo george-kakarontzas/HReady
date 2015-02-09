@@ -39,7 +39,6 @@ public class UpdateJobCompetencesRequirementCDIBean implements Serializable {
    private CompetencesRequirement requirement;
    private List<CompetencesRequirement> requirements;
    private List<Competence> competences;
-   private List<Job> jobs;
    private Job jobObject;
 
     public void setCrfacade(CompetencesRequirementFacade crfacade) {
@@ -94,16 +93,7 @@ public class UpdateJobCompetencesRequirementCDIBean implements Serializable {
     public void setCompetences(List<Competence> competences) {
         this.competences = competences;
     }
-
-    public List<Job> getJobs() {
-        return jobs;
-    }
-
-    public void setJobs(List<Job> jobs) {
-        this.jobs = jobs;
-    }
-    
-    
+  
     public void remove(CompetencesRequirement d) {
         try {
             this.crfacade.remove(d);
@@ -118,7 +108,6 @@ public class UpdateJobCompetencesRequirementCDIBean implements Serializable {
     public String edit(CompetencesRequirement requirement) {
         this.requirement = requirement;
         this.competences = this.comfacade.getOrderedCompetences();
-        this.jobs = this.jobfacade.findAll();
         return "editJobRequirement";
     }
 
@@ -126,7 +115,6 @@ public class UpdateJobCompetencesRequirementCDIBean implements Serializable {
         this.requirement = new CompetencesRequirement();
         this.requirement.setJobIdjob(jobObject);
         this.competences = this.comfacade.getOrderedCompetences();
-        this.jobs = this.jobfacade.findAll();
         return "editJobRequirement";
     }
 

@@ -59,7 +59,8 @@ public class CompetencesRequirementFacade extends AbstractFacade<CompetencesRequ
         return c;
     }
     
-    
-
-    
+    public void removeCompetencesRequirementsForJob (Job job) {
+        Query q = em.createQuery("DELETE * FROM CompetencesRequirement WHERE jobIdjob=:job");
+        q.setParameter("job",job);
+    }
 }
