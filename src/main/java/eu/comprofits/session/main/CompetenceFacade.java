@@ -15,6 +15,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 
 /**
  *
@@ -42,6 +44,32 @@ public class CompetenceFacade extends AbstractFacade<Competence> {
         return ((Competence) result);
     }
     
+    public List<TreeNode> getCompetencesTree()
+    {
+        List<TreeNode> competencesRoots = new ArrayList<TreeNode>();
+        Query q = em.createQuery("SELECT c FROM Competence c WHERE c.parentId IS NULL");
+        List<Competence> competences = q.getResultList();
+        for (Competence c: competences)
+        {
+            TreeNode childNode = getCompetencesTree(c,null);
+            competencesRoots.add(childNode);
+        }
+        return competencesRoots;
+    }
+    
+    public TreeNode getCompetencesTree(Competence childCompetence, TreeNode parentNode)
+    {       
+        
+        TreeNode childTree = new DefaultTreeNode(childCompetence, parentNode);
+        Query q = em.createQuery("SELECT c FROM Competence c WHERE c.parentId=:parent");
+        q.setParameter("parent",childCompetence);
+        List<Competence> childCompetences = q.getResultList();
+        for (Competence c: childCompetences)
+        {
+            TreeNode childNode = getCompetencesTree(c, childTree);
+        }
+        return childTree;
+    }
     
     public List<Competence> getOrderedCompetences() {
         Query q = em.createQuery("SELECT c FROM Competence c WHERE c.parentId IS NULL");
