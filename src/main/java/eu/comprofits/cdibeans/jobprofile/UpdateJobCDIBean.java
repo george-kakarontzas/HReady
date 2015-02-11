@@ -9,6 +9,7 @@ import eu.comprofits.entities.employee.Employee;
 import eu.comprofits.entities.jobapplicant.JobAdvertisement;
 import eu.comprofits.entities.jobprofile.CompetencesRequirement;
 import eu.comprofits.entities.jobprofile.Job;
+import eu.comprofits.entities.main.Competence;
 import eu.comprofits.entities.main.OrganisationalPosition;
 import eu.comprofits.session.employee.EmployeeFacade;
 import eu.comprofits.session.jobapplicant.JobAdvertisementFacade;
@@ -17,6 +18,7 @@ import eu.comprofits.session.jobprofile.JobFacade;
 import eu.comprofits.session.main.CompetenceFacade;
 import eu.comprofits.session.main.OrganisationalPositionFacade;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -25,6 +27,8 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 
 /**
  *
@@ -65,6 +69,7 @@ public class UpdateJobCDIBean implements Serializable {
     private Employee employeeObject;
     private List<Employee> employeeList;
     private List<Employee> employeeReportingToList;
+    private List<TreeNode> competencesTrees;
 
     public UpdateJobCDIBean() {
     }
@@ -154,10 +159,19 @@ public class UpdateJobCDIBean implements Serializable {
         this.employeeReportingToList = employeeReportingToList;
     }
     
+    public List<TreeNode> getCompetencesTrees() {
+        return competencesTrees;
+    }
+
+    public void setCompetencesTrees(List<TreeNode> competencesTrees) {
+        this.competencesTrees = competencesTrees;
+    }
+    
     public String edit(Job job) {
         this.jobObject = job;
         this.employeeList = this.employeeFacade.findAll();
         this.positions = this.organisationalPositionFacade.findAll();
+        this.competencesTrees = competenceFacade.getCompetencesTree();
         return "editJobProfile";
     }
 
@@ -165,6 +179,7 @@ public class UpdateJobCDIBean implements Serializable {
         this.jobObject = new Job();
         this.employeeList = this.employeeFacade.findAll();
         this.positions = this.organisationalPositionFacade.findAll();
+        this.competencesTrees = competenceFacade.getCompetencesTree();
         return "editJobProfile";
     }
 
