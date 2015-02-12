@@ -91,13 +91,16 @@
 
                 </h:form>
 <h:form>
-    <c:forEach items="#{updateJobCDIBean.competencesTrees}" var="subtree">
-    <p:tree value="#{subtree}" var="node" orientation="horizontal">
-        <p:treeNode>
+    
+    <p:treeTable value="#{updateJobCDIBean.competencesTree}" var="node" >
+        <p:column headerText="Competence Name">
             <h:outputText value="#{node.competenceName}" />
-        </p:treeNode>
-    </p:tree>
-    </c:forEach>
+        </p:column>
+        <p:column headerText="Competence Level">
+            <h:outputText value="#{node.getLevel()}" />
+        </p:column>
+    </p:treeTable>
+    
 </h:form>
             </ui:define>
 

@@ -44,17 +44,16 @@ public class CompetenceFacade extends AbstractFacade<Competence> {
         return ((Competence) result);
     }
     
-    public List<TreeNode> getCompetencesTree()
+    public TreeNode getCompetencesTree()
     {
-        List<TreeNode> competencesRoots = new ArrayList<TreeNode>();
+        TreeNode competencesTree = new DefaultTreeNode("Root",null);
         Query q = em.createQuery("SELECT c FROM Competence c WHERE c.parentId IS NULL");
         List<Competence> competences = q.getResultList();
         for (Competence c: competences)
         {
-            TreeNode childNode = getCompetencesTree(c,null);
-            competencesRoots.add(childNode);
+            TreeNode childNode = getCompetencesTree(c,competencesTree);
         }
-        return competencesRoots;
+        return competencesTree;
     }
     
     public TreeNode getCompetencesTree(Competence childCompetence, TreeNode parentNode)
