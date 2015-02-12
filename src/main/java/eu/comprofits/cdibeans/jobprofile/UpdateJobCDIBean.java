@@ -69,7 +69,7 @@ public class UpdateJobCDIBean implements Serializable {
     private Employee employeeObject;
     private List<Employee> employeeList;
     private List<Employee> employeeReportingToList;
-    private List<TreeNode> competencesTrees;
+    private TreeNode competencesTree;
 
     public UpdateJobCDIBean() {
     }
@@ -159,19 +159,19 @@ public class UpdateJobCDIBean implements Serializable {
         this.employeeReportingToList = employeeReportingToList;
     }
     
-    public List<TreeNode> getCompetencesTrees() {
-        return competencesTrees;
+    public TreeNode getCompetencesTree() {
+        return competencesTree;
     }
 
-    public void setCompetencesTrees(List<TreeNode> competencesTrees) {
-        this.competencesTrees = competencesTrees;
+    public void setCompetencesTree(TreeNode competencesTrees) {
+        this.competencesTree = competencesTrees;
     }
     
     public String edit(Job job) {
         this.jobObject = job;
         this.employeeList = this.employeeFacade.findAll();
         this.positions = this.organisationalPositionFacade.findAll();
-        this.competencesTrees = competenceFacade.getCompetencesTree();
+        this.competencesTree = competenceFacade.getCompetencesTree();
         return "editJobProfile";
     }
 
@@ -179,7 +179,7 @@ public class UpdateJobCDIBean implements Serializable {
         this.jobObject = new Job();
         this.employeeList = this.employeeFacade.findAll();
         this.positions = this.organisationalPositionFacade.findAll();
-        this.competencesTrees = competenceFacade.getCompetencesTree();
+        this.competencesTree = competenceFacade.getCompetencesTree();
         return "editJobProfile";
     }
 
