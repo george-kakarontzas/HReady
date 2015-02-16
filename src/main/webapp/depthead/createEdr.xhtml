@@ -1,0 +1,317 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./deptheadPagesTemplate.xhtml"> 
+       
+            <ui:define name="title">
+                ${msgs.edr_title1}
+            </ui:define>
+
+            <ui:define name="content">
+                <h1>${msgs.edr}</h1>
+                <h:form id="createEdr">
+                    <p:panelGrid columns="2" style="width: 100%">
+                        <h:panelGrid columns="2" cellpadding="5" columnClasses="left">
+                            <h:panelGroup>
+                                <h:outputLabel for="idemployee" value="#{msgs.reviewed_employee_name}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:selectOneMenu id="idemployee" 
+                                                 value="#{updateEdrCDIBean.edrObject.reviewedEmployeeIdemployee}" 
+                                                 converter="#{reportingToConverter}">  
+                                    <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItems value="#{updateEdrCDIBean.employeeList}"
+                                                   var="e" itemValue="#{e}" itemLabel="##{e.lastName} #{e.firstName} #{e.email}" />
+                                </p:selectOneMenu>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="year" value="Year" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="year" value="#{updateEdrCDIBean.edrObject.year}" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="verdict" value="Verdict" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:editor id="verdict" widgetVar="editorWidget" 
+                                          value="#{updateEdrCDIBean.edrObject.verdict}" width="600" />
+                               
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="immediateManager" value="#{msgs.immediate_manager}" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:selectOneMenu id="immediateManager" 
+                                                 value="#{updateEdrCDIBean.edrObject.immediateManagerIdemployee}" 
+                                                 converter="#{employeeConverter1}">
+                                    <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />                         
+                                    <f:selectItems value="#{updateEdrCDIBean.employeeList}"
+                                                   var="e" itemValue="#{e}" itemLabel="#{e.lastName} #{e.firstName} #{e.email}" />
+                                </p:selectOneMenu>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="status" value="#{msgs.edr_status}" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:selectOneMenu id="status" value="#{updateEdrCDIBean.edrObject.status}">
+                                            <f:selectItem itemLabel="#{msgs.status_undefined}" itemValue="0"/>
+                                            <f:selectItem itemLabel="#{msgs.status_defined}" itemValue="1"/>
+                                            <f:selectItem itemLabel="#{msgs.status_shown}" itemValue="2"/>
+                                            <f:selectItem itemLabel="#{msgs.status_changed}" itemValue="3"/>
+                                            <f:selectItem itemLabel="#{msgs.status_accepted}" itemValue="4"/>
+                                            <f:selectItem itemLabel="#{msgs.status_completed}" itemValue="5"/>
+                                </p:selectOneMenu>  
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.back}" 
+                                        action="updateEdr?faces-redirect=true" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.next}" 
+                                                 action="createEdrPage2?faces-redirect=true" />
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </p:panelGrid>
+                    <p:panelGrid columns="2" style="width: 100%">
+                        <h:panelGrid columns="2" cellpadding="5" columnClasses="left">
+                            <h:panelGroup>
+                                <h:outputLabel for="answer11" value="#{msgs.edr_question11}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer11" widgetVar="editorWidget1" rendered="true"
+                                          value="#{updateEdrCDIBean.questionAnswer1.answer}" width="600" >
+                                </p:editor>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="answer12" value="#{msgs.edr_question12}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer12" widgetVar="editorWidget2" rendered="true"
+                                          value="#{updateEdrCDIBean.questionAnswer2.answer}" width="600" >
+                                 
+                                </p:editor>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="answer13" value="#{msgs.edr_question13}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer13" widgetVar="editorWidget3" rendered="true"
+                                          value="#{updateEdrCDIBean.questionAnswer3.answer}" width="600" >
+                                </p:editor>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="answer14" value="#{msgs.edr_question14}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer14" widgetVar="editorWidget4" rendered="true"
+                                          value="#{updateEdrCDIBean.questionAnswer4.answer}" width="600" >
+                                </p:editor>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <h:outputLabel for="answer21" value="#{msgs.edr_question21}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer21" widgetVar="editorWidget1" 
+                                          value="#{updateEdrCDIBean.questionAnswer5.answer}" width="600" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="answer22" value="#{msgs.edr_question22}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer22" widgetVar="editorWidget2" 
+                                          value="#{updateEdrCDIBean.questionAnswer6.answer}" width="600" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="answer23" value="#{msgs.edr_question23}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer23" widgetVar="editorWidget3" 
+                                          value="#{updateEdrCDIBean.questionAnswer7.answer}" width="600" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="answer24" value="#{msgs.edr_question24}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer24" widgetVar="editorWidget4" 
+                                          value="#{updateEdrCDIBean.questionAnswer8.answer}" width="600" />
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <h:outputLabel for="answer31" value="#{msgs.edr_question31}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer31" widgetVar="editorWidget1" 
+                                          value="#{updateEdrCDIBean.questionAnswer9.answer}" width="600" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="answer32" value="#{msgs.edr_question32}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer32" widgetVar="editorWidget2" 
+                                          value="#{updateEdrCDIBean.questionAnswer10.answer}" width="600" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="answer33" value="#{msgs.edr_question33}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer33" widgetVar="editorWidget3" 
+                                          value="#{updateEdrCDIBean.questionAnswer11.answer}" width="600" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="answer34" value="#{msgs.edr_question34}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer34" widgetVar="editorWidget4" 
+                                          value="#{updateEdrCDIBean.questionAnswer12.answer}" width="600" />
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <h:outputLabel for="answer41" value="#{msgs.edr_question41}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer41" widgetVar="editorWidget1" 
+                                          value="#{updateEdrCDIBean.questionAnswer13.answer}" width="600" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="answer42" value="#{msgs.edr_question42}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer42" widgetVar="editorWidget2" 
+                                          value="#{updateEdrCDIBean.questionAnswer14.answer}" width="600" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="answer43" value="#{msgs.edr_question43}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer43" widgetVar="editorWidget3" 
+                                          value="#{updateEdrCDIBean.questionAnswer15.answer}" width="600" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="answer44" value="#{msgs.edr_question44}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer44" widgetVar="editorWidget4" 
+                                          value="#{updateEdrCDIBean.questionAnswer16.answer}" width="600" />
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <h:outputLabel for="answer51" value="#{msgs.edr_question51}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer51" widgetVar="editorWidget1" 
+                                          value="#{updateEdrCDIBean.questionAnswer17.answer}" width="600" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="answer52" value="#{msgs.edr_question52}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer52" widgetVar="editorWidget2" 
+                                          value="#{updateEdrCDIBean.questionAnswer18.answer}" width="600" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="answer53" value="#{msgs.edr_question53}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer53" widgetVar="editorWidget3" 
+                                          value="#{updateEdrCDIBean.questionAnswer19.answer}" width="600" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="answer54" value="#{msgs.edr_question54}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer54" widgetVar="editorWidget4" 
+                                          value="#{updateEdrCDIBean.questionAnswer20.answer}" width="600" />
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <h:outputLabel for="answer61" value="#{msgs.edr_question61}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer61" widgetVar="editorWidget1" 
+                                          value="#{updateEdrCDIBean.questionAnswer21.answer}" width="600" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="answer62" value="#{msgs.edr_question62}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer62" widgetVar="editorWidget2" 
+                                          value="#{updateEdrCDIBean.questionAnswer22.answer}" width="600" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="answer63" value="#{msgs.edr_question63}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer63" widgetVar="editorWidget3" 
+                                          value="#{updateEdrCDIBean.questionAnswer23.answer}" width="600" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="answer64" value="#{msgs.edr_question64}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:editor id="answer64" widgetVar="editorWidget4" 
+                                          value="#{updateEdrCDIBean.questionAnswer24.answer}" width="600" />
+                            </h:panelGroup>
+                            
+                        </h:panelGrid>
+                    </p:panelGrid>
+                    <p:treeTable value="#{updateEdrCDIBean.competenceGoalTree}" var="node" >
+                        <p:column headerText="Competence Name">
+                             <h:outputText value="#{node.getCompetenceName()}" />
+                        </p:column>
+                    
+                        <p:column headerText="Next Year Goal Value">
+                            <p:selectOneMenu id="importance" value="#{node.nextYearGoalValue}" >  
+                                <f:selectItem itemLabel="---" itemValue="0" />
+                                <f:selectItem itemValue="100" itemLabel="very good" />
+                                <f:selectItem itemValue="83" itemLabel="good" />
+                                <f:selectItem itemValue="67" itemLabel="satisfactory" />
+                                <f:selectItem itemValue="50" itemLabel="adequate" />
+                                <f:selectItem itemValue="34" itemLabel="inadequate" />
+                                <f:selectItem itemValue="17" itemLabel="fail" />
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column headerText="Comments">
+                                <p:inputTextarea id="comments" value="#{node.comments}" rows="8" cols="120" rendered="true">
+                                    <p:ajax event="keyup"/>
+                                </p:inputTextarea>
+                        </p:column>
+                        
+                    </p:treeTable>
+                    <!--<h:outputLabel for="additionalNotes" value="#{msgs.additionalNotes}" style="font-weight:bold" />
+                    <p:inputTextarea id="additionalNotesTextField" value="#{updateEdrCDIBean.edrNotes.note}" rows="8" cols="120"  rendered="true">
+                                                    <p:ajax event="keyup"/>
+                    </p:inputTextarea>-->
+                    <p:panelGrid columns="4" >
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.back}"
+                                                 action="createEdrPage7?faces-redirect=true" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                 <h:commandButton value="#{msgs.save}" 
+                                                  action="#{updateEdrCDIBean.save()}" />
+                             </h:panelGroup>
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.print}" 
+                                                 action="#{updateEdrCDIBean.print()}" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.help}" 
+                                                 action="#{updateEdrCDIBean.help()}" />
+                            </h:panelGroup>
+                        </p:panelGrid>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body> 
+</html>
