@@ -47,7 +47,7 @@ public class CompetenceGoal implements Serializable {
     @Column(name = "idcompetence_goal")
     private Integer idcompetenceGoal;
     @Column(name = "next_year_goal_value")
-    private Integer nextYearGoalValue;
+    private int nextYearGoalValue;
     @Size(max = 255)
     @Column(name = "comments")
     private String comments;
@@ -75,15 +75,16 @@ public class CompetenceGoal implements Serializable {
         this.idcompetenceGoal = idcompetenceGoal;
     }
 
-    public Integer getNextYearGoalValue() {
+    public int getNextYearGoalValue() {
         return nextYearGoalValue;
     }
 
-    public void setNextYearGoalValue(Integer nextYearGoalValue) {
+    public void setNextYearGoalValue(int nextYearGoalValue) {
         this.nextYearGoalValue = nextYearGoalValue;
     }
 
     public String getComments() {
+        
         return comments;
     }
 
@@ -130,6 +131,10 @@ public class CompetenceGoal implements Serializable {
 
     public void setEdrIdedr(Edr edrIdedr) {
         this.edrIdedr = edrIdedr;
+    }
+    
+    public String getCompetenceName() {
+        return this.getCompetenceIdcompetence().getCompetenceName();
     }
     
 }

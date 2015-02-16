@@ -31,6 +31,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 
 /**
  *
@@ -73,19 +75,24 @@ public class UpdateEdrCDIBean implements Serializable {
     private boolean firstTime;
     private String stringHelper;
     private java.sql.Date lastDate;
+    private TreeNode competencesTree;
+    private TreeNode competenceGoalTree;
 
-    private CompetenceGoal c1;
-    private CompetenceGoal c2;
-    private CompetenceGoal c3;
-    private CompetenceGoal c4;
-    private CompetenceGoal c5;
-    private CompetenceGoal c6;
-    private CompetenceGoal c7;
-    private CompetenceGoal c8;
-    private CompetenceGoal c9;
-    private CompetenceGoal c10;
-    private CompetenceGoal c11;
-    private CompetenceGoal c12;
+    public TreeNode getCompetencesTree() {
+        return competencesTree;
+    }
+
+    public void setCompetencesTree(TreeNode competencesTree) {
+        this.competencesTree = competencesTree;
+    }
+
+    public TreeNode getCompetenceGoalTree() {
+        return competenceGoalTree;
+    }
+
+    public void setCompetenceGoalTree(TreeNode competenceGoalTree) {
+        this.competenceGoalTree = competenceGoalTree;
+    }
 
     private List<QuestionAnswer> qAList;
     private QuestionAnswer questionAnswer1;
@@ -123,102 +130,6 @@ public class UpdateEdrCDIBean implements Serializable {
         employeeList = employeeFacade.findAll();
         businessAreaList = businessAreaFacade.findAll();
 
-    }
-
-    public CompetenceGoal getC1() {
-        return c1;
-    }
-
-    public void setC1(CompetenceGoal c1) {
-        this.c1 = c1;
-    }
-
-    public CompetenceGoal getC2() {
-        return c2;
-    }
-
-    public void setC2(CompetenceGoal c2) {
-        this.c2 = c2;
-    }
-
-    public CompetenceGoal getC3() {
-        return c3;
-    }
-
-    public void setC3(CompetenceGoal c3) {
-        this.c3 = c3;
-    }
-
-    public CompetenceGoal getC4() {
-        return c4;
-    }
-
-    public void setC4(CompetenceGoal c4) {
-        this.c4 = c4;
-    }
-
-    public CompetenceGoal getC5() {
-        return c5;
-    }
-
-    public void setC5(CompetenceGoal c5) {
-        this.c5 = c5;
-    }
-
-    public CompetenceGoal getC6() {
-        return c6;
-    }
-
-    public void setC6(CompetenceGoal c6) {
-        this.c6 = c6;
-    }
-
-    public CompetenceGoal getC7() {
-        return c7;
-    }
-
-    public void setC7(CompetenceGoal c7) {
-        this.c7 = c7;
-    }
-
-    public CompetenceGoal getC8() {
-        return c8;
-    }
-
-    public void setC8(CompetenceGoal c8) {
-        this.c8 = c8;
-    }
-
-    public CompetenceGoal getC9() {
-        return c9;
-    }
-
-    public void setC9(CompetenceGoal c9) {
-        this.c9 = c9;
-    }
-
-    public CompetenceGoal getC10() {
-        return c10;
-    }
-
-    public void setC10(CompetenceGoal c10) {
-        this.c10 = c10;
-    }
-
-    public CompetenceGoal getC11() {
-        return c11;
-    }
-
-    public void setC11(CompetenceGoal c11) {
-        this.c11 = c11;
-    }
-
-    public CompetenceGoal getC12() {
-        return c12;
-    }
-
-    public void setC12(CompetenceGoal c12) {
-        this.c12 = c12;
     }
 
     public EdrNotes getEdrNotes() {
@@ -547,31 +458,26 @@ public class UpdateEdrCDIBean implements Serializable {
         this.questionAnswer22 = new QuestionAnswer();
         this.questionAnswer23 = new QuestionAnswer();
         this.questionAnswer24 = new QuestionAnswer();
-
-        this.c1 = new CompetenceGoal();
-        this.c2 = new CompetenceGoal();
-        this.c3 = new CompetenceGoal();
-        this.c4 = new CompetenceGoal();
-        this.c5 = new CompetenceGoal();
-        this.c6 = new CompetenceGoal();
-        this.c7 = new CompetenceGoal();
-        this.c8 = new CompetenceGoal();
-        this.c9 = new CompetenceGoal();
-        this.c10 = new CompetenceGoal();
-        this.c11 = new CompetenceGoal();
-        this.c12 = new CompetenceGoal();
+        
+        this.competencesTree = competenceFacade.getCompetencesTree();
+        this.competenceGoalTree = competenceGoalFacade.getCompetenceGoalsTree(competencesTree, this.edrObject);
 
         edrList = edrFacade.findAll();
         employeeList = employeeFacade.findAll();
         businessAreaList = businessAreaFacade.findAll();
 
-        return "createEdrPage1";
+        return "createEdr";
     }
 
     public String save() throws InterruptedException {
+        try {
+            
+        
         java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
 
         if (edrObject.getIdedr() == null) {
+            edrFacade.create(edrObject);
+            this.competenceGoalFacade.updateCompetenceGoals(competenceGoalTree, edrObject);
             
             questionAnswer1.setEdrIdedr(edrObject);
             questionAnswer1.setQuestionCategory(1);
@@ -668,45 +574,10 @@ public class UpdateEdrCDIBean implements Serializable {
             questionAnswer24.setEdrIdedr(edrObject);
             questionAnswer24.setQuestionCategory(24);
             questionAnswer24.setQuestion("Other things to be followed up/remembered for the next EDR?");
-
-            c1.setEdrIdedr(edrObject);
-            c1.setCompetenceIdcompetence(competenceFacade.findByName("Managerial competences"));
-            c2.setEdrIdedr(edrObject);
-            c2.setComments(c1.getComments());
-            c2.setCompetenceIdcompetence(competenceFacade.findByName("Business orientation"));
-            c3.setEdrIdedr(edrObject);
-            c3.setComments(c1.getComments());
-            c3.setCompetenceIdcompetence(competenceFacade.findByName("Job related skills"));
-            c4.setEdrIdedr(edrObject);
-            c4.setComments(c1.getComments());
-            c4.setCompetenceIdcompetence(competenceFacade.findByName("Oral and written communication / languages"));
-            c5.setEdrIdedr(edrObject);
-            c5.setCompetenceIdcompetence(competenceFacade.findByName("Creativity and holistic thinking"));
-            c6.setEdrIdedr(edrObject);
-            c6.setComments(c5.getComments());
-            c6.setCompetenceIdcompetence(competenceFacade.findByName("Entrepreneurship"));
-            c7.setEdrIdedr(edrObject);
-            c7.setComments(c5.getComments());
-            c7.setCompetenceIdcompetence(competenceFacade.findByName("Proactivity"));
-            c8.setEdrIdedr(edrObject);
-            c8.setComments(c5.getComments());
-            c8.setCompetenceIdcompetence(competenceFacade.findByName("Readiness for changes"));
-            c9.setEdrIdedr(edrObject);
-            c9.setCompetenceIdcompetence(competenceFacade.findByName("Teamwork"));
-            c10.setEdrIdedr(edrObject);
-            c10.setComments(c9.getComments());
-            c10.setCompetenceIdcompetence(competenceFacade.findByName("Professionalism"));
-            c11.setEdrIdedr(edrObject);
-            c11.setComments(c9.getComments());
-            c11.setCompetenceIdcompetence(competenceFacade.findByName("Interpersonal skills"));
-            c12.setEdrIdedr(edrObject);
-            c12.setComments(c9.getComments());
-            c12.setCompetenceIdcompetence(competenceFacade.findByName("Motivation for learning"));
+                
+            //edrNotes.setDate(date);
+            //edrNotes.setEdrIdedr(edrObject);
             
-            edrNotes.setDate(date);
-            edrNotes.setEdrIdedr(edrObject);
-
-            edrFacade.create(edrObject);
             questionAnswerFacade.create(questionAnswer1);
             questionAnswerFacade.create(questionAnswer2);
             questionAnswerFacade.create(questionAnswer3);
@@ -730,25 +601,14 @@ public class UpdateEdrCDIBean implements Serializable {
             questionAnswerFacade.create(questionAnswer21);
             questionAnswerFacade.create(questionAnswer22);
             questionAnswerFacade.create(questionAnswer23);
-            questionAnswerFacade.create(questionAnswer24);
-
-            competenceGoalFacade.create(c1);
-            competenceGoalFacade.create(c2);
-            competenceGoalFacade.create(c3);
-            competenceGoalFacade.create(c4);
-            competenceGoalFacade.create(c5);
-            competenceGoalFacade.create(c6);
-            competenceGoalFacade.create(c7);
-            competenceGoalFacade.create(c8);
-            competenceGoalFacade.create(c9);
-            competenceGoalFacade.create(c10);
-            competenceGoalFacade.create(c11);
-            competenceGoalFacade.create(c12);
+            questionAnswerFacade.create(questionAnswer24);            
+            //edrNotesFacade.create(edrNotes);
             
-            edrNotesFacade.create(edrNotes);
         } else {
 
             edrFacade.edit(edrObject);
+            this.competenceGoalFacade.updateCompetenceGoals(competenceGoalTree, edrObject);
+            
             questionAnswerFacade.edit(questionAnswer1);
             questionAnswerFacade.edit(questionAnswer2);
             questionAnswerFacade.edit(questionAnswer3);
@@ -773,27 +633,14 @@ public class UpdateEdrCDIBean implements Serializable {
             questionAnswerFacade.edit(questionAnswer22);
             questionAnswerFacade.edit(questionAnswer23);
             questionAnswerFacade.edit(questionAnswer24);
-
-            competenceGoalFacade.edit(c1);
-            competenceGoalFacade.edit(c2);
-            competenceGoalFacade.edit(c3);
-            competenceGoalFacade.edit(c4);
-            competenceGoalFacade.edit(c5);
-            competenceGoalFacade.edit(c6);
-            competenceGoalFacade.edit(c7);
-            competenceGoalFacade.edit(c8);
-            competenceGoalFacade.edit(c9);
-            competenceGoalFacade.edit(c10);
-            competenceGoalFacade.edit(c11);
-            competenceGoalFacade.edit(c12);
             
-            if (!date.equals(lastDate)){
-                edrNotes.setDate(date);
-            } else {
-                edrNotes.setDate(lastDate);
-            }
+            //if (!date.equals(lastDate)){
+            //    edrNotes.setDate(date);
+            //} else {
+            //    edrNotes.setDate(lastDate);
+            //}
             
-            edrNotesFacade.edit(edrNotes);
+            //edrNotesFacade.edit(edrNotes);
         }
         FacesContext context = FacesContext.getCurrentInstance();
         ResourceBundle text = ResourceBundle.getBundle("messages", context.getViewRoot().getLocale());
@@ -804,6 +651,11 @@ public class UpdateEdrCDIBean implements Serializable {
                 new FacesMessage(FacesMessage.SEVERITY_INFO, message, message));
 
         edrList = edrFacade.findAll();
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            e.getMessage(), null));
+        }
 
         return "updateEdr";
     }
@@ -814,7 +666,7 @@ public class UpdateEdrCDIBean implements Serializable {
         int questionCategory = 0;
         this.qAList = questionAnswerFacade.findAll();
         this.competenceGoalList = competenceGoalFacade.findAll();
-        this.edrNotesList = edrNotesFacade.findAll();
+        //this.edrNotesList = edrNotesFacade.findAll();
 
         // Load QuestionAnswer Objects
         
@@ -1033,110 +885,29 @@ public class UpdateEdrCDIBean implements Serializable {
         
         //load CompetenceGoals Objects
         
-        for (CompetenceGoal cg : competenceGoalList) {
-            if (cg.getEdrIdedr().equals(edr) && cg.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Managerial competences")) {
-                this.c1 = cg;
-                break;
-            } 
-        }
-
-        for (CompetenceGoal cg : competenceGoalList) {
-            if (cg.getEdrIdedr().equals(edr) && cg.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Business orientation")) {
-                this.c2 = cg;
-                break;
-            } 
-        }
-
-        for (CompetenceGoal cg : competenceGoalList) {
-            if (cg.getEdrIdedr().equals(edr) && cg.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Job related skills")) {
-                this.c3 = cg;
-                break;
-            } 
-        }
-
-        for (CompetenceGoal cg : competenceGoalList) {
-            if (cg.getEdrIdedr().equals(edr) && cg.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Oral and written communication / languages")) {
-                this.c4 = cg;
-                break;
-            } 
-        }
-
-        for (CompetenceGoal cg : competenceGoalList) {
-            if (cg.getEdrIdedr().equals(edr) && cg.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Creativity and holistic thinking")) {
-                this.c5 = cg;
-                break;
-            } 
-        }
-
-        for (CompetenceGoal cg : competenceGoalList) {
-            if (cg.getEdrIdedr().equals(edr) && cg.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Entrepreneurship")) {
-                this.c6 = cg;
-                break;
-            } 
-        }
-
-        for (CompetenceGoal cg : competenceGoalList) {
-            if (cg.getEdrIdedr().equals(edr) && cg.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Proactivity")) {
-                this.c7 = cg;
-                break;
-            } 
-        }
-
-        for (CompetenceGoal cg : competenceGoalList) {
-            if (cg.getEdrIdedr().equals(edr) && cg.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Readiness for changes")) {
-                this.c8 = cg;
-                break;
-            } 
-        }
-
-        for (CompetenceGoal cg : competenceGoalList) {
-            if (cg.getEdrIdedr().equals(edr) && cg.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Teamwork")) {
-                this.c9 = cg;
-                break;
-            } 
-        }
-
-        for (CompetenceGoal cg : competenceGoalList) {
-            if (cg.getEdrIdedr().equals(edr) && cg.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Professionalism")) {
-                this.c10 = cg;
-                break;
-            } 
-        }
-
-        for (CompetenceGoal cg : competenceGoalList) {
-            if (cg.getEdrIdedr().equals(edr) && cg.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Interpersonal skills")) {
-                this.c11 = cg;
-                break;
-            } 
-        }
-
-        for (CompetenceGoal cg : competenceGoalList) {
-            if (cg.getEdrIdedr().equals(edr) && cg.getCompetenceIdcompetence().getCompetenceName().equalsIgnoreCase("Motivation for learning")) {
-                this.c12 = cg;
-                break;
-            } 
-        }
+        this.competencesTree = competenceFacade.getCompetencesTree();
+        this.competenceGoalTree = competenceGoalFacade.getCompetenceGoalsTree(competencesTree, this.edrObject);
         
         // load EdrNotes Objects
         
-        for (EdrNotes note : edrNotesList) {
-            if (note.getEdrIdedr().equals(edr)) {
-                this.edrNotes = note;
-                lastDate = edrNotes.getDate();
-                break;
-            } 
-        }
+        //for (EdrNotes note : edrNotesList) {
+        //    if (note.getEdrIdedr().equals(edr)) {
+        //        this.edrNotes = note;
+        //        lastDate = edrNotes.getDate();
+        //        break;
+        //    } 
+        //}
         
-        return "createEdrPage1";
+        return "createEdr";
     }
 
-    public void remove(Edr edr) {
+    /*public void remove(Edr edr) {
         
         try {
 
             qAList = questionAnswerFacade.findAll();
             competenceGoalList = competenceGoalFacade.findAll();
-               edrNotesList = edrNotesFacade.findAll();
+            edrNotesList = edrNotesFacade.findAll();
             
             for (QuestionAnswer q : qAList) {
                 if (q.getEdrIdedr().equals(edr)) {
@@ -1162,6 +933,37 @@ public class UpdateEdrCDIBean implements Serializable {
         
         edrFacade.remove(edr);
         edrList = edrFacade.findAll();
+    }*/
+    
+    public String remove(Edr e) {
+
+        try {
+            for (CompetenceGoal cg : competenceGoalFacade.getGoalsForEdr(this.edrObject))
+            {
+                competenceGoalFacade.remove(cg);
+            }
+            /*for (CompetencesRequirement cr : competenceRequirements) {
+                if (cr.getJobIdjob().getIdjob().equals(e.getIdjob())) {
+                    competencesRequirementFacade.remove(cr);
+                }
+            }*/
+            edrFacade.remove(e);
+            if (filteredEdrList != null) {
+                filteredEdrList.remove(e);
+            }
+            refreshEdrList();
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            ex.getMessage(), null));
+        }
+        refreshEdrList();
+
+        return "updateEdr";
+    }
+    
+    public void refreshEdrList() {
+        edrList = edrFacade.findAll();
     }
     
     public String reviewEdr() {
@@ -1183,13 +985,13 @@ public class UpdateEdrCDIBean implements Serializable {
 
     public String print() throws InterruptedException {
 
-        return "createEdrPage2";
+        return "createEdr";
 
     }
 
     public String help() throws InterruptedException {
 
-        return "createEdrPage2";
+        return "createEdr";
 
     }
 }

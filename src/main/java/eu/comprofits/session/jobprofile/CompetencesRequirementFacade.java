@@ -78,6 +78,8 @@ public class CompetencesRequirementFacade extends AbstractFacade<CompetencesRequ
             CompetencesRequirement newCr = new CompetencesRequirement();
             newCr.setCompetenceIdcompetence((Competence)childNode.getData());
             newCr.setJobIdjob(job);
+            newCr.setWeight(0);
+            newCr.setImportance(0);
             TreeNode childTree = new DefaultTreeNode(newCr, parentNode);
             
             for (TreeNode c: childNode.getChildren())

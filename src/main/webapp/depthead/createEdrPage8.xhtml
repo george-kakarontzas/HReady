@@ -17,210 +17,35 @@
             <ui:define name="content">
                 <h1>${msgs.edr}</h1>
                 <h:form id="createEdrPage8" >
-
-                    <p:panelGrid columns="2" style="width: 100%">
-
-                        <p:panelGrid columns="2"  columnClasses="columna" style="width: 100%">
-
-                            <f:facet name="header">#{msgs.job_competences_weights}</f:facet>
-                            <p:outputLabel value="#{msgs.professional_competences}" style="font-weight: bold;" />
-                            <h:panelGroup />
-
-                            <p:outputLabel value="#{msgs.managerial_competences}:" for="managerialCompetences" />
-                            <p:selectOneMenu id="managerialCompetences" value="#{updateEdrCDIBean.c1.nextYearGoalValue}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-
-                            <p:outputLabel value="#{msgs.business_orientation}:" for="businessOrientation" />
-                            <p:selectOneMenu id="businessOrientation" value="#{updateEdrCDIBean.c2.nextYearGoalValue}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-
-                            <p:outputLabel value="#{msgs.job_related_skills}:" for="jobRelatedSkills" />
-                            <p:selectOneMenu id="jobRelatedSkills" value="#{updateEdrCDIBean.c3.nextYearGoalValue}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-
-                            <p:outputLabel value="#{msgs.communication_languages}:" for="communicationLanguages" />
-                            <p:selectOneMenu id="communicationLanguages" value="#{updateEdrCDIBean.c4.nextYearGoalValue}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-
-
-                            <p:outputLabel value="#{msgs.innovative_competences}" style="font-weight: bold;" />
-                            <h:panelGroup />
-
-                            <p:outputLabel value="#{msgs.creativity_and_holistic_thinking}:" for="creativityAndHolisticThinking" />
-                            <p:selectOneMenu id="creativityAndHolisticThinking" value="#{updateEdrCDIBean.c5.nextYearGoalValue}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-
-                            <p:outputLabel value="#{msgs.entrepreneurship}:" for="entrepreneurship" />
-                            <p:selectOneMenu id="entrepreneurship" value="#{updateEdrCDIBean.c6.nextYearGoalValue}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-
-                            <p:outputLabel value="#{msgs.proactivity}:" for="proactivity" />
-                            <p:selectOneMenu id="proactivity" value="#{updateEdrCDIBean.c7.nextYearGoalValue}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-
-                            <p:outputLabel value="#{msgs.readiness_for_changes}:" for="readinessForChanges" />
-                            <p:selectOneMenu id="readinessForChanges" value="#{updateEdrCDIBean.c8.nextYearGoalValue}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-
-                            <p:outputLabel value="#{msgs.social_competences}" style="font-weight: bold;" />
-                            <h:panelGroup />
-
-                            <p:outputLabel value="#{msgs.teamwork}:" for="teamwork" />
-                            <p:selectOneMenu id="teamwork" value="#{updateEdrCDIBean.c9.nextYearGoalValue}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-
-                            <p:outputLabel value="#{msgs.professionalism}:" for="professionalism" />
-                            <p:selectOneMenu id="professionalism" value="#{updateEdrCDIBean.c10.nextYearGoalValue}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-
-                            <p:outputLabel value="#{msgs.interpersonal_skills}:" for="interpersonalSkills" />
-                            <p:selectOneMenu id="interpersonalSkills" value="#{updateEdrCDIBean.c11.nextYearGoalValue}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-
-                            <p:outputLabel value="#{msgs.motivation_for_learning}:" for="motivationForLearning" />
-                            <p:selectOneMenu id="motivationForLearning" value="#{updateEdrCDIBean.c12.nextYearGoalValue}" >  
-                                <f:selectItem itemLabel="---" itemValue="" />
-                                <f:selectItem itemValue="17" itemLabel="very good" />
-                                <f:selectItem itemValue="34" itemLabel="good" />
-                                <f:selectItem itemValue="50" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="67" itemLabel="adequate" />
-                                <f:selectItem itemValue="83" itemLabel="inadequate" />
-                                <f:selectItem itemValue="100" itemLabel="fail" />
-                            </p:selectOneMenu> 
-
-                        </p:panelGrid> 
-
-                        <p:panelGrid columns="1">
-                            <f:facet name="header">#{msgs.comments}</f:facet>
-                            <h:panelGrid columns="1" cellpadding="16" style="float: right">
-                                <h:panelGroup>
-                                    <h:form>
-                                        <h:panelGroup>
-                                            <p:inputTextarea id="professionalCompetencesTextField" value="#{updateEdrCDIBean.c1.comments}" rows="8" cols="120" rendered="true">
-                                                <p:ajax event="keyup"/>
-                                            </p:inputTextarea>
-                                        </h:panelGroup> 
-                                    </h:form>
-                                </h:panelGroup>     
-                            </h:panelGrid>
-                            <h:panelGrid columns="1" cellpadding="16" style="float: right">
-                                <h:panelGroup>
-                                    <h:form>
-                                        <h:panelGroup>
-                                            <p:inputTextarea id="innovativeCompetencesTextField" value="#{updateEdrCDIBean.c5.comments}" rows="8" cols="120" rendered="true">
+                    
+                    <p:treeTable value="#{updateEdrCDIBean.competenceGoalTree}" var="node" >
+                        <p:column headerText="Competence Name">
+                             <h:outputText value="#{node.getCompetenceName()}" />
+                        </p:column>
+                    
+                        <p:column headerText="Next Year Goal Value">
+                            <p:selectOneMenu id="importance" value="#{node.nextYearGoalValue}" >  
+                                <f:selectItem itemLabel="---" itemValue="0" />
+                                <f:selectItem itemValue="100" itemLabel="very good" />
+                                <f:selectItem itemValue="83" itemLabel="good" />
+                                <f:selectItem itemValue="67" itemLabel="satisfactory" />
+                                <f:selectItem itemValue="50" itemLabel="adequate" />
+                                <f:selectItem itemValue="34" itemLabel="inadequate" />
+                                <f:selectItem itemValue="17" itemLabel="fail" />
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column headerText="Comments">
+                                <p:inputTextarea id="comments" value="#{node.comments}" rows="8" cols="120" rendered="true">
+                                    <p:ajax event="keyup"/>
+                                </p:inputTextarea>
+                        </p:column>
+                        
+                    </p:treeTable>
+                    <h:outputLabel for="additionalNotes" value="#{msgs.additionalNotes}" style="font-weight:bold" />
+                    <p:inputTextarea id="additionalNotesTextField" value="#{updateEdrCDIBean.edrNotes.note}" rows="8" cols="120"  rendered="true">
                                                     <p:ajax event="keyup"/>
-                                            </p:inputTextarea>
-                                        </h:panelGroup> 
-                                    </h:form>
-                                </h:panelGroup>    
-                            </h:panelGrid>
-                            <h:panelGrid columns="1" cellpadding="16" style="float: right">
-                                <h:panelGroup>
-                                    <h:form>
-                                        <h:panelGroup>
-                                            <p:inputTextarea id="socialCompetencesTextField" value="#{updateEdrCDIBean.c9.comments}" rows="8" cols="120" rendered="true">
-                                                    <p:ajax event="keyup"/>
-                                            </p:inputTextarea>
-                                        </h:panelGroup> 
-                                    </h:form>
-                                </h:panelGroup>     
-                            </h:panelGrid>
-                        </p:panelGrid>
-                        <h:panelGroup>
-                            <h:outputLabel for="additionalNotes" value="#{msgs.additionalNotes}" style="font-weight:bold" />
-                        </h:panelGroup>
-                        <h:panelGrid columns="1" cellpadding="16" style="float: left">
-                            <h:panelGrid columns="1" cellpadding="16" style="float: left">
-                                <h:panelGroup>
-                                    <h:form>
-                                        <h:panelGroup>
-                                            <p:inputTextarea id="additionalNotesTextField" value="#{updateEdrCDIBean.edrNotes.note}" rows="8" cols="120"  rendered="true">
-                                                    <p:ajax event="keyup"/>
-                                            </p:inputTextarea>
-                                        </h:panelGroup> 
-                                    </h:form>
-                                </h:panelGroup> 
-                            </h:panelGrid>
-                        </h:panelGrid>
-                        <h:panelGroup />
-                        <p:panelGrid columns="4" >
+                    </p:inputTextarea>
+                    <p:panelGrid columns="4" >
                             <h:panelGroup>
                                 <h:commandButton value="#{msgs.back}"
                                                  action="createEdrPage7?faces-redirect=true" />
@@ -238,7 +63,7 @@
                                                  action="#{updateEdrCDIBean.help()}" />
                             </h:panelGroup>
                         </p:panelGrid>
-                    </p:panelGrid>
+                 
                 </h:form>
 
             </ui:define>

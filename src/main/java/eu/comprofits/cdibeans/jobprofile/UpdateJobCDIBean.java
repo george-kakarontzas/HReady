@@ -245,7 +245,7 @@ public class UpdateJobCDIBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             ex.getMessage(), null));
         }
-        jobList = jobFacade.findAll();
+        refreshJobList();
 
         return "updateJobProfile";
     }
