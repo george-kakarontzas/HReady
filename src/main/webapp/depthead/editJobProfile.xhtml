@@ -80,6 +80,25 @@
                          
 
                         </p:panelGrid>
+    
+    <p:treeTable value="#{updateJobCDIBean.competencesRequirementsTree}" var="node" >
+        <p:column headerText="Competence Name">
+            <h:outputText value="#{node.getCompetenceName()}" />
+        </p:column>
+        <p:column headerText="Weight">
+            <p:spinner min="0" max="100" stepFactor="1" value="#{node.weight}" />
+        </p:column>
+        <p:column headerText="Importance">
+            <p:selectOneMenu id="importance" value="#{node.importance}" >  
+                                <f:selectItem itemLabel="---" itemValue="0" />
+                                <f:selectItem itemValue="5" itemLabel="Very important" />
+                                <f:selectItem itemValue="4" itemLabel="Important" />
+                                <f:selectItem itemValue="3" itemLabel="Moderately important" />
+                                <f:selectItem itemValue="2" itemLabel="Of little importance" />
+                                <f:selectItem itemValue="1" itemLabel="Unimportant" />
+            </p:selectOneMenu>
+        </p:column>
+    </p:treeTable>
                         
                         <p:panelGrid columns="4" >
                             <h:commandButton id="back" value="#{msgs.back}" action="updateJobProfile"  immediate="true" />  
@@ -87,20 +106,7 @@
                             <p:commandButton id="print" value="#{msgs.print}" icon="ui-icon-print" ><p:printer /></p:commandButton>
                             <p:commandButton id="help" value="#{msgs.help}" icon="ui-icon-help" />
                         </p:panelGrid>
-                    
-
-                </h:form>
-<h:form>
-    
-    <p:treeTable value="#{updateJobCDIBean.competencesTree}" var="node" >
-        <p:column headerText="Competence Name">
-            <h:outputText value="#{node.competenceName}" />
-        </p:column>
-        <p:column headerText="Competence Level">
-            <h:outputText value="#{node.getLevel()}" />
-        </p:column>
-    </p:treeTable>
-    
+     
 </h:form>
             </ui:define>
 

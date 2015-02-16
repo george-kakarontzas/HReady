@@ -51,12 +51,12 @@ public class CompetenceFacade extends AbstractFacade<Competence> {
         List<Competence> competences = q.getResultList();
         for (Competence c: competences)
         {
-            TreeNode childNode = getCompetencesTree(c,competencesTree);
+            getCompetencesTree(c,competencesTree);
         }
         return competencesTree;
     }
     
-    public TreeNode getCompetencesTree(Competence childCompetence, TreeNode parentNode)
+    public void getCompetencesTree(Competence childCompetence, TreeNode parentNode)
     {       
         
         TreeNode childTree = new DefaultTreeNode(childCompetence, parentNode);
@@ -65,9 +65,8 @@ public class CompetenceFacade extends AbstractFacade<Competence> {
         List<Competence> childCompetences = q.getResultList();
         for (Competence c: childCompetences)
         {
-            TreeNode childNode = getCompetencesTree(c, childTree);
+            getCompetencesTree(c, childTree);
         }
-        return childTree;
     }
     
     public List<Competence> getOrderedCompetences() {
