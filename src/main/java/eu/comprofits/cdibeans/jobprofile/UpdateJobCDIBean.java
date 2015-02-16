@@ -20,6 +20,7 @@ import eu.comprofits.session.main.OrganisationalPositionFacade;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
@@ -70,6 +71,7 @@ public class UpdateJobCDIBean implements Serializable {
     private List<Employee> employeeList;
     private List<Employee> employeeReportingToList;
     private TreeNode competencesTree;
+    private TreeNode competencesRequirementsTree;
 
     public UpdateJobCDIBean() {
     }
@@ -163,8 +165,16 @@ public class UpdateJobCDIBean implements Serializable {
         return competencesTree;
     }
 
-    public void setCompetencesTree(TreeNode competencesTrees) {
-        this.competencesTree = competencesTrees;
+    public void setCompetencesTree(TreeNode competencesTree) {
+        this.competencesTree = competencesTree;
+    }
+    
+    public TreeNode getCompetencesRequirementsTree() {
+        return competencesRequirementsTree;
+    }
+
+    public void setCompetencesRequirementsTree(TreeNode competencesRequirementsTree) {
+        this.competencesRequirementsTree = competencesRequirementsTree;
     }
     
     public String edit(Job job) {
@@ -172,6 +182,7 @@ public class UpdateJobCDIBean implements Serializable {
         this.employeeList = this.employeeFacade.findAll();
         this.positions = this.organisationalPositionFacade.findAll();
         this.competencesTree = competenceFacade.getCompetencesTree();
+        this.competencesRequirementsTree = competencesRequirementFacade.getCompetencesRequirementsTree(competencesTree, this.jobObject);
         return "editJobProfile";
     }
 
@@ -180,6 +191,7 @@ public class UpdateJobCDIBean implements Serializable {
         this.employeeList = this.employeeFacade.findAll();
         this.positions = this.organisationalPositionFacade.findAll();
         this.competencesTree = competenceFacade.getCompetencesTree();
+        this.competencesRequirementsTree = competencesRequirementFacade.getCompetencesRequirementsTree(competencesTree, this.jobObject);
         return "editJobProfile";
     }
 
@@ -242,10 +254,11 @@ public class UpdateJobCDIBean implements Serializable {
         try {
             if (jobObject.getIdjob() == null) {
                 jobFacade.create(jobObject);
-
+                this.competencesRequirementFacade.updateCompetencesRequirements(competencesRequirementsTree, jobObject);
                 //jobAdvertisementFacade.create(jobAdvertisementObject);
             } else {
                 jobFacade.edit(jobObject);
+                this.competencesRequirementFacade.updateCompetencesRequirements(competencesRequirementsTree, jobObject);
             }
             jobList = jobFacade.findAll();
         } catch (Exception e) {
