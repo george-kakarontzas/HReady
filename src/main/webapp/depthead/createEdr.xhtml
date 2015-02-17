@@ -271,12 +271,11 @@
                         <p:column headerText="Next Year Goal Value">
                             <p:selectOneMenu id="importance" value="#{node.nextYearGoalValue}" >  
                                 <f:selectItem itemLabel="---" itemValue="0" />
-                                <f:selectItem itemValue="100" itemLabel="very good" />
-                                <f:selectItem itemValue="83" itemLabel="good" />
-                                <f:selectItem itemValue="67" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="50" itemLabel="adequate" />
-                                <f:selectItem itemValue="34" itemLabel="inadequate" />
-                                <f:selectItem itemValue="17" itemLabel="fail" />
+                                <f:selectItem itemValue="5" itemLabel="very good" />
+                                <f:selectItem itemValue="4" itemLabel="good" />
+                                <f:selectItem itemValue="3" itemLabel="satisfactory" />
+                                <f:selectItem itemValue="2" itemLabel="adequate" />
+                                <f:selectItem itemValue="1" itemLabel="inadequate" />     
                             </p:selectOneMenu>
                         </p:column>
                         <p:column headerText="Comments">
@@ -293,7 +292,7 @@
                     <p:panelGrid columns="4" >
                             <h:panelGroup>
                                 <h:commandButton value="#{msgs.back}"
-                                                 action="createEdrPage7?faces-redirect=true" />
+                                                 action="updateEdr?faces-redirect=true" />
                             </h:panelGroup>
                             <h:panelGroup>
                                  <h:commandButton value="#{msgs.save}" 
