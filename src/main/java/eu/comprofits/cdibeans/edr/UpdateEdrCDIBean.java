@@ -5,6 +5,7 @@
  */
 package eu.comprofits.cdibeans.edr;
 
+import eu.comprofits.cdibeans.assessment.EmployeeEvaluationCDIBean;
 import eu.comprofits.entities.edr.CompetenceGoal;
 import eu.comprofits.entities.edr.Edr;
 import eu.comprofits.entities.edr.EdrHistory;
@@ -21,9 +22,15 @@ import eu.comprofits.session.edr.QuestionAnswerFacade;
 import eu.comprofits.session.employee.EmployeeFacade;
 import eu.comprofits.session.jobprofile.BusinessAreaFacade;
 import eu.comprofits.session.main.CompetenceFacade;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -31,6 +38,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import org.apache.commons.io.IOUtils;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -984,9 +992,77 @@ public class UpdateEdrCDIBean implements Serializable {
     }
 
     public String print() throws InterruptedException {
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+        
+        ExternalContext ec = context.getExternalContext();
 
-        return "createEdr";
+            String wkhtmltopdf_ex = ec.getInitParameter("WKHTMLTOPDF_EXE");
 
+            String html = "";
+            try {
+                InputStream is = ec.getResourceAsStream("/resources/pdftemplates/edr.html");
+                html = IOUtils.toString(is, "UTF-8");
+            } catch (IOException e) {
+                context.addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                bundle.getString("error_creating_pdf") + " " + e.getMessage(), null));
+                return "createEdr";
+            }
+            
+            html.replace("{{edr_employee_title}}", bundle.getString("edr_employee_title") + ": " +edrObject.getReviewedEmployeeIdemployee().getFullName());
+            html.replace("{{edr_information_title}}", bundle.getString("edr_information_title")+":");
+            html.replace("{{edr_verdict_title}}", bundle.getString("edr_verdict_title")+":");
+            html.replace("{{edr_questionnaire_title}}", bundle.getString("questionnaire_statements")+":");
+            
+            html.replace("{{edr_information_content}}", "<ul>"+
+                                                        "<li><b>"+bundle.getString("year")+": </b>"+edrObject.getYear()+"</li>"+
+                                                        "<li><b>"+bundle.getString("immediate_manager")+": </b>"+edrObject.getImmediateManagerIdemployee().getFullName()+"</li>"+
+                                                        "<li><b>"+bundle.getString("status")+": </b>"+edrObject.getStatus()+"</li>"+
+                                                        "</ul>");
+            
+            html.replace("{{edr_verdict_content}}", edrObject.getVerdict());
+            
+            Runtime rt = Runtime.getRuntime();
+            Process p;
+            try {
+                p = rt.exec(wkhtmltopdf_ex + " - -");
+                IOUtils.write(html, p.getOutputStream());
+                p.getOutputStream().close();
+
+                String fileName = edrObject.getReviewedEmployeeIdemployee().getFullName() + " Edr.pdf";
+                ec.responseReset();
+                ec.setResponseContentType("application/pdf");
+                ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+
+                /*OutputStream output = ec.getResponseOutputStream();
+                try {
+                    IOUtils.copy(p.getInputStream(), output);
+                } finally {
+                    p.getInputStream().close();
+                    // delete temp images
+                    try {
+                        Files.delete(file1);
+                        Files.delete(file2);
+                        Files.delete(file3);
+                        Files.delete(file4);
+                        Files.delete(file5);
+                        Files.delete(file6);
+                    } catch (IOException e) {
+                        Logger.getLogger(EmployeeEvaluationCDIBean.class.getName()).log(Level.SEVERE, null, e);
+                    }
+                    context.responseComplete();
+                }*/
+
+            } catch (IOException e) {
+                context.addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                bundle.getString("error_creating_pdf") + " " + e.getMessage(), null));
+                return "createEdr";
+            }
+        
+            return "createEdr";
     }
 
     public String help() throws InterruptedException {

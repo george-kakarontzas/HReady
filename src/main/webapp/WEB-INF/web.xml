@@ -24,7 +24,7 @@
     <context-param>
         <description>The location of the wkthmltopdf executable for pdf creation.</description>
         <param-name>WKHTMLTOPDF_EXE</param-name>
-        <param-value>/usr/bin/wkhtmltopdf</param-value>
+        <param-value>C:\glassfish-4.1\glassfish\domains\domain1\usr\bin\wkhtmltopdf\bin\wkhtmltopdf.exe</param-value>
     </context-param>
     <context-param>
         <description>The location in which various uploaded files are stored. E.g. the employees photographs.</description>
