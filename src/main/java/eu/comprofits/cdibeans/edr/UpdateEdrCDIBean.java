@@ -490,7 +490,7 @@ public class UpdateEdrCDIBean implements Serializable {
             questionAnswer1.setEdrIdedr(edrObject);
             questionAnswer1.setQuestionCategory(1);
             questionAnswer1.setQuestion("Have goals and other agreements from the latest EDR been reached and carried through?");
-
+               
             questionAnswer2.setEdrIdedr(edrObject);
             questionAnswer2.setQuestionCategory(2);
             questionAnswer2.setQuestion("Are both parties content with the period's effort and results?");
@@ -1011,18 +1011,46 @@ public class UpdateEdrCDIBean implements Serializable {
                 return "createEdr";
             }
             
-            html.replace("{{edr_employee_title}}", bundle.getString("edr_employee_title") + ": " +edrObject.getReviewedEmployeeIdemployee().getFullName());
-            html.replace("{{edr_information_title}}", bundle.getString("edr_information_title")+":");
-            html.replace("{{edr_verdict_title}}", bundle.getString("edr_verdict_title")+":");
-            html.replace("{{edr_questionnaire_title}}", bundle.getString("questionnaire_statements")+":");
+            html = html.replace("{{edr_employee_title}}", bundle.getString("edr_employee_title") + ": " +edrObject.getReviewedEmployeeIdemployee().getFullName());
+            html = html.replace("{{edr_information_title}}", bundle.getString("edr_information_title")+":");
+            html = html.replace("{{edr_verdict_title}}", bundle.getString("edr_verdict_title")+":");
+            html = html.replace("{{edr_questionnaire_title}}", bundle.getString("questionnaire_statements")+":");
             
-            html.replace("{{edr_information_content}}", "<ul>"+
+            html = html.replace("{{edr_information_content}}", "<ul>"+
                                                         "<li><b>"+bundle.getString("year")+": </b>"+edrObject.getYear()+"</li>"+
                                                         "<li><b>"+bundle.getString("immediate_manager")+": </b>"+edrObject.getImmediateManagerIdemployee().getFullName()+"</li>"+
                                                         "<li><b>"+bundle.getString("status")+": </b>"+edrObject.getStatus()+"</li>"+
                                                         "</ul>");
             
-            html.replace("{{edr_verdict_content}}", edrObject.getVerdict());
+            html = html.replace("{{edr_verdict_content}}", edrObject.getVerdict());
+            
+            html = html.replace("{{edr_competencegoals_title}}", bundle.getString("edr_plans") + ": ");
+            
+            String competenceGoals = "<table width=\"100%\" border=\"1\" cellpadding=\"10\"><tbody><tr><th>"+bundle.getString("competences")+
+                                                    "</th><th>"+bundle.getString("edr_goals")+
+                                                    "</th><th>"+bundle.getString("comments")+
+                                                    "</th></tr>";
+            
+            for (CompetenceGoal cg : competenceGoalFacade.getGoalsForEdr(edrObject))
+            {
+                competenceGoals = competenceGoals + "<tr><td>" + cg.getCompetenceIdcompetence().getCompetenceName() + 
+                                                    "</td><td>" + cg.getNextYearGoalValue() +
+                                                    "</td><td>" + cg.getComments() +
+                                                    "</td></tr>";
+            }
+            competenceGoals = competenceGoals + "</tbody></table>";
+            
+            html = html.replace("{{edr_competencegoals_content}}",competenceGoals);
+            html = html.replace ("{{edr_questionnaire_title}}",bundle.getString("questionnaire_statements"));
+            String questions_answers = "<ol>";
+            
+            for (QuestionAnswer qa : qAList)
+            {
+                questions_answers = questions_answers + "<li><b>" + qa.getQuestion() +"</b><br/><br/>" + qa.getAnswer() + "</li><br/><br/><br/>";
+            }
+            questions_answers = questions_answers + "</ul>";
+            
+            html = html.replace("{{edr_questionnaire_content}}",questions_answers);
             
             Runtime rt = Runtime.getRuntime();
             Process p;
@@ -1031,29 +1059,20 @@ public class UpdateEdrCDIBean implements Serializable {
                 IOUtils.write(html, p.getOutputStream());
                 p.getOutputStream().close();
 
-                String fileName = edrObject.getReviewedEmployeeIdemployee().getFullName() + " Edr.pdf";
+                String fileName = edrObject.getReviewedEmployeeIdemployee().getFullName() + "-Edr-"+edrObject.getYear()+".pdf";
                 ec.responseReset();
                 ec.setResponseContentType("application/pdf");
                 ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
 
-                /*OutputStream output = ec.getResponseOutputStream();
+                OutputStream output = ec.getResponseOutputStream();
                 try {
                     IOUtils.copy(p.getInputStream(), output);
                 } finally {
                     p.getInputStream().close();
                     // delete temp images
-                    try {
-                        Files.delete(file1);
-                        Files.delete(file2);
-                        Files.delete(file3);
-                        Files.delete(file4);
-                        Files.delete(file5);
-                        Files.delete(file6);
-                    } catch (IOException e) {
-                        Logger.getLogger(EmployeeEvaluationCDIBean.class.getName()).log(Level.SEVERE, null, e);
-                    }
+                    
                     context.responseComplete();
-                }*/
+                }
 
             } catch (IOException e) {
                 context.addMessage(null,
