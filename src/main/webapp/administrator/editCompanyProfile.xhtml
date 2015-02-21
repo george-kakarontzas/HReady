@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./adminPagesTemplate.xhtml">
+
+            <ui:define name="title">
+                ${msgs.update_company_profile}
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="companyProfileUpdate">
+                    <p:messages  />
+                    <p:panelGrid columns="2" >
+                       
+
+                        <f:facet name="header">#{msgs.update_company_profile}</f:facet>
+
+                        <p:outputLabel value="#{msgs.company_name} 1:" for="companyName1" 
+                                       />
+                        <p:inputText id="companyName1" size="40" required="true" 
+                                     value="#{updateCompanyProfileCDIBean.company.companyName1}"  /> 
+
+
+                        <p:outputLabel value="#{msgs.company_name} 2:" for="companyName2" />
+                        <p:inputText id="companyName2" size="40"
+                                     value="#{updateCompanyProfileCDIBean.company.companyName2}" />
+
+                        <p:outputLabel value="#{msgs.company_address} 1:" for="companyAddress1" />
+                        <p:inputText id="companyAddress1" size="100" required="true"
+                                     value="#{updateCompanyProfileCDIBean.company.companyAddress1}"/> 
+
+                        <p:outputLabel value="#{msgs.company_address} 2:" for="companyAddress2" />
+                        <p:inputText id="companyAddress2" size="100" 
+                                     value="#{updateCompanyProfileCDIBean.company.companyAddress2}" />
+
+                        <p:outputLabel value="#{msgs.postal_code}:" for="postalCode" />
+                        <p:inputText id="postalCode" size="30" required="true"
+                                     value="#{updateCompanyProfileCDIBean.company.postalCode}" />
+
+                        <p:outputLabel value="#{msgs.province}:" for="province" />
+                        <p:inputText id="province" size="40" value="#{updateCompanyProfileCDIBean.company.province}"  />
+
+                        <p:outputLabel value="#{msgs.country}" for="country" />
+                        <p:selectOneMenu id="country" value="#{updateCompanyProfileCDIBean.company.country}" required="true" requiredMessage="#{msgs.reuired_country}.">  
+                            <f:selectItems value="#{updateCompanyProfileCDIBean.countries}" var="country"
+                        actionListener="" itemLabel="#{updateCompanyProfileCDIBean.getCountryName(country)}" itemValue="#{updateCompanyProfileCDIBean.getCountryCode(country)}" />
+                                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{msgs.phone_number}:" for="phoneNumber" />
+                        <p:inputText id="phoneNumber" size="20" value="#{updateCompanyProfileCDIBean.company.phoneNumber}" required="true">
+                        <f:validateRegex pattern="\d+" /></p:inputText>
+
+                        <p:outputLabel value="#{msgs.email}:" for="email" />
+                        <p:inputText id="email" size="50" value="#{updateCompanyProfileCDIBean.company.EMail}" required="true">
+                        <f:validateRegex
+                                                pattern="([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)" /></p:inputText>
+
+                        <p:outputLabel value="#{msgs.website}:" for="website" />
+                        <p:inputText id="website" required="true" value="#{updateCompanyProfileCDIBean.company.website}" />
+
+                        <h:commandButton id="back" value="#{msgs.cancel}" action="updateCompanyProfile" immediate="true"/>  
+                        <h:commandButton id="update" value="#{msgs.update}" action="#{updateCompanyProfileCDIBean.update()}"  />
+                        
+
+                    </p:panelGrid>
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
