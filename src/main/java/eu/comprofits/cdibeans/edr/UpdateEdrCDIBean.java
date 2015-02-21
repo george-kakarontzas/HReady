@@ -137,7 +137,7 @@ public class UpdateEdrCDIBean implements Serializable {
         edrList = edrFacade.findAll();
         employeeList = employeeFacade.findAll();
         businessAreaList = businessAreaFacade.findAll();
-
+        qAList = questionAnswerFacade.findAll();
     }
 
     public EdrNotes getEdrNotes() {
@@ -991,8 +991,8 @@ public class UpdateEdrCDIBean implements Serializable {
         return "./updateEdr.xhtml";
     }
 
-    public String print() throws InterruptedException {
-        
+    public String export(Edr edr) throws InterruptedException {
+        this.edrObject = edr;
         FacesContext context = FacesContext.getCurrentInstance();
         ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
         

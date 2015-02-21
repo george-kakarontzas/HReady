@@ -58,6 +58,12 @@
                                       filterMatchMode="contains">
                                 <h:outputText value="#{item.year}"/>
                             </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.available_actions}"/>
+                                </f:facet>
+                                <h:commandLink value="#{msgs.export_to_pdf}" action="#{updateEdrCDIBean.export(item)}"></h:commandLink>
+                            </p:column>
 
                             <p:column>
                                 <f:facet name="header">
