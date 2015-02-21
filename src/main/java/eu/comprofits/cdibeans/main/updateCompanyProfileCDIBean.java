@@ -7,11 +7,11 @@ package eu.comprofits.cdibeans.main;
 
 import eu.comprofits.entities.main.Company;
 import eu.comprofits.session.main.CompanyFacade;
+import java.io.Serializable;
 import java.util.List;
-import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -21,52 +21,31 @@ import javax.inject.Named;
  * @author george
  */
 @Named(value = "updateCompanyProfileCDIBean")
-@RequestScoped
-public class updateCompanyProfileCDIBean {
-
+@SessionScoped
+public class updateCompanyProfileCDIBean implements Serializable {
+   private static final long serialVersionUID = 1L;
     @EJB
     private CompanyFacade companyFacade;
+
+
     private Company company;
-    private boolean firstTime;
+    private List<Company> companies;
 
     /**
-     * Creates a new instance of updateCompanyProfileCDIBean
+     * Creates a new instance of UpdateDepartmentsCDIBean
      */
     public updateCompanyProfileCDIBean() {
     }
 
     @PostConstruct
     public void init() {
-        if (company == null) {
-            List<Company> allCompanies = companyFacade.findAll();
-            //if there is no company in the database then
-            //create a new object. Otherwise we use the first company in DB
-            //as the current company
-            if (!allCompanies.isEmpty()) {
-                this.company = allCompanies.get(0);
-            } else {
-                firstTime = true;
-                company = new Company();
-            }
-        }
+        refreshCompanies();
     }
 
-    public String save() throws InterruptedException {
-        if (company != null) {
-            if (firstTime) {
-                companyFacade.create(company);
-            } else {
-                companyFacade.edit(company);
-            }
-        }
-        FacesContext context = FacesContext.getCurrentInstance();
-        ResourceBundle text = ResourceBundle.getBundle("messages", context.getViewRoot().getLocale());
-        String message = text.getString("succesful_save_message");
-        context.addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, message, message));
-        return "";
+    public void refreshCompanies() {
+        companies = companyFacade.findAll();
     }
-
+    
     public Company getCompany() {
         return company;
     }
@@ -74,5 +53,69 @@ public class updateCompanyProfileCDIBean {
     public void setCompany(Company company) {
         this.company = company;
     }
+
+
+    public List<Company> getCompanies() {
+        return companies;
+    }
+
+    public void setCompanies(List<Company> companies) {
+        this.companies = companies;
+    }
+
+    public void remove(Company c) {
+        try {
+            companyFacade.remove(c);
+            refreshCompanies();
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            e.getMessage(), null));
+        }
+    }
+
+    public String edit(Company company) {
+        this.company = company;
+        return "editCompanyProfile";
+    }
+
+    public String create() {
+        this.company = new Company();
+        return "editCompanyProfile";
+    }
+
+
+    public String update() {
+        try {
+            if (company.getIdcompany() == null) {
+                companyFacade.create(company);
+            } else {
+                companyFacade.edit(company);
+            }
+            refreshCompanies();
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            e.getMessage(), null));
+        }
+        return "updateCompanyProfile";
+    }
+    
+     public List<CountryList.Country> getCountries() {
+        // Present a menu with language code, languate title 
+        // better store country code in db.
+        // this is irrespective of the chosen language and displays correctly
+        // both in english and spanish
+        CountryList countriesList = new CountryList(FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        return countriesList.getCountries();
+    }
+    
+    public String getCountryName(CountryList.Country country) {
+        return country.getName(); 
+    }
+    
+      public String getCountryCode(CountryList.Country country) {
+        return country.getCode(); 
+    }  
 
 }
