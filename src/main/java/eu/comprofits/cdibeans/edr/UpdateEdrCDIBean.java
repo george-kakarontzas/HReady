@@ -20,6 +20,7 @@ import eu.comprofits.session.edr.EdrHistoryFacade;
 import eu.comprofits.session.edr.EdrNotesFacade;
 import eu.comprofits.session.edr.QuestionAnswerFacade;
 import eu.comprofits.session.employee.EmployeeFacade;
+import eu.comprofits.session.employee.InCompanyEmploymentFacade;
 import eu.comprofits.session.jobprofile.BusinessAreaFacade;
 import eu.comprofits.session.main.CompetenceFacade;
 import java.io.IOException;
@@ -67,6 +68,8 @@ public class UpdateEdrCDIBean implements Serializable {
     private CompetenceGoalFacade competenceGoalFacade;
     @EJB
     private CompetenceFacade competenceFacade;
+    @EJB
+    private InCompanyEmploymentFacade iceFacade;
 
     private EdrNotes edrNotes;
     private EdrHistory edrHistory;
