@@ -8,11 +8,13 @@ package eu.comprofits.session.employee;
 
 import eu.comprofits.entities.employee.Employee;
 import eu.comprofits.entities.employee.InCompanyEmployment;
+import eu.comprofits.entities.jobprofile.Job;
 import eu.comprofits.session.AbstractFacade;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -41,5 +43,11 @@ public class InCompanyEmploymentFacade extends AbstractFacade<InCompanyEmploymen
         return all;
     }   
     
-    
+    public Job getCurrentJobOfEmployee (Employee e){
+        Query q = em.createQuery("SELECT i FROM InCompanyEmployment i WHERE i.employeeIdemployee=:emp");
+        q.setParameter("emp",e);
+        List<InCompanyEmployment> ice = q.getResultList();
+        Job jobIdJob = ice.get(ice.size()).getJobIdjob();
+        return jobIdJob;
+    }
 }
