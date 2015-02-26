@@ -192,7 +192,7 @@ public class UpdateJobCDIBean implements Serializable {
         this.positions = this.organisationalPositionFacade.findAll();
         this.competencesTree = competenceFacade.getCompetencesTree();
         this.competencesRequirementsTree = competencesRequirementFacade.getCompetencesRequirementsTree(competencesTree, this.jobObject);
-        return "editJobProfile";
+        return "createJobProfile";
     }
 
     public void refreshJobList() {
@@ -223,10 +223,10 @@ public class UpdateJobCDIBean implements Serializable {
         return jobAdvertisement.getFieldsOfResponsibility();
     }
 
-    public String remove(Job e) {
+    public String remove(Job job) {
 
         try {
-            for (CompetencesRequirement cr : competencesRequirementFacade.getRequirementsForJob(this.jobObject))
+            for (CompetencesRequirement cr : competencesRequirementFacade.getRequirementsForJob(job))
             {
                 competencesRequirementFacade.remove(cr);
             }
@@ -235,9 +235,9 @@ public class UpdateJobCDIBean implements Serializable {
                     competencesRequirementFacade.remove(cr);
                 }
             }*/
-            jobFacade.remove(e);
+            jobFacade.remove(job);
             if (filteredJobList != null) {
-                filteredJobList.remove(e);
+                filteredJobList.remove(job);
             }
             refreshJobList();
         } catch (Exception ex) {
@@ -247,6 +247,28 @@ public class UpdateJobCDIBean implements Serializable {
         }
         refreshJobList();
 
+        return "updateJobProfile";
+    }
+    
+    public String saveAsNew()
+    {
+        try {
+                Job newJobObject = new Job();
+                newJobObject.setJobTitle(this.jobObject.getJobTitle());
+                newJobObject.setJobDescription(this.jobObject.getJobDescription());
+                newJobObject.setReportingToIdemployee(this.jobObject.getReportingToIdemployee());
+                newJobObject.setOrganisationalPositionIdorganisationalPosition(this.jobObject.getOrganisationalPositionIdorganisationalPosition());
+                newJobObject.setStatus(this.jobObject.getStatus());
+                jobFacade.create(newJobObject);
+                this.competencesRequirementFacade.updateCompetencesRequirements(this.competencesRequirementsTree, newJobObject);
+                //jobAdvertisementFacade.create(jobAdvertisementObject);
+            
+            jobList = jobFacade.findAll();
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            e.getMessage(), null));
+        }
         return "updateJobProfile";
     }
 

@@ -12,15 +12,15 @@
         <ui:composition template="./deptheadPagesTemplate.xhtml">
 
             <ui:define name="title">
-                #{msgs.edit_job_profile}
+                #{msgs.create_job_profile}
             </ui:define>
 
             <ui:define name="content">
                 <h:form id="jobProfileCreate" >
                     <p:messages  />
-                    <h1><h:outputText value="#{msgs.edit_job_profile}"/></h1>
+                    <h1><h:outputText value="#{msgs.create_job_profile}"/></h1>
                     
-                        <f:facet name="header">#{msgs.edit_job_profile}</f:facet>
+                        <f:facet name="header">#{msgs.create_job_profile}</f:facet>
                         <p:panelGrid columns="2" >
                             
                             <p:outputLabel value="#{msgs.job_title}" for="jobTitle"  />
@@ -100,10 +100,10 @@
         </p:column>
     </p:treeTable>
                         
-                        <p:panelGrid columns="5" >
+                        <p:panelGrid columns="4" >
                             <h:commandButton id="back" value="#{msgs.back}" action="updateJobProfile"  immediate="true" />  
                             <h:commandButton id="update" value="Update" action="#{updateJobCDIBean.update()}" />     
-                            <h:commandButton id="saveAsNew" value="Save as new" action="#{updateJobCDIBean.saveAsNew()}" />      
+                  
                             <p:commandButton id="print" value="#{msgs.print}" icon="ui-icon-print" ><p:printer /></p:commandButton>
                             <p:commandButton id="help" value="#{msgs.help}" icon="ui-icon-help" />
                         </p:panelGrid>
