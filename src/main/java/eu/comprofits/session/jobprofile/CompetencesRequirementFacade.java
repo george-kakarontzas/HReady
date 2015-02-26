@@ -105,18 +105,21 @@ public class CompetencesRequirementFacade extends AbstractFacade<CompetencesRequ
             Competence competence = competencesRequirement.getCompetenceIdcompetence();
             if (getRequirementForJobAndCompetence(job, competence) == null && (competencesRequirement.getWeight() != 0 || competencesRequirement.getImportance() != 0))
             {
+                competencesRequirement.setJobIdjob(job);
                 create(competencesRequirement);
             }
             else
             {
                 if (getRequirementForJobAndCompetence(job, competence) != null && (competencesRequirement.getWeight() != 0 || competencesRequirement.getImportance() != 0))
                 {
+                    competencesRequirement.setJobIdjob(job);
                     edit(competencesRequirement);
                 }
                 else
                 {
                     if (getRequirementForJobAndCompetence(job, competence) != null && competencesRequirement.getWeight() == 0 && competencesRequirement.getImportance() == 0)
                     {
+                        competencesRequirement.setJobIdjob(job);
                         remove(competencesRequirement);
                     }
                 }
