@@ -946,7 +946,7 @@ public class UpdateEdrCDIBean implements Serializable {
     public String remove(Edr e) {
 
         try {
-            for (CompetenceGoal cg : competenceGoalFacade.getGoalsForEdr(this.edrObject))
+            for (CompetenceGoal cg : competenceGoalFacade.getGoalsForEdr(e))
             {
                 competenceGoalFacade.remove(cg);
             }
