@@ -26,16 +26,16 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author george
  */
 @Entity
-@Table(name = "question_answer")
+@Table(name = "question")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "QuestionAnswer.findAll", query = "SELECT q FROM QuestionAnswer q"),
-    @NamedQuery(name = "QuestionAnswer.findByIdquestion", query = "SELECT q FROM QuestionAnswer q WHERE q.idquestion = :idquestion"),
-    @NamedQuery(name = "QuestionAnswer.findByQuestionCategory", query = "SELECT q FROM QuestionAnswer q WHERE q.questionCategory = :questionCategory"),
-    @NamedQuery(name = "QuestionAnswer.findByQuestion", query = "SELECT q FROM QuestionAnswer q WHERE q.question = :question"),
-    @NamedQuery(name = "QuestionAnswer.findByAnswer", query = "SELECT q FROM QuestionAnswer q WHERE q.answer = :answer")})
+    @NamedQuery(name = "Question.findAll", query = "SELECT q FROM Question q"),
+    @NamedQuery(name = "Question.findByIdquestion", query = "SELECT q FROM Question q WHERE q.idquestion = :idquestion"),
+    @NamedQuery(name = "Question.findByQuestionCategory", query = "SELECT q FROM Question q WHERE q.questionCategory = :questionCategory"),
+    @NamedQuery(name = "Question.findByQuestion", query = "SELECT q FROM Question q WHERE q.question = :question"),
+    })
 
-public class QuestionAnswer implements Serializable {
+public class Question implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,17 +47,11 @@ public class QuestionAnswer implements Serializable {
     @Column(name = "question")
     @Size(max = 2147483647)
     private String question;
-    @Column(name = "answer")
-    @Size(max = 2147483647)
-    private String answer;
-    @JoinColumn(name = "edr_idedr", referencedColumnName = "idedr")
-    @ManyToOne(optional = false)
-    private Edr edrIdedr;
 
-    public QuestionAnswer() {
+    public Question() {
     }
 
-    public QuestionAnswer(Integer idquestion) {
+    public Question(Integer idquestion) {
         this.idquestion = idquestion;
     }
 
@@ -85,22 +79,6 @@ public class QuestionAnswer implements Serializable {
         this.question = question;
     }
 
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-
-    public Edr getEdrIdedr() {
-        return edrIdedr;
-    }
-
-    public void setEdrIdedr(Edr edrIdedr) {
-        this.edrIdedr = edrIdedr;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -111,10 +89,10 @@ public class QuestionAnswer implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof QuestionAnswer)) {
+        if (!(object instanceof Question)) {
             return false;
         }
-        QuestionAnswer other = (QuestionAnswer) object;
+        Question other = (Question) object;
         if ((this.idquestion == null && other.idquestion != null) || (this.idquestion != null && !this.idquestion.equals(other.idquestion))) {
             return false;
         }
