@@ -58,7 +58,7 @@ public class Edr implements Serializable {
     @Column(name = "verdict")
     private String verdict;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "edrIdedr")
-    private Collection<QuestionAnswer> questionAnswerCollection;
+    private Collection<Question> questionAnswerCollection;
     @JoinColumn(name = "immediate_manager_idemployee", referencedColumnName = "idemployee")
     @ManyToOne(optional = false)
     private Employee immediateManagerIdemployee;
@@ -111,11 +111,11 @@ public class Edr implements Serializable {
     }
 
     @XmlTransient
-    public Collection<QuestionAnswer> getQuestionAnswerCollection() {
+    public Collection<Question> getQuestionAnswerCollection() {
         return questionAnswerCollection;
     }
 
-    public void setQuestionAnswerCollection(Collection<QuestionAnswer> questionAnswerCollection) {
+    public void setQuestionAnswerCollection(Collection<Question> questionAnswerCollection) {
         this.questionAnswerCollection = questionAnswerCollection;
     }
 
@@ -225,7 +225,7 @@ public class Edr implements Serializable {
 //
 //            while (i < localQuestionAnswerCollection.size()) {
 //
-//                QuestionAnswer questionAnswerObject = itQa.next();
+//                Question questionAnswerObject = itQa.next();
 //                String localQuestion = questionAnswerObject.getQuestion();
 //                String localAnswer = questionAnswerObject.getAnswer();
 //                Integer localIdQuestion = questionAnswerObject.getIdquestion();

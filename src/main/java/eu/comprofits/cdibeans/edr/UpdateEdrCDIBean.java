@@ -10,7 +10,7 @@ import eu.comprofits.entities.edr.CompetenceGoal;
 import eu.comprofits.entities.edr.Edr;
 import eu.comprofits.entities.edr.EdrHistory;
 import eu.comprofits.entities.edr.EdrNotes;
-import eu.comprofits.entities.edr.QuestionAnswer;
+import eu.comprofits.entities.edr.Question;
 import eu.comprofits.entities.employee.Employee;
 import eu.comprofits.entities.jobprofile.BusinessArea;
 import eu.comprofits.entities.jobprofile.Job;
@@ -105,31 +105,31 @@ public class UpdateEdrCDIBean implements Serializable {
         this.competenceGoalTree = competenceGoalTree;
     }
 
-    private List<QuestionAnswer> qAList;
-    private QuestionAnswer questionAnswer1;
-    private QuestionAnswer questionAnswer2;
-    private QuestionAnswer questionAnswer3;
-    private QuestionAnswer questionAnswer4;
-    private QuestionAnswer questionAnswer5;
-    private QuestionAnswer questionAnswer6;
-    private QuestionAnswer questionAnswer7;
-    private QuestionAnswer questionAnswer8;
-    private QuestionAnswer questionAnswer9;
-    private QuestionAnswer questionAnswer10;
-    private QuestionAnswer questionAnswer11;
-    private QuestionAnswer questionAnswer12;
-    private QuestionAnswer questionAnswer13;
-    private QuestionAnswer questionAnswer14;
-    private QuestionAnswer questionAnswer15;
-    private QuestionAnswer questionAnswer16;
-    private QuestionAnswer questionAnswer17;
-    private QuestionAnswer questionAnswer18;
-    private QuestionAnswer questionAnswer19;
-    private QuestionAnswer questionAnswer20;
-    private QuestionAnswer questionAnswer21;
-    private QuestionAnswer questionAnswer22;
-    private QuestionAnswer questionAnswer23;
-    private QuestionAnswer questionAnswer24;
+    private List<Question> qAList;
+    private Question questionAnswer1;
+    private Question questionAnswer2;
+    private Question questionAnswer3;
+    private Question questionAnswer4;
+    private Question questionAnswer5;
+    private Question questionAnswer6;
+    private Question questionAnswer7;
+    private Question questionAnswer8;
+    private Question questionAnswer9;
+    private Question questionAnswer10;
+    private Question questionAnswer11;
+    private Question questionAnswer12;
+    private Question questionAnswer13;
+    private Question questionAnswer14;
+    private Question questionAnswer15;
+    private Question questionAnswer16;
+    private Question questionAnswer17;
+    private Question questionAnswer18;
+    private Question questionAnswer19;
+    private Question questionAnswer20;
+    private Question questionAnswer21;
+    private Question questionAnswer22;
+    private Question questionAnswer23;
+    private Question questionAnswer24;
 
     public UpdateEdrCDIBean() {
     }
@@ -239,195 +239,195 @@ public class UpdateEdrCDIBean implements Serializable {
         this.edrList = edrList;
     }
 
-    public QuestionAnswer getQuestionAnswer1() {
+    public Question getQuestionAnswer1() {
         return questionAnswer1;
     }
 
-    public void setQuestionAnswer1(QuestionAnswer questionAnswer1) {
+    public void setQuestionAnswer1(Question questionAnswer1) {
         this.questionAnswer1 = questionAnswer1;
     }
 
-    public QuestionAnswer getQuestionAnswer2() {
+    public Question getQuestionAnswer2() {
         return questionAnswer2;
     }
 
-    public void setQuestionAnswer2(QuestionAnswer questionAnswer2) {
+    public void setQuestionAnswer2(Question questionAnswer2) {
         this.questionAnswer2 = questionAnswer2;
     }
 
-    public QuestionAnswer getQuestionAnswer3() {
+    public Question getQuestionAnswer3() {
         return questionAnswer3;
     }
 
-    public void setQuestionAnswer3(QuestionAnswer questionAnswer3) {
+    public void setQuestionAnswer3(Question questionAnswer3) {
         this.questionAnswer3 = questionAnswer3;
     }
 
-    public QuestionAnswer getQuestionAnswer4() {
+    public Question getQuestionAnswer4() {
         return questionAnswer4;
     }
 
-    public void setQuestionAnswer4(QuestionAnswer questionAnswer4) {
+    public void setQuestionAnswer4(Question questionAnswer4) {
         this.questionAnswer4 = questionAnswer4;
     }
 
-    public QuestionAnswer getQuestionAnswer5() {
+    public Question getQuestionAnswer5() {
         return questionAnswer5;
     }
 
-    public void setQuestionAnswer5(QuestionAnswer questionAnswer5) {
+    public void setQuestionAnswer5(Question questionAnswer5) {
         this.questionAnswer5 = questionAnswer5;
     }
 
-    public QuestionAnswer getQuestionAnswer6() {
+    public Question getQuestionAnswer6() {
         return questionAnswer6;
     }
 
-    public void setQuestionAnswer6(QuestionAnswer questionAnswer6) {
+    public void setQuestionAnswer6(Question questionAnswer6) {
         this.questionAnswer6 = questionAnswer6;
     }
 
-    public QuestionAnswer getQuestionAnswer7() {
+    public Question getQuestionAnswer7() {
         return questionAnswer7;
     }
 
-    public void setQuestionAnswer7(QuestionAnswer questionAnswer7) {
+    public void setQuestionAnswer7(Question questionAnswer7) {
         this.questionAnswer7 = questionAnswer7;
     }
 
-    public QuestionAnswer getQuestionAnswer8() {
+    public Question getQuestionAnswer8() {
         return questionAnswer8;
     }
 
-    public void setQuestionAnswer8(QuestionAnswer questionAnswer8) {
+    public void setQuestionAnswer8(Question questionAnswer8) {
         this.questionAnswer8 = questionAnswer8;
     }
 
-    public QuestionAnswer getQuestionAnswer9() {
+    public Question getQuestionAnswer9() {
         return questionAnswer9;
     }
 
-    public void setQuestionAnswer9(QuestionAnswer questionAnswer9) {
+    public void setQuestionAnswer9(Question questionAnswer9) {
         this.questionAnswer9 = questionAnswer9;
     }
 
-    public QuestionAnswer getQuestionAnswer10() {
+    public Question getQuestionAnswer10() {
         return questionAnswer10;
     }
 
-    public void setQuestionAnswer10(QuestionAnswer questionAnswer10) {
+    public void setQuestionAnswer10(Question questionAnswer10) {
         this.questionAnswer10 = questionAnswer10;
     }
 
-    public QuestionAnswer getQuestionAnswer11() {
+    public Question getQuestionAnswer11() {
         return questionAnswer11;
     }
 
-    public void setQuestionAnswer11(QuestionAnswer questionAnswer11) {
+    public void setQuestionAnswer11(Question questionAnswer11) {
         this.questionAnswer11 = questionAnswer11;
     }
 
-    public QuestionAnswer getQuestionAnswer12() {
+    public Question getQuestionAnswer12() {
         return questionAnswer12;
     }
 
-    public void setQuestionAnswer12(QuestionAnswer questionAnswer12) {
+    public void setQuestionAnswer12(Question questionAnswer12) {
         this.questionAnswer12 = questionAnswer12;
     }
 
-    public QuestionAnswer getQuestionAnswer13() {
+    public Question getQuestionAnswer13() {
         return questionAnswer13;
     }
 
-    public void setQuestionAnswer13(QuestionAnswer questionAnswer13) {
+    public void setQuestionAnswer13(Question questionAnswer13) {
         this.questionAnswer13 = questionAnswer13;
     }
 
-    public QuestionAnswer getQuestionAnswer14() {
+    public Question getQuestionAnswer14() {
         return questionAnswer14;
     }
 
-    public void setQuestionAnswer14(QuestionAnswer questionAnswer14) {
+    public void setQuestionAnswer14(Question questionAnswer14) {
         this.questionAnswer14 = questionAnswer14;
     }
 
-    public QuestionAnswer getQuestionAnswer15() {
+    public Question getQuestionAnswer15() {
         return questionAnswer15;
     }
 
-    public void setQuestionAnswer15(QuestionAnswer questionAnswer15) {
+    public void setQuestionAnswer15(Question questionAnswer15) {
         this.questionAnswer15 = questionAnswer15;
     }
 
-    public QuestionAnswer getQuestionAnswer16() {
+    public Question getQuestionAnswer16() {
         return questionAnswer16;
     }
 
-    public void setQuestionAnswer16(QuestionAnswer questionAnswer16) {
+    public void setQuestionAnswer16(Question questionAnswer16) {
         this.questionAnswer16 = questionAnswer16;
     }
 
-    public QuestionAnswer getQuestionAnswer17() {
+    public Question getQuestionAnswer17() {
         return questionAnswer17;
     }
 
-    public void setQuestionAnswer17(QuestionAnswer questionAnswer17) {
+    public void setQuestionAnswer17(Question questionAnswer17) {
         this.questionAnswer17 = questionAnswer17;
     }
 
-    public QuestionAnswer getQuestionAnswer18() {
+    public Question getQuestionAnswer18() {
         return questionAnswer18;
     }
 
-    public void setQuestionAnswer18(QuestionAnswer questionAnswer18) {
+    public void setQuestionAnswer18(Question questionAnswer18) {
         this.questionAnswer18 = questionAnswer18;
     }
 
-    public QuestionAnswer getQuestionAnswer19() {
+    public Question getQuestionAnswer19() {
         return questionAnswer19;
     }
 
-    public void setQuestionAnswer19(QuestionAnswer questionAnswer19) {
+    public void setQuestionAnswer19(Question questionAnswer19) {
         this.questionAnswer19 = questionAnswer19;
     }
 
-    public QuestionAnswer getQuestionAnswer20() {
+    public Question getQuestionAnswer20() {
         return questionAnswer20;
     }
 
-    public void setQuestionAnswer20(QuestionAnswer questionAnswer20) {
+    public void setQuestionAnswer20(Question questionAnswer20) {
         this.questionAnswer20 = questionAnswer20;
     }
 
-    public QuestionAnswer getQuestionAnswer21() {
+    public Question getQuestionAnswer21() {
         return questionAnswer21;
     }
 
-    public void setQuestionAnswer21(QuestionAnswer questionAnswer21) {
+    public void setQuestionAnswer21(Question questionAnswer21) {
         this.questionAnswer21 = questionAnswer21;
     }
 
-    public QuestionAnswer getQuestionAnswer22() {
+    public Question getQuestionAnswer22() {
         return questionAnswer22;
     }
 
-    public void setQuestionAnswer22(QuestionAnswer questionAnswer22) {
+    public void setQuestionAnswer22(Question questionAnswer22) {
         this.questionAnswer22 = questionAnswer22;
     }
 
-    public QuestionAnswer getQuestionAnswer23() {
+    public Question getQuestionAnswer23() {
         return questionAnswer23;
     }
 
-    public void setQuestionAnswer23(QuestionAnswer questionAnswer23) {
+    public void setQuestionAnswer23(Question questionAnswer23) {
         this.questionAnswer23 = questionAnswer23;
     }
 
-    public QuestionAnswer getQuestionAnswer24() {
+    public Question getQuestionAnswer24() {
         return questionAnswer24;
     }
 
-    public void setQuestionAnswer24(QuestionAnswer questionAnswer24) {
+    public void setQuestionAnswer24(Question questionAnswer24) {
         this.questionAnswer24 = questionAnswer24;
     }
 
@@ -445,30 +445,30 @@ public class UpdateEdrCDIBean implements Serializable {
         this.edrHistory = new EdrHistory();
         this.edrNotes = new EdrNotes();
 
-        this.questionAnswer1 = new QuestionAnswer();
-        this.questionAnswer2 = new QuestionAnswer();
-        this.questionAnswer3 = new QuestionAnswer();
-        this.questionAnswer4 = new QuestionAnswer();
-        this.questionAnswer5 = new QuestionAnswer();
-        this.questionAnswer6 = new QuestionAnswer();
-        this.questionAnswer7 = new QuestionAnswer();
-        this.questionAnswer8 = new QuestionAnswer();
-        this.questionAnswer9 = new QuestionAnswer();
-        this.questionAnswer10 = new QuestionAnswer();
-        this.questionAnswer11 = new QuestionAnswer();
-        this.questionAnswer12 = new QuestionAnswer();
-        this.questionAnswer13 = new QuestionAnswer();
-        this.questionAnswer14 = new QuestionAnswer();
-        this.questionAnswer15 = new QuestionAnswer();
-        this.questionAnswer16 = new QuestionAnswer();
-        this.questionAnswer17 = new QuestionAnswer();
-        this.questionAnswer18 = new QuestionAnswer();
-        this.questionAnswer19 = new QuestionAnswer();
-        this.questionAnswer20 = new QuestionAnswer();
-        this.questionAnswer21 = new QuestionAnswer();
-        this.questionAnswer22 = new QuestionAnswer();
-        this.questionAnswer23 = new QuestionAnswer();
-        this.questionAnswer24 = new QuestionAnswer();
+        this.questionAnswer1 = new Question();
+        this.questionAnswer2 = new Question();
+        this.questionAnswer3 = new Question();
+        this.questionAnswer4 = new Question();
+        this.questionAnswer5 = new Question();
+        this.questionAnswer6 = new Question();
+        this.questionAnswer7 = new Question();
+        this.questionAnswer8 = new Question();
+        this.questionAnswer9 = new Question();
+        this.questionAnswer10 = new Question();
+        this.questionAnswer11 = new Question();
+        this.questionAnswer12 = new Question();
+        this.questionAnswer13 = new Question();
+        this.questionAnswer14 = new Question();
+        this.questionAnswer15 = new Question();
+        this.questionAnswer16 = new Question();
+        this.questionAnswer17 = new Question();
+        this.questionAnswer18 = new Question();
+        this.questionAnswer19 = new Question();
+        this.questionAnswer20 = new Question();
+        this.questionAnswer21 = new Question();
+        this.questionAnswer22 = new Question();
+        this.questionAnswer23 = new Question();
+        this.questionAnswer24 = new Question();
         
         this.competencesTree = competenceFacade.getCompetencesTree();
         this.competenceGoalTree = competenceGoalFacade.getCompetenceGoalsTree(competencesTree, this.edrObject);
@@ -679,100 +679,100 @@ public class UpdateEdrCDIBean implements Serializable {
         this.competenceGoalList = competenceGoalFacade.findAll();
         //this.edrNotesList = edrNotesFacade.findAll();
 
-        // Load QuestionAnswer Objects
+        // Load Question Objects
         
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 1) {
                 this.questionAnswer1 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 2) {
                 this.questionAnswer2 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 3) {
                 this.questionAnswer3 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 4) {
                 this.questionAnswer4 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 5) {
                 this.questionAnswer5 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 6) {
                 this.questionAnswer6 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 7) {
                 this.questionAnswer7 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 8) {
                 this.questionAnswer8 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 9) {
                 this.questionAnswer9 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 10) {
                 this.questionAnswer10 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 11) {
                 this.questionAnswer11 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 12) {
                 this.questionAnswer12 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 13) {
                 this.questionAnswer13 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 14) {
                 this.questionAnswer14 = entry;
@@ -780,70 +780,70 @@ public class UpdateEdrCDIBean implements Serializable {
             }
            
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 15) {
                 this.questionAnswer15 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 16) {
                 this.questionAnswer16 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 17) {
                 this.questionAnswer17 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 18) {
                 this.questionAnswer18 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 19) {
                 this.questionAnswer19 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 20) {
                 this.questionAnswer20 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 21) {
                 this.questionAnswer21 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 22) {
                 this.questionAnswer22 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 23) {
                 this.questionAnswer23 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 24) {
                 this.questionAnswer24 = entry;
@@ -851,42 +851,42 @@ public class UpdateEdrCDIBean implements Serializable {
             }
         }
         
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 1) {
                 this.questionAnswer1 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 2) {
                 this.questionAnswer2 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 3) {
                 this.questionAnswer3 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 4) {
                 this.questionAnswer4 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 5) {
                 this.questionAnswer5 = entry;
                 break;
             }
         }
-        for (QuestionAnswer entry : qAList) {
+        for (Question entry : qAList) {
             questionCategory = entry.getQuestionCategory();
             if (entry.getEdrIdedr().equals(edr) && questionCategory == 6) {
                 this.questionAnswer6 = entry;
@@ -920,7 +920,7 @@ public class UpdateEdrCDIBean implements Serializable {
             competenceGoalList = competenceGoalFacade.findAll();
             edrNotesList = edrNotesFacade.findAll();
             
-            for (QuestionAnswer q : qAList) {
+            for (Question q : qAList) {
                 if (q.getEdrIdedr().equals(edr)) {
                     questionAnswerFacade.remove(q);
                 }
@@ -949,7 +949,7 @@ public class UpdateEdrCDIBean implements Serializable {
     public String remove(Edr e) {
 
         try {
-            for (CompetenceGoal cg : competenceGoalFacade.getGoalsForEdr(this.edrObject))
+            for (CompetenceGoal cg : competenceGoalFacade.getGoalsForEdr(e))
             {
                 competenceGoalFacade.remove(cg);
             }
@@ -1047,7 +1047,7 @@ public class UpdateEdrCDIBean implements Serializable {
             html = html.replace ("{{edr_questionnaire_title}}",bundle.getString("questionnaire_statements"));
             String questions_answers = "<ol>";
             
-            for (QuestionAnswer qa : qAList)
+            for (Question qa : qAList)
             {
                 questions_answers = questions_answers + "<li><b>" + qa.getQuestion() +"</b><br/><br/>" + qa.getAnswer() + "</li><br/><br/><br/>";
             }

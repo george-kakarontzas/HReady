@@ -5,7 +5,7 @@
  */
 package eu.comprofits.cdibeans.edr;
 
-import eu.comprofits.entities.edr.QuestionAnswer;
+import eu.comprofits.entities.edr.Question;
 import eu.comprofits.session.edr.QuestionAnswerFacade;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -41,10 +41,10 @@ public class QuestionAnswerConverter implements Converter {
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-        if (!(value instanceof QuestionAnswer)) {
+        if (!(value instanceof Question)) {
             return null;
         }
-        return ((QuestionAnswer) value).getIdquestion().toString();
+        return ((Question) value).getIdquestion().toString();
     }
 
 }
