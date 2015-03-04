@@ -6,7 +6,7 @@
 package eu.comprofits.cdibeans.edr;
 
 import eu.comprofits.entities.edr.Question;
-import eu.comprofits.session.edr.QuestionAnswerFacade;
+import eu.comprofits.session.edr.QuestionFacade;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIComponent;
@@ -18,17 +18,17 @@ import javax.inject.Named;
  *
  * @author alexanderhoelzemann
  */
-@Named(value = "questionAnswerConverter")
+@Named(value = "questionConverter")
 @RequestScoped
-public class QuestionAnswerConverter implements Converter {
+public class QuestionConverter implements Converter {
 
     @EJB
-    private QuestionAnswerFacade questionAnswerFacade;
+    private QuestionFacade questionFacade;
 
     /**
      * Creates a new instance of CompetenceConverter
      */
-    public QuestionAnswerConverter() {
+    public QuestionConverter() {
     }
 
     @Override
@@ -36,7 +36,7 @@ public class QuestionAnswerConverter implements Converter {
         if (value == null || value.isEmpty() || value.equals("---")) {
             return null;
         }
-        return questionAnswerFacade.find(Integer.valueOf(value));
+        return questionFacade.find(Integer.valueOf(value));
     }
 
     @Override
