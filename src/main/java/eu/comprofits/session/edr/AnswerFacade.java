@@ -6,6 +6,8 @@
 
 package eu.comprofits.session.edr;
 
+import eu.comprofits.entities.edr.Answer;
+import eu.comprofits.session.edr.*;
 import eu.comprofits.entities.edr.Question;
 import eu.comprofits.session.AbstractFacade;
 import javax.ejb.Stateless;
@@ -17,7 +19,7 @@ import javax.persistence.PersistenceContext;
  * @author george
  */
 @Stateless
-public class QuestionAnswerFacade extends AbstractFacade<Question> {
+public class AnswerFacade extends AbstractFacade<Answer> {
     @PersistenceContext(unitName = "comprofitsPU")
     private EntityManager em;
 
@@ -26,8 +28,8 @@ public class QuestionAnswerFacade extends AbstractFacade<Question> {
         return em;
     }
 
-    public QuestionAnswerFacade() {
-        super(Question.class);
+    public AnswerFacade() {
+        super(Answer.class);
     }
     
 }

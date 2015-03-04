@@ -6,6 +6,7 @@
 package eu.comprofits.cdibeans.edr;
 
 import eu.comprofits.cdibeans.assessment.EmployeeEvaluationCDIBean;
+import eu.comprofits.entities.edr.Answer;
 import eu.comprofits.entities.edr.CompetenceGoal;
 import eu.comprofits.entities.edr.Edr;
 import eu.comprofits.entities.edr.EdrHistory;
@@ -13,12 +14,14 @@ import eu.comprofits.entities.edr.EdrNotes;
 import eu.comprofits.entities.edr.Question;
 import eu.comprofits.entities.employee.Employee;
 import eu.comprofits.entities.jobprofile.BusinessArea;
+import eu.comprofits.entities.jobprofile.CompetencesRequirement;
 import eu.comprofits.entities.jobprofile.Job;
 import eu.comprofits.session.edr.CompetenceGoalFacade;
 import eu.comprofits.session.edr.EdrFacade;
 import eu.comprofits.session.edr.EdrHistoryFacade;
 import eu.comprofits.session.edr.EdrNotesFacade;
-import eu.comprofits.session.edr.QuestionAnswerFacade;
+import eu.comprofits.session.edr.QuestionFacade;
+import eu.comprofits.session.edr.AnswerFacade;
 import eu.comprofits.session.employee.EmployeeFacade;
 import eu.comprofits.session.employee.InCompanyEmploymentFacade;
 import eu.comprofits.session.jobprofile.BusinessAreaFacade;
@@ -28,6 +31,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -59,7 +64,9 @@ public class UpdateEdrCDIBean implements Serializable {
     @EJB
     private BusinessAreaFacade businessAreaFacade;
     @EJB
-    private QuestionAnswerFacade questionAnswerFacade;
+    private QuestionFacade questionFacade;
+    @EJB
+    private AnswerFacade answerFacade;
     @EJB
     private EdrHistoryFacade edrHistoryFacade;
     @EJB
@@ -83,11 +90,13 @@ public class UpdateEdrCDIBean implements Serializable {
     private List<Edr> filteredEdrList;
     private List<Employee> employeeList;
     private List<CompetenceGoal> competenceGoalList;
-    private boolean firstTime;
     private String stringHelper;
     private java.sql.Date lastDate;
     private TreeNode competencesTree;
     private TreeNode competenceGoalTree;
+    private List<Question> questionsAvailable;
+    private List<Question> questionsSelected;
+    private List<Answer> answers;
 
     public TreeNode getCompetencesTree() {
         return competencesTree;
@@ -105,44 +114,135 @@ public class UpdateEdrCDIBean implements Serializable {
         this.competenceGoalTree = competenceGoalTree;
     }
 
-    private List<Question> qAList;
-    private Question questionAnswer1;
-    private Question questionAnswer2;
-    private Question questionAnswer3;
-    private Question questionAnswer4;
-    private Question questionAnswer5;
-    private Question questionAnswer6;
-    private Question questionAnswer7;
-    private Question questionAnswer8;
-    private Question questionAnswer9;
-    private Question questionAnswer10;
-    private Question questionAnswer11;
-    private Question questionAnswer12;
-    private Question questionAnswer13;
-    private Question questionAnswer14;
-    private Question questionAnswer15;
-    private Question questionAnswer16;
-    private Question questionAnswer17;
-    private Question questionAnswer18;
-    private Question questionAnswer19;
-    private Question questionAnswer20;
-    private Question questionAnswer21;
-    private Question questionAnswer22;
-    private Question questionAnswer23;
-    private Question questionAnswer24;
-
-    public UpdateEdrCDIBean() {
+    public EdrFacade getEdrFacade() {
+        return edrFacade;
     }
 
-    @PostConstruct
-    public void init() {
-
-        edrList = edrFacade.findAll();
-        employeeList = employeeFacade.findAll();
-        businessAreaList = businessAreaFacade.findAll();
-        qAList = questionAnswerFacade.findAll();
+    public void setEdrFacade(EdrFacade edrFacade) {
+        this.edrFacade = edrFacade;
     }
 
+    public EmployeeFacade getEmployeeFacade() {
+        return employeeFacade;
+    }
+
+    public void setEmployeeFacade(EmployeeFacade employeeFacade) {
+        this.employeeFacade = employeeFacade;
+    }
+
+    public BusinessAreaFacade getBusinessAreaFacade() {
+        return businessAreaFacade;
+    }
+
+    public void setBusinessAreaFacade(BusinessAreaFacade businessAreaFacade) {
+        this.businessAreaFacade = businessAreaFacade;
+    }
+
+    public QuestionFacade getQuestionFacade() {
+        return questionFacade;
+    }
+
+    public void setQuestionFacade(QuestionFacade questionFacade) {
+        this.questionFacade = questionFacade;
+    }
+
+    public AnswerFacade getAnswerFacade() {
+        return answerFacade;
+    }
+
+    public void setAnswerFacade(AnswerFacade answerFacade) {
+        this.answerFacade = answerFacade;
+    }
+
+    public EdrHistoryFacade getEdrHistoryFacade() {
+        return edrHistoryFacade;
+    }
+
+    public void setEdrHistoryFacade(EdrHistoryFacade edrHistoryFacade) {
+        this.edrHistoryFacade = edrHistoryFacade;
+    }
+
+    public EdrNotesFacade getEdrNotesFacade() {
+        return edrNotesFacade;
+    }
+
+    public void setEdrNotesFacade(EdrNotesFacade edrNotesFacade) {
+        this.edrNotesFacade = edrNotesFacade;
+    }
+
+    public CompetenceGoalFacade getCompetenceGoalFacade() {
+        return competenceGoalFacade;
+    }
+
+    public void setCompetenceGoalFacade(CompetenceGoalFacade competenceGoalFacade) {
+        this.competenceGoalFacade = competenceGoalFacade;
+    }
+
+    public CompetenceFacade getCompetenceFacade() {
+        return competenceFacade;
+    }
+
+    public void setCompetenceFacade(CompetenceFacade competenceFacade) {
+        this.competenceFacade = competenceFacade;
+    }
+
+    public InCompanyEmploymentFacade getIceFacade() {
+        return iceFacade;
+    }
+
+    public void setIceFacade(InCompanyEmploymentFacade iceFacade) {
+        this.iceFacade = iceFacade;
+    }
+
+    public List<EdrNotes> getEdrNotesList() {
+        return edrNotesList;
+    }
+
+    public void setEdrNotesList(List<EdrNotes> edrNotesList) {
+        this.edrNotesList = edrNotesList;
+    }
+
+    public List<CompetenceGoal> getCompetenceGoalList() {
+        return competenceGoalList;
+    }
+
+    public void setCompetenceGoalList(List<CompetenceGoal> competenceGoalList) {
+        this.competenceGoalList = competenceGoalList;
+    }
+
+    public Date getLastDate() {
+        return lastDate;
+    }
+
+    public void setLastDate(Date lastDate) {
+        this.lastDate = lastDate;
+    }
+
+    public List<Question> getQuestionsAvailable() {
+        return questionsAvailable;
+    }
+
+    public void setQuestionsAvailable(List<Question> questionsAvailable) {
+        this.questionsAvailable = questionsAvailable;
+    }
+
+    public List<Question> getQuestionsSelected() {
+        return questionsSelected;
+    }
+
+    public void setQuestionsSelected(List<Question> questionsSelected) {
+        this.questionsSelected = questionsSelected;
+    }
+
+    
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
+    }
+    
     public EdrNotes getEdrNotes() {
         return edrNotes;
     }
@@ -199,14 +299,6 @@ public class UpdateEdrCDIBean implements Serializable {
         this.filteredEdrList = filteredEdrList;
     }
 
-    public boolean isFirstTime() {
-        return firstTime;
-    }
-
-    public void setFirstTime(boolean firstTime) {
-        this.firstTime = firstTime;
-    }
-
     public Edr getLatestEdr() {
         return latestEdr;
     }
@@ -239,198 +331,6 @@ public class UpdateEdrCDIBean implements Serializable {
         this.edrList = edrList;
     }
 
-    public Question getQuestionAnswer1() {
-        return questionAnswer1;
-    }
-
-    public void setQuestionAnswer1(Question questionAnswer1) {
-        this.questionAnswer1 = questionAnswer1;
-    }
-
-    public Question getQuestionAnswer2() {
-        return questionAnswer2;
-    }
-
-    public void setQuestionAnswer2(Question questionAnswer2) {
-        this.questionAnswer2 = questionAnswer2;
-    }
-
-    public Question getQuestionAnswer3() {
-        return questionAnswer3;
-    }
-
-    public void setQuestionAnswer3(Question questionAnswer3) {
-        this.questionAnswer3 = questionAnswer3;
-    }
-
-    public Question getQuestionAnswer4() {
-        return questionAnswer4;
-    }
-
-    public void setQuestionAnswer4(Question questionAnswer4) {
-        this.questionAnswer4 = questionAnswer4;
-    }
-
-    public Question getQuestionAnswer5() {
-        return questionAnswer5;
-    }
-
-    public void setQuestionAnswer5(Question questionAnswer5) {
-        this.questionAnswer5 = questionAnswer5;
-    }
-
-    public Question getQuestionAnswer6() {
-        return questionAnswer6;
-    }
-
-    public void setQuestionAnswer6(Question questionAnswer6) {
-        this.questionAnswer6 = questionAnswer6;
-    }
-
-    public Question getQuestionAnswer7() {
-        return questionAnswer7;
-    }
-
-    public void setQuestionAnswer7(Question questionAnswer7) {
-        this.questionAnswer7 = questionAnswer7;
-    }
-
-    public Question getQuestionAnswer8() {
-        return questionAnswer8;
-    }
-
-    public void setQuestionAnswer8(Question questionAnswer8) {
-        this.questionAnswer8 = questionAnswer8;
-    }
-
-    public Question getQuestionAnswer9() {
-        return questionAnswer9;
-    }
-
-    public void setQuestionAnswer9(Question questionAnswer9) {
-        this.questionAnswer9 = questionAnswer9;
-    }
-
-    public Question getQuestionAnswer10() {
-        return questionAnswer10;
-    }
-
-    public void setQuestionAnswer10(Question questionAnswer10) {
-        this.questionAnswer10 = questionAnswer10;
-    }
-
-    public Question getQuestionAnswer11() {
-        return questionAnswer11;
-    }
-
-    public void setQuestionAnswer11(Question questionAnswer11) {
-        this.questionAnswer11 = questionAnswer11;
-    }
-
-    public Question getQuestionAnswer12() {
-        return questionAnswer12;
-    }
-
-    public void setQuestionAnswer12(Question questionAnswer12) {
-        this.questionAnswer12 = questionAnswer12;
-    }
-
-    public Question getQuestionAnswer13() {
-        return questionAnswer13;
-    }
-
-    public void setQuestionAnswer13(Question questionAnswer13) {
-        this.questionAnswer13 = questionAnswer13;
-    }
-
-    public Question getQuestionAnswer14() {
-        return questionAnswer14;
-    }
-
-    public void setQuestionAnswer14(Question questionAnswer14) {
-        this.questionAnswer14 = questionAnswer14;
-    }
-
-    public Question getQuestionAnswer15() {
-        return questionAnswer15;
-    }
-
-    public void setQuestionAnswer15(Question questionAnswer15) {
-        this.questionAnswer15 = questionAnswer15;
-    }
-
-    public Question getQuestionAnswer16() {
-        return questionAnswer16;
-    }
-
-    public void setQuestionAnswer16(Question questionAnswer16) {
-        this.questionAnswer16 = questionAnswer16;
-    }
-
-    public Question getQuestionAnswer17() {
-        return questionAnswer17;
-    }
-
-    public void setQuestionAnswer17(Question questionAnswer17) {
-        this.questionAnswer17 = questionAnswer17;
-    }
-
-    public Question getQuestionAnswer18() {
-        return questionAnswer18;
-    }
-
-    public void setQuestionAnswer18(Question questionAnswer18) {
-        this.questionAnswer18 = questionAnswer18;
-    }
-
-    public Question getQuestionAnswer19() {
-        return questionAnswer19;
-    }
-
-    public void setQuestionAnswer19(Question questionAnswer19) {
-        this.questionAnswer19 = questionAnswer19;
-    }
-
-    public Question getQuestionAnswer20() {
-        return questionAnswer20;
-    }
-
-    public void setQuestionAnswer20(Question questionAnswer20) {
-        this.questionAnswer20 = questionAnswer20;
-    }
-
-    public Question getQuestionAnswer21() {
-        return questionAnswer21;
-    }
-
-    public void setQuestionAnswer21(Question questionAnswer21) {
-        this.questionAnswer21 = questionAnswer21;
-    }
-
-    public Question getQuestionAnswer22() {
-        return questionAnswer22;
-    }
-
-    public void setQuestionAnswer22(Question questionAnswer22) {
-        this.questionAnswer22 = questionAnswer22;
-    }
-
-    public Question getQuestionAnswer23() {
-        return questionAnswer23;
-    }
-
-    public void setQuestionAnswer23(Question questionAnswer23) {
-        this.questionAnswer23 = questionAnswer23;
-    }
-
-    public Question getQuestionAnswer24() {
-        return questionAnswer24;
-    }
-
-    public void setQuestionAnswer24(Question questionAnswer24) {
-        this.questionAnswer24 = questionAnswer24;
-    }
-
     public EdrHistory getEdrhistory() {
         return edrHistory;
     }
@@ -439,45 +339,37 @@ public class UpdateEdrCDIBean implements Serializable {
         this.edrHistory = edrhistory;
     }
 
-    public String create() {
-        firstTime = true;
-        this.edrObject = new Edr();
-        this.edrHistory = new EdrHistory();
-        this.edrNotes = new EdrNotes();
+    public UpdateEdrCDIBean() {
+    }
 
-        this.questionAnswer1 = new Question();
-        this.questionAnswer2 = new Question();
-        this.questionAnswer3 = new Question();
-        this.questionAnswer4 = new Question();
-        this.questionAnswer5 = new Question();
-        this.questionAnswer6 = new Question();
-        this.questionAnswer7 = new Question();
-        this.questionAnswer8 = new Question();
-        this.questionAnswer9 = new Question();
-        this.questionAnswer10 = new Question();
-        this.questionAnswer11 = new Question();
-        this.questionAnswer12 = new Question();
-        this.questionAnswer13 = new Question();
-        this.questionAnswer14 = new Question();
-        this.questionAnswer15 = new Question();
-        this.questionAnswer16 = new Question();
-        this.questionAnswer17 = new Question();
-        this.questionAnswer18 = new Question();
-        this.questionAnswer19 = new Question();
-        this.questionAnswer20 = new Question();
-        this.questionAnswer21 = new Question();
-        this.questionAnswer22 = new Question();
-        this.questionAnswer23 = new Question();
-        this.questionAnswer24 = new Question();
-        
-        this.competencesTree = competenceFacade.getCompetencesTree();
-        this.competenceGoalTree = competenceGoalFacade.getCompetenceGoalsTree(competencesTree, this.edrObject);
+    @PostConstruct
+    public void init() {
 
         edrList = edrFacade.findAll();
-        employeeList = employeeFacade.findAll();
-        businessAreaList = businessAreaFacade.findAll();
+        
+    }
 
-        return "createEdr";
+    public String createStep1() {
+        
+        this.edrObject = new Edr();
+        this.employeeList = employeeFacade.findAll();
+        this.businessAreaList = businessAreaFacade.findAll();
+
+        return "createEdr1";
+    }
+    
+    public String createStep2() {
+        
+        this.questionsAvailable = questionFacade.findAll();
+        this.questionsSelected = new ArrayList();
+        
+        return "createEdr2";
+    }
+    
+    public String createQuestion() {
+        
+        
+        return "createQuestion";
     }
 
     public String save() throws InterruptedException {
