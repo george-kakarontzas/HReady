@@ -16,7 +16,11 @@ import eu.comprofits.session.assessment.EmployeeCompetenceAssessmentFacade;
 import eu.comprofits.session.assessment.StatementFacade;
 import eu.comprofits.session.employee.EmployeeFacade;
 import eu.comprofits.session.main.CompetenceFacade;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,6 +28,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -32,6 +39,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
+import org.apache.commons.io.IOUtils;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
@@ -66,6 +74,8 @@ public class UpdateAssessmentsCDIBean implements Serializable {
     private DualListModel<Statement> statements;
     private Map<Competence, DualListModel<Statement>> selectedStatementsPerCompetence;
     private boolean statementSelected;
+    private double totalScore;
+    private double noOfCompetedAssessments;
 
     public Map<Competence, DualListModel<Statement>> getSelectedStatementsPerCompetence() {
         return selectedStatementsPerCompetence;
@@ -466,4 +476,230 @@ public class UpdateAssessmentsCDIBean implements Serializable {
             }
         }
     }
+    
+    public String toPdf(Assessment a) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext ec = context.getExternalContext();
+        ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+            String wkhtmltopdf_ex = ec.getInitParameter("WKHTMLTOPDF_EXE");
+
+            String html = "";
+            try {
+                InputStream is = ec.getResourceAsStream("/resources/pdftemplates/assessment.html");
+                html = IOUtils.toString(is, "UTF-8");
+            } catch (IOException e) {
+                context.addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                bundle.getString("error_creating_pdf") + " " + e.getMessage(), null));
+                return "updateAssessments";
+            }
+
+            html = html.replace("{{assessee}}", bundle.getString("assessee") + " " + a.getAssesseeIdemployee().getFullName());
+            html = html.replace("{{date_created_title}}", bundle.getString("date_created"));
+            html = html.replace("{{issue_date_title}}", bundle.getString("issue_date"));
+            html = html.replace("{{deadline_title}}", bundle.getString("deadline"));
+            html = html.replace("{{date_created}}", a.getDateCreated().toString());
+            html = html.replace("{{issue_date}}", a.getIssueDate().toString());
+            html = html.replace("{{deadline}}", a.getDeadline().toString());
+            html = html.replace("{{manager_title}}", bundle.getString("immediate_manager"));
+            html = html.replace("{{coleague_title}}", bundle.getString("colleague"));
+            html = html.replace("{{manager}}", a.getImmediateManagerIdemployee().getFullName());
+            html = html.replace("{{coleague_1}}", a.getColleague1Idemployee().getFullName());
+            html = html.replace("{{coleague_2}}", a.getColleague2Idemployee().getFullName());
+            html = html.replace("{{coleague_3}}", a.getColleague3Idemployee().getFullName());
+            html = html.replace("{{questionaire_title}}", bundle.getString("questionnaire_statements"));
+            html = html.replace("{{competence_name}}", bundle.getString("competence_name"));
+            html = html.replace("{{statement}}", bundle.getString("statement"));
+            String questions = "";
+            
+            for (EmployeeCompetenceAssessment eca: employeeCompetenceAssessmentFacade.findAllForAssessmentAndEmployee(a, a.getAssesseeIdemployee())) {
+                questions+="<tr><td>"+eca.getCompetenceIdcompetence().getCompetenceName()+"</td>";
+                questions+="<td>"+eca.getStatementIdstatement().getStatementText()+"</td></tr>";
+            }
+            html = html.replace("{{questionaire_contents}}", questions);
+            html = html.replace("{{selected_assessment_status}}",bundle.getString("selected_assessment_status"));
+            html = html.replace("{{running_total_average}}",bundle.getString("running_total_average"));
+            html = html.replace("{{selected_assessment_status_content}}",this.getAssessmentStatus(a));
+            html = html.replace("{{running_total_average_content}}",this.getTotalAverage());
+            
+            //html = html.replace("{{evaluation_job}}", bundle.getString("job_title") + ": " + this.job.getJobTitle());
+            Runtime rt = Runtime.getRuntime();
+            Process p;
+            try {
+                p = rt.exec(wkhtmltopdf_ex + " - -");
+                IOUtils.write(html, p.getOutputStream());
+                p.getOutputStream().close();
+
+                String fileName = a.getAssesseeIdemployee().getFullName() + " Assessment.pdf";
+                ec.responseReset();
+                ec.setResponseContentType("application/pdf");
+                ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+
+                OutputStream output = ec.getResponseOutputStream();
+                try {
+                    IOUtils.copy(p.getInputStream(), output);
+                } finally {
+                    p.getInputStream().close();
+                    context.responseComplete();
+                }
+
+            } catch (IOException e) {
+                context.addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                bundle.getString("error_creating_pdf") + " " + e.getMessage(), null));
+            }
+            return "updateAssessments";
+    }
+    
+    private double getAverage(List<EmployeeCompetenceAssessment> ecas) {
+        double total = 0.0;
+        double undefined = 0;
+        int count = 0;
+        for (EmployeeCompetenceAssessment eca : ecas) {
+            Integer mark = eca.getAssessment();
+            if (mark != null) {
+                if (mark >= 1 && mark <= 5) {
+                    total += mark;
+                    count++;
+                } else {
+                    undefined++;
+                }
+            } else {
+                undefined++;
+            }
+        }
+        if (undefined > 0) {
+            return 0.0;
+        } else {
+            return total / count;
+        }
+    }
+    
+    private String getStatus(List<EmployeeCompetenceAssessment> eEcas) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+        //fill map with competences
+        Map<Competence, List<EmployeeCompetenceAssessment>> map
+                = new HashMap<>();
+        if (eEcas == null) {
+            return " ";
+        }
+        for (EmployeeCompetenceAssessment eca : eEcas) {
+            Competence c = eca.getCompetenceIdcompetence();
+            List<EmployeeCompetenceAssessment> ecas;
+            if (map.containsKey(c)) {
+                ecas = map.get(c);
+
+            } else {
+                ecas = new ArrayList<>();
+            }
+            ecas.add(eca);
+            map.put(c, ecas);
+        }
+        Set<Competence> competences = map.keySet();
+        StringBuilder sbuf = new StringBuilder();
+        int count = 0;
+        double total = 0.0;
+        boolean notCompletedYet = false;
+        for (Competence c : competences) {
+            List<EmployeeCompetenceAssessment> ecas = map.get(c);
+            double average = this.getAverage(ecas);
+            total += average;
+            count++;
+            String competenceText = bundle.getString("competence");
+            String averageText = bundle.getString("average");
+            sbuf.append(competenceText);
+            sbuf.append(" ");
+            sbuf.append(c.getCompetenceName());
+            sbuf.append(" ");
+            sbuf.append(averageText);
+            sbuf.append(": ");
+            if (average == 0.0) {
+                String notCompletedYetText = bundle.getString("not_completed_yet");
+                sbuf.append(notCompletedYetText);
+                notCompletedYet = true;
+            } else {
+                sbuf.append(average);
+            }
+            sbuf.append("<br />");
+        }
+        String assessmentStatusText = bundle.getString("assessment_status");
+        sbuf.append(assessmentStatusText);
+        if (notCompletedYet) {
+            String notCompletedYetText = bundle.getString("not_completed_yet");
+            sbuf.append(notCompletedYetText);
+        } else {
+            String completedText = bundle.getString("completed");
+            sbuf.append(completedText);
+            sbuf.append("<br />");
+            String averageText = bundle.getString("average");
+            sbuf.append(averageText);
+            sbuf.append(": ");
+            double avg = total / count;
+            sbuf.append(avg);
+            sbuf.append("<br />");
+            totalScore += avg;
+            noOfCompetedAssessments++;
+        }
+        return sbuf.toString();
+    }
+    
+ 
+    public String getAssessmentStatus(Assessment selectedAssessment) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+        //set the runnint total to 0.0
+        totalScore = 0.0;
+        //set the number of competed assessments to 0
+        noOfCompetedAssessments = 0;
+        //get this employee's status first
+        String s1 = "<div class=\"lead\">";
+            Employee manager = selectedAssessment.getImmediateManagerIdemployee();
+              List<EmployeeCompetenceAssessment> manager_assessments
+                        = employeeCompetenceAssessmentFacade.findAllForAssessmentAndEmployee(
+                                selectedAssessment, manager);
+                s1 += "<strong>"+ manager.getFullName()+"</strong><br/>";
+                s1 += this.getStatus(manager_assessments);
+                //get the status also for the employee under assessment
+                List<EmployeeCompetenceAssessment> assessee_assessments
+                        = employeeCompetenceAssessmentFacade.findAllForAssessmentAndEmployee(
+                                selectedAssessment, selectedAssessment.getAssesseeIdemployee());
+                s1 += "<hr>";
+                s1 += "<strong>" + selectedAssessment.getAssesseeIdemployee().getFullName() + "</strong><br/>";
+                s1 += this.getStatus(assessee_assessments);
+                //get the status for 1st colleague
+                List<EmployeeCompetenceAssessment> col1_assessments
+                        = employeeCompetenceAssessmentFacade.findAllForAssessmentAndEmployee(
+                                selectedAssessment, selectedAssessment.getColleague1Idemployee());
+                s1 += "<hr>";
+                s1 += "<strong>" + selectedAssessment.getColleague1Idemployee().getFullName() +"</strong><br/>";
+                s1 += this.getStatus(col1_assessments);
+                //get the status for 2nd colleague
+                List<EmployeeCompetenceAssessment> col2_assessments
+                        = employeeCompetenceAssessmentFacade.findAllForAssessmentAndEmployee(
+                                selectedAssessment, selectedAssessment.getColleague2Idemployee());
+                s1 += "<hr>";
+                s1 += "<strong>" + selectedAssessment.getColleague2Idemployee().getFullName()+"</strong><br/>";
+                s1 += this.getStatus(col2_assessments);
+                //get the status for 1st colleague
+                List<EmployeeCompetenceAssessment> col3_assessments
+                        = employeeCompetenceAssessmentFacade.findAllForAssessmentAndEmployee(
+                                selectedAssessment, selectedAssessment.getColleague3Idemployee());
+                s1 += "<hr>";
+                s1 += "<strong>" + selectedAssessment.getColleague3Idemployee().getFullName()+"</strong><br/>";
+                s1 += this.getStatus(col3_assessments);
+        return s1+"</div>";
+    }
+ 
+     public String getTotalAverage() {
+
+        if (noOfCompetedAssessments == 0) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+            String message = bundle.getString("no_competed_assessments_yet");
+            return message;
+        }
+        return "" + (totalScore / noOfCompetedAssessments);
+    }
+    
 }
