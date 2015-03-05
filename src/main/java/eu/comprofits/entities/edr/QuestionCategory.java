@@ -26,49 +26,38 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author george
  */
 @Entity
-@Table(name = "question")
+@Table(name = "question_category")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Question.findAll", query = "SELECT q FROM Question q"),
-    @NamedQuery(name = "Question.findByIdquestion", query = "SELECT q FROM Question q WHERE q.idquestion = :idquestion"),
-    @NamedQuery(name = "Question.findByQuestion", query = "SELECT q FROM Question q WHERE q.question = :question")
+    @NamedQuery(name = "QuestionCategory.findAll", query = "SELECT q FROM Question q"),
+    @NamedQuery(name = "QuestionCategory.findByIdquestioncat", query = "SELECT q FROM Question q WHERE q.idquestion = :idquestion"),
+    @NamedQuery(name = "QuestionCategory.findByCategory", query = "SELECT q FROM Question q WHERE q.questionCategory = :questionCategory")
     })
 
-public class Question implements Serializable {
+public class QuestionCategory implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "idquestion")
-    private Integer idquestion;
-    @JoinColumn(name = "question_category_idquestioncat", referencedColumnName = "idquestioncat")
-    @ManyToOne(optional = false)
-    private QuestionCategory questionCategoryIdquestioncat;
+    @Column(name = "idquestioncat")
+    private Integer idquestioncat;
     @Column(name = "question")
     @Size(max = 2147483647)
     private String question;
 
-    public Question() {
+    public QuestionCategory() {
     }
 
-    public Question(Integer idquestion) {
-        this.idquestion = idquestion;
+    public QuestionCategory(Integer idquestioncat) {
+        this.idquestioncat = idquestioncat;
     }
 
-    public Integer getIdquestion() {
-        return idquestion;
+    public Integer getIdquestioncat() {
+        return idquestioncat;
     }
 
-    public void setIdquestion(Integer idquestion) {
-        this.idquestion = idquestion;
-    }
-
-    public QuestionCategory getQuestionCategoryIdquestioncat() {
-        return questionCategoryIdquestioncat;
-    }
-
-    public void setQuestionCategoryIdquestioncat(QuestionCategory questionCategoryIdquestioncat) {
-        this.questionCategoryIdquestioncat = questionCategoryIdquestioncat;
+    public void setIdquestioncat(Integer idquestioncat) {
+        this.idquestioncat = idquestioncat;
     }
 
     public String getQuestion() {
@@ -82,18 +71,18 @@ public class Question implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idquestion != null ? idquestion.hashCode() : 0);
+        hash += (idquestioncat != null ? idquestioncat.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Question)) {
+        if (!(object instanceof QuestionCategory)) {
             return false;
         }
-        Question other = (Question) object;
-        if ((this.idquestion == null && other.idquestion != null) || (this.idquestion != null && !this.idquestion.equals(other.idquestion))) {
+        QuestionCategory other = (QuestionCategory) object;
+        if ((this.idquestioncat == null && other.idquestioncat != null) || (this.idquestioncat != null && !this.idquestioncat.equals(other.idquestioncat))) {
             return false;
         }
         return true;
@@ -101,7 +90,7 @@ public class Question implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.mavenproject1.Question[ idquestion=" + idquestion + " ]";
+        return "com.mycompany.mavenproject1.QuestionCategory[ idquestioncat=" + idquestioncat + " ]";
     }
     
 }

@@ -22,6 +22,7 @@ import eu.comprofits.session.edr.EdrHistoryFacade;
 import eu.comprofits.session.edr.EdrNotesFacade;
 import eu.comprofits.session.edr.QuestionFacade;
 import eu.comprofits.session.edr.AnswerFacade;
+import eu.comprofits.session.edr.QuestionCategoryFacade;
 import eu.comprofits.session.employee.EmployeeFacade;
 import eu.comprofits.session.employee.InCompanyEmploymentFacade;
 import eu.comprofits.session.jobprofile.BusinessAreaFacade;
@@ -66,6 +67,8 @@ public class UpdateEdrCDIBean implements Serializable {
     @EJB
     private QuestionFacade questionFacade;
     @EJB
+    private QuestionCategoryFacade questionCategoryFacade;
+    @EJB
     private AnswerFacade answerFacade;
     @EJB
     private EdrHistoryFacade edrHistoryFacade;
@@ -94,9 +97,9 @@ public class UpdateEdrCDIBean implements Serializable {
     private java.sql.Date lastDate;
     private TreeNode competencesTree;
     private TreeNode competenceGoalTree;
-    private List<Question> questionsAvailable;
-    private List<Question> questionsSelected;
+    private TreeNode availableQuestionsTree;
     private List<Answer> answers;
+    private Employee currentUser;
 
     public TreeNode getCompetencesTree() {
         return competencesTree;
@@ -346,7 +349,7 @@ public class UpdateEdrCDIBean implements Serializable {
     public void init() {
 
         edrList = edrFacade.findAll();
-        
+        currentUser = employeeFacade.getEmployeeByUsername(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
     }
 
     public String createStep1() {
@@ -360,8 +363,8 @@ public class UpdateEdrCDIBean implements Serializable {
     
     public String createStep2() {
         
-        this.questionsAvailable = questionFacade.findAll();
-        this.questionsSelected = new ArrayList();
+        this.availableQuestionsTree = questionFacade.getQuestionsTree();
+        
         
         return "createEdr2";
     }

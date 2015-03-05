@@ -9,6 +9,17 @@ ALTER TABLE idanswer_seq
 GRANT ALL ON SEQUENCE idanswer_seq TO comprofits;
 GRANT ALL ON SEQUENCE idanswer_seq TO postgres;
 
+CREATE SEQUENCE idquestioncat_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 48
+  CACHE 1;
+ALTER TABLE idquestioncat_seq
+  OWNER TO comprofits;
+GRANT ALL ON SEQUENCE idquestioncat_seq TO comprofits;
+GRANT ALL ON SEQUENCE idquestioncat_seq TO postgres;
+
 ALTER TABLE "edrNotes"
    ADD COLUMN author_idemployee integer NOT NULL;
 
@@ -47,6 +58,24 @@ ALTER TABLE answer
   OWNER TO comprofits;
 GRANT ALL ON TABLE answer TO comprofits;
 
+CREATE TABLE question_category(
+  idquestioncat integer NOT NULL DEFAULT nextval('idquestioncat_seq'::regclass),
+  category text,
+  CONSTRAINT questioncat_pkey PRIMARY KEY (idquestioncat)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE question_category
+  OWNER TO comprofits;
+GRANT ALL ON TABLE question_category TO comprofits;
+
+ALTER TABLE question RENAME COLUMN question_category TO question_category_idquestioncat;
+ALTER TABLE question ALTER COLUMN question_category_idquestioncat SET NOT NULL;
+
+ALTER TABLE question add CONSTRAINT question_category_idquestioncat_fkey FOREIGN KEY (question_category_idquestioncat) REFERENCES question_category (idquestioncat) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION;
+
 CREATE INDEX answer_edr_idedr_idx
   ON answer
   USING btree
@@ -56,4 +85,9 @@ CREATE INDEX answer_question_idquestion_idx
   ON answer
   USING btree
   (question_idquestion);
+
+CREATE INDEX question_category_idquestioncat_idx
+  ON question
+  USING btree
+  (question_category_idquestioncat);
  

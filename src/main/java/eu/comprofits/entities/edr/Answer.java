@@ -112,7 +112,7 @@ public class Answer implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.mavenproject1.QuestionAnswer[ idquestion=" + idAnswer + " ]";
+        return "com.mycompany.mavenproject1.Answer[ idAnswer=" + idAnswer + " ]";
     }
     
 }
