@@ -8,6 +8,7 @@ package eu.comprofits.entities.edr;
 import eu.comprofits.entities.employee.Employee;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -65,11 +66,16 @@ public class Edr implements Serializable {
     @JoinColumn(name = "reviewed_employee_idemployee", referencedColumnName = "idemployee")
     @ManyToOne(optional = false)
     private Employee reviewedEmployeeIdemployee;
+    @JoinColumn(name = "head_of_department_idemployee", referencedColumnName = "idemployee")
+    @ManyToOne(optional = false)
+    private Employee headOfDepartmentIdemployee;
     @OneToMany(mappedBy = "previousEdrIdedr")
     private Collection<Edr> edrCollection;
     @JoinColumn(name = "previous_edr_idedr", referencedColumnName = "idedr")
     @ManyToOne
     private Edr previousEdrIdedr;
+    @Column(name = "last_changed")
+    private Date lastChanged;
 
     public Edr() {
     }
@@ -108,6 +114,14 @@ public class Edr implements Serializable {
 
     public void setVerdict(String verdict) {
         this.verdict = verdict;
+    }
+
+    public Employee getHeadOfDepartmentIdemployee() {
+        return headOfDepartmentIdemployee;
+    }
+
+    public void setHeadOfDepartmentIdemployee(Employee headOfDepartmentIdemployee) {
+        this.headOfDepartmentIdemployee = headOfDepartmentIdemployee;
     }
 
     @XmlTransient
@@ -151,6 +165,15 @@ public class Edr implements Serializable {
     public void setPreviousEdrIdedr(Edr previousEdrIdedr) {
         this.previousEdrIdedr = previousEdrIdedr;
     }
+
+    public Date getLastChanged() {
+        return lastChanged;
+    }
+
+    public void setLastChanged(Date lastChanged) {
+        this.lastChanged = lastChanged;
+    }
+    
 
     @Override
     public int hashCode() {

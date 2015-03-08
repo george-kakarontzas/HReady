@@ -12,6 +12,7 @@ import eu.comprofits.entities.edr.Edr;
 import eu.comprofits.entities.edr.EdrHistory;
 import eu.comprofits.entities.edr.EdrNotes;
 import eu.comprofits.entities.edr.Question;
+import eu.comprofits.entities.edr.QuestionCategory;
 import eu.comprofits.entities.employee.Employee;
 import eu.comprofits.entities.jobprofile.BusinessArea;
 import eu.comprofits.entities.jobprofile.CompetencesRequirement;
@@ -26,6 +27,7 @@ import eu.comprofits.session.edr.QuestionCategoryFacade;
 import eu.comprofits.session.employee.EmployeeFacade;
 import eu.comprofits.session.employee.InCompanyEmploymentFacade;
 import eu.comprofits.session.jobprofile.BusinessAreaFacade;
+import eu.comprofits.session.jobprofile.CompetencesRequirementFacade;
 import eu.comprofits.session.main.CompetenceFacade;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,17 +65,13 @@ public class UpdateEdrCDIBean implements Serializable {
     @EJB
     private EmployeeFacade employeeFacade;
     @EJB
-    private BusinessAreaFacade businessAreaFacade;
-    @EJB
     private QuestionFacade questionFacade;
     @EJB
     private QuestionCategoryFacade questionCategoryFacade;
     @EJB
     private AnswerFacade answerFacade;
     @EJB
-    private EdrHistoryFacade edrHistoryFacade;
-    @EJB
-    private EdrNotesFacade edrNotesFacade;
+    private CompetencesRequirementFacade competencesrequirementFacade;
     @EJB
     private CompetenceGoalFacade competenceGoalFacade;
     @EJB
@@ -81,289 +79,42 @@ public class UpdateEdrCDIBean implements Serializable {
     @EJB
     private InCompanyEmploymentFacade iceFacade;
 
-    private EdrNotes edrNotes;
-    private EdrHistory edrHistory;
-    private BusinessArea selectedBusinessArea;
     private Edr edrObject;
-    private Edr latestEdr;
-    private Job selectedJob;
-    private List<BusinessArea> businessAreaList;
+    private Question questionObject;
+    private QuestionCategory questionCategoryObject;
     private List<Edr> edrList;
-    private List<EdrNotes> edrNotesList;
     private List<Edr> filteredEdrList;
     private List<Employee> employeeList;
-    private List<CompetenceGoal> competenceGoalList;
-    private String stringHelper;
     private java.sql.Date lastDate;
     private TreeNode competencesTree;
     private TreeNode competenceGoalTree;
     private TreeNode availableQuestionsTree;
-    private List<Answer> answers;
+    private List questionCategories;
+    private List selectedQuestions;
+    private TreeNode answersTree;
     private Employee currentUser;
-
-    public TreeNode getCompetencesTree() {
-        return competencesTree;
-    }
-
-    public void setCompetencesTree(TreeNode competencesTree) {
-        this.competencesTree = competencesTree;
-    }
-
-    public TreeNode getCompetenceGoalTree() {
-        return competenceGoalTree;
-    }
-
-    public void setCompetenceGoalTree(TreeNode competenceGoalTree) {
-        this.competenceGoalTree = competenceGoalTree;
-    }
-
-    public EdrFacade getEdrFacade() {
-        return edrFacade;
-    }
-
-    public void setEdrFacade(EdrFacade edrFacade) {
-        this.edrFacade = edrFacade;
-    }
-
-    public EmployeeFacade getEmployeeFacade() {
-        return employeeFacade;
-    }
-
-    public void setEmployeeFacade(EmployeeFacade employeeFacade) {
-        this.employeeFacade = employeeFacade;
-    }
-
-    public BusinessAreaFacade getBusinessAreaFacade() {
-        return businessAreaFacade;
-    }
-
-    public void setBusinessAreaFacade(BusinessAreaFacade businessAreaFacade) {
-        this.businessAreaFacade = businessAreaFacade;
-    }
-
-    public QuestionFacade getQuestionFacade() {
-        return questionFacade;
-    }
-
-    public void setQuestionFacade(QuestionFacade questionFacade) {
-        this.questionFacade = questionFacade;
-    }
-
-    public AnswerFacade getAnswerFacade() {
-        return answerFacade;
-    }
-
-    public void setAnswerFacade(AnswerFacade answerFacade) {
-        this.answerFacade = answerFacade;
-    }
-
-    public EdrHistoryFacade getEdrHistoryFacade() {
-        return edrHistoryFacade;
-    }
-
-    public void setEdrHistoryFacade(EdrHistoryFacade edrHistoryFacade) {
-        this.edrHistoryFacade = edrHistoryFacade;
-    }
-
-    public EdrNotesFacade getEdrNotesFacade() {
-        return edrNotesFacade;
-    }
-
-    public void setEdrNotesFacade(EdrNotesFacade edrNotesFacade) {
-        this.edrNotesFacade = edrNotesFacade;
-    }
-
-    public CompetenceGoalFacade getCompetenceGoalFacade() {
-        return competenceGoalFacade;
-    }
-
-    public void setCompetenceGoalFacade(CompetenceGoalFacade competenceGoalFacade) {
-        this.competenceGoalFacade = competenceGoalFacade;
-    }
-
-    public CompetenceFacade getCompetenceFacade() {
-        return competenceFacade;
-    }
-
-    public void setCompetenceFacade(CompetenceFacade competenceFacade) {
-        this.competenceFacade = competenceFacade;
-    }
-
-    public InCompanyEmploymentFacade getIceFacade() {
-        return iceFacade;
-    }
-
-    public void setIceFacade(InCompanyEmploymentFacade iceFacade) {
-        this.iceFacade = iceFacade;
-    }
-
-    public List<EdrNotes> getEdrNotesList() {
-        return edrNotesList;
-    }
-
-    public void setEdrNotesList(List<EdrNotes> edrNotesList) {
-        this.edrNotesList = edrNotesList;
-    }
-
-    public List<CompetenceGoal> getCompetenceGoalList() {
-        return competenceGoalList;
-    }
-
-    public void setCompetenceGoalList(List<CompetenceGoal> competenceGoalList) {
-        this.competenceGoalList = competenceGoalList;
-    }
-
-    public Date getLastDate() {
-        return lastDate;
-    }
-
-    public void setLastDate(Date lastDate) {
-        this.lastDate = lastDate;
-    }
-
-    public List<Question> getQuestionsAvailable() {
-        return questionsAvailable;
-    }
-
-    public void setQuestionsAvailable(List<Question> questionsAvailable) {
-        this.questionsAvailable = questionsAvailable;
-    }
-
-    public List<Question> getQuestionsSelected() {
-        return questionsSelected;
-    }
-
-    public void setQuestionsSelected(List<Question> questionsSelected) {
-        this.questionsSelected = questionsSelected;
-    }
-
-    
-    public List<Answer> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
-    }
-    
-    public EdrNotes getEdrNotes() {
-        return edrNotes;
-    }
-
-    public void setEdrNotes(EdrNotes edrNotes) {
-        this.edrNotes = edrNotes;
-    }
-
-    public EdrHistory getEdrHistory() {
-        return edrHistory;
-    }
-
-    public void setEdrHistory(EdrHistory edrHistory) {
-        this.edrHistory = edrHistory;
-    }
-
-    public String getStringHelper() {
-        return stringHelper;
-    }
-
-    public void setStringHelper(String stringHelper) {
-        this.stringHelper = stringHelper;
-    }
-
-    public BusinessArea getSelectedBusinessArea() {
-        return selectedBusinessArea;
-    }
-
-    public void setSelectedBusinessArea(BusinessArea selectedBusinessArea) {
-        this.selectedBusinessArea = selectedBusinessArea;
-    }
-
-    public List<BusinessArea> getBusinessAreaList() {
-        return businessAreaList;
-    }
-
-    public void setBusinessAreaList(List<BusinessArea> businessAreaList) {
-        this.businessAreaList = businessAreaList;
-    }
-
-    public Job getSelectedJob() {
-        return selectedJob;
-    }
-
-    public void setSelectedJob(Job selectedJob) {
-        this.selectedJob = selectedJob;
-    }
-
-    public List<Edr> getFilteredEdrList() {
-        return filteredEdrList;
-    }
-
-    public void setFilteredEdrList(List<Edr> filteredEdrList) {
-        this.filteredEdrList = filteredEdrList;
-    }
-
-    public Edr getLatestEdr() {
-        return latestEdr;
-    }
-
-    public void setLatestEdr(Edr latestEdr) {
-        this.latestEdr = latestEdr;
-    }
-
-    public List<Employee> getEmployeeList() {
-        return employeeList;
-    }
-
-    public void setEmployeeList(List<Employee> employeeList) {
-        this.employeeList = employeeList;
-    }
-
-    public Edr getEdrObject() {
-        return edrObject;
-    }
-
-    public List<Edr> getEdrList() {
-        return edrList;
-    }
-
-    public void setEdrObject(Edr edrObject) {
-        this.edrObject = edrObject;
-    }
-
-    public void setEdrList(List<Edr> edrList) {
-        this.edrList = edrList;
-    }
-
-    public EdrHistory getEdrhistory() {
-        return edrHistory;
-    }
-
-    public void setEdrhistory(EdrHistory edrhistory) {
-        this.edrHistory = edrhistory;
-    }
-
+   
     public UpdateEdrCDIBean() {
     }
 
     @PostConstruct
     public void init() {
 
-        edrList = edrFacade.findAll();
-        currentUser = employeeFacade.getEmployeeByUsername(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
+        refreshEdrList();
     }
 
-    public String createStep1() {
+    public String createEdrStep1() {
         
         this.edrObject = new Edr();
-        this.employeeList = employeeFacade.findAll();
-        this.businessAreaList = businessAreaFacade.findAll();
+        this.employeeList = employeeFacade.getDepartmentEmployees(currentUser.getDepartmentIddepartment());
 
         return "createEdr1";
     }
     
-    public String createStep2() {
+    public String createEdrStep2() {
         
-        this.availableQuestionsTree = questionFacade.getQuestionsTree();
+        this.availableQuestionsTree = questionFacade.getQuestionTree();
+        this.selectedQuestions = new ArrayList();
         
         
         return "createEdr2";
@@ -371,15 +122,23 @@ public class UpdateEdrCDIBean implements Serializable {
     
     public String createQuestion() {
         
-        
+        this.questionCategories = questionCategoryFacade.getCategories();
+        this.questionObject = new Question();
         return "createQuestion";
     }
+    
+    public String createQuestionCategory() {
+        
+        this.questionCategories = questionCategoryFacade.getCategories();
+        this.questionCategoryObject = new QuestionCategory();
+        return "createQuestionCategory";
+    }
 
-    public String save() throws InterruptedException {
+    public String saveEdr() throws InterruptedException {
+        
         try {
             
-        
-        java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
+        this.edrObject.setLastChanged(new java.sql.Date(System.currentTimeMillis()));
 
         if (edrObject.getIdedr() == null) {
             edrFacade.create(edrObject);
@@ -869,7 +628,8 @@ public class UpdateEdrCDIBean implements Serializable {
     }
     
     public void refreshEdrList() {
-        edrList = edrFacade.findAll();
+        this.currentUser = employeeFacade.getEmployeeByUsername(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
+        this.edrList = edrFacade.getEdrsForEmployee(currentUser);
     }
     
     public String reviewEdr() {

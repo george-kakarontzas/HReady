@@ -8,8 +8,10 @@ package eu.comprofits.session.edr;
 
 import eu.comprofits.entities.edr.CompetenceGoal;
 import eu.comprofits.entities.edr.Edr;
+import eu.comprofits.entities.jobprofile.CompetencesRequirement;
 import eu.comprofits.entities.main.Competence;
 import eu.comprofits.session.AbstractFacade;
+import eu.comprofits.session.jobprofile.CompetencesRequirementFacade;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -27,6 +29,7 @@ import org.primefaces.model.TreeNode;
 public class CompetenceGoalFacade extends AbstractFacade<CompetenceGoal> {
     @PersistenceContext(unitName = "comprofitsPU")
     private EntityManager em;
+    private CompetencesRequirementFacade crFacade;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -71,29 +74,32 @@ public class CompetenceGoalFacade extends AbstractFacade<CompetenceGoal> {
     }
     
     public void getCompetenceGoalsTree(TreeNode childNode, TreeNode parentNode, Edr edr)
-    {       
-        if (this.getGoalForEdrAndCompetence(edr, (Competence)childNode.getData()) == null)
+    {     
+        if (this.crFacade.getRequirementForJobAndCompetence(edr.getReviewedEmployeeIdemployee().getCurrentInCompanyEmploymentId().getJobIdjob(), (Competence)childNode.getData()) != null)
         {
-            CompetenceGoal newCg = new CompetenceGoal();
-            newCg.setCompetenceIdcompetence((Competence)childNode.getData());
-            newCg.setEdrIdedr(edr);
-            newCg.setComments("");
-            newCg.setNextYearGoalValue(0);
-            TreeNode childTree = new DefaultTreeNode(newCg, parentNode);
+            if (this.getGoalForEdrAndCompetence(edr, (Competence)childNode.getData()) == null)
+            {
+                CompetenceGoal newCg = new CompetenceGoal();
+                newCg.setCompetenceIdcompetence((Competence)childNode.getData());
+                newCg.setEdrIdedr(edr);
+                newCg.setComments("");
+                newCg.setNextYearGoalValue(0);
+                TreeNode childTree = new DefaultTreeNode(newCg, parentNode);
             
-            for (TreeNode c: childNode.getChildren())
-            {
-                getCompetenceGoalsTree(c, childTree, edr);
+                for (TreeNode c: childNode.getChildren())
+                {
+                    getCompetenceGoalsTree(c, childTree, edr);
+                }
             }
+            else
+            {
+                TreeNode childTree = new DefaultTreeNode(getGoalForEdrAndCompetence(edr, (Competence)childNode.getData()), parentNode);
+                for (TreeNode c: childNode.getChildren())
+                {
+                    getCompetenceGoalsTree(c, childTree, edr);
+                }
+            } 
         }
-        else
-        {
-            TreeNode childTree = new DefaultTreeNode(getGoalForEdrAndCompetence(edr, (Competence)childNode.getData()), parentNode);
-            for (TreeNode c: childNode.getChildren())
-            {
-                getCompetenceGoalsTree(c, childTree, edr);
-            }
-        }    
     }
     
     public void updateCompetenceGoals (TreeNode competencesGoalsTree, Edr edr)

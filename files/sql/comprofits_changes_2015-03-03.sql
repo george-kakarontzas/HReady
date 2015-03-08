@@ -90,4 +90,11 @@ CREATE INDEX question_category_idquestioncat_idx
   ON question
   USING btree
   (question_category_idquestioncat);
+
+ALTER TABLE edr ADD COLUMN head_of_department_idemployee integer NOT NULL;
+ALTER TABLE edr ADD CONSTRAINT head_of_department_idemployee_fkey FOREIGN KEY (head_of_department_idemployee) REFERENCES employee (idemployee) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION;
+CREATE INDEX head_of_department_idemployee_idx
+  ON edr
+  USING btree
+  (head_of_department_idemployee);
  
