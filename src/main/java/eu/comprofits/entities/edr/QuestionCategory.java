@@ -28,11 +28,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "question_category")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "QuestionCategory.findAll", query = "SELECT q FROM Question q"),
-    @NamedQuery(name = "QuestionCategory.findByIdquestioncat", query = "SELECT q FROM Question q WHERE q.idquestion = :idquestion"),
-    @NamedQuery(name = "QuestionCategory.findByCategory", query = "SELECT q FROM Question q WHERE q.questionCategory = :questionCategory")
-    })
 
 public class QuestionCategory implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -41,9 +36,9 @@ public class QuestionCategory implements Serializable {
     @Basic(optional = false)
     @Column(name = "idquestioncat")
     private Integer idquestioncat;
-    @Column(name = "question")
+    @Column(name = "question_category")
     @Size(max = 2147483647)
-    private String question;
+    private String questionCategory;
 
     public QuestionCategory() {
     }
@@ -60,12 +55,12 @@ public class QuestionCategory implements Serializable {
         this.idquestioncat = idquestioncat;
     }
 
-    public String getQuestion() {
-        return question;
+    public String getQuestionCategory() {
+        return questionCategory;
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
+    public void setQuestionCategory(String questionCategory) {
+        this.questionCategory = questionCategory;
     }
 
     @Override

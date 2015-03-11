@@ -38,8 +38,7 @@ public class EdrFacade extends AbstractFacade<Edr> {
     
     public List<Edr> getEdrsForEmployee (Employee employee)
     {
-        Query q = em.createQuery("SELECT e FROM edr e;");
-        List<Edr> edrList = q.getResultList();
+        List<Edr> edrList = this.findAll();
         
         for (Edr edr : edrList)
         {
