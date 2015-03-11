@@ -6,6 +6,7 @@
 
 package eu.comprofits.session.edr;
 
+import eu.comprofits.entities.edr.Edr;
 import eu.comprofits.entities.edr.Question;
 import eu.comprofits.entities.edr.QuestionCategory;
 import eu.comprofits.session.AbstractFacade;
@@ -28,6 +29,8 @@ public class QuestionFacade extends AbstractFacade<Question> {
     private EntityManager em;
     @EJB
     private QuestionCategoryFacade questionCategoryFacade;
+    @EJB
+    private AnswerFacade answerFacade;
             
     @Override
     protected EntityManager getEntityManager() {
@@ -40,24 +43,19 @@ public class QuestionFacade extends AbstractFacade<Question> {
     
     public List<Question> getQuestionsForCategory (QuestionCategory category)
     {
-        Query q = em.createQuery("SELECT c FROM Question q WHERE q.questionCategoryIdquestioncat=:category");
+        Query q = em.createQuery("SELECT q FROM Question q WHERE q.questionCategoryIdquestioncat=:category");
         q.setParameter("category",category);
         List<Question> questions = q.getResultList();
         
         return questions;
-    }
+    }   
     
-    public TreeNode getQuestionTree ()
+    public boolean isUsedInEdr (Question question, Edr edr)
     {
-        TreeNode questionTree = new DefaultTreeNode("Root",null);
-        for (QuestionCategory category : questionCategoryFacade.getCategories())
+        if (answerFacade.getAnswerForQuestionAndEdr(question, edr) != null)
         {
-            TreeNode categoryNode = new DefaultTreeNode(category, questionTree);
-            for (Question question : this.getQuestionsForCategory(category))
-            {
-                TreeNode questionNode = new DefaultTreeNode(question, categoryNode);
-            }
+            return true;
         }
-        return questionTree;
+        else return false;
     }
 }

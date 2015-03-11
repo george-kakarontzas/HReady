@@ -23,6 +23,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -58,8 +60,6 @@ public class Edr implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "verdict")
     private String verdict;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "edrIdedr")
-    private Collection<Question> questionAnswerCollection;
     @JoinColumn(name = "immediate_manager_idemployee", referencedColumnName = "idemployee")
     @ManyToOne(optional = false)
     private Employee immediateManagerIdemployee;
@@ -75,6 +75,7 @@ public class Edr implements Serializable {
     @ManyToOne
     private Edr previousEdrIdedr;
     @Column(name = "last_changed")
+    @Temporal(TemporalType.DATE)
     private Date lastChanged;
 
     public Edr() {
@@ -122,15 +123,6 @@ public class Edr implements Serializable {
 
     public void setHeadOfDepartmentIdemployee(Employee headOfDepartmentIdemployee) {
         this.headOfDepartmentIdemployee = headOfDepartmentIdemployee;
-    }
-
-    @XmlTransient
-    public Collection<Question> getQuestionAnswerCollection() {
-        return questionAnswerCollection;
-    }
-
-    public void setQuestionAnswerCollection(Collection<Question> questionAnswerCollection) {
-        this.questionAnswerCollection = questionAnswerCollection;
     }
 
     public Employee getImmediateManagerIdemployee() {

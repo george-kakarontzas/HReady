@@ -88,12 +88,196 @@ public class UpdateEdrCDIBean implements Serializable {
     private java.sql.Date lastDate;
     private TreeNode competencesTree;
     private TreeNode competenceGoalTree;
-    private TreeNode availableQuestionsTree;
-    private List questionCategories;
-    private List selectedQuestions;
-    private TreeNode answersTree;
+    private List<QuestionCategory> questionCategories;
+    private List<List<Question>> questions;
+    private List<List<Answer>> answers;
+    private List<Question> selectedQuestions;
     private Employee currentUser;
-   
+
+    public EdrFacade getEdrFacade() {
+        return edrFacade;
+    }
+
+    public void setEdrFacade(EdrFacade edrFacade) {
+        this.edrFacade = edrFacade;
+    }
+
+    public EmployeeFacade getEmployeeFacade() {
+        return employeeFacade;
+    }
+
+    public void setEmployeeFacade(EmployeeFacade employeeFacade) {
+        this.employeeFacade = employeeFacade;
+    }
+
+    public QuestionFacade getQuestionFacade() {
+        return questionFacade;
+    }
+
+    public void setQuestionFacade(QuestionFacade questionFacade) {
+        this.questionFacade = questionFacade;
+    }
+
+    public QuestionCategoryFacade getQuestionCategoryFacade() {
+        return questionCategoryFacade;
+    }
+
+    public void setQuestionCategoryFacade(QuestionCategoryFacade questionCategoryFacade) {
+        this.questionCategoryFacade = questionCategoryFacade;
+    }
+
+    public AnswerFacade getAnswerFacade() {
+        return answerFacade;
+    }
+
+    public void setAnswerFacade(AnswerFacade answerFacade) {
+        this.answerFacade = answerFacade;
+    }
+
+    public CompetencesRequirementFacade getCompetencesrequirementFacade() {
+        return competencesrequirementFacade;
+    }
+
+    public void setCompetencesrequirementFacade(CompetencesRequirementFacade competencesrequirementFacade) {
+        this.competencesrequirementFacade = competencesrequirementFacade;
+    }
+
+    public CompetenceGoalFacade getCompetenceGoalFacade() {
+        return competenceGoalFacade;
+    }
+
+    public void setCompetenceGoalFacade(CompetenceGoalFacade competenceGoalFacade) {
+        this.competenceGoalFacade = competenceGoalFacade;
+    }
+
+    public CompetenceFacade getCompetenceFacade() {
+        return competenceFacade;
+    }
+
+    public void setCompetenceFacade(CompetenceFacade competenceFacade) {
+        this.competenceFacade = competenceFacade;
+    }
+
+    public InCompanyEmploymentFacade getIceFacade() {
+        return iceFacade;
+    }
+
+    public void setIceFacade(InCompanyEmploymentFacade iceFacade) {
+        this.iceFacade = iceFacade;
+    }
+
+    public Edr getEdrObject() {
+        return edrObject;
+    }
+
+    public void setEdrObject(Edr edrObject) {
+        this.edrObject = edrObject;
+    }
+
+    public Question getQuestionObject() {
+        return questionObject;
+    }
+
+    public void setQuestionObject(Question questionObject) {
+        this.questionObject = questionObject;
+    }
+
+    public QuestionCategory getQuestionCategoryObject() {
+        return questionCategoryObject;
+    }
+
+    public void setQuestionCategoryObject(QuestionCategory questionCategoryObject) {
+        this.questionCategoryObject = questionCategoryObject;
+    }
+
+    public List<Edr> getEdrList() {
+        return edrList;
+    }
+
+    public void setEdrList(List<Edr> edrList) {
+        this.edrList = edrList;
+    }
+
+    public List<Edr> getFilteredEdrList() {
+        return filteredEdrList;
+    }
+
+    public void setFilteredEdrList(List<Edr> filteredEdrList) {
+        this.filteredEdrList = filteredEdrList;
+    }
+
+    public List<Employee> getEmployeeList() {
+        return employeeList;
+    }
+
+    public void setEmployeeList(List<Employee> employeeList) {
+        this.employeeList = employeeList;
+    }
+
+    public Date getLastDate() {
+        return lastDate;
+    }
+
+    public void setLastDate(Date lastDate) {
+        this.lastDate = lastDate;
+    }
+
+    public TreeNode getCompetencesTree() {
+        return competencesTree;
+    }
+
+    public void setCompetencesTree(TreeNode competencesTree) {
+        this.competencesTree = competencesTree;
+    }
+
+    public TreeNode getCompetenceGoalTree() {
+        return competenceGoalTree;
+    }
+
+    public void setCompetenceGoalTree(TreeNode competenceGoalTree) {
+        this.competenceGoalTree = competenceGoalTree;
+    }
+
+    public List<QuestionCategory> getQuestionCategories() {
+        return questionCategories;
+    }
+
+    public void setQuestionCategories(List<QuestionCategory> questionCategories) {
+        this.questionCategories = questionCategories;
+    }
+
+    public List<List<Question>> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<List<Question>> questions) {
+        this.questions = questions;
+    }
+
+    public List<List<Answer>> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<List<Answer>> answers) {
+        this.answers = answers;
+    }
+
+    public List<Question> getSelectedQuestions() {
+        return selectedQuestions;
+    }
+
+    public void setSelectedQuestions(List<Question> selectedQuestions) {
+        this.selectedQuestions = selectedQuestions;
+    }
+
+    public Employee getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(Employee currentUser) {
+        this.currentUser = currentUser;
+    }
+    
     public UpdateEdrCDIBean() {
     }
 
@@ -103,37 +287,26 @@ public class UpdateEdrCDIBean implements Serializable {
         refreshEdrList();
     }
 
-    public String createEdrStep1() {
+    public String createEdr() {
         
         this.edrObject = new Edr();
         this.employeeList = employeeFacade.getDepartmentEmployees(currentUser.getDepartmentIddepartment());
-
-        return "createEdr1";
+        return "createEdr";
     }
     
-    public String createEdrStep2() {
-        
-        this.availableQuestionsTree = questionFacade.getQuestionTree();
-        this.selectedQuestions = new ArrayList();
-        
-        
-        return "createEdr2";
+    public String editEdr(Edr edr)
+    {
+        this.edrObject = edr;
+        this.employeeList = employeeFacade.getDepartmentEmployees(currentUser.getDepartmentIddepartment());
+        return "editEdr";
     }
     
-    public String createQuestion() {
+    public String chooseQuestions() {
         
-        this.questionCategories = questionCategoryFacade.getCategories();
-        this.questionObject = new Question();
-        return "createQuestion";
+        refreshQuestionList();  
+        return "chooseQuestions";
     }
     
-    public String createQuestionCategory() {
-        
-        this.questionCategories = questionCategoryFacade.getCategories();
-        this.questionCategoryObject = new QuestionCategory();
-        return "createQuestionCategory";
-    }
-
     public String saveEdr() throws InterruptedException {
         
         try {
@@ -144,168 +317,35 @@ public class UpdateEdrCDIBean implements Serializable {
             edrFacade.create(edrObject);
             this.competenceGoalFacade.updateCompetenceGoals(competenceGoalTree, edrObject);
             
-            questionAnswer1.setEdrIdedr(edrObject);
-            questionAnswer1.setQuestionCategory(1);
-            questionAnswer1.setQuestion("Have goals and other agreements from the latest EDR been reached and carried through?");
-               
-            questionAnswer2.setEdrIdedr(edrObject);
-            questionAnswer2.setQuestionCategory(2);
-            questionAnswer2.setQuestion("Are both parties content with the period's effort and results?");
-
-            questionAnswer3.setEdrIdedr(edrObject);
-            questionAnswer3.setQuestionCategory(3);
-            questionAnswer3.setQuestion("Was the feedback that was given during the latest EDR usable for both parties?");
-
-            questionAnswer4.setEdrIdedr(edrObject);
-            questionAnswer4.setQuestionCategory(4);
-            questionAnswer4.setQuestion("Any remarks?");
-
-            questionAnswer5.setEdrIdedr(edrObject);
-            questionAnswer5.setQuestionCategory(5);
-            questionAnswer5.setQuestion("Does the job description match your expectations? Which tasks do you like most in your job?");
-
-            questionAnswer6.setEdrIdedr(edrObject);
-            questionAnswer6.setQuestionCategory(6);
-            questionAnswer6.setQuestion("How do you find that the tasks have been carried through? Have you had any influence on the planning/organisation of your work? Deadlines, rate of work etc.?");
-
-            questionAnswer7.setEdrIdedr(edrObject);
-            questionAnswer7.setQuestionCategory(7);
-            questionAnswer7.setQuestion("Do you get sufficient professional challenges to make optional use of your string sides? Do your tasks correspond to your competences?");
-
-            questionAnswer8.setEdrIdedr(edrObject);
-            questionAnswer8.setQuestionCategory(8);
-            questionAnswer8.setQuestion("Have you had the possibility of using your competences in the following fields? Solving tasks - Professional fields - Do your tasks correspond to your competences? Do you have any suggestions for changes in your tasks?");
-
-            questionAnswer9.setEdrIdedr(edrObject);
-            questionAnswer9.setQuestionCategory(9);
-            questionAnswer9.setQuestion("How is the collaboration with your immediate manager in these fields? Information / communication? Feedback? Support / supervision? Do you find that there is a professional and personal comfort betwenn you and your manager?");
-
-            questionAnswer10.setEdrIdedr(edrObject);
-            questionAnswer10.setQuestionCategory(10);
-            questionAnswer10.setQuestion("How is the collaboration between you and the employee in the department? Open/closed/uncomfortable? How do you consider the tone and the working climate? In the department? In Tecnalia?");
-
-            questionAnswer11.setEdrIdedr(edrObject);
-            questionAnswer11.setQuestionCategory(11);
-            questionAnswer11.setQuestion("Have you got any special needs for flexibility and comfort-creating initiatives in the planning of your job? Are there things in your private situation that should be considered in relation to your job?");
-
-            questionAnswer12.setEdrIdedr(edrObject);
-            questionAnswer12.setQuestionCategory(12);
-            questionAnswer12.setQuestion("How do you in general evaluate the consideration for your private affairs? Do you have any suggestions for changing your working conditions?");
-
-            questionAnswer13.setEdrIdedr(edrObject);
-            questionAnswer13.setQuestionCategory(13);
-            questionAnswer13.setQuestion("General discussion about your view on the department's tasks and the execution of these? Prioritisation of tasks? Allocation of resources?");
-
-            questionAnswer14.setEdrIdedr(edrObject);
-            questionAnswer14.setQuestionCategory(14);
-            questionAnswer14.setQuestion("Have you got any suggestions for changes in the department's goals and methods for the achievement of goals?");
-
-            questionAnswer15.setEdrIdedr(edrObject);
-            questionAnswer15.setQuestionCategory(15);
-            questionAnswer15.setQuestion("Discussion about and setting up your tasks/goals and your role in the solution of tasks.");
-
-            questionAnswer16.setEdrIdedr(edrObject);
-            questionAnswer16.setQuestionCategory(16);
-            questionAnswer16.setQuestion("Other matters");
-
-            questionAnswer17.setEdrIdedr(edrObject);
-            questionAnswer17.setQuestionCategory(17);
-            questionAnswer17.setQuestion("General discussion about your need for competences, which are necessary for maintaining/improving your professional level?");
-
-            questionAnswer18.setEdrIdedr(edrObject);
-            questionAnswer18.setQuestionCategory(18);
-            questionAnswer18.setQuestion("Do you find that you have the necessary competences for solving the agreed tasks in the period towards the next EDR?");
-
-            questionAnswer19.setEdrIdedr(edrObject);
-            questionAnswer19.setQuestionCategory(19);
-            questionAnswer19.setQuestion("Do you have special whishes/needs for: Other tasks, On the job training, Peertopeer training, Job rotation, Further education/training, Other things");
-
-            questionAnswer20.setEdrIdedr(edrObject);
-            questionAnswer20.setQuestionCategory(20);
-            questionAnswer20.setQuestion("Which plans do you have for your future working life? Career development? Change of career?");
-
-            questionAnswer21.setEdrIdedr(edrObject);
-            questionAnswer21.setQuestionCategory(21);
-            questionAnswer21.setQuestion("Are you satisfied with the procedure of this EDR?");
-
-            questionAnswer22.setEdrIdedr(edrObject);
-            questionAnswer22.setQuestionCategory(22);
-            questionAnswer22.setQuestion("Are there things that should be different? Content, the length of the EDR, the atmosphere, Did you get an influence on the agreements? did you say what you intended to say?");
-
-            questionAnswer23.setEdrIdedr(edrObject);
-            questionAnswer23.setQuestionCategory(23);
-            questionAnswer23.setQuestion("Did you prepare well enough for this EDR?");
-
-            questionAnswer24.setEdrIdedr(edrObject);
-            questionAnswer24.setQuestionCategory(24);
-            questionAnswer24.setQuestion("Other things to be followed up/remembered for the next EDR?");
-                
-            //edrNotes.setDate(date);
-            //edrNotes.setEdrIdedr(edrObject);
-            
-            questionAnswerFacade.create(questionAnswer1);
-            questionAnswerFacade.create(questionAnswer2);
-            questionAnswerFacade.create(questionAnswer3);
-            questionAnswerFacade.create(questionAnswer4);
-            questionAnswerFacade.create(questionAnswer5);
-            questionAnswerFacade.create(questionAnswer6);
-            questionAnswerFacade.create(questionAnswer7);
-            questionAnswerFacade.create(questionAnswer8);
-            questionAnswerFacade.create(questionAnswer9);
-            questionAnswerFacade.create(questionAnswer10);
-            questionAnswerFacade.create(questionAnswer11);
-            questionAnswerFacade.create(questionAnswer12);
-            questionAnswerFacade.create(questionAnswer13);
-            questionAnswerFacade.create(questionAnswer14);
-            questionAnswerFacade.create(questionAnswer15);
-            questionAnswerFacade.create(questionAnswer16);
-            questionAnswerFacade.create(questionAnswer17);
-            questionAnswerFacade.create(questionAnswer18);
-            questionAnswerFacade.create(questionAnswer19);
-            questionAnswerFacade.create(questionAnswer20);
-            questionAnswerFacade.create(questionAnswer21);
-            questionAnswerFacade.create(questionAnswer22);
-            questionAnswerFacade.create(questionAnswer23);
-            questionAnswerFacade.create(questionAnswer24);            
-            //edrNotesFacade.create(edrNotes);
+            for (Question q : this.selectedQuestions)
+            {
+                Answer answer = new Answer();
+                answer.setQuestionIdquestion(q);
+                answer.setEdrIdedr(edrObject);
+                answer.setAnswer("");
+                answerFacade.create(answer);
+            }
             
         } else {
 
             edrFacade.edit(edrObject);
             this.competenceGoalFacade.updateCompetenceGoals(competenceGoalTree, edrObject);
+            for (Answer a : this.answerFacade.getAnswersForEdr(edrObject))
+            {
+                answerFacade.remove(a);
+            }
             
-            questionAnswerFacade.edit(questionAnswer1);
-            questionAnswerFacade.edit(questionAnswer2);
-            questionAnswerFacade.edit(questionAnswer3);
-            questionAnswerFacade.edit(questionAnswer4);
-            questionAnswerFacade.edit(questionAnswer5);
-            questionAnswerFacade.edit(questionAnswer6);
-            questionAnswerFacade.edit(questionAnswer7);
-            questionAnswerFacade.edit(questionAnswer8);
-            questionAnswerFacade.edit(questionAnswer9);
-            questionAnswerFacade.edit(questionAnswer10);
-            questionAnswerFacade.edit(questionAnswer11);
-            questionAnswerFacade.edit(questionAnswer12);
-            questionAnswerFacade.edit(questionAnswer13);
-            questionAnswerFacade.edit(questionAnswer14);
-            questionAnswerFacade.edit(questionAnswer15);
-            questionAnswerFacade.edit(questionAnswer16);
-            questionAnswerFacade.edit(questionAnswer17);
-            questionAnswerFacade.edit(questionAnswer18);
-            questionAnswerFacade.edit(questionAnswer19);
-            questionAnswerFacade.edit(questionAnswer20);
-            questionAnswerFacade.edit(questionAnswer21);
-            questionAnswerFacade.edit(questionAnswer22);
-            questionAnswerFacade.edit(questionAnswer23);
-            questionAnswerFacade.edit(questionAnswer24);
-            
-            //if (!date.equals(lastDate)){
-            //    edrNotes.setDate(date);
-            //} else {
-            //    edrNotes.setDate(lastDate);
-            //}
-            
-            //edrNotesFacade.edit(edrNotes);
+            for (Question q : this.selectedQuestions)
+            {
+                if (!questionFacade.isUsedInEdr(q, edrObject))
+                {
+                    Answer answer = new Answer();
+                    answer.setQuestionIdquestion(q);
+                    answer.setEdrIdedr(edrObject);
+                    answer.setAnswer("");
+                    answerFacade.create(answer);
+                }
+            }
         }
         FacesContext context = FacesContext.getCurrentInstance();
         ResourceBundle text = ResourceBundle.getBundle("messages", context.getViewRoot().getLocale());
@@ -315,7 +355,7 @@ public class UpdateEdrCDIBean implements Serializable {
                 null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, message, message));
 
-        edrList = edrFacade.findAll();
+        
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -324,281 +364,92 @@ public class UpdateEdrCDIBean implements Serializable {
 
         return "updateEdr";
     }
-
-    public String edit(Edr edr) {
+    
+    public String createQuestion() {
         
-        this.edrObject = edr;
-        int questionCategory = 0;
-        this.qAList = questionAnswerFacade.findAll();
-        this.competenceGoalList = competenceGoalFacade.findAll();
-        //this.edrNotesList = edrNotesFacade.findAll();
-
-        // Load Question Objects
-        
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 1) {
-                this.questionAnswer1 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 2) {
-                this.questionAnswer2 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 3) {
-                this.questionAnswer3 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 4) {
-                this.questionAnswer4 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 5) {
-                this.questionAnswer5 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 6) {
-                this.questionAnswer6 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 7) {
-                this.questionAnswer7 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 8) {
-                this.questionAnswer8 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 9) {
-                this.questionAnswer9 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 10) {
-                this.questionAnswer10 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 11) {
-                this.questionAnswer11 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 12) {
-                this.questionAnswer12 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 13) {
-                this.questionAnswer13 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 14) {
-                this.questionAnswer14 = entry;
-                break;
-            }
-           
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 15) {
-                this.questionAnswer15 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 16) {
-                this.questionAnswer16 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 17) {
-                this.questionAnswer17 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 18) {
-                this.questionAnswer18 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 19) {
-                this.questionAnswer19 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 20) {
-                this.questionAnswer20 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 21) {
-                this.questionAnswer21 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 22) {
-                this.questionAnswer22 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 23) {
-                this.questionAnswer23 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 24) {
-                this.questionAnswer24 = entry;
-                break;
-            }
-        }
-        
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 1) {
-                this.questionAnswer1 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 2) {
-                this.questionAnswer2 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 3) {
-                this.questionAnswer3 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 4) {
-                this.questionAnswer4 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 5) {
-                this.questionAnswer5 = entry;
-                break;
-            }
-        }
-        for (Question entry : qAList) {
-            questionCategory = entry.getQuestionCategory();
-            if (entry.getEdrIdedr().equals(edr) && questionCategory == 6) {
-                this.questionAnswer6 = entry;
-                break;
-            }
-        }
-        
-        //load CompetenceGoals Objects
-        
-        this.competencesTree = competenceFacade.getCompetencesTree();
-        this.competenceGoalTree = competenceGoalFacade.getCompetenceGoalsTree(competencesTree, this.edrObject);
-        
-        // load EdrNotes Objects
-        
-        //for (EdrNotes note : edrNotesList) {
-        //    if (note.getEdrIdedr().equals(edr)) {
-        //        this.edrNotes = note;
-        //        lastDate = edrNotes.getDate();
-        //        break;
-        //    } 
-        //}
-        
-        return "createEdr";
+        this.questionCategories = questionCategoryFacade.getCategories();
+        this.questionObject = new Question();
+        return "createQuestion";
     }
-
-    /*public void remove(Edr edr) {
+    
+    public String editQuestion(Question question) {
+        
+        this.questionCategories = questionCategoryFacade.getCategories();
+        this.questionObject = question;
+        return "editQuestion";
+    }
+    
+    public String saveQuestion() throws InterruptedException {
         
         try {
 
-            qAList = questionAnswerFacade.findAll();
-            competenceGoalList = competenceGoalFacade.findAll();
-            edrNotesList = edrNotesFacade.findAll();
-            
-            for (Question q : qAList) {
-                if (q.getEdrIdedr().equals(edr)) {
-                    questionAnswerFacade.remove(q);
-                }
-            }
-            for (CompetenceGoal c : competenceGoalList) {
-                if (c.getEdrIdedr().equals(edr)) {
-                    competenceGoalFacade.remove(c);
-                }
-            }
-            for (EdrNotes e : edrNotesList) {
-                if (e.getEdrIdedr().equals(edr)) {
-                    edrNotesFacade.remove(e);
-                }
-            }
-            
+        if (questionObject.getIdquestion() == null) {
+            questionFacade.create(questionObject);
+  
+        } 
+        else
+        {
+            questionFacade.edit(questionObject); 
+        }
+        FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle text = ResourceBundle.getBundle("messages", context.getViewRoot().getLocale());
+        String message = text.getString("succesful_save_message");
+
+        context.addMessage(
+                null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, message, message));
+
+        
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             e.getMessage(), null));
         }
+
+        return "chooseQuestions";
+    }
+    
+    public String createQuestionCategory() {
+       
+        this.questionCategoryObject = new QuestionCategory();
+        return "createQuestionCategory";
+    }
+    
+    public String editQuestionCategory(QuestionCategory category) {
+
+        this.questionCategoryObject = category;
+        return "createQuestionCategory";
+    }
+    
+    public String saveQuestionCategory() throws InterruptedException {
         
-        edrFacade.remove(edr);
-        edrList = edrFacade.findAll();
-    }*/
+        try {
+
+        if (questionCategoryObject.getIdquestioncat() == null) {
+            questionCategoryFacade.create(questionCategoryObject);
+  
+        } 
+        else
+        {
+            questionCategoryFacade.edit(questionCategoryObject); 
+        }
+        FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle text = ResourceBundle.getBundle("messages", context.getViewRoot().getLocale());
+        String message = text.getString("succesful_save_message");
+
+        context.addMessage(
+                null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, message, message));
+
+        
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            e.getMessage(), null));
+        }
+
+        return "chooseQuestions";
+    }
     
     public String remove(Edr e) {
 
@@ -630,6 +481,18 @@ public class UpdateEdrCDIBean implements Serializable {
     public void refreshEdrList() {
         this.currentUser = employeeFacade.getEmployeeByUsername(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
         this.edrList = edrFacade.getEdrsForEmployee(currentUser);
+    }
+    
+    public void refreshQuestionList()
+    {
+        this.questionCategories = questionCategoryFacade.getCategories();
+        this.questions = new ArrayList();
+        for (QuestionCategory c : questionCategories)
+        {
+            List<Question> tempList = questionFacade.getQuestionsForCategory(c);
+            this.questions.add(tempList);
+        }
+        this.selectedQuestions = new ArrayList();
     }
     
     public String reviewEdr() {
@@ -699,7 +562,7 @@ public class UpdateEdrCDIBean implements Serializable {
             competenceGoals = competenceGoals + "</tbody></table>";
             
             html = html.replace("{{edr_competencegoals_content}}",competenceGoals);
-            html = html.replace ("{{edr_questionnaire_title}}",bundle.getString("questionnaire_statements"));
+            /*html = html.replace ("{{edr_questionnaire_title}}",bundle.getString("questionnaire_statements"));
             String questions_answers = "<ol>";
             
             for (Question qa : qAList)
@@ -709,7 +572,7 @@ public class UpdateEdrCDIBean implements Serializable {
             questions_answers = questions_answers + "</ul>";
             
             html = html.replace("{{edr_questionnaire_content}}",questions_answers);
-            
+            */
             Runtime rt = Runtime.getRuntime();
             Process p;
             try {
