@@ -6,6 +6,8 @@
 package eu.comprofits.cdibeans.edr;
 
 import eu.comprofits.entities.edr.Question;
+import eu.comprofits.entities.edr.QuestionCategory;
+import eu.comprofits.session.edr.QuestionCategoryFacade;
 import eu.comprofits.session.edr.QuestionFacade;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -18,17 +20,17 @@ import javax.inject.Named;
  *
  * @author alexanderhoelzemann
  */
-@Named(value = "questionConverter")
+@Named(value = "questionCategoryConverter")
 @RequestScoped
-public class QuestionConverter implements Converter {
+public class QuestionCategoryConverter implements Converter {
 
     @EJB
-    private QuestionFacade questionFacade;
+    private QuestionCategoryFacade questionCategoryFacade;
 
     /**
      * Creates a new instance of CompetenceConverter
      */
-    public QuestionConverter() {
+    public QuestionCategoryConverter() {
     }
 
     @Override
@@ -36,15 +38,15 @@ public class QuestionConverter implements Converter {
         if (value == null || value.isEmpty() || value.equals("---")) {
             return null;
         }
-        return questionFacade.find(Integer.valueOf(value));
+        return questionCategoryFacade.find(Integer.valueOf(value));
     }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-        if (!(value instanceof Question)) {
+        if (!(value instanceof QuestionCategory)) {
             return null;
         }
-        return ((Question) value).getIdquestion().toString();
+        return ((QuestionCategory) value).getIdquestioncat().toString();
     }
 
 }

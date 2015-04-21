@@ -34,17 +34,38 @@
                                          action="#{updateEdrCDIBean.createQuestionCategory()}"
                                          ajax="false"
                                          />
-
-                        <c:forEach var="citem" items="#{updateEdrCDIBean.questionCategories}">
-                            <h:commandLink action="#{updateEdrCDIBean.editQuestionCategory(citem)}" value="#{citem.questionCategory}" />
-                            <p:dataTable var="qitem" value="#{updateEdrCDIBean.questions.get(updateEdrCDIBean.questionCategories.indexOf(citem))}">
+                        <p:dataTable value="#{updateEdrCDIBean.questionCategories}" var="category">
+                            
+                            <p:subTable var="qitem" value="#{updateEdrCDIBean.questions.get(updateEdrCDIBean.questionCategories.indexOf(category))}">
+                                <f:facet name="header"> 
+                                    <h:outputText style="font-weight:bold;" value="#{category.questionCategory}" />
+                                </f:facet>
                                 <p:column>
-                                    <h:commandLink value="#{qitem.question}" action="#{updateEdrCDIBean.editQuestion(qitem)}" />
+                                    <h:selectBooleanCheckbox value="#{qitem.checked}"/>
                                 </p:column>
-                            </p:dataTable>
+                                <p:column>
+                                    <h:outputText value="#{qitem.question}"/>
+                                </p:column>
+                            </p:subTable>
                         
+                        </p:dataTable>
+                  
                         
-                        </c:forEach>
+                        <p:panelGrid columns="4" >
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.back}"
+                                                 action="updateEdr?faces-redirect=true" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                 <h:commandButton value="#{msgs.save}" 
+                                                  action="#{updateEdrCDIBean.saveEdr()}" />
+                             </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.help}" 
+                                                 action="#{updateEdrCDIBean.help()}" />
+                            </h:panelGroup>
+                        </p:panelGrid>
                     </h:form>
                 </f:view>
 
