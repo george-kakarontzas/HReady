@@ -317,14 +317,15 @@ public class UpdateEdrCDIBean implements Serializable {
             edrFacade.create(edrObject);
             this.competenceGoalFacade.updateCompetenceGoals(competenceGoalTree, edrObject);
             
-            for (Question q : this.selectedQuestions)
-            {
-                Answer answer = new Answer();
-                answer.setQuestionIdquestion(q);
-                answer.setEdrIdedr(edrObject);
-                answer.setAnswer("");
-                answerFacade.create(answer);
-            }
+                for (Question q : this.selectedQuestions)
+                {
+                    Answer answer = new Answer();
+                    answer.setQuestionIdquestion(q);
+                    answer.setEdrIdedr(edrObject);
+                    answer.setAnswer("");
+                    answerFacade.create(answer);
+                }
+            
             
         } else {
 
@@ -335,17 +336,18 @@ public class UpdateEdrCDIBean implements Serializable {
                 answerFacade.remove(a);
             }
             
-            for (Question q : this.selectedQuestions)
-            {
-                if (!questionFacade.isUsedInEdr(q, edrObject))
+                for (Question q : this.selectedQuestions)
                 {
-                    Answer answer = new Answer();
-                    answer.setQuestionIdquestion(q);
-                    answer.setEdrIdedr(edrObject);
-                    answer.setAnswer("");
-                    answerFacade.create(answer);
+                    if (!questionFacade.isUsedInEdr(q, edrObject))
+                    {
+                        Answer answer = new Answer();
+                        answer.setQuestionIdquestion(q);
+                        answer.setEdrIdedr(edrObject);
+                        answer.setAnswer("");
+                        answerFacade.create(answer);
+                    }
                 }
-            }
+            
         }
         FacesContext context = FacesContext.getCurrentInstance();
         ResourceBundle text = ResourceBundle.getBundle("messages", context.getViewRoot().getLocale());
@@ -376,7 +378,7 @@ public class UpdateEdrCDIBean implements Serializable {
         
         this.questionCategories = questionCategoryFacade.getCategories();
         this.questionObject = question;
-        return "editQuestion";
+        return "createQuestion";
     }
     
     public String saveQuestion() throws InterruptedException {
@@ -385,11 +387,12 @@ public class UpdateEdrCDIBean implements Serializable {
 
         if (questionObject.getIdquestion() == null) {
             questionFacade.create(questionObject);
-  
+            refreshQuestionList();
         } 
         else
         {
             questionFacade.edit(questionObject); 
+            refreshQuestionList();
         }
         FacesContext context = FacesContext.getCurrentInstance();
         ResourceBundle text = ResourceBundle.getBundle("messages", context.getViewRoot().getLocale());
@@ -427,11 +430,12 @@ public class UpdateEdrCDIBean implements Serializable {
 
         if (questionCategoryObject.getIdquestioncat() == null) {
             questionCategoryFacade.create(questionCategoryObject);
-  
+            refreshQuestionList();
         } 
         else
         {
             questionCategoryFacade.edit(questionCategoryObject); 
+            refreshQuestionList();
         }
         FacesContext context = FacesContext.getCurrentInstance();
         ResourceBundle text = ResourceBundle.getBundle("messages", context.getViewRoot().getLocale());
@@ -487,12 +491,18 @@ public class UpdateEdrCDIBean implements Serializable {
     {
         this.questionCategories = questionCategoryFacade.getCategories();
         this.questions = new ArrayList();
+        this.selectedQuestions = new ArrayList();  
         for (QuestionCategory c : questionCategories)
         {
             List<Question> tempList = questionFacade.getQuestionsForCategory(c);
+            for (Question q : tempList)
+            {
+                q.setChecked(false);
+            }
             this.questions.add(tempList);
         }
-        this.selectedQuestions = new ArrayList();
+        
+        
     }
     
     public String reviewEdr() {

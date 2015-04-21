@@ -23,10 +23,9 @@
                                 <h:outputLabel for="idquestioncat" value="Question Category" />
                             </h:panelGroup>
                             <h:panelGroup> 
-                                <p:selectOneMenu id="idquestioncat" 
-                                                 value="#{updateEdrCDIBean.questionObject.questionCategoryIdquestioncat.questionCategory}">  
+                                <p:selectOneMenu id="idquestioncat" value="#{updateEdrCDIBean.questionObject.questionCategoryIdquestioncat}" converter="#{questionCategoryConverter}">  
                                     
-                                    <f:selectItems value="#{updateEdrCDIBean.questionCategories}" />
+                                    <f:selectItems value="#{updateEdrCDIBean.questionCategories}" var="qc" itemValue="#{qc}" itemLabel="#{qc.questionCategory}" />
                                 </p:selectOneMenu>
                             </h:panelGroup>
                             <h:panelGroup>
@@ -46,7 +45,7 @@
                     <p:panelGrid columns="4" >
                             <h:panelGroup>
                                 <h:commandButton value="#{msgs.back}"
-                                                 action="assignQuestions?faces-redirect=true" />
+                                                 action="chooseQuestions?faces-redirect=true" />
                             </h:panelGroup>
                             <h:panelGroup>
                                  <h:commandButton value="#{msgs.save}" 
