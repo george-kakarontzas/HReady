@@ -34,13 +34,13 @@
                                          action="#{updateEdrCDIBean.createQuestionCategory()}"
                                          ajax="false"
                                          />
-                        <p:dataTable value="#{updateEdrCDIBean.questionCategories}" var="category">
+                        <p:dataTable tableStyle="table-layout:auto;" value="#{updateEdrCDIBean.questionCategories}" var="category">
                             
                             <p:subTable var="qitem" value="#{updateEdrCDIBean.questions.get(updateEdrCDIBean.questionCategories.indexOf(category))}">
                                 <f:facet name="header"> 
                                     <h:outputText style="font-weight:bold;" value="#{category.questionCategory}" />
                                 </f:facet>
-                                <p:column>
+                                <p:column style="width:20px;">
                                     <h:selectBooleanCheckbox value="#{qitem.checked}"/>
                                 </p:column>
                                 <p:column>

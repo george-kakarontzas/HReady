@@ -290,6 +290,8 @@ public class UpdateEdrCDIBean implements Serializable {
     public String createEdr() {
         
         this.edrObject = new Edr();
+        this.edrObject.setStatus(0);
+        this.edrObject.setHeadOfDepartmentIdemployee(currentUser);
         this.employeeList = employeeFacade.getDepartmentEmployees(currentUser.getDepartmentIddepartment());
         return "createEdr";
     }
@@ -314,16 +316,21 @@ public class UpdateEdrCDIBean implements Serializable {
         this.edrObject.setLastChanged(new java.sql.Date(System.currentTimeMillis()));
 
         if (edrObject.getIdedr() == null) {
+            edrObject.setStatus(1);
             edrFacade.create(edrObject);
+      
             this.competenceGoalFacade.updateCompetenceGoals(competenceGoalTree, edrObject);
             
-                for (Question q : this.selectedQuestions)
+                for (List<Question> ql : this.questions)
                 {
-                    Answer answer = new Answer();
-                    answer.setQuestionIdquestion(q);
-                    answer.setEdrIdedr(edrObject);
-                    answer.setAnswer("");
-                    answerFacade.create(answer);
+                    for (Question q : ql)
+                    {
+                        Answer answer = new Answer();
+                        answer.setQuestionIdquestion(q);
+                        answer.setEdrIdedr(edrObject);
+                        answer.setAnswer("");
+                        answerFacade.create(answer);
+                    }
                 }
             
             
