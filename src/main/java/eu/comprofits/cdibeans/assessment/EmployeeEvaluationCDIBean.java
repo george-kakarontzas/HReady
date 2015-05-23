@@ -233,16 +233,34 @@ public class EmployeeEvaluationCDIBean {
             try {
                 file1 = Files.createTempFile("FullFileName12", ".png");
                 FullFileName12 = file1.toString();
+                if (System.getProperty("os.name").startsWith("Windows")) {
+                    FullFileName12 = FullFileName12.replace('\\', '/');
+                }
                 file2 = Files.createTempFile("FullFileName22", ".png");
                 FullFileName22 = file2.toString();
+                if (System.getProperty("os.name").startsWith("Windows")) {
+                    FullFileName22 = FullFileName22.replace('\\', '/');
+                }
                 file3 = Files.createTempFile("FullFileName32", ".png");
                 FullFileName32 = file3.toString();
+                if (System.getProperty("os.name").startsWith("Windows")) {
+                    FullFileName32 = FullFileName32.replace('\\', '/');
+                }
                 file4 = Files.createTempFile("FullFileName11", ".png");
                 FullFileName11 = file4.toString();
+                if (System.getProperty("os.name").startsWith("Windows")) {
+                    FullFileName11 = FullFileName11.replace('\\', '/');
+                }
                 file5 = Files.createTempFile("FullFileName21", ".png");
                 FullFileName21 = file5.toString();
+                if (System.getProperty("os.name").startsWith("Windows")) {
+                    FullFileName21 = FullFileName21.replace('\\', '/');
+                }
                 file6 = Files.createTempFile("FullFileName31", ".png");
                 FullFileName31 = file6.toString();
+                if (System.getProperty("os.name").startsWith("Windows")) {
+                    FullFileName31 = FullFileName31.replace('\\', '/');
+                }
             } catch (IOException e) {
                 context.addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_ERROR,
