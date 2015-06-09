@@ -144,7 +144,7 @@ public class CurrentCompetenceAssessmentCDIBean implements Serializable {
         /* for each competence create an entry in the competence map
          and place there the current assessment value if there
          is an assesement for this competence and for the selected employee
-         or -1 if an assessment doesn't exist
+         or 0 if an assessment doesn't exist
          */
         for (Competence c : l3competences) {
             CurrentCompetenceAssessment cca
@@ -152,7 +152,7 @@ public class CurrentCompetenceAssessmentCDIBean implements Serializable {
             if (cca != null) {
                 l3competencesValuesMap.put(c, cca.getAssessment());
             } else {
-                l3competencesValuesMap.put(c, -1);
+                l3competencesValuesMap.put(c, 0);
             }
         }
         return "editCurrentAssessment";
@@ -170,12 +170,12 @@ public class CurrentCompetenceAssessmentCDIBean implements Serializable {
                 Competence c = e.getKey();
                 Integer v = e.getValue();
                 Employee emp = getCurrentEmployee();
-                //create or update competences only with value != -1 which is
+                //create or update competences only with value != 0 which is
                 //considered as a "value not provided" constant
                 CurrentCompetenceAssessment cr
                             = this.ccfacade.getAssessmentForEmployeeAndCompetence(
                                     emp, c);
-                if (v != -1) {
+                if (v != 0) {
                     //if assessment for this employee and this competence 
                     //already exists in the database
                     if (cr != null) {

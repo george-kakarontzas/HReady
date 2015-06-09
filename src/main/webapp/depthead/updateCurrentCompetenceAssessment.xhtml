@@ -19,10 +19,11 @@
                     <h:form id="competencesTableForm">
                         <p:messages  />
                         <h1><h:outputText value="#{msgs.list_of_stored_assessments}"/></h1>
-                        <p:commandButton icon="ui-icon-pencil"
+                        <!--p:commandButton icon="ui-icon-pencil"
                                          value="#{msgs.create_new_assessment}"
                                          action="#{currentCompetenceAssessment.create()}"
                                          ajax="false" />
+                        -->
                         <p:dataTable value="#{currentCompetenceAssessment.employees}" 
                                      var="employee" 
                                      paginator="true" rows="10" >
