@@ -26,6 +26,7 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -67,7 +68,21 @@ public class EmployeeEvaluationCDIBean {
     @PostConstruct
     public void init() {
         this.jobs = this.jfacade.getJobsForEvaluation();
-        this.employees = this.emfacade.getEmployeesForEvaluation();
+         FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        Employee e = (Employee) externalContext.getSessionMap().get("user");
+        if (e == null) {
+            Principal principal
+                    = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
+            if (principal != null) {
+                e = emfacade.getEmployeeByUsername(principal.getName()); // Find User by j_username.
+            }
+        }
+        if (e != null) {
+            employees = emfacade.getDepartmentEmployeesForEvaluation(e.getDepartmentIddepartment());
+            //refreshAssessmentsList();
+        }
+        //this.employees = this.emfacade.getEmployeesForEvaluation();
     }
 
     public List<Employee> getEmployees() {

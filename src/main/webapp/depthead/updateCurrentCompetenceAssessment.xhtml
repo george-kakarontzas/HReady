@@ -19,48 +19,31 @@
                     <h:form id="competencesTableForm">
                         <p:messages  />
                         <h1><h:outputText value="#{msgs.list_of_stored_assessments}"/></h1>
-                         <p:commandButton icon="ui-icon-pencil"
-                                          value="#{msgs.create_new_assessment}"
-                                             action="#{currentCompetenceAssessment.create()}"
-                                             ajax="false" />
-                         <p:dataTable value="#{currentCompetenceAssessment.assessments}" 
-                                     var="item" 
+                        <p:commandButton icon="ui-icon-pencil"
+                                         value="#{msgs.create_new_assessment}"
+                                         action="#{currentCompetenceAssessment.create()}"
+                                         ajax="false" />
+                        <p:dataTable value="#{currentCompetenceAssessment.employees}" 
+                                     var="employee" 
                                      paginator="true" rows="10" >
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs.competence_name} 
+                                    <h:outputText value="#{msgs.employee} 
                                                   &lt;br/&gt;(#{msgs.click_to_edit_record})" escape="false" />
                                 </f:facet>
 
-                                <h:commandLink action="#{currentCompetenceAssessment.edit(item)}"  
-                                               value="#{item.competenceIdcompetence.competenceName}" /> 
+                                <h:commandLink action="#{currentCompetenceAssessment.edit(employee)}"  
+                                               value="#{employee.lastName} #{employee.firstName}" /> 
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs.employee}"/>
+                                    <h:outputText value="#{msgs.percentage_competence_completion}"/>
                                 </f:facet>
-                                <h:outputText value="#{item.employeeIdemployee.fullName}"/>
+                                <h:outputText 
+                                    value="#{currentCompetenceAssessment.getPercentageOfCompetenceCompletion(employee)}%"/>
                             </p:column>
-                            
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs.assessment_value}"/>
-                                </f:facet>
-                                <h:outputText value="#{item.assessment}"/>
-                            </p:column>
-                            
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs.remove_assessment}"/>
-                                </f:facet>
-                                <p:commandButton icon="ui-icon-trash"
-                                                 action="#{currentCompetenceAssessment.remove(item)}"                                                
-                                                 onclick="if (! confirm('#{msgs.are_you_sure}') ) { return false;}; return true; ">
-                                </p:commandButton>
-                            </p:column>
-                            
                         </p:dataTable>
-                       
+
                     </h:form>
                 </f:view>
 
