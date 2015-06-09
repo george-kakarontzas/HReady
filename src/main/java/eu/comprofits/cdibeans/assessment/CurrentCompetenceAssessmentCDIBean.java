@@ -14,7 +14,6 @@ import eu.comprofits.session.main.CompetenceFacade;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -165,7 +164,7 @@ public class CurrentCompetenceAssessmentCDIBean implements Serializable {
         return new ArrayList<Map.Entry<Competence, Integer>>(compSet);
     }
 
-    public String update() {
+    public synchronized String update() {
         try {
             for (Map.Entry<Competence, Integer> e : l3competencesValuesMap.entrySet()) {
                 Competence c = e.getKey();
