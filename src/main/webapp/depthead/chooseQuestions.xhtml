@@ -57,8 +57,10 @@
                                                  action="updateEdr?faces-redirect=true" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                 <h:commandButton value="#{msgs.save}" 
-                                                  action="#{updateEdrCDIBean.saveEdr()}" />
+                                <h:commandButton rendered="#{updateEdrCDIBean.edrObject.status == 0}" value="#{msgs.save}" 
+                                                  action="#{updateEdrCDIBean.updateEdr('create')}" />
+                                <h:commandButton rendered="#{updateEdrCDIBean.edrObject.status == 1 || updateEdrCDIBean.edrObject.status == 2 || updateEdrCDIBean.edrObject.status == 4}" value="#{msgs.save}" 
+                                                  action="#{updateEdrCDIBean.updateEdr('edit')}" />
                              </h:panelGroup>
                             
                             <h:panelGroup>

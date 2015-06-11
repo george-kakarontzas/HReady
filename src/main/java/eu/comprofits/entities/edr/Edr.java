@@ -25,6 +25,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -77,6 +78,8 @@ public class Edr implements Serializable {
     @Column(name = "last_changed")
     @Temporal(TemporalType.DATE)
     private Date lastChanged;
+    @Transient
+    private int role;
 
     public Edr() {
     }
@@ -91,6 +94,14 @@ public class Edr implements Serializable {
 
     public void setIdedr(Integer idedr) {
         this.idedr = idedr;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
 
     public String getYear() {
