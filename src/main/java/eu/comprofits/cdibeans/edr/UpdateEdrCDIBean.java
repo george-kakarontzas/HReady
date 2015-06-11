@@ -44,6 +44,8 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -91,7 +93,6 @@ public class UpdateEdrCDIBean implements Serializable {
     private List<QuestionCategory> questionCategories;
     private List<List<Question>> questions;
     private List<List<Answer>> answers;
-    private List<Question> selectedQuestions;
     private Employee currentUser;
 
     public EdrFacade getEdrFacade() {
@@ -262,14 +263,6 @@ public class UpdateEdrCDIBean implements Serializable {
         this.answers = answers;
     }
 
-    public List<Question> getSelectedQuestions() {
-        return selectedQuestions;
-    }
-
-    public void setSelectedQuestions(List<Question> selectedQuestions) {
-        this.selectedQuestions = selectedQuestions;
-    }
-
     public Employee getCurrentUser() {
         return currentUser;
     }
@@ -308,54 +301,68 @@ public class UpdateEdrCDIBean implements Serializable {
         refreshQuestionList();  
         return "chooseQuestions";
     }
+   
     
-    public String saveEdr() throws InterruptedException {
+    public String updateEdr(String action) throws InterruptedException {
         
         try {
             
         this.edrObject.setLastChanged(new java.sql.Date(System.currentTimeMillis()));
 
-        if (edrObject.getIdedr() == null) {
+        if (action.equals("create")) 
+        {
             edrObject.setStatus(1);
             edrFacade.create(edrObject);
       
-            this.competenceGoalFacade.updateCompetenceGoals(competenceGoalTree, edrObject);
+            //this.competenceGoalFacade.updateCompetenceGoals(competenceGoalTree, edrObject);
             
                 for (List<Question> ql : this.questions)
                 {
                     for (Question q : ql)
                     {
-                        Answer answer = new Answer();
-                        answer.setQuestionIdquestion(q);
-                        answer.setEdrIdedr(edrObject);
-                        answer.setAnswer("");
-                        answerFacade.create(answer);
+                        if (q.isChecked())
+                        {
+                            Answer answer = new Answer();
+                            answer.setQuestionIdquestion(q);
+                            answer.setEdrIdedr(edrObject);
+                            answer.setAnswer("");
+                            answerFacade.create(answer);
+                        }
                     }
-                }
-            
-            
-        } else {
-
-            edrFacade.edit(edrObject);
-            this.competenceGoalFacade.updateCompetenceGoals(competenceGoalTree, edrObject);
-            for (Answer a : this.answerFacade.getAnswersForEdr(edrObject))
-            {
-                answerFacade.remove(a);
-            }
-            
-                for (Question q : this.selectedQuestions)
-                {
-                    if (!questionFacade.isUsedInEdr(q, edrObject))
-                    {
-                        Answer answer = new Answer();
-                        answer.setQuestionIdquestion(q);
-                        answer.setEdrIdedr(edrObject);
-                        answer.setAnswer("");
-                        answerFacade.create(answer);
-                    }
-                }
-            
+                }     
         }
+        else if (action.equals("edit"))
+        {
+            if (this.edrObject.getStatus() == 1)
+            {
+                this.edrFacade.edit(edrObject);
+            }
+            else if (this.edrObject.getStatus() == 2)
+            {
+                this.edrFacade.edit(edrObject);
+            }
+            else if (this.edrObject.getStatus() == 4)
+            {
+                this.edrFacade.edit(edrObject);
+            }
+        }
+        else if (action.equals("publish"))
+        {
+            this.edrObject.setStatus(2);
+            this.edrFacade.edit(edrObject);
+        }
+        else if (action.equals("reject"))
+        {
+            this.edrObject.setStatus(4);
+            this.edrFacade.edit(edrObject);
+        }
+        else if (action.equals("accept"))
+        {
+            this.edrObject.setStatus(5);
+            this.edrFacade.edit(edrObject);
+        }
+     
+        
         FacesContext context = FacesContext.getCurrentInstance();
         ResourceBundle text = ResourceBundle.getBundle("messages", context.getViewRoot().getLocale());
         String message = text.getString("succesful_save_message");
@@ -370,7 +377,7 @@ public class UpdateEdrCDIBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             e.getMessage(), null));
         }
-
+        refreshEdrList();
         return "updateEdr";
     }
     
@@ -497,8 +504,7 @@ public class UpdateEdrCDIBean implements Serializable {
     public void refreshQuestionList()
     {
         this.questionCategories = questionCategoryFacade.getCategories();
-        this.questions = new ArrayList();
-        this.selectedQuestions = new ArrayList();  
+        this.questions = new ArrayList(); 
         for (QuestionCategory c : questionCategories)
         {
             List<Question> tempList = questionFacade.getQuestionsForCategory(c);
@@ -508,11 +514,9 @@ public class UpdateEdrCDIBean implements Serializable {
             }
             this.questions.add(tempList);
         }
-        
-        
-    }
+ }
     
-    public String reviewEdr() {
+/*    public String reviewEdr() {
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
         Employee e1 = (Employee) externalContext.getSessionMap().get("user");
@@ -527,7 +531,7 @@ public class UpdateEdrCDIBean implements Serializable {
         edrList.clear();
         edrList = filteredList;
         return "./updateEdr.xhtml";
-    }
+    } */
 
     public String export(Edr edr) throws InterruptedException {
         this.edrObject = edr;

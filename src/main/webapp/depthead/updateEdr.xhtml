@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <body>
 
@@ -31,22 +32,28 @@
                                      emptyMessage="#{msgs.no_edrs_found_with_given_criteria}" 
                                      filteredValue="#{updateEdrCDIBean.filteredEdrList}"
                                      >
-
-                            <f:facet name="header">
-                                <p:outputPanel>
-                                    <h:outputText value="#{msgs.search_all_fields}:" />
-                                    <p:inputText id="globalFilter" onkeyup="PF('edrTable').filter()" 
-                                                 style="width:150px" placeholder="#{msgs.enter_keyword}"/>
-                                </p:outputPanel>
-                            </f:facet>
+                      
                             <p:column filterBy="##{item.reviewedEmployeeIdemployee.lastName} #{item.reviewedEmployeeIdemployee.firstName} #{item.reviewedEmployeeIdemployee.email}"
                                       headerText="#{msgs.reviewed_Employee} &lt;br/&gt;(#{msgs.click_to_edit_record})"
                                       filterMatchMode="contains">
 
-                                <h:commandLink action="#{updateEdrCDIBean.edit(item)}"  
+                                <h:commandLink action="#{updateEdrCDIBean.editEdr(item)}"  
                                                value="##{item.reviewedEmployeeIdemployee.lastName} #{item.reviewedEmployeeIdemployee.firstName} #{item.reviewedEmployeeIdemployee.email}"/>
                             </p:column>
 
+                            <p:column filterBy="#{item.role}" 
+                                      headerText="#{msgs.role}"
+                                      filterMatchMode="contains">
+                                
+                                
+                                <h:outputText rendered="#{item.role == 1}" value="#{msgs.initiator}"/>
+                                
+                                    <h:outputText rendered="#{item.role == 2}" value="#{msgs.immediate_manager}"/>
+                                
+                                    <h:outputText rendered="#{item.role == 3}" value="#{msgs.reviewed_employee_name}"/>
+                                
+                                
+                            </p:column>
                             <p:column filterBy="#{item.status}" 
                                       headerText="#{msgs.status}"
                                       filterMatchMode="contains">
@@ -80,6 +87,7 @@
                                                 " /> 
 
                             </p:column> 
+       
                         </p:dataTable>
                     </h:form>
                 </f:view>

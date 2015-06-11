@@ -39,15 +39,28 @@ public class EdrFacade extends AbstractFacade<Edr> {
     public List<Edr> getEdrsForEmployee (Employee employee)
     {
         List<Edr> edrList = this.findAll();
+        List<Edr> filteredEdrList = new ArrayList();
         
         for (Edr edr : edrList)
         {
-            if ((!employee.equals(edr.getHeadOfDepartmentIdemployee()) && edr.getStatus() < 2) || (!employee.equals(edr.getHeadOfDepartmentIdemployee()) && !employee.equals(edr.getImmediateManagerIdemployee()) && !employee.equals(edr.getReviewedEmployeeIdemployee())))
+            if (employee.getIdemployee() == edr.getHeadOfDepartmentIdemployee().getIdemployee())
             {
-                edrList.remove(edr);
+                edr.setRole(1);
+                filteredEdrList.add(edr);
             }
+            if ((employee.getIdemployee() == edr.getImmediateManagerIdemployee().getIdemployee()) && (edr.getStatus() > 1))
+            {
+                edr.setRole(2);     
+                filteredEdrList.add(edr);
+            }
+            if ((employee.getIdemployee() == edr.getReviewedEmployeeIdemployee().getIdemployee()) && (edr.getStatus() > 2))
+            {
+                edr.setRole(3);    
+                filteredEdrList.add(edr);
+            }
+            
         }
-        return edrList;
+        
+        return filteredEdrList;
     }
-    
 }
