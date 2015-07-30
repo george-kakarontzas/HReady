@@ -6,6 +6,7 @@
 
 package eu.comprofits.session.edr;
 
+import eu.comprofits.entities.edr.Answer;
 import eu.comprofits.entities.edr.Edr;
 import eu.comprofits.entities.edr.Question;
 import eu.comprofits.entities.edr.QuestionCategory;
@@ -31,6 +32,8 @@ public class QuestionFacade extends AbstractFacade<Question> {
     private QuestionCategoryFacade questionCategoryFacade;
     @EJB
     private AnswerFacade answerFacade;
+    @EJB
+    private EdrFacade edrFacade;
             
     @Override
     protected EntityManager getEntityManager() {
@@ -50,9 +53,22 @@ public class QuestionFacade extends AbstractFacade<Question> {
         return questions;
     }   
     
+    public boolean isUsed (Question question)
+    {
+        boolean check = false;
+        for (Edr edr : edrFacade.findAll())
+        {
+            if (this.isUsedInEdr(question, edr))
+            {
+                check = true;
+            }
+        }
+        return check;
+    }
+    
     public boolean isUsedInEdr (Question question, Edr edr)
     {
-        if (answerFacade.getAnswerForQuestionAndEdr(question, edr) != null)
+        if (!answerFacade.getAnswerForQuestionAndEdr(question, edr).isEmpty())
         {
             return true;
         }

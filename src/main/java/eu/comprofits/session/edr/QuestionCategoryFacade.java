@@ -27,6 +27,8 @@ public class QuestionCategoryFacade extends AbstractFacade<QuestionCategory> {
     private EntityManager em;
     @EJB
     private QuestionFacade questionFacade;
+    @EJB
+    private EdrFacade edrFacade;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -41,6 +43,19 @@ public class QuestionCategoryFacade extends AbstractFacade<QuestionCategory> {
         Query q = em.createQuery("Select c from QuestionCategory c");
         List<QuestionCategory> categoryList = q.getResultList();
         return categoryList;
+    }
+    
+    public boolean isUsed (QuestionCategory category)
+    {
+        boolean check = false;
+        for (Edr edr : edrFacade.findAll())
+        {
+            if (this.isUsedInEdr(category, edr))
+            {
+                check = true;
+            }
+        }
+        return check;
     }
     
     public boolean isUsedInEdr (QuestionCategory category, Edr edr)
