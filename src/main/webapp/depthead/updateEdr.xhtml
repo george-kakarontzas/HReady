@@ -12,7 +12,7 @@
         <ui:composition template="./deptheadPagesTemplate.xhtml">
 
             <ui:define name="title">
-                #{msgs.update_edr}
+                #{msgs.list_of_stored_edrs}
             </ui:define>
 
             <ui:define name="content">
@@ -32,17 +32,23 @@
                                      emptyMessage="#{msgs.no_edrs_found_with_given_criteria}" 
                                      filteredValue="#{updateEdrCDIBean.filteredEdrList}"
                                      >
-                      
+                       
                             <p:column filterBy="##{item.reviewedEmployeeIdemployee.lastName} #{item.reviewedEmployeeIdemployee.firstName} #{item.reviewedEmployeeIdemployee.email}"
                                       headerText="#{msgs.reviewed_Employee} &lt;br/&gt;(#{msgs.click_to_edit_record})"
                                       filterMatchMode="contains">
 
-                                <h:commandLink action="#{updateEdrCDIBean.editEdr(item)}"  
+                                <h:outputText  
                                                value="##{item.reviewedEmployeeIdemployee.lastName} #{item.reviewedEmployeeIdemployee.firstName} #{item.reviewedEmployeeIdemployee.email}"/>
                             </p:column>
-
+                            
+                            <p:column filterBy="#{item.year}" 
+                                      headerText="#{msgs.year}"
+                                      filterMatchMode="contains">
+                                <h:outputText value="#{item.year}"/>
+                            </p:column>
+                            
                             <p:column filterBy="#{item.role}" 
-                                      headerText="#{msgs.role}"
+                                      headerText="#{msgs.edr_role}"
                                       filterMatchMode="contains">
                                 
                                 
@@ -60,31 +66,47 @@
                                 <h:outputText value="#{item.status}"/>
                             </p:column>
 
-                            <p:column filterBy="#{item.year}" 
-                                      headerText="#{msgs.year}"
-                                      filterMatchMode="contains">
-                                <h:outputText value="#{item.year}"/>
-                            </p:column>
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs.available_actions}"/>
                                 </f:facet>
-                                <h:commandLink value="#{msgs.export_to_pdf}" action="#{updateEdrCDIBean.export(item)}"></h:commandLink>
-                            </p:column>
+                                <p:commandButton id="viewbutton" icon="ui-icon-search" />
+                                <p:commandButton id="editbutton" icon="ui-icon-pencil" action="#{updateEdrCDIBean.editEdr(item)}"/>
+                                <p:commandButton id="sendbutton" icon="ui-icon-mail-closed" action="#{updateEdrCDIBean.publishEdr(item)}" onclick="if (!confirm('#{msgs.are_you_sure}')) {
+                                                    return false;
+                                                }
+                                                ;
+                                                return true;
+                                                " disabled="#{item.status != 1}"/>
+                                <p:commandButton id="notebutton" icon="ui-icon-comment" />
+                                <p:commandButton id="exportbutton" icon="ui-icon-document" />
+                                <p:commandButton id="historybutton" icon="ui-icon-link" />
+                                <p:commandButton id="nextbutton" icon="ui-icon-seek-next" />
+                                <p:commandButton id="deletebutton" icon="ui-icon-trash"
 
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs.delete_edr}"/>
-                                </f:facet>
-                                <p:commandButton icon="ui-icon-trash"
-
-                                                 action="#{updateEdrCDIBean.remove(item)}"                                                
+                                                 action="#{updateEdrCDIBean.removeEdr(item)}"                                                
                                                  onclick="if (!confirm('#{msgs.are_you_sure}')) {
                                                     return false;
                                                 }
                                                 ;
                                                 return true;
                                                 " /> 
+                                <p:tooltip for="viewbutton" value="View EDR" />
+                                <p:tooltip for="editbutton" value="Edit EDR" />
+                                <p:tooltip for="sendbutton" value="Publish to Immediate Manager" />
+                                <p:tooltip for="notebutton" value="Show Notes" />
+                                <p:tooltip for="exportbutton" value="Export as PDF" />
+                                <p:tooltip for="historybutton" value="Show EDR history" />
+                                <p:tooltip for="nextbutton" value="Create follow-up EDR" />
+                                <p:tooltip for="deletebutton" value="Delete this EDR" />
+                                
+                                <p:overlayPanel for="historybutton" dynamic="false" showCloseIcon="true">
+                                    <p:dataTable var="previtem" value="#{updateEdrCDIBean.edrFacade.getEdrHistory(item)}">
+                                        <p:column headerText="Year"><h:commandLink action="#{updateEdrCDIBean.editEdr(previtem)}" value="#{previtem.year}" /></p:column>
+                                        <p:column headerText="Manager"><h:outputText value="#{previtem.immediateManagerIdemployee.firstName} #{previtem.immediateManagerIdemployee.lastName}" /></p:column>
+                                        <p:column headerText="Created by"><h:outputText value="#{previtem.headOfDepartmentIdemployee.firstName} #{previtem.headOfDepartmentIdemployee.lastName}" /></p:column>                                    </p:dataTable>
+                                </p:overlayPanel>
+                                            
 
                             </p:column> 
        

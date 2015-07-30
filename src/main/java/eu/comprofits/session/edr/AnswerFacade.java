@@ -38,7 +38,7 @@ public class AnswerFacade extends AbstractFacade<Answer> {
     
     public List<Answer> getAnswersForEdr (Edr edr)
     {
-        Query q = em.createQuery("Select a from answer a where edr=:edr;");
+        Query q = em.createQuery("SELECT a FROM Answer a WHERE a.edrIdedr=:edr");
         q.setParameter("edr",edr);
         List<Answer> answers = q.getResultList();
         return answers;
@@ -46,11 +46,29 @@ public class AnswerFacade extends AbstractFacade<Answer> {
     
     public List<Answer> getAnswerForQuestionAndEdr (Question question, Edr edr)
     {
-        Query q = em.createQuery("Select a from answer a where question_idquestion=:question and edr=:edr;");
-        q.setParameter("question", question);
+        Query q = em.createQuery("SELECT a FROM Answer a WHERE a.questionIdquestion=:question AND a.edrIdedr=:edr");
+        q.setParameter("question",question);
         q.setParameter("edr",edr);
         List<Answer> answer = q.getResultList();
         return answer;
+    }
+    
+    public void createAnswersForEdr (List<List<Question>> questions, Edr edr)
+    {
+        for (List<Question> ql : questions)
+                {
+                    for (Question q : ql)
+                    {
+                        if (q.isChecked())
+                        {
+                            Answer answer = new Answer();
+                            answer.setQuestionIdquestion(q);
+                            answer.setEdrIdedr(edr);
+                            answer.setAnswer("");
+                            create(answer);
+                        }
+                    }
+                }
     }
     
 }

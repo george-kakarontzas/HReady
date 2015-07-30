@@ -11,11 +11,11 @@
         <ui:composition template="./deptheadPagesTemplate.xhtml"> 
        
             <ui:define name="title">
-                ${msgs.edr_title1}
+                ${msgs.edr_create}
             </ui:define>
 
             <ui:define name="content">
-                <h1>${msgs.edr}</h1>
+                <h1>${msgs.edr_create}</h1>
                 <h:form id="createEdr">
                     <p:panelGrid columns="2" style="width: 100%">
                         <h:panelGrid columns="2" cellpadding="5" columnClasses="left">
@@ -61,12 +61,12 @@
                     </p:inputTextarea>-->
                     <p:panelGrid columns="4" >
                             <h:panelGroup>
-                                <h:commandButton value="#{msgs.back}"
+                                <h:commandButton value="#{msgs.back}" immediate="true"
                                                  action="updateEdr?faces-redirect=true" />
                             </h:panelGroup>
                             <h:panelGroup>
                                  <h:commandButton value="#{msgs.next}" 
-                                                  action="#{updateEdrCDIBean.chooseQuestions()}" />
+                                                  action="#{updateEdrCDIBean.selectQuestions()}" />
                              </h:panelGroup>
                             
                             <h:panelGroup>

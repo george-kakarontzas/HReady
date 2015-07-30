@@ -36,7 +36,7 @@ public class EdrFacade extends AbstractFacade<Edr> {
         super(Edr.class);
     }
     
-    public List<Edr> getEdrsForEmployee (Employee employee)
+    public List<Edr> getVisibleEdrsForEmployee (Employee employee)
     {
         List<Edr> edrList = this.findAll();
         List<Edr> filteredEdrList = new ArrayList();
@@ -62,5 +62,16 @@ public class EdrFacade extends AbstractFacade<Edr> {
         }
         
         return filteredEdrList;
+    }
+        
+    public List<Edr> getEdrHistory (Edr edrObject)
+    {
+        List<Edr> EdrHistory = new ArrayList();
+        Query q = em.createQuery("SELECT e FROM Edr e WHERE e.reviewedEmployeeIdemployee=:reviewedEmployee AND e.idedr!=:idedr AND e.year<=:year ORDER BY e.year DESC");
+        q.setParameter("reviewedEmployee", edrObject.getReviewedEmployeeIdemployee());
+        q.setParameter("idedr",edrObject.getIdedr());
+        q.setParameter("year",edrObject.getYear());
+        EdrHistory = q.getResultList();
+        return EdrHistory;
     }
 }

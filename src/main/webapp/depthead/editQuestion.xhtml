@@ -11,47 +11,30 @@
         <ui:composition template="./deptheadPagesTemplate.xhtml"> 
        
             <ui:define name="title">
-                ${msgs.edr_edit}
+                ${msgs.edit_question}
             </ui:define>
 
             <ui:define name="content">
-                <h1>${msgs.edr_edit}</h1>
-                <h:form id="editEdr">
+                <h1>${msgs.edit_question}</h1>
+                <h:form id="editQuestion">
                     <p:panelGrid columns="2" style="width: 100%">
                         <h:panelGrid columns="2" cellpadding="5" columnClasses="left">
                             <h:panelGroup>
-                                <h:outputLabel for="idemployee" value="#{msgs.reviewed_employee_name}" />
+                                <h:outputLabel for="idquestioncat" value="Question Category" />
                             </h:panelGroup>
                             <h:panelGroup> 
-                                <p:selectOneMenu id="idemployee" 
-                                                 value="#{updateEdrCDIBean.edrObject.reviewedEmployeeIdemployee}" 
-                                                 converter="#{reportingToConverter}" required="true">  
-                                    <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true"/>
-                                    <f:selectItems value="#{updateEdrCDIBean.employeeList}"
-                                                   var="e" itemValue="#{e}" itemLabel="##{e.lastName} #{e.firstName} #{e.email}" />
+                                <p:selectOneMenu id="idquestioncat" value="#{updateEdrCDIBean.questionObject.questionCategoryIdquestioncat}" converter="#{questionCategoryConverter}">  
+                                    
+                                    <f:selectItems value="#{updateEdrCDIBean.questionCategories}" var="qc" itemValue="#{qc}" itemLabel="#{qc.questionCategory}" />
                                 </p:selectOneMenu>
                             </h:panelGroup>
                             <h:panelGroup>
-                                <h:outputLabel for="year" value="Year" />
+                                <h:outputLabel for="question" value="Question Text" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <p:inputText id="year" required="true" value="#{updateEdrCDIBean.edrObject.year}" />
+                                <p:inputText id="question" value="#{updateEdrCDIBean.questionObject.question}" />
                             </h:panelGroup>
 
-                            <h:panelGroup>
-                                <h:outputLabel for="immediateManager" value="#{msgs.immediate_manager}" />
-                            </h:panelGroup>
-                            <h:panelGroup>
-                                <p:selectOneMenu id="immediateManager" 
-                                                 value="#{updateEdrCDIBean.edrObject.immediateManagerIdemployee}" 
-                                                 converter="#{employeeConverter1}" required="true">
-                                    <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />                         
-                                    <f:selectItems value="#{updateEdrCDIBean.employeeList}"
-                                                   var="e" itemValue="#{e}" itemLabel="#{e.lastName} #{e.firstName} #{e.email}" />
-                                    
-                                </p:selectOneMenu>
-                            </h:panelGroup>
-  
                         </h:panelGrid>
                     </p:panelGrid>
                    
@@ -62,11 +45,11 @@
                     <p:panelGrid columns="4" >
                             <h:panelGroup>
                                 <h:commandButton value="#{msgs.back}"
-                                                 action="updateEdr?faces-redirect=true" />
+                                                 action="selectQuestions?faces-redirect=true" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                 <h:commandButton value="#{msgs.next}" 
-                                                  action="#{updateEdrCDIBean.selectQuestions()}" />
+                                 <h:commandButton value="#{msgs.save}" 
+                                                  action="#{updateEdrCDIBean.saveQuestion()}" />
                              </h:panelGroup>
                             
                             <h:panelGroup>
