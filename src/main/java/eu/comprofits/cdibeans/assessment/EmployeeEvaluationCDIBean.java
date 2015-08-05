@@ -17,13 +17,9 @@ import eu.comprofits.session.employee.EmployeeFacade;
 import eu.comprofits.session.jobprofile.CompetencesRequirementFacade;
 import eu.comprofits.session.jobprofile.JobFacade;
 import eu.comprofits.session.main.CompetenceFacade;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.Principal;
@@ -128,9 +124,9 @@ public class EmployeeEvaluationCDIBean {
         List<Competence> competences = this.comfacade.getOrderedCompetences();
         String missing_requirement = bundle.getString("missing_requirement");
         String missing_assessment = bundle.getString("missing_assessment");
-        List<Integer> competencyPriorityL1 = new ArrayList();
-        List<Integer> competencyPriorityL2 = new ArrayList();
-        List<Integer> competencyPriorityL3 = new ArrayList();
+        List<Integer> competencyWeight1 = new ArrayList();
+        List<Integer> competencyWeight2 = new ArrayList();
+        List<Integer> competencyImportanceL3 = new ArrayList();
         List<String> labelsL1 = new ArrayList();
         List<String> labelsL2 = new ArrayList();
         List<String> labelsL3 = new ArrayList();
@@ -142,7 +138,7 @@ public class EmployeeEvaluationCDIBean {
             if (cr != null) {
                 int level = c.getLevel();
                 if (level == 1) {
-                    competencyPriorityL1.add(cr.getWeight());
+                    competencyWeight1.add(cr.getWeight());
                     labelsL1.add(c.getCompetenceName());
                 }
                 if (level == 2) {
@@ -155,7 +151,7 @@ public class EmployeeEvaluationCDIBean {
                         return "employeeEvaluations";
                     }
                     labelsL2.add(c.getCompetenceName());
-                    competencyPriorityL2.add(cr.getWeight());
+                    competencyWeight2.add(cr.getWeight());
                 }
                 if (level == 3) {
                     // make sure we have the parent requirement filled in otherwise values will be wrong in R
@@ -167,7 +163,7 @@ public class EmployeeEvaluationCDIBean {
                         return "employeeEvaluations";
                     }
                     labelsL3.add(c.getCompetenceName());
-                    competencyPriorityL3.add(cr.getWeight());
+                    competencyImportanceL3.add(cr.getImportance());
                     // now get the employee assessment for this competency
                     CurrentCompetenceAssessment assess = this.cafacade.getAssessmentForEmployeeAndCompetence(this.employee, c);
                     if (assess == null) {
@@ -181,16 +177,16 @@ public class EmployeeEvaluationCDIBean {
             }
         }
         // first check the case that we are missing some level competeneces
-        if (competencyPriorityL1.isEmpty() || competencyPriorityL2.isEmpty() || competencyPriorityL3.isEmpty()) {
+        if (competencyWeight1.isEmpty() || competencyWeight2.isEmpty() || competencyImportanceL3.isEmpty()) {
             // check which one is empty in order to add an appropriate message
             String missing_competence = "";
-            if (competencyPriorityL1.isEmpty()) {
+            if (competencyWeight1.isEmpty()) {
                 missing_competence += bundle.getString("missing_level1_competence") + " ";
             }
-            if (competencyPriorityL2.isEmpty()) {
+            if (competencyWeight2.isEmpty()) {
                 missing_competence += bundle.getString("missing_level2_competence") + " ";
             }
-            if (competencyPriorityL3.isEmpty()) {
+            if (competencyImportanceL3.isEmpty()) {
                 missing_competence += bundle.getString("missing_level3_competence");
             }
             context.addMessage(null,
@@ -201,13 +197,13 @@ public class EmployeeEvaluationCDIBean {
 
         // check that the competenece levels values pyramid is consistent
         // meaning that there are the same amount of leaves for each node
-        if (competencyPriorityL2.size() % competencyPriorityL1.size() != 0) {
+        if (competencyWeight2.size() % competencyWeight1.size() != 0) {
             context.addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             bundle.getString("competences_levels2_wrong"), null));
             return "employeeEvaluations";
         }
-        if (competencyPriorityL3.size() % competencyPriorityL2.size() != 0) {
+        if (competencyImportanceL3.size() % competencyWeight2.size() != 0) {
             context.addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             bundle.getString("competences_levels3_wrong"), null));
@@ -228,18 +224,18 @@ public class EmployeeEvaluationCDIBean {
             }
 
             //Adjust - Normalize scores of Level 1 and 2
-            test.Weights(this.toPrimitiveDouble(competencyPriorityL1), this.toPrimitiveDouble(competencyPriorityL2));
+            test.Weights(this.toPrimitiveDouble(competencyWeight1), this.toPrimitiveDouble(competencyWeight2));
             //System.out.println("level 2 actual starts");
             //Level 2 computations
             double[] actualResultsL2 = test.ActualL2(this.toPrimitiveDouble(candidateL3));
             //System.out.println("Level 2 actual:" + Arrays.toString(actualResultsL2));
-            double[] requestedResultsL2 = test.RequestedL2(this.toPrimitiveDouble(competencyPriorityL3));
+            double[] requestedResultsL2 = test.RequestedL2(this.toPrimitiveDouble(competencyImportanceL3));
         //System.out.println("Level 2 requested: " + Arrays.toString(requestedResultsL2));
 
             //Level 1 computations
             double[] actualResultsL1 = test.ActualL1(this.toPrimitiveDouble(candidateL3));
             //System.out.println("Level 1 actual:" + Arrays.toString(actualResultsL1));
-            double[] requestedResultsL1 = test.RequestedL1(this.toPrimitiveDouble(competencyPriorityL3));
+            double[] requestedResultsL1 = test.RequestedL1(this.toPrimitiveDouble(competencyImportanceL3));
         //System.out.println("Level 1 requested: " + Arrays.toString(requestedResultsL1));
 
             // create a tmp dir to hold plotted images
