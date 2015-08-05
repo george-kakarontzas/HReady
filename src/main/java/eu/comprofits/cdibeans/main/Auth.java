@@ -110,7 +110,7 @@ public class Auth implements Serializable {
     }
     
     public String progLogin() throws IOException {
-        String gotoPage = "/index.xtml";
+        String gotoPage = "/index.xhtml";
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
         HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
