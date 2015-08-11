@@ -289,6 +289,12 @@ public class UpdateEdrCDIBean implements Serializable {
         return "createEdr";
     }
     
+    public String viewEdr (Edr edr)
+    {
+        this.edrObject = edr;
+        return "viewEdr";
+    }
+    
     public String editEdr(Edr edr)
     {
         this.edrObject = edr;
@@ -500,7 +506,7 @@ public class UpdateEdrCDIBean implements Serializable {
         }
  }
     
-/*    public String reviewEdr() {
+    public String reviewEdr() {
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
         Employee e1 = (Employee) externalContext.getSessionMap().get("user");
@@ -515,7 +521,7 @@ public class UpdateEdrCDIBean implements Serializable {
         edrList.clear();
         edrList = filteredList;
         return "./updateEdr.xhtml";
-    } */
+    } 
 
     public String export(Edr edr) throws InterruptedException {
         this.edrObject = edr;
