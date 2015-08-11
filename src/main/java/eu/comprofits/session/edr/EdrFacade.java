@@ -67,10 +67,11 @@ public class EdrFacade extends AbstractFacade<Edr> {
     public List<Edr> getEdrHistory (Edr edrObject)
     {
         List<Edr> EdrHistory = new ArrayList();
-        Query q = em.createQuery("SELECT e FROM Edr e WHERE e.reviewedEmployeeIdemployee=:reviewedEmployee AND e.idedr!=:idedr AND e.year<=:year ORDER BY e.year DESC");
+        Query q = em.createQuery("SELECT e FROM Edr e WHERE e.reviewedEmployeeIdemployee=:reviewedEmployee AND e.idedr!=:idedr AND e.year<=:year AND e.status=5 ORDER BY e.year DESC");
         q.setParameter("reviewedEmployee", edrObject.getReviewedEmployeeIdemployee());
         q.setParameter("idedr",edrObject.getIdedr());
         q.setParameter("year",edrObject.getYear());
+        
         EdrHistory = q.getResultList();
         return EdrHistory;
     }
