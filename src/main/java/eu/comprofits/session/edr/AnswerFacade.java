@@ -12,7 +12,9 @@ import eu.comprofits.session.edr.*;
 import eu.comprofits.entities.edr.Question;
 import eu.comprofits.entities.edr.QuestionCategory;
 import eu.comprofits.session.AbstractFacade;
+import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,6 +28,11 @@ import javax.persistence.Query;
 public class AnswerFacade extends AbstractFacade<Answer> {
     @PersistenceContext(unitName = "comprofitsPU")
     private EntityManager em;
+    
+    @EJB
+    private QuestionFacade questionFacade;
+    @EJB
+    private QuestionCategoryFacade questionCategoryFacade;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -37,19 +44,36 @@ public class AnswerFacade extends AbstractFacade<Answer> {
     }
     
     public List<Answer> getAnswersForEdr (Edr edr)
-    {
+    {   
         Query q = em.createQuery("SELECT a FROM Answer a WHERE a.edrIdedr=:edr");
         q.setParameter("edr",edr);
         List<Answer> answers = q.getResultList();
         return answers;
     }
     
-    public List<Answer> getAnswerForQuestionAndEdr (Question question, Edr edr)
+    public List<List<Answer>> getAnswersForEdr (List<List<Question>> questions, Edr edr)
+    {
+        List<List<Answer>> answers = new ArrayList();
+        
+        for (List<Question> qc : questions)
+        {
+            List<Answer> catAnswers = new ArrayList();
+            
+            for (Question q : qc)
+            {
+                catAnswers.add(this.getAnswerForQuestionAndEdr(q, edr));
+            }
+            answers.add(catAnswers);
+        }
+        return answers;
+    }
+    
+    public Answer getAnswerForQuestionAndEdr (Question question, Edr edr)
     {
         Query q = em.createQuery("SELECT a FROM Answer a WHERE a.questionIdquestion=:question AND a.edrIdedr=:edr");
         q.setParameter("question",question);
         q.setParameter("edr",edr);
-        List<Answer> answer = q.getResultList();
+        Answer answer = (Answer)q.getSingleResult();
         return answer;
     }
     

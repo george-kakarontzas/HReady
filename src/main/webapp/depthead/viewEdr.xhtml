@@ -23,33 +23,27 @@
                                 <h:outputLabel for="idemployee" value="#{msgs.reviewed_employee_name}" />
                             </h:panelGroup>
                             <h:panelGroup> 
-                                <p:selectOneMenu id="idemployee" 
-                                                 value="#{updateEdrCDIBean.edrObject.reviewedEmployeeIdemployee}" 
-                                                 converter="#{reportingToConverter}" required="true">  
-                                    <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true"/>
-                                    <f:selectItems value="#{updateEdrCDIBean.employeeList}"
-                                                   var="e" itemValue="#{e}" itemLabel="##{e.lastName} #{e.firstName} #{e.email}" />
-                                </p:selectOneMenu>
+                                 
+                                <h:outputText id="idemployee" 
+                                              value="##{updateEdrCDIBean.edrObject.reviewedEmployeeIdemployee.lastName} #{updateEdrCDIBean.edrObject.reviewedEmployeeIdemployee.firstName} #{updateEdrCDIBean.edrObject.reviewedEmployeeIdemployee.email}" 
+                                                 converter="#{reportingToConverter}">  
+                                </h:outputText>
                             </h:panelGroup>
                             <h:panelGroup>
                                 <h:outputLabel for="year" value="Year" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <p:inputText id="year" required="true" value="#{updateEdrCDIBean.edrObject.year}" />
+                                <h:outputText id="year" value="#{updateEdrCDIBean.edrObject.year}" />
                             </h:panelGroup>
 
                             <h:panelGroup>
                                 <h:outputLabel for="immediateManager" value="#{msgs.immediate_manager}" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <p:selectOneMenu id="immediateManager" 
-                                                 value="#{updateEdrCDIBean.edrObject.immediateManagerIdemployee}" 
+                                <h:outputText id="immediateManager" 
+                                                 value="##{updateEdrCDIBean.edrObject.immediateManagerIdemployee.lastName} #{updateEdrCDIBean.edrObject.immediateManagerIdemployee.firstName} #{updateEdrCDIBean.edrObject.immediateManagerIdemployee.email}"" 
                                                  converter="#{employeeConverter1}" required="true">
-                                    <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />                         
-                                    <f:selectItems value="#{updateEdrCDIBean.employeeList}"
-                                                   var="e" itemValue="#{e}" itemLabel="#{e.lastName} #{e.firstName} #{e.email}" />
-                                    
-                                </p:selectOneMenu>
+                                </h:outputText>
                             </h:panelGroup>
   
                         </h:panelGrid>
@@ -64,7 +58,7 @@
                                  <h:commandButton value="#{msgs.next}" 
                                                   action="#{updateEdrCDIBean.selectQuestions()}" rendered="#{updateEdrCDIBean.edrObject.status < 2}" />
                                  <h:commandButton value="#{msgs.next}" 
-                                                  action="#{updateEdrCDIBean.editCompetenceGoals()}" rendered="#{updateEdrCDIBean.edrObject.status >= 2}" />
+                                                  action="#{updateEdrCDIBean.viewCompetenceGoals()}" rendered="#{updateEdrCDIBean.edrObject.status >= 2}" />
                              </h:panelGroup>
                             
                             <h:panelGroup>
