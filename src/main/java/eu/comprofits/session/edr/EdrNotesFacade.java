@@ -38,8 +38,20 @@ public class EdrNotesFacade extends AbstractFacade<EdrNotes> {
     {
         List<EdrNotes> notes = new ArrayList();
         Query q = em.createQuery("SELECT e FROM EdrNotes e WHERE e.edrIdedr=:Idedr ORDER BY e.date DESC");
-        q.setParameter("Idedr", edr.getIdedr());
+        q.setParameter("Idedr", edr);
         notes = q.getResultList();
+        
+        for (int i=0;i<notes.size();i++)
+        {
+            if (i == notes.size()-1)
+            {
+                notes.get(i).setLastEntry(true);
+            }
+            else
+            {
+                notes.get(i).setLastEntry(false);
+            }
+        }
         return notes;
     }
     
