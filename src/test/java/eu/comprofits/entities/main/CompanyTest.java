@@ -5,6 +5,7 @@
  */
 package eu.comprofits.entities.main;
 
+import eu.comprofits.entities.jobprofile.Division;
 import java.util.Collection;
 import java.util.HashSet;
 import org.junit.After;
@@ -202,19 +203,19 @@ public class CompanyTest {
     }
 
     /**
-     * Test of getDepartmentCollection method, of class Company.
+     * Test of getDivisionCollection method, of class Company.
      */
     @Test
-    public void testGetSetDepartmentCollection() {
-        System.out.println("getsetDepartmentCollection");
+    public void testGetSetDivisionCollection() {
+        System.out.println("getsetDivisionCollection");
         Company instance = new Company();
-        Department x1 = new Department(1);
-        Department x2 = new Department(2);
-        Collection<Department> expResult = new HashSet();
+        Division x1 = new Division(1);
+        Division x2 = new Division(2);
+        Collection<Division> expResult = new HashSet();
         expResult.add(x1);
         expResult.add(x2);
-        instance.setDepartmentCollection(expResult);
-        Collection<Department> result = instance.getDepartmentCollection();
+        instance.setDivisionCollection(expResult);
+        Collection<Division> result = instance.getDivisionCollection();
         assertEquals(expResult, result);
     }
 

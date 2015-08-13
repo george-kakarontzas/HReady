@@ -5,6 +5,7 @@
  */
 package eu.comprofits.session.main;
 
+import eu.comprofits.entities.jobprofile.Division;
 import eu.comprofits.entities.main.Department;
 import eu.comprofits.session.AbstractFacade;
 import java.util.List;
@@ -36,6 +37,14 @@ public class DepartmentFacade extends AbstractFacade<Department> {
                 .setParameter("departmentName", dName)
                 .getSingleResult();
         return ((Department) result);
+    }
+    
+    //return the departments of a given division
+    public List<Department> findDepartmenstForDivision(Division division) {
+        return em.createNamedQuery("Department.findByDivision")
+                .setParameter("divisionIdDivision", division)
+                .getResultList();
+       
     }
 
 }
