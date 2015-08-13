@@ -6,6 +6,7 @@
 package eu.comprofits.entities.main;
 
 import eu.comprofits.entities.employee.Employee;
+import eu.comprofits.entities.jobprofile.Division;
 import java.util.Collection;
 import java.util.HashSet;
 import org.junit.After;
@@ -85,12 +86,12 @@ public class DepartmentTest {
      * Test of getCompanyIdcompany method, of class Department.
      */
     @Test
-    public void testGetSetCompanyIdcompany() {
-        System.out.println("getsetCompanyIdcompany");
+    public void testGetSetDivisionIddivision() {
+        System.out.println("getsetDivisionIddivision");
         Department instance = new Department();
-        Company expResult = new Company(1);
-        instance.setCompanyIdcompany(expResult);
-        Company result = instance.getCompanyIdcompany();
+        Division expResult = new Division(1);
+        instance.setDivisionIddivision(expResult);
+        Division result = instance.getDivisionIddivision();
         assertEquals(expResult, result);
     }
 

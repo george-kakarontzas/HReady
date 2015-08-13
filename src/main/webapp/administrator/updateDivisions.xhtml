@@ -11,48 +11,42 @@
         <ui:composition template="./adminPagesTemplate.xhtml">
 
             <ui:define name="title">
-                #{msgs.update_departments}
+                #{msgs.update_divisions}
             </ui:define>
 
             <ui:define name="content">
                 <f:view>
-                    <h:form id="departmentsTableForm">
+                    <h:form id="divisionsTableForm">
                         <p:messages  />
 
                         <p:commandButton icon="ui-icon-pencil"
-                                         value="#{msgs.create_new_department}"
-                                         action="#{updateDepartmentsCDIBean.create()}"
+                                         value="#{msgs.create_new_division}"
+                                         action="#{updateDivisionsCDIBean.create()}"
                                          ajax="false" />
 
-                        <h1><h:outputText value="#{msgs.list_of_stored_departments}"/></h1>
-                        <p:dataTable value="#{updateDepartmentsCDIBean.departments}" var="item"
+                        <h1><h:outputText value="#{msgs.list_of_stored_divisions}"/></h1>
+                        <p:dataTable value="#{updateDivisionsCDIBean.divisions}" var="item"
                                      paginator="true" rows="10" rowsPerPageTemplate="10,20,50,100,200">
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs.department_name}&lt;br/&gt;(#{msgs.click_to_edit_record})" escape="false" />
+                                    <h:outputText value="#{msgs.division_name}&lt;br/&gt;(#{msgs.click_to_edit_record})" escape="false" />
                                 </f:facet>
-                                <h:commandLink action="#{updateDepartmentsCDIBean.edit(item)}"  
-                                   value="#{item.departmentName}"/>
+                                <h:commandLink action="#{updateDivisionsCDIBean.edit(item)}"  
+                                               value="#{item.name}"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs.head_of_department}"/>
+                                    <h:outputText value="#{msgs.head_of_division}"/>
                                 </f:facet>
-                                <h:outputText value="#{item.headOfDepartmentIdemployee.lastName}, 
-                                              #{item.headOfDepartmentIdemployee.firstName}"/>
+                                <h:outputText value="#{item.headOfDivisionEmployee.lastName}, 
+                                              #{item.headOfDivisionEmployee.firstName}"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs.division_name}"/>
-                                </f:facet>
-                                <h:outputText value="#{item.divisionIddivision.name}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs.remove_department}"/>
+                                    <h:outputText value="#{msgs.remove_division}"/>
                                 </f:facet>
                                 <p:commandButton icon="ui-icon-trash"
-                                                 action="#{updateDepartmentsCDIBean.remove(item)}"                                                
+                                                 action="#{updateDivisionsCDIBean.remove(item)}"                                                
                                                  onclick="if (!confirm('#{msgs.are_you_sure}')) {
                                                                  return false;
                                                              }

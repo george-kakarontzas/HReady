@@ -34,12 +34,13 @@
                                                    var="e" itemValue="#{e}" itemLabel="#{e.lastName}, #{e.firstName}" 
                                                    />
                                 </p:selectOneMenu>
-                                <p:outputLabel value="#{msgs.company_name}" for="companyIdcompany" />
-                                <p:selectOneMenu id="companyIdcompany" value="#{updateDepartmentsCDIBean.department.companyIdcompany}" 
-                                                 required="true" requiredMessage="#{msgs.required_company_message}." 
-                                                 converter="#{companyConverter}">
-                                    <f:selectItems value="#{updateDepartmentsCDIBean.companies}" 
-                                                   var="c" itemValue="#{c}" itemLabel="#{c.companyName1}" 
+                                <p:outputLabel value="#{msgs.division_name}" for="divisionIddivision" />
+                                <p:selectOneMenu id="divisionIddivision" 
+                                                 value="#{updateDepartmentsCDIBean.department.divisionIddivision}" 
+                                                 required="true" requiredMessage="#{msgs.required_division_message}." 
+                                                 converter="#{divisionConverter}">
+                                    <f:selectItems value="#{updateDepartmentsCDIBean.divisions}" 
+                                                   var="d" itemValue="#{d}" itemLabel="#{d.name}" 
                                                    />
                                 </p:selectOneMenu>
                                 <h:commandButton id="back" value="#{msgs.back}" action="updateDepartments"  immediate="true"/>  

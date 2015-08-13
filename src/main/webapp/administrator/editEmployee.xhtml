@@ -104,16 +104,27 @@
                                             <f:selectItem itemLabel="#{msgs.administrator}" itemValue="administrator" />
                                             <f:selectItem itemLabel="#{msgs.employee}" itemValue="employee"/>
                                         </p:selectOneMenu>
-
+                                        
+                                        <p:outputLabel value="#{msgs.division_name}:" />
+                                        <p:selectOneMenu converter="#{divisionConverter}"  
+                                                         value="#{updateEmployeeCDIBean.employee.divisionIddivision}">
+                                            <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                                            <f:selectItems value="#{updateEmployeeCDIBean.divisions}" 
+                                                           var="d" itemValue="#{d}" itemLabel="#{d.name}" />
+                                            <p:ajax update="dept" />
+                                        </p:selectOneMenu>
                                         <p:outputLabel value="#{msgs.department_name}:" />
-                                        <p:selectOneMenu converter="#{departmentConverter}"  
+                                        <p:selectOneMenu id="dept" converter="#{departmentConverter}"  
                                                          value="#{updateEmployeeCDIBean.employee.departmentIddepartment}">
-                                            <f:selectItems value="#{updateEmployeeCDIBean.departments}" />
+                                            <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                                            <f:selectItems value="#{updateEmployeeCDIBean.getDepartmentsByDivision(updateEmployeeCDIBean.employee.divisionIddivision)}" />
                                         </p:selectOneMenu>
 
-
-                                        <h:commandButton id="back" value="#{msgs.back}" action="updateEmployee"  immediate="true" />  
+                                        <p:panelGrid />
+                                        <p:panelGrid />
+                                        
                                         <h:commandButton id="update" value="Update" action="#{updateEmployeeCDIBean.update()}" />
+                                        <h:commandButton id="back" value="#{msgs.back}" action="updateEmployee"  immediate="true" /> 
                                     </p:panelGrid>
                                 </td>
                             </tr>
