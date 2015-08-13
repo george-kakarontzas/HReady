@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./deptheadPagesTemplate.xhtml"> 
+       
+            <ui:define name="title">
+                ${msgs.edit_note}
+            </ui:define>
+
+            <ui:define name="content">
+                <h1>${msgs.edit_note}</h1>
+                <h:form id="editNote">
+                    <p:panelGrid columns="2" style="width: 100%">
+                        <h:panelGrid columns="2" cellpadding="5" columnClasses="left">
+                            <h:panelGroup>
+                                <h:outputLabel for="subject" value="Subject: " />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <h:inputText id="subject" value="#{updateEdrCDIBean.noteObject.subject}" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="message" value="Message: " />
+                            </h:panelGroup>
+                            <h:panelGroup>       
+                                <h:inputTextarea id="message" value="#{updateEdrCDIBean.noteObject.message}" />
+                            </h:panelGroup>
+
+                        </h:panelGrid>
+                    </p:panelGrid>
+                   
+                    <!--<h:outputLabel for="additionalNotes" value="#{msgs.additionalNotes}" style="font-weight:bold" />
+                    <p:inputTextarea id="additionalNotesTextField" value="#{updateEdrCDIBean.edrNotes.note}" rows="8" cols="120"  rendered="true">
+                                                    <p:ajax event="keyup"/>
+                    </p:inputTextarea>-->
+                    <p:panelGrid columns="4" >
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.back}"
+                                                 action="updateNotes?faces-redirect=true" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                 <h:commandButton value="#{msgs.save}" 
+                                                  action="#{updateEdrCDIBean.saveNote()}" />
+                             </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.help}" 
+                                                 action="#{updateEdrCDIBean.help()}" />
+                            </h:panelGroup>
+                        </p:panelGrid>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body> 
+</html>

@@ -5,6 +5,7 @@
  */
 package eu.comprofits.entities.edr;
 
+import eu.comprofits.entities.employee.Employee;
 import java.io.Serializable;
 import java.sql.Date;
 import javax.persistence.Basic;
@@ -18,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -41,13 +43,20 @@ public class EdrNotes implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     private Integer idnote;
-    @JoinColumn(name = "edr_idedr", referencedColumnName = "idedr")
+    @JoinColumn(name = "idedr", referencedColumnName = "idedr")
     @ManyToOne(optional = false)
     private Edr edrIdedr;
-    @Column(name = "note")
-    private String note;
+    @Column(name = "subject")
+    private String subject;
+    @Column(name = "message")
+    private String message;
     @Column(name = "date")
     private Date date;
+    @JoinColumn(name = "author_idemployee", referencedColumnName = "idemployee")
+    @ManyToOne(optional = false)
+    private Employee authorIdemployee;
+    @Transient
+    private boolean lastEntry;
 
     public Integer getIdnote() {
         return idnote;
@@ -65,12 +74,12 @@ public class EdrNotes implements Serializable {
         this.edrIdedr = edrIdedr;
     }
 
-    public String getNote() {
-        return note;
+    public String getMessage() {
+        return message;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public Date getDate() {
@@ -79,6 +88,30 @@ public class EdrNotes implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Employee getAuthorIdemployee() {
+        return authorIdemployee;
+    }
+
+    public void setAuthorIdemployee(Employee authorIdemployee) {
+        this.authorIdemployee = authorIdemployee;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public boolean isLastEntry() {
+        return lastEntry;
+    }
+
+    public void setLastEntry(boolean lastEntry) {
+        this.lastEntry = lastEntry;
     }
 
     @Override

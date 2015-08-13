@@ -51,23 +51,6 @@ public class AnswerFacade extends AbstractFacade<Answer> {
         return answers;
     }
     
-    public List<List<Answer>> getAnswersForEdr (List<List<Question>> questions, Edr edr)
-    {
-        List<List<Answer>> answers = new ArrayList();
-        
-        for (List<Question> qc : questions)
-        {
-            List<Answer> catAnswers = new ArrayList();
-            
-            for (Question q : qc)
-            {
-                catAnswers.add(this.getAnswerForQuestionAndEdr(q, edr));
-            }
-            answers.add(catAnswers);
-        }
-        return answers;
-    }
-    
     public Answer getAnswerForQuestionAndEdr (Question question, Edr edr)
     {
         Query q = em.createQuery("SELECT a FROM Answer a WHERE a.questionIdquestion=:question AND a.edrIdedr=:edr");

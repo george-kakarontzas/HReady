@@ -525,16 +525,21 @@ public class UpdateEdrCDIBean implements Serializable {
         return "selectQuestions";
     }
     
-    public String viewNotes() {
-        
+    public String updateNotes(Edr edr) {
+        this.edrObject = edr;
         refreshNoteList(edrObject);  
-        return "viewNotes";
+        return "updateNotes";
     }
     
     public String createNote() {
-        
         this.noteObject = new EdrNotes();
         return "createNote";
+    }
+    
+    public String viewNote(EdrNotes note) {
+        
+        this.noteObject = note;
+        return "viewNote";
     }
     
     public String editNote(EdrNotes note) {
@@ -549,12 +554,16 @@ public class UpdateEdrCDIBean implements Serializable {
 
         if (noteObject.getIdnote() == null) {
             this.noteObject.setDate(new java.sql.Date(System.currentTimeMillis()));
+            this.noteObject.setEdrIdedr(edrObject);
+            this.noteObject.setAuthorIdemployee(currentUser);
             edrNotesFacade.create(noteObject);
             refreshNoteList(edrObject);
         } 
         else
         {
             this.noteObject.setDate(new java.sql.Date(System.currentTimeMillis()));
+            this.noteObject.setEdrIdedr(edrObject);
+            this.noteObject.setAuthorIdemployee(currentUser);
             edrNotesFacade.edit(noteObject); 
             refreshNoteList(edrObject);
         }
@@ -573,7 +582,7 @@ public class UpdateEdrCDIBean implements Serializable {
                             e.getMessage(), null));
         }
 
-        return "viewNotes";
+        return "updateNotes";
     }
     
     public String removeNote(EdrNotes note)
@@ -639,9 +648,22 @@ public class UpdateEdrCDIBean implements Serializable {
         }
  }
     
-    public void refreshAnswerList(edr edr)
+    public void refreshAnswerList(Edr edr)
     {
-        
+        this.questionCategories = questionCategoryFacade.getCategories();
+        this.answers = new ArrayList(); 
+        for (QuestionCategory c : questionCategories)
+        {
+            List<Answer> tempAnswerList = new ArrayList();
+            for (Question q : questionFacade.getQuestionsForCategory(c)) 
+            {
+                if (questionFacade.isUsedInEdr(q, edr))
+                {               
+                        tempAnswerList.add(answerFacade.getAnswerForQuestionAndEdr(q, edr)); 
+                }
+            }
+            this.answers.add(tempAnswerList);
+        }
     }
     
     public String reviewEdr() {
