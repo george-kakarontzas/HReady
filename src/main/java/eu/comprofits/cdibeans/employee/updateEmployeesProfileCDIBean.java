@@ -185,6 +185,7 @@ public class updateEmployeesProfileCDIBean implements Serializable {
     public String create() {
         this.employee = new Employee();
         employee.setDepartmentIddepartment(this.getDepartment());
+        employee.setDivisionIddivision(this.getDepartment().getDivisionIddivision());
         return "editEmployeeProfile";
     }
 
