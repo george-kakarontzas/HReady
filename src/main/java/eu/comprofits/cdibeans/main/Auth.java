@@ -131,8 +131,15 @@ public class Auth implements Serializable {
                         gotoPage = "/administrator/adminHomePage.xhtml";
                         break;
                     case "hrrecruiter":
-                        gotoPage = "/hrm/hrmHomePage.xhtml";
+                        gotoPage = "/hrmrecruiter/hrmHomePage.xhtml";
                         break;
+                    case "hrassistant":
+                        gotoPage = "/hrassistant/hrassistantHomePage.xhtml";
+                        break;
+                    case "hrteamdevelopment":
+                        gotoPage = "/hrteamdevelopment/hrteamdevelopmentHomePage.xhtml";
+                        break;
+                    
                     case "employee":
                         gotoPage = "/employee/employeeHomePage.xhtml";
                         break;

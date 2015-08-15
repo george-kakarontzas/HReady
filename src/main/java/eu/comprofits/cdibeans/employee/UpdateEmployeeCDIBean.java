@@ -81,6 +81,12 @@ public class UpdateEmployeeCDIBean implements Serializable {
             case "hrrecruiter":
                 return bundle.getString("hr_recruiter");
 
+            case "hrassistant":
+                return bundle.getString("hr_assistant");
+                
+            case "hrteamdevelopment":
+                return bundle.getString("hr_team_development");
+                
             case "employee":
                 return bundle.getString("employee");
 
