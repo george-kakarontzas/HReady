@@ -8,15 +8,16 @@
 
     <body>
 
-        <ui:composition template="./adminPagesTemplate.xhtml">
+        <ui:composition template="./hrassistantPagesTemplate.xhtml">
 
             <ui:define name="title">
                 #{msgs.update_employee_profile}
             </ui:define>
 
             <ui:define name="content">
+                
                 <ui:include src="../WEB-INF/updateEmployeeForm.xhtml" />
-
+                    
             </ui:define>
 
         </ui:composition>
