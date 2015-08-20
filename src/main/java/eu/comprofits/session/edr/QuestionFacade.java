@@ -68,7 +68,7 @@ public class QuestionFacade extends AbstractFacade<Question> {
     
     public boolean isUsedInEdr (Question question, Edr edr)
     {
-        if (answerFacade.getAnswerForQuestionAndEdr(question, edr) != null)
+        if (!answerFacade.getAnswerForQuestionAndEdr(question, edr).isEmpty())
         {
             return true;
         }

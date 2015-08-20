@@ -62,9 +62,9 @@
                             </h:panelGroup>
                             <h:panelGroup>
                                  <h:commandButton value="#{msgs.next}" 
-                                                  action="#{updateEdrCDIBean.selectQuestions()}" rendered="#{updateEdrCDIBean.edrObject.status < 2}" />
+                                                  action="#{updateEdrCDIBean.selectQuestions()}" rendered="#{updateEdrCDIBean.edrObject.status lt 2}" />
                                  <h:commandButton value="#{msgs.next}" 
-                                                  action="#{updateEdrCDIBean.editCompetenceGoals()}" rendered="#{updateEdrCDIBean.edrObject.status >= 2}" />
+                                                  action="#{updateEdrCDIBean.editCompetenceGoals()}" rendered="#{updateEdrCDIBean.edrObject.status ge 2}" />
                              </h:panelGroup>
                             
                             <h:panelGroup>
