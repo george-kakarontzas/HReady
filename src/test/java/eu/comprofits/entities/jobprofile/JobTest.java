@@ -8,6 +8,7 @@ package eu.comprofits.entities.jobprofile;
 import eu.comprofits.entities.employee.Employee;
 import eu.comprofits.entities.employee.InCompanyEmployment;
 import eu.comprofits.entities.jobapplicant.JobAdvertisement;
+import eu.comprofits.entities.main.Department;
 import eu.comprofits.entities.main.OrganisationalPosition;
 import java.util.Collection;
 import java.util.HashSet;
@@ -206,9 +207,9 @@ public class JobTest {
     public void testGetSetBusinessAreaIdbusinessArea() {
         System.out.println("getBusinessAreaIdbusinessArea");
         Job instance = new Job();
-        BusinessArea expResult = new BusinessArea(1);
-        instance.setBusinessAreaIdbusinessArea(expResult);
-        BusinessArea result = instance.getBusinessAreaIdbusinessArea();
+        Department expResult = new Department(1);
+        instance.setDepartmentIddepartment(expResult);
+        Department result = instance.getDepartmentIddepartment();
         assertEquals(expResult, result);
     }
 

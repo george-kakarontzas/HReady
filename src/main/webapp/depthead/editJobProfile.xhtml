@@ -35,6 +35,24 @@
                                 <f:selectItems value="#{updateJobCDIBean.positions}"
                                                var="o" itemValue="#{o}" itemLabel="#{o.organisationalPositionName}" />
                             </p:selectOneMenu>
+                            
+                            <p:outputLabel value="#{msgs.business_area}" for="department" />
+                            
+                            <p:selectOneMenu id="department" value="#{updateJobCDIBean.jobObject.departmentIddepartment}" converter="#{departmentConverter}"
+                                             >  
+                                <f:selectItem itemLabel="---" itemValue="" />
+                                <f:selectItems value="#{updateJobCDIBean.departmentFacade.findAll()}"
+                                               var="d" itemValue="#{d}" itemLabel="#{d.departmentName}" />
+                            </p:selectOneMenu>
+                            
+                            <p:outputLabel value="#{msgs.place_of_employment}" for="place_employment" />
+                            
+                            <p:selectOneMenu id="place_employment" value="#{updateJobCDIBean.jobObject.placeEmploymentIdplaceEmployment}" 
+                                             converter="#{placeEmploymentConverter}">  
+                                <f:selectItem itemLabel="---" itemValue="" />
+                                <f:selectItems value="#{updateJobCDIBean.placeEmploymentFacade.findAll()}"
+                                               var="p" itemValue="#{p}" itemLabel="#{p.name}" />
+                            </p:selectOneMenu>
 
                             <p:outputLabel value="#{msgs.reporting_to}" for="reportingTo" />
                             <p:selectOneMenu id="reportingTo" value="#{updateJobCDIBean.jobObject.reportingToIdemployee}" converter="#{reportingToConverter}">  
