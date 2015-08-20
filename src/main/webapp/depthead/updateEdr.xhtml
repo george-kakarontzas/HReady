@@ -70,7 +70,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs.available_actions}"/>
                                 </f:facet>
-                                <p:commandButton id="viewbutton" icon="ui-icon-search" rendered="#{(item.role == 1 and item.status gt 1) or (item.role == 2 and (item.status == 3 or item.status == 5)) or (item.role == 3 and item.status gt 2)}"/>
+                                <p:commandButton id="viewbutton" icon="ui-icon-search" rendered="#{(item.role == 1 and item.status gt 1) or (item.role == 2 and (item.status == 3 or item.status == 5)) or (item.role == 3 and item.status gt 2)}" action="#{updateEdrCDIBean.viewEdr(item)}"/>
                                 <p:commandButton id="editbutton" icon="ui-icon-pencil" action="#{updateEdrCDIBean.editEdr(item)}" rendered="#{(item.role == 1 and item.status == 1) or (item.role == 2 and (item.status == 2 or item.status == 4))}"/>
                                 <p:commandButton id="sendbutton" icon="ui-icon-mail-closed" action="#{updateEdrCDIBean.publishEdr(item)}" onclick="if (!confirm('#{msgs.are_you_sure}')) {
                                                     return false;

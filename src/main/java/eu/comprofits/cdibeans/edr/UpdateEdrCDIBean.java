@@ -340,10 +340,9 @@ public class UpdateEdrCDIBean implements Serializable {
         {
             edrObject.setStatus(1);
             edrFacade.create(edrObject);
-      
-            this.competenceGoalFacade.updateCompetenceGoals(competenceGoalTree, edrObject);
+            answerFacade.createAnswersForEdr(this.questions, edrObject);
             
-            answerFacade.createAnswersForEdr(this.questions, this.edrObject);
+            
         }
         else if (edrObject.getStatus() == 1)
         {
@@ -593,15 +592,13 @@ public class UpdateEdrCDIBean implements Serializable {
     
     public String viewCompetenceGoals()
     {
-        this.competencesTree = this.getCompetenceFacade().getCompetencesTree();
-        this.competenceGoalTree = this.competenceGoalFacade.getCompetenceGoalsTree(competencesTree, edrObject);
+        refreshCompetenceGoals();
         return "viewCompetenceGoals";
     }
     
     public String editCompetenceGoals()
     {
-        this.competencesTree = this.getCompetenceFacade().getCompetencesTree();
-        this.competenceGoalTree = this.competenceGoalFacade.getCompetenceGoalsTree(competencesTree, edrObject);
+        refreshCompetenceGoals();
         return "editCompetenceGoals";
     }
     
@@ -659,11 +656,16 @@ public class UpdateEdrCDIBean implements Serializable {
             {
                 if (questionFacade.isUsedInEdr(q, edr))
                 {               
-                        tempAnswerList.add(answerFacade.getAnswerForQuestionAndEdr(q, edr)); 
+                        tempAnswerList.add(answerFacade.getAnswerForQuestionAndEdr(q, edr).get(0)); 
                 }
             }
             this.answers.add(tempAnswerList);
         }
+    }
+    
+    public void refreshCompetenceGoals()
+    {
+        this.competenceGoalTree = this.competenceGoalFacade.getCompetenceGoalsTree(this.competenceFacade.getCompetencesTree(), this.edrObject);
     }
     
     public String reviewEdr() {
