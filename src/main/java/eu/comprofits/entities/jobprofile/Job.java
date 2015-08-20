@@ -10,6 +10,7 @@ import eu.comprofits.entities.employee.Employee;
 import eu.comprofits.entities.employee.InCompanyEmployment;
 import eu.comprofits.entities.main.OrganisationalPosition;
 import eu.comprofits.entities.jobapplicant.JobAdvertisement;
+import eu.comprofits.entities.main.Department;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -75,9 +76,9 @@ public class Job implements Serializable {
     @JoinColumn(name = "reporting_to_idemployee", referencedColumnName = "idemployee")
     @ManyToOne
     private Employee reportingToIdemployee;
-    @JoinColumn(name = "business_area_idbusiness_area", referencedColumnName = "idbusiness_area")
+    @JoinColumn(name = "business_area_idbusiness_area", referencedColumnName = "iddepartment")
     @ManyToOne
-    private BusinessArea businessAreaIdbusinessArea;
+    private Department departmentIddepartment;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "jobIdjob")
     private Collection<InCompanyEmployment> inCompanyEmploymentCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "jobIdjob")
@@ -182,12 +183,12 @@ public class Job implements Serializable {
         this.reportingToIdemployee = reportingToIdemployee;
     }
 
-    public BusinessArea getBusinessAreaIdbusinessArea() {
-        return businessAreaIdbusinessArea;
+    public Department getDepartmentIddepartment() {
+        return departmentIddepartment;
     }
 
-    public void setBusinessAreaIdbusinessArea(BusinessArea businessAreaIdbusinessArea) {
-        this.businessAreaIdbusinessArea = businessAreaIdbusinessArea;
+    public void setDepartmentIddepartment(Department departmentIddepartment) {
+        this.departmentIddepartment = departmentIddepartment;
     }
 
     @XmlTransient

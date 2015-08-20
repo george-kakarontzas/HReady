@@ -53,6 +53,14 @@
                                 <h:outputText value="#{item.jobDescription}"/>
                             </p:column>
                             
+                            <p:column filterBy="#{item.departmentIddepartment}" headerText="#{msgs.business_area}" filterMatchMode="contains">
+                                <h:outputText value="#{item.departmentIddepartment.departmentName}" />
+                            </p:column>
+                            
+                            <p:column filterBy="#{item.placeEmploymentIdplaceEmployment}" headerText="#{msgs.place_of_employment}" filterMatchMode="contains">
+                                <h:outputText value="#{item.placeEmploymentIdplaceEmployment.name}" />
+                            </p:column>
+                            
                             <p:column filterBy="#{item.reportingToIdemployee.fullName}" 
                                       headerText="#{msgs.reporting_to}"
                                       filterMatchMode="contains">

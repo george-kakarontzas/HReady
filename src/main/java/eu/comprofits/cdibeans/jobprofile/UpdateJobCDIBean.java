@@ -15,7 +15,9 @@ import eu.comprofits.session.employee.EmployeeFacade;
 import eu.comprofits.session.jobapplicant.JobAdvertisementFacade;
 import eu.comprofits.session.jobprofile.CompetencesRequirementFacade;
 import eu.comprofits.session.jobprofile.JobFacade;
+import eu.comprofits.session.jobprofile.PlaceEmploymentFacade;
 import eu.comprofits.session.main.CompetenceFacade;
+import eu.comprofits.session.main.DepartmentFacade;
 import eu.comprofits.session.main.OrganisationalPositionFacade;
 import java.io.Serializable;
 import java.util.Iterator;
@@ -58,6 +60,10 @@ public class UpdateJobCDIBean implements Serializable {
     private CompetenceFacade competenceFacade;
     @EJB
     private CompetencesRequirementFacade competencesRequirementFacade;
+    @EJB
+    private DepartmentFacade departmentFacade;
+    @EJB
+    private PlaceEmploymentFacade placeEmploymentFacade;
 
     private JobAdvertisement jobAdvertisementObject;
     private List<JobAdvertisement> jobAdvertisementList;
@@ -175,6 +181,70 @@ public class UpdateJobCDIBean implements Serializable {
 
     public void setCompetencesRequirementsTree(TreeNode competencesRequirementsTree) {
         this.competencesRequirementsTree = competencesRequirementsTree;
+    }
+
+    public OrganisationalPositionFacade getOrganisationalPositionFacade() {
+        return organisationalPositionFacade;
+    }
+
+    public void setOrganisationalPositionFacade(OrganisationalPositionFacade organisationalPositionFacade) {
+        this.organisationalPositionFacade = organisationalPositionFacade;
+    }
+
+    public JobFacade getJobFacade() {
+        return jobFacade;
+    }
+
+    public void setJobFacade(JobFacade jobFacade) {
+        this.jobFacade = jobFacade;
+    }
+
+    public JobAdvertisementFacade getJobAdvertisementFacade() {
+        return jobAdvertisementFacade;
+    }
+
+    public void setJobAdvertisementFacade(JobAdvertisementFacade jobAdvertisementFacade) {
+        this.jobAdvertisementFacade = jobAdvertisementFacade;
+    }
+
+    public EmployeeFacade getEmployeeFacade() {
+        return employeeFacade;
+    }
+
+    public void setEmployeeFacade(EmployeeFacade employeeFacade) {
+        this.employeeFacade = employeeFacade;
+    }
+
+    public CompetenceFacade getCompetenceFacade() {
+        return competenceFacade;
+    }
+
+    public void setCompetenceFacade(CompetenceFacade competenceFacade) {
+        this.competenceFacade = competenceFacade;
+    }
+
+    public CompetencesRequirementFacade getCompetencesRequirementFacade() {
+        return competencesRequirementFacade;
+    }
+
+    public void setCompetencesRequirementFacade(CompetencesRequirementFacade competencesRequirementFacade) {
+        this.competencesRequirementFacade = competencesRequirementFacade;
+    }
+
+    public DepartmentFacade getDepartmentFacade() {
+        return departmentFacade;
+    }
+
+    public void setDepartmentFacade(DepartmentFacade departmentFacade) {
+        this.departmentFacade = departmentFacade;
+    }
+
+    public PlaceEmploymentFacade getPlaceEmploymentFacade() {
+        return placeEmploymentFacade;
+    }
+
+    public void setPlaceEmploymentFacade(PlaceEmploymentFacade placeEmploymentFacade) {
+        this.placeEmploymentFacade = placeEmploymentFacade;
     }
     
     public String edit(Job job) {
