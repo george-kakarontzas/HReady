@@ -11,8 +11,11 @@
 
         <ui:composition template="./deptheadPagesTemplate.xhtml">
 
-            <ui:define name="title">
-                #{msgs.select_questions}
+            <ui:define name="title" rendered="#{updateEdrCDIBean.edrObject.status == 0}">
+                #{msgs.edr_create}
+            </ui:define>
+            <ui:define name="title" rendered="#{updateEdrCDIBean.edrObject.status == 1}">
+                #{msgs.edr_edit}
             </ui:define>
 
             <ui:define name="content">
@@ -21,7 +24,7 @@
                     <h:form id="questionTableForm">
                         <p:messages  />
 
-                        <h1><h:outputText value="#{msgs.select_questions}"/></h1>
+                        <h1><h:outputText value="#{msgs.edr_select_questions}"/></h1>
                         <c:if test="${not empty updateEdrCDIBean.questionCategoryFacade.findAll()}">
                         <p:commandButton icon="ui-icon-pencil"
                                          value="#{msgs.create_question}"
@@ -83,7 +86,7 @@
                         <p:panelGrid columns="4" >
                             <h:panelGroup>
                                 <h:commandButton value="#{msgs.back}"
-                                                 action="updateEdr?faces-redirect=true" />
+                                                 action="editEdrAssignments" />
                             </h:panelGroup>
                             <h:panelGroup>
                                 <h:commandButton value="#{msgs.save}" action="#{updateEdrCDIBean.saveEdr()}" />

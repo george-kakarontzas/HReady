@@ -13,6 +13,7 @@ import eu.comprofits.entities.main.Competence;
 import eu.comprofits.session.AbstractFacade;
 import eu.comprofits.session.jobprofile.CompetencesRequirementFacade;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -29,6 +30,7 @@ import org.primefaces.model.TreeNode;
 public class CompetenceGoalFacade extends AbstractFacade<CompetenceGoal> {
     @PersistenceContext(unitName = "comprofitsPU")
     private EntityManager em;
+    @EJB
     private CompetencesRequirementFacade crFacade;
 
     @Override

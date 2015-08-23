@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./deptheadPagesTemplate.xhtml">
+
+            <ui:define name="title">
+                #{msgs.edr_edit}
+            </ui:define>
+
+            <ui:define name="content">
+                <f:view>
+
+                    <h:form id="answerTableForm">
+                        <p:messages  />
+
+                        <h1><h:outputText value="#{msgs.edr_questionnaire}"/></h1>
+                        
+                        <p:dataTable tableStyle="table-layout:auto;" value="#{updateEdrCDIBean.answerCategories}" var="category">
+                            
+                            <p:subTable var="aitem" value="#{updateEdrCDIBean.answers.get(updateEdrCDIBean.answerCategories.indexOf(category))}">
+                            
+                                <f:facet name="header">
+                                    <h:outputText value="#{category.questionCategory}"></h:outputText>
+                                </f:facet>
+                                <p:column>
+                                    <h:outputText value="#{aitem.questionIdquestion.question}" />
+                                </p:column>    
+                                <p:column>
+                                    <p:inputTextarea value="#{aitem.answer}" rows="8" cols="120"/>
+                                </p:column>
+                                
+                            </p:subTable>
+                        
+                        </p:dataTable>
+                  
+                        
+                        <p:panelGrid columns="4" >
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.back}"
+                                                 action="viewEdrAssignments" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.next}" action="#{updateEdrCDIBean.editCompetenceGoals()}" />
+                                
+                             </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.help}" 
+                                                 action="#{updateEdrCDIBean.help()}" />
+                            </h:panelGroup>
+                        </p:panelGrid>
+                    </h:form>
+                </f:view>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

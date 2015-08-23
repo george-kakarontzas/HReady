@@ -5,52 +5,39 @@
  */
 package eu.comprofits.cdibeans.edr;
 
-import eu.comprofits.cdibeans.assessment.EmployeeEvaluationCDIBean;
 import eu.comprofits.entities.edr.Answer;
 import eu.comprofits.entities.edr.CompetenceGoal;
 import eu.comprofits.entities.edr.Edr;
-import eu.comprofits.entities.edr.EdrHistory;
 import eu.comprofits.entities.edr.EdrNotes;
 import eu.comprofits.entities.edr.Question;
 import eu.comprofits.entities.edr.QuestionCategory;
 import eu.comprofits.entities.employee.Employee;
-import eu.comprofits.entities.jobprofile.BusinessArea;
-import eu.comprofits.entities.jobprofile.CompetencesRequirement;
-import eu.comprofits.entities.jobprofile.Job;
 import eu.comprofits.session.edr.CompetenceGoalFacade;
 import eu.comprofits.session.edr.EdrFacade;
-import eu.comprofits.session.edr.EdrHistoryFacade;
 import eu.comprofits.session.edr.EdrNotesFacade;
 import eu.comprofits.session.edr.QuestionFacade;
 import eu.comprofits.session.edr.AnswerFacade;
 import eu.comprofits.session.edr.QuestionCategoryFacade;
 import eu.comprofits.session.employee.EmployeeFacade;
 import eu.comprofits.session.employee.InCompanyEmploymentFacade;
-import eu.comprofits.session.jobprofile.BusinessAreaFacade;
 import eu.comprofits.session.jobprofile.CompetencesRequirementFacade;
 import eu.comprofits.session.main.CompetenceFacade;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
-import java.nio.file.Files;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.apache.commons.io.IOUtils;
-import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 /**
@@ -95,6 +82,7 @@ public class UpdateEdrCDIBean implements Serializable {
     private TreeNode competencesTree;
     private TreeNode competenceGoalTree;
     private List<QuestionCategory> questionCategories;
+    private List<QuestionCategory> answerCategories;
     private List<List<Question>> questions;
     private List<List<Answer>> answers;
     private Employee currentUser;
@@ -298,6 +286,14 @@ public class UpdateEdrCDIBean implements Serializable {
     public void setCurrentUser(Employee currentUser) {
         this.currentUser = currentUser;
     }
+
+    public List<QuestionCategory> getAnswerCategories() {
+        return answerCategories;
+    }
+
+    public void setAnswerCategories(List<QuestionCategory> answerCategories) {
+        this.answerCategories = answerCategories;
+    }
     
     public UpdateEdrCDIBean() {
     }
@@ -314,20 +310,27 @@ public class UpdateEdrCDIBean implements Serializable {
         this.edrObject.setStatus(0);
         this.edrObject.setHeadOfDepartmentIdemployee(currentUser);
         this.employeeList = employeeFacade.getDepartmentEmployees(currentUser.getDepartmentIddepartment());
-        return "createEdr";
+        return "editEdrAssignments";
     }
     
     public String viewEdr (Edr edr)
     {
         this.edrObject = edr;
-        return "viewEdr";
+        return "viewEdrAssignments";
     }
     
     public String editEdr(Edr edr)
     {
         this.edrObject = edr;
         this.employeeList = employeeFacade.getDepartmentEmployees(currentUser.getDepartmentIddepartment());
-        return "editEdr";
+        if (edrObject.getStatus() < 2)
+        {
+            return "editEdrAssignments";
+        }
+        else
+        {
+            return "viewEdrAssignments";
+        }  
     }
    
     public String saveEdr() throws InterruptedException {
@@ -353,6 +356,13 @@ public class UpdateEdrCDIBean implements Serializable {
                 }
                 this.answerFacade.createAnswersForEdr(this.questions, this.edrObject);
         }
+        else if (edrObject.getStatus() == 2 || edrObject.getStatus() == 4)
+        {
+            edrObject.setStatus(3);
+            this.edrFacade.edit(edrObject);
+            competenceGoalFacade.updateCompetenceGoals(competenceGoalTree, edrObject);
+            this.answerFacade.updateAnswersForEdr(this.answers, this.edrObject);
+        }
         
         FacesContext context = FacesContext.getCurrentInstance();
         ResourceBundle text = ResourceBundle.getBundle("messages", context.getViewRoot().getLocale());
@@ -369,7 +379,15 @@ public class UpdateEdrCDIBean implements Serializable {
                             e.getMessage(), null));
         }
         refreshEdrList();
-        return "updateEdr";
+        
+        if (this.edrObject.getStatus() == 4)
+        {
+            return "updateEdrNotes";
+        }
+        else
+        {
+            return "updateEdr";
+        }
     }
     
     public String publishEdr(Edr edr) {
@@ -380,18 +398,18 @@ public class UpdateEdrCDIBean implements Serializable {
         return "updateEdr?faces-redirect=true";
     }
     
-    public String acceptEdr (Edr edr) {
-        this.edrObject = edr;
+    public String acceptEdr () { 
         this.edrObject.setStatus(5);
         this.edrFacade.edit(edrObject);
+        refreshEdrList();
         return "updateEdr";
     }
     
-    public String rejectEdr (Edr edr) {
-        this.edrObject = edr;
+    public String rejectEdr () {
         this.edrObject.setStatus(4);
         this.edrFacade.edit(edrObject);
-        return "updateEdr";
+        refreshEdrList();
+        return "updateEdrNotes";
     }
     
     public String removeEdr(Edr e) {
@@ -433,7 +451,7 @@ public class UpdateEdrCDIBean implements Serializable {
     public String selectQuestions() {
         
         refreshQuestionList(edrObject);  
-        return "selectQuestions";
+        return "selectEdrQuestions";
     }
     
     public String createQuestion() {
@@ -478,7 +496,7 @@ public class UpdateEdrCDIBean implements Serializable {
                             e.getMessage(), null));
         }
 
-        return "selectQuestions";
+        return "selectEdrQuestions";
     }
     
     public String createQuestionCategory() {
@@ -521,30 +539,30 @@ public class UpdateEdrCDIBean implements Serializable {
                             e.getMessage(), null));
         }
 
-        return "selectQuestions";
+        return "selectEdrQuestions";
     }
     
     public String updateNotes(Edr edr) {
         this.edrObject = edr;
         refreshNoteList(edrObject);  
-        return "updateNotes";
+        return "updateEdrNotes";
     }
     
     public String createNote() {
         this.noteObject = new EdrNotes();
-        return "createNote";
+        return "createEdrNote";
     }
     
     public String viewNote(EdrNotes note) {
         
         this.noteObject = note;
-        return "viewNote";
+        return "viewEdrNote";
     }
     
     public String editNote(EdrNotes note) {
         
         this.noteObject = note;
-        return "editNote";
+        return "editEdrNote";
     }
     
     public String saveNote() throws InterruptedException {
@@ -581,37 +599,37 @@ public class UpdateEdrCDIBean implements Serializable {
                             e.getMessage(), null));
         }
 
-        return "updateNotes";
+        return "updateEdrNotes";
     }
     
     public String removeNote(EdrNotes note)
     {
         this.edrNotesFacade.remove(note);
-        return "viewNotes?faces-redirect=true";
+        return "viewEdrNotes?faces-redirect=true";
     }
     
     public String viewCompetenceGoals()
     {
         refreshCompetenceGoals();
-        return "viewCompetenceGoals";
+        return "viewEdrCompetenceGoals";
     }
     
     public String editCompetenceGoals()
     {
         refreshCompetenceGoals();
-        return "editCompetenceGoals";
+        return "editEdrCompetenceGoals";
     }
     
     public String viewAnswers()
     {    
         refreshAnswerList(edrObject);
-        return "viewAnswers";
+        return "viewEdrAnswers";
     }
     
     public String editAnswers()
     {
         refreshAnswerList(edrObject);
-        return "editAnswers";
+        return "editEdrAnswers";
     }
     
     public void refreshEdrList() {
@@ -647,19 +665,24 @@ public class UpdateEdrCDIBean implements Serializable {
     
     public void refreshAnswerList(Edr edr)
     {
+        this.answerCategories = new ArrayList();
         this.questionCategories = questionCategoryFacade.getCategories();
         this.answers = new ArrayList(); 
         for (QuestionCategory c : questionCategories)
         {
-            List<Answer> tempAnswerList = new ArrayList();
-            for (Question q : questionFacade.getQuestionsForCategory(c)) 
+            if (questionCategoryFacade.isUsedInEdr(c, edr))
             {
-                if (questionFacade.isUsedInEdr(q, edr))
-                {               
-                        tempAnswerList.add(answerFacade.getAnswerForQuestionAndEdr(q, edr).get(0)); 
+                this.answerCategories.add(c);
+                List<Answer> tempAnswerList = new ArrayList();
+                for (Question q : questionFacade.getQuestionsForCategory(c)) 
+                {
+                    if (questionFacade.isUsedInEdr(q, edr))
+                    {               
+                         tempAnswerList.add(answerFacade.getAnswerForQuestionAndEdr(q, edr).get(0)); 
+                    }
                 }
-            }
             this.answers.add(tempAnswerList);
+            }
         }
     }
     

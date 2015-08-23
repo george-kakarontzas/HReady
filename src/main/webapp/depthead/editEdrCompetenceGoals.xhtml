@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./deptheadPagesTemplate.xhtml"> 
+       
+            <ui:define name="title">
+                ${msgs.edr_edit}
+            </ui:define>
+
+            <ui:define name="content">
+                <h1>${msgs.edr_competence_goals}</h1>
+                <h:form id="editCompetenceGoals">
+                    <p:panelGrid columns="2" style="width: 100%">
+                        <p:treeTable value="#{updateEdrCDIBean.competenceGoalTree}" var="node" >
+                        <p:column headerText="Competence Name">
+                             <h:outputText value="#{node.getCompetenceName()}" />
+                        </p:column>
+                    
+                        <p:column headerText="Next Year Goal Value">
+                            <p:selectOneMenu id="importance" value="#{node.nextYearGoalValue}" >  
+                                <f:selectItem itemLabel="---" itemValue="0" />
+                                <f:selectItem itemValue="5" itemLabel="very good" />
+                                <f:selectItem itemValue="4" itemLabel="good" />
+                                <f:selectItem itemValue="3" itemLabel="satisfactory" />
+                                <f:selectItem itemValue="2" itemLabel="adequate" />
+                                <f:selectItem itemValue="1" itemLabel="inadequate" />     
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column headerText="Comments">
+                                <p:inputTextarea id="comments" value="#{node.comments}" rows="8" cols="120" rendered="true">
+                                    <p:ajax event="keyup"/>
+                                </p:inputTextarea>
+                        </p:column>
+                        
+                    </p:treeTable>
+                    </p:panelGrid>
+                    <p:panelGrid columns="1">
+                        <h1>#{msgs.edr_verdict}</h1>
+                        <p:inputTextarea id="verdict" value="#{updateEdrCDIBean.edrObject.verdict}" rows="8" cols="120" rendered="true">
+                        </p:inputTextarea>
+                    </p:panelGrid>
+                    <p:panelGrid columns="4" >
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.back}"
+                                                 action="editEdrAnswers" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                 
+                                 <h:commandButton value="#{msgs.next}" 
+                                                  action="#{updateEdrCDIBean.saveEdr()}" />
+                             </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.help}" 
+                                                 action="#{updateEdrCDIBean.help()}" />
+                            </h:panelGroup>
+                        </p:panelGrid>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body> 
+</html>
