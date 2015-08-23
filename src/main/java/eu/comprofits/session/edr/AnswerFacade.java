@@ -79,4 +79,15 @@ public class AnswerFacade extends AbstractFacade<Answer> {
                 }
     }
     
+    public void updateAnswersForEdr (List<List<Answer>> answers, Edr edr)
+    {
+        for (List<Answer> al : answers)
+        {
+            for (Answer a : al)
+            {
+                edit(a);
+            }
+        }
+    }
+    
 }
