@@ -25,7 +25,7 @@
                         <p:commandButton icon="ui-icon-pencil"
                                          value="#{msgs.create_note}"
                                          action="#{updateEdrCDIBean.createNote()}"
-                                         ajax="false"
+                                         ajax="false" rendered="#{updateEdrCDIBean.edrObject.status lt 5}"
                                          />
 
                         <p:dataTable var="item" value="#{updateEdrCDIBean.noteList}" widgetVar="edrTable"

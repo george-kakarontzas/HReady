@@ -82,7 +82,8 @@
                                                 return true;
                                                 " rendered="#{item.status == 1}" />
                                 <p:commandButton id="notebutton" icon="ui-icon-comment" action="#{updateEdrCDIBean.updateNotes(item)}"/>
-                                <p:commandButton id="exportbutton" icon="ui-icon-document" action="#{updateEdrCDIBean.export(item)}"/>
+                                <p:commandButton id="exportbutton" icon="ui-icon-document" action="#{updateEdrCDIBean.export(item)}" rendered="#{item.status == 5}"/>
+                                <!--<h:commandLink id="exportbutton" value="Export" action="#{updateEdrCDIBean.export(item)}" rendered="#{item.status == 5}"/>-->
                                 <p:commandButton id="historybutton" icon="ui-icon-link" action="#{updateEdrCDIBean.viewHistory(item)}" rendered="#{!updateEdrCDIBean.edrFacade.getEdrHistory(item).isEmpty()}" />
                                 <!--<p:commandButton id="nextbutton" icon="ui-icon-seek-next" rendered="#{item.role == 1}"/>-->
                                 <p:commandButton id="deletebutton" icon="ui-icon-trash"
