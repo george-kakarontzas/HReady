@@ -8,15 +8,15 @@
 
     <body>
 
-        <ui:composition template="./deptheadPagesTemplate.xhtml"> 
+        <ui:composition template="./employeePagesTemplate.xhtml"> 
        
             <ui:define name="title">
-                ${msgs.create_note}
+                ${msgs.edit_note}
             </ui:define>
 
             <ui:define name="content">
-                <h1>${msgs.create_note}</h1>
-                <h:form id="createNote">
+                <h1>${msgs.edit_note}</h1>
+                <h:form id="editNote">
                     <p:panelGrid columns="2" style="width: 100%">
                         <h:panelGrid columns="2" cellpadding="5" columnClasses="left">
                             <h:panelGroup>
@@ -42,7 +42,7 @@
                     <p:panelGrid columns="4" >
                             <h:panelGroup>
                                 <h:commandButton value="#{msgs.back}"
-                                                 action="updateEdrNotes?faces-redirect=true" />
+                                                 action="updateNotes?faces-redirect=true" />
                             </h:panelGroup>
                             <h:panelGroup>
                                  <h:commandButton value="#{msgs.save}" 

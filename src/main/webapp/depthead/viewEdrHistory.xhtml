@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./deptheadPagesTemplate.xhtml">
+
+            <ui:define name="title">
+                #{msgs.edr_history_title}
+            </ui:define>
+
+            <ui:define name="content">
+                <f:view>
+
+                    <h:form id="historyTableForm">
+                        <p:messages  />
+
+                        <h1><h:outputText value="#{msgs.edr_history_title}"/></h1>
+                        <p:dataTable var="item" value="#{updateEdrCDIBean.edrHistory}">
+                                        <p:column headerText="#{msgs.year}"><h:commandLink action="#{updateEdrCDIBean.viewEdr(item)}" value="#{item.year}" /></p:column>
+                                        <p:column headerText="#{msgs.immediate_manager}"><h:outputText value="#{item.immediateManagerIdemployee.firstName} #{item.immediateManagerIdemployee.lastName}" /></p:column>
+                                        <p:column headerText="#{msgs.initiator}"><h:outputText value="#{item.headOfDepartmentIdemployee.firstName} #{item.headOfDepartmentIdemployee.lastName}" /></p:column>                                    
+                        </p:dataTable>
+                    
+                    <p:panelGrid columns="4" >
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.back}"
+                                                 action="updateEdr?faces-redirect=true" />
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.help}" 
+                                                 action="#{updateEdrCDIBean.help()}" />
+                            </h:panelGroup>
+                        </p:panelGrid>
+                        </h:form>
+                </f:view>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

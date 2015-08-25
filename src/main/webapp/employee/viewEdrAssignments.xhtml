@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./employeePagesTemplate.xhtml"> 
+       
+            <ui:define name="title" rendered="#{(updateEdrCDIBean.edrObject.role == 1 and updateEdrCDIBean.edrObject.status == 2) or (updateEdrCDIBean.edrObject.status == 3) or ((updateEdrCDIBean.edrObject.role == 1 or updateEdrCDIBean.edrObject.role == 3) and updateEdrCDIBean.edrObject.status == 4) or (updateEdrCDIBean.edrObject.status == 5)}">
+                ${msgs.edr_view}
+            </ui:define>
+            <ui:define name="title" rendered="#{(updateEdrCDIBean.edrObject.role == 2 and updateEdrCDIBean.edrObject.status == 2) or (updateEdrCDIBean.edrObject.role == 2 and updateEdrCDIBean.edrObject.status == 4)}">
+                ${msgs.edr_edit}
+            </ui:define>
+
+            <ui:define name="content">
+                <h1>${msgs.edr_assignments}</h1>
+                <h:form id="editEdr">
+                    <p:panelGrid columns="2" style="width: 100%">
+                        <h:panelGrid columns="2" cellpadding="5" columnClasses="left">
+                            <h:panelGroup>
+                                <h:outputLabel for="year" value="Year" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputText id="year" value="#{updateEdrCDIBean.edrObject.year}" />
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <h:outputLabel for="idemployee" value="#{msgs.reviewed_employee_name}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                 
+                                <h:outputText id="idemployee" 
+                                              value="##{updateEdrCDIBean.edrObject.reviewedEmployeeIdemployee.lastName} #{updateEdrCDIBean.edrObject.reviewedEmployeeIdemployee.firstName} #{updateEdrCDIBean.edrObject.reviewedEmployeeIdemployee.email}" 
+                                                 >  
+                                </h:outputText>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <h:outputLabel for="immediateManager" value="#{msgs.immediate_manager}" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputText id="immediateManager" 
+                                                 value="##{updateEdrCDIBean.edrObject.immediateManagerIdemployee.lastName} #{updateEdrCDIBean.edrObject.immediateManagerIdemployee.firstName} #{updateEdrCDIBean.edrObject.immediateManagerIdemployee.email}" 
+                                                 >
+                                </h:outputText>
+                            </h:panelGroup>
+  
+                        </h:panelGrid>
+                    </p:panelGrid>
+                    
+                    <p:panelGrid columns="4" >
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.back}"
+                                                 action="updateEdr?faces-redirect=true" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                 <h:commandButton value="#{msgs.next}" 
+                                                  action="#{updateEdrCDIBean.editAnswers()}" rendered="#{(updateEdrCDIBean.edrObject.role == 2 and updateEdrCDIBean.edrObject.status == 2) or (updateEdrCDIBean.edrObject.role == 2 and updateEdrCDIBean.edrObject.status == 4)}" />
+                                 <h:commandButton value="#{msgs.next}" 
+                                                  action="#{updateEdrCDIBean.viewAnswers()}" rendered="#{(updateEdrCDIBean.edrObject.role == 1 and updateEdrCDIBean.edrObject.status == 2) or (updateEdrCDIBean.edrObject.status == 3) or ((updateEdrCDIBean.edrObject.role == 1 or updateEdrCDIBean.edrObject.role == 3) and updateEdrCDIBean.edrObject.status == 4) or (updateEdrCDIBean.edrObject.status == 5)}" />
+                             </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.help}" 
+                                                 action="#{updateEdrCDIBean.help()}" />
+                            </h:panelGroup>
+                        </p:panelGrid>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body> 
+</html>

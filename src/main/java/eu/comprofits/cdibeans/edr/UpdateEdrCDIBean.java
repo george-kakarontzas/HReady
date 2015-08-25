@@ -72,6 +72,7 @@ public class UpdateEdrCDIBean implements Serializable {
 
     private Edr edrObject;
     private EdrNotes noteObject;
+    private List<Edr> edrHistory;
     private Question questionObject;
     private QuestionCategory questionCategoryObject;
     private List<Edr> edrList;
@@ -294,6 +295,14 @@ public class UpdateEdrCDIBean implements Serializable {
     public void setAnswerCategories(List<QuestionCategory> answerCategories) {
         this.answerCategories = answerCategories;
     }
+
+    public List<Edr> getEdrHistory() {
+        return edrHistory;
+    }
+
+    public void setEdrHistory(List<Edr> edrHistory) {
+        this.edrHistory = edrHistory;
+    } 
     
     public UpdateEdrCDIBean() {
     }
@@ -335,8 +344,9 @@ public class UpdateEdrCDIBean implements Serializable {
    
     public String saveEdr() throws InterruptedException {
         
+        String destination = "";
+        
         try {
-            
         this.edrObject.setLastChanged(new java.sql.Date(System.currentTimeMillis()));
 
         if (edrObject.getStatus() == 0) 
@@ -344,7 +354,7 @@ public class UpdateEdrCDIBean implements Serializable {
             edrObject.setStatus(1);
             edrFacade.create(edrObject);
             answerFacade.createAnswersForEdr(this.questions, edrObject);
-            
+            destination="updateEdr";
             
         }
         else if (edrObject.getStatus() == 1)
@@ -355,14 +365,24 @@ public class UpdateEdrCDIBean implements Serializable {
                     this.answerFacade.remove(a);
                 }
                 this.answerFacade.createAnswersForEdr(this.questions, this.edrObject);
+                destination="updateEdr";
         }
-        else if (edrObject.getStatus() == 2 || edrObject.getStatus() == 4)
+        else if (edrObject.getStatus() == 2)
         {
             edrObject.setStatus(3);
             this.edrFacade.edit(edrObject);
             competenceGoalFacade.updateCompetenceGoals(competenceGoalTree, edrObject);
             this.answerFacade.updateAnswersForEdr(this.answers, this.edrObject);
+            destination="updateEdr";
         }
+        else if (edrObject.getStatus() == 4)
+        {   
+            edrObject.setStatus(3);
+            this.edrFacade.edit(edrObject);
+            competenceGoalFacade.updateCompetenceGoals(competenceGoalTree, edrObject);
+            this.answerFacade.updateAnswersForEdr(this.answers, this.edrObject);  
+            destination="updateEdrNotes";
+        } 
         
         FacesContext context = FacesContext.getCurrentInstance();
         ResourceBundle text = ResourceBundle.getBundle("messages", context.getViewRoot().getLocale());
@@ -380,14 +400,7 @@ public class UpdateEdrCDIBean implements Serializable {
         }
         refreshEdrList();
         
-        if (this.edrObject.getStatus() == 4)
-        {
-            return "updateEdrNotes";
-        }
-        else
-        {
-            return "updateEdr";
-        }
+        return destination;
     }
     
     public String publishEdr(Edr edr) {
@@ -622,14 +635,20 @@ public class UpdateEdrCDIBean implements Serializable {
     
     public String viewAnswers()
     {    
-        refreshAnswerList(edrObject);
+        refreshAnswerList();
         return "viewEdrAnswers";
     }
     
     public String editAnswers()
     {
-        refreshAnswerList(edrObject);
+        refreshAnswerList();
         return "editEdrAnswers";
+    }
+    
+    public String viewHistory(Edr edr)
+    {
+        this.edrHistory=this.edrFacade.getEdrHistory(edr);
+        return "viewEdrHistory";
     }
     
     public void refreshEdrList() {
@@ -663,22 +682,22 @@ public class UpdateEdrCDIBean implements Serializable {
         }
  }
     
-    public void refreshAnswerList(Edr edr)
+    public void refreshAnswerList()
     {
         this.answerCategories = new ArrayList();
         this.questionCategories = questionCategoryFacade.getCategories();
         this.answers = new ArrayList(); 
         for (QuestionCategory c : questionCategories)
         {
-            if (questionCategoryFacade.isUsedInEdr(c, edr))
+            if (questionCategoryFacade.isUsedInEdr(c, this.edrObject))
             {
                 this.answerCategories.add(c);
                 List<Answer> tempAnswerList = new ArrayList();
                 for (Question q : questionFacade.getQuestionsForCategory(c)) 
                 {
-                    if (questionFacade.isUsedInEdr(q, edr))
+                    if (questionFacade.isUsedInEdr(q, this.edrObject))
                     {               
-                         tempAnswerList.add(answerFacade.getAnswerForQuestionAndEdr(q, edr).get(0)); 
+                         tempAnswerList.add(answerFacade.getAnswerForQuestionAndEdr(q, this.edrObject).get(0)); 
                     }
                 }
             this.answers.add(tempAnswerList);
@@ -691,7 +710,7 @@ public class UpdateEdrCDIBean implements Serializable {
         this.competenceGoalTree = this.competenceGoalFacade.getCompetenceGoalsTree(this.competenceFacade.getCompetencesTree(), this.edrObject);
     }
     
-    public String reviewEdr() {
+    /*public String reviewEdr() {
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
         Employee e1 = (Employee) externalContext.getSessionMap().get("user");
@@ -706,12 +725,17 @@ public class UpdateEdrCDIBean implements Serializable {
         edrList.clear();
         edrList = filteredList;
         return "./updateEdr.xhtml";
-    } 
+    } */
 
     public String export(Edr edr) throws InterruptedException {
         this.edrObject = edr;
+        refreshQuestionList(edrObject);
+        refreshCompetenceGoals();
+        refreshAnswerList();
+        
         FacesContext context = FacesContext.getCurrentInstance();
         ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+        
         
         ExternalContext ec = context.getExternalContext();
 
@@ -725,16 +749,17 @@ public class UpdateEdrCDIBean implements Serializable {
                 context.addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_ERROR,
                                 bundle.getString("error_creating_pdf") + " " + e.getMessage(), null));
-                return "createEdr";
+                return "updateEdr";
             }
             
             html = html.replace("{{edr_employee_title}}", bundle.getString("edr_employee_title") + ": " +edrObject.getReviewedEmployeeIdemployee().getFullName());
-            html = html.replace("{{edr_information_title}}", bundle.getString("edr_information_title")+":");
+            html = html.replace("{{edr_information_title}}", bundle.getString("edr_assignments")+":");
             html = html.replace("{{edr_verdict_title}}", bundle.getString("edr_verdict_title")+":");
-            html = html.replace("{{edr_questionnaire_title}}", bundle.getString("questionnaire_statements")+":");
+            html = html.replace("{{edr_questionnaire_title}}", bundle.getString("edr_questionnaire")+":");
             
             html = html.replace("{{edr_information_content}}", "<ul>"+
                                                         "<li><b>"+bundle.getString("year")+": </b>"+edrObject.getYear()+"</li>"+
+                                                        "<li><b>"+bundle.getString("initiator")+": </b>"+edrObject.getHeadOfDepartmentIdemployee().getFullName()+"</li>"+
                                                         "<li><b>"+bundle.getString("immediate_manager")+": </b>"+edrObject.getImmediateManagerIdemployee().getFullName()+"</li>"+
                                                         "<li><b>"+bundle.getString("status")+": </b>"+edrObject.getStatus()+"</li>"+
                                                         "</ul>");
@@ -758,17 +783,24 @@ public class UpdateEdrCDIBean implements Serializable {
             competenceGoals = competenceGoals + "</tbody></table>";
             
             html = html.replace("{{edr_competencegoals_content}}",competenceGoals);
-            /*html = html.replace ("{{edr_questionnaire_title}}",bundle.getString("questionnaire_statements"));
+            
+            html = html.replace ("{{edr_questionnaire_title}}",bundle.getString("edr_questionnaire"));
             String questions_answers = "<ol>";
             
-            for (Question qa : qAList)
+            for (QuestionCategory qc : this.answerCategories)
             {
-                questions_answers = questions_answers + "<li><b>" + qa.getQuestion() +"</b><br/><br/>" + qa.getAnswer() + "</li><br/><br/><br/>";
+                questions_answers = questions_answers + "<li><b>" + qc.getQuestionCategory() +"</b><br/><br/><ol>";
+                for (Answer a : this.answers.get(this.answerCategories.indexOf(qc)))
+                {
+                    questions_answers = questions_answers + "<li>" + a.getAnswer() + "</li>";
+                }
+                questions_answers = questions_answers + "</ol>";
             }
-            questions_answers = questions_answers + "</ul>";
+            questions_answers = questions_answers + "</ol>";
             
             html = html.replace("{{edr_questionnaire_content}}",questions_answers);
-            */
+            
+            
             Runtime rt = Runtime.getRuntime();
             Process p;
             try {
@@ -795,10 +827,10 @@ public class UpdateEdrCDIBean implements Serializable {
                 context.addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_ERROR,
                                 bundle.getString("error_creating_pdf") + " " + e.getMessage(), null));
-                return "createEdr";
+                return "updateEdr";
             }
         
-            return "createEdr";
+            return "updateEdr";
     }
 
     public String help() throws InterruptedException {
