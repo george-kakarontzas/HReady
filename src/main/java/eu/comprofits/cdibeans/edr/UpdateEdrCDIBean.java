@@ -816,7 +816,14 @@ public class UpdateEdrCDIBean implements Serializable {
                 OutputStream output = ec.getResponseOutputStream();
                 try {
                     IOUtils.copy(p.getInputStream(), output);
-                } finally {
+                } 
+                catch (Exception e)
+                {
+                    context.addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                bundle.getString("error_creating_pdf") + " " + e.getMessage(), null));
+                }
+                finally {
                     p.getInputStream().close();
                     // delete temp images
                     
