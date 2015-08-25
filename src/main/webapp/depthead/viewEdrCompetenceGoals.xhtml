@@ -34,7 +34,7 @@
                     </p:treeTable>
                     </p:panelGrid>
                     <p:panelGrid columns="1">
-                    <h1>#{msgs.edr_verdict}</h1>
+                    <h1>#{msgs.edr_verdict_title}</h1>
                         <h:outputText id="verdict" value="#{updateEdrCDIBean.edrObject.verdict}" rendered="true">
                         </h:outputText>
                     </p:panelGrid>
@@ -46,8 +46,12 @@
                             <h:panelGroup>
                                 <h:commandButton value="#{msgs.close}"
                                                  action="updateEdr?faces-redirect=true" />
+                            </h:panelGroup>
+                            <h:panelGroup>
                                 <h:commandButton value="#{msgs.accept}" rendered="#{updateEdrCDIBean.edrObject.status == 3 and updateEdrCDIBean.edrObject.role == 3}"
                                                  action="#{updateEdrCDIBean.acceptEdr()}" />
+                            </h:panelGroup>
+                            <h:panelGroup>
                                 <h:commandButton value="#{msgs.reject}" rendered="#{updateEdrCDIBean.edrObject.status == 3 and updateEdrCDIBean.edrObject.role == 3}"
                                                  action="#{updateEdrCDIBean.rejectEdr()}" />
                             </h:panelGroup>

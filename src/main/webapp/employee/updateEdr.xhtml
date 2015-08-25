@@ -4,14 +4,15 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <body>
 
         <ui:composition template="./employeePagesTemplate.xhtml">
 
             <ui:define name="title">
-                #{msgs.update_edr}
+                #{msgs.list_of_stored_edrs}
             </ui:define>
 
             <ui:define name="content">
@@ -21,60 +22,85 @@
                         <p:messages  />
 
                         <h1><h:outputText value="#{msgs.list_of_stored_edrs}"/></h1>
-                        <p:commandButton icon="ui-icon-pencil"
-                                         value="#{msgs.create_edr}"
-                                         action="#{updateEdrCDIBean.create()}"
-                                         ajax="false"
-                                         />
 
                         <p:dataTable var="item" value="#{updateEdrCDIBean.edrList}" widgetVar="edrTable"
                                      emptyMessage="#{msgs.no_edrs_found_with_given_criteria}" 
                                      filteredValue="#{updateEdrCDIBean.filteredEdrList}"
                                      >
-
-                            <f:facet name="header">
-                                <p:outputPanel>
-                                    <h:outputText value="#{msgs.search_all_fields}:" />
-                                    <p:inputText id="globalFilter" onkeyup="PF('edrTable').filter()" 
-                                                 style="width:150px" placeholder="#{msgs.enter_keyword}"/>
-                                </p:outputPanel>
-                            </f:facet>
+                       
                             <p:column filterBy="##{item.reviewedEmployeeIdemployee.lastName} #{item.reviewedEmployeeIdemployee.firstName} #{item.reviewedEmployeeIdemployee.email}"
                                       headerText="#{msgs.reviewed_Employee} &lt;br/&gt;(#{msgs.click_to_edit_record})"
                                       filterMatchMode="contains">
 
-                                <h:commandLink action="#{updateEdrCDIBean.edit(item)}"  
-                                               value="##{item.reviewedEmployeeIdemployee.lastName} #{item.reviewedEmployeeIdemployee.firstName} #{item.reviewedEmployeeIdemployee.email}"/>
+                                <h:commandLink id="viewbutton" rendered="#{(item.role == 1 and item.status gt 1) or (item.role == 2 and (item.status == 3 or item.status == 5)) or (item.role == 3 and item.status gt 2)}" action="#{updateEdrCDIBean.viewEdr(item)}">
+                                    <h:outputText value="##{item.reviewedEmployeeIdemployee.lastName} #{item.reviewedEmployeeIdemployee.firstName} #{item.reviewedEmployeeIdemployee.email}"/>
+                                </h:commandLink>
+                                <h:commandLink id="editbutton" action="#{updateEdrCDIBean.editEdr(item)}" rendered="#{(item.role == 1 and item.status == 1) or (item.role == 2 and (item.status == 2 or item.status == 4))}">
+                                    <h:outputText value="##{item.reviewedEmployeeIdemployee.lastName} #{item.reviewedEmployeeIdemployee.firstName} #{item.reviewedEmployeeIdemployee.email}"/>
+                                </h:commandLink>
                             </p:column>
-
+                            
+                            <p:column filterBy="#{item.year}" 
+                                      headerText="#{msgs.year}"
+                                      filterMatchMode="contains">
+                                <h:outputText value="#{item.year}"/>
+                            </p:column>
+                            
+                            <p:column filterBy="#{item.role}" 
+                                      headerText="#{msgs.edr_role}"
+                                      filterMatchMode="contains">
+                                
+                                
+                                <h:outputText rendered="#{item.role == 1}" value="#{msgs.initiator}"/>
+                                
+                                    <h:outputText rendered="#{item.role == 2}" value="#{msgs.immediate_manager}"/>
+                                
+                                    <h:outputText rendered="#{item.role == 3}" value="#{msgs.reviewed_employee_name}"/>
+                                
+                                
+                            </p:column>
                             <p:column filterBy="#{item.status}" 
                                       headerText="#{msgs.status}"
                                       filterMatchMode="contains">
                                 <h:outputText value="#{item.status}"/>
                             </p:column>
 
-                            <p:column filterBy="#{item.year}" 
-                                      headerText="#{msgs.year}"
-                                      filterMatchMode="contains">
-                                <h:outputText value="#{item.year}"/>
-                            </p:column>
-
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs.delete_edr}"/>
+                                    <h:outputText value="#{msgs.available_actions}"/>
                                 </f:facet>
-                                <p:commandButton icon="ui-icon-trash"
+                                <p:commandButton id="sendbutton" icon="ui-icon-mail-closed" action="#{updateEdrCDIBean.publishEdr(item)}" onclick="if (!confirm('#{msgs.are_you_sure}')) {
+                                                    return false;
+                                                }
+                                                ;
+                                                return true;
+                                                " rendered="#{item.status == 1}" />
+                                <p:commandButton id="notebutton" icon="ui-icon-comment" action="#{updateEdrCDIBean.updateNotes(item)}"/>
+                                <p:commandButton id="exportbutton" icon="ui-icon-document" />
+                                <p:commandButton id="historybutton" icon="ui-icon-link" action="#{updateEdrCDIBean.viewHistory(item)}" rendered="#{!updateEdrCDIBean.edrFacade.getEdrHistory(item).isEmpty()}" />
+                                <!--<p:commandButton id="nextbutton" icon="ui-icon-seek-next" rendered="#{item.role == 1}"/>-->
+                                <p:commandButton id="deletebutton" icon="ui-icon-trash"
 
-                                                 action="#{updateEdrCDIBean.remove(item)}"                                                
+                                                 action="#{updateEdrCDIBean.removeEdr(item)}"                                                
                                                  onclick="if (!confirm('#{msgs.are_you_sure}')) {
                                                     return false;
                                                 }
                                                 ;
                                                 return true;
-                                                " /> 
+                                                "  rendered="#{item.role == 1}"/> 
+                                <p:tooltip for="viewbutton" value="#{msgs.edr_view}" />
+                                <p:tooltip for="editbutton" value="#{msgs.edr_edit}" />
+                                <p:tooltip for="sendbutton" value="#{msgs.edr_send}" />
+                                <p:tooltip for="notebutton" value="#{msgs.edr_note}"/>
+                                <p:tooltip for="exportbutton" value="#{msgs.export_to_pdf}" />
+                                <p:tooltip for="historybutton" value="#{msgs.edr_history}" />
+                                <!--<p:tooltip for="nextbutton" value="Create follow-up EDR" />-->
+                                <p:tooltip for="deletebutton" value="#{msgs.edr_delete}" />
 
                             </p:column> 
+       
                         </p:dataTable>
+                        <p:poll listener="#{updateEdrCDIBean.refreshEdrList()}" update="edrTableForm" interval="5" />
                     </h:form>
                 </f:view>
 

@@ -8,28 +8,28 @@
 
     <body>
 
-        <ui:composition template="./deptheadPagesTemplate.xhtml"> 
+        <ui:composition template="./employeePagesTemplate.xhtml"> 
        
             <ui:define name="title">
-                ${msgs.create_note}
+                ${msgs.view_note}
             </ui:define>
 
             <ui:define name="content">
-                <h1>${msgs.create_note}</h1>
-                <h:form id="createNote">
+                <h1>${msgs.view_note}</h1>
+                <h:form id="viewNote">
                     <p:panelGrid columns="2" style="width: 100%">
                         <h:panelGrid columns="2" cellpadding="5" columnClasses="left">
                             <h:panelGroup>
                                 <h:outputLabel for="subject" value="Subject: " />
                             </h:panelGroup>
                             <h:panelGroup> 
-                                <h:inputText id="subject" value="#{updateEdrCDIBean.noteObject.subject}" />
+                                <h:outputText id="subject" value="#{updateEdrCDIBean.noteObject.subject}" />
                             </h:panelGroup>
                             <h:panelGroup>
                                 <h:outputLabel for="message" value="Message: " />
                             </h:panelGroup>
                             <h:panelGroup>       
-                                <h:inputTextarea id="message" value="#{updateEdrCDIBean.noteObject.message}" />
+                                <h:outputText id="message" value="#{updateEdrCDIBean.noteObject.message}" />
                             </h:panelGroup>
 
                         </h:panelGrid>
@@ -42,12 +42,8 @@
                     <p:panelGrid columns="4" >
                             <h:panelGroup>
                                 <h:commandButton value="#{msgs.back}"
-                                                 action="updateEdrNotes?faces-redirect=true" />
-                            </h:panelGroup>
-                            <h:panelGroup>
-                                 <h:commandButton value="#{msgs.save}" 
-                                                  action="#{updateEdrCDIBean.saveNote()}" />
-                             </h:panelGroup>
+                                                 action="updateNotes?faces-redirect=true" />
+                            </h:panelGroup> 
                             
                             <h:panelGroup>
                                 <h:commandButton value="#{msgs.help}" 

@@ -8,15 +8,15 @@
 
     <body>
 
-        <ui:composition template="./deptheadPagesTemplate.xhtml"> 
+        <ui:composition template="./employeePagesTemplate.xhtml"> 
        
             <ui:define name="title">
-                ${msgs.edr_edit}
+                ${msgs.edr_view}
             </ui:define>
 
             <ui:define name="content">
                 <h1>${msgs.edr_competence_goals}</h1>
-                <h:form id="editCompetenceGoals">
+                <h:form id="viewCompetenceGoals">
                     <p:panelGrid columns="2" style="width: 100%">
                         <p:treeTable value="#{updateEdrCDIBean.competenceGoalTree}" var="node" >
                         <p:column headerText="Competence Name">
@@ -24,39 +24,37 @@
                         </p:column>
                     
                         <p:column headerText="Next Year Goal Value">
-                            <p:selectOneMenu id="importance" value="#{node.nextYearGoalValue}" >  
-                                <f:selectItem itemLabel="---" itemValue="0" />
-                                <f:selectItem itemValue="5" itemLabel="very good" />
-                                <f:selectItem itemValue="4" itemLabel="good" />
-                                <f:selectItem itemValue="3" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="2" itemLabel="adequate" />
-                                <f:selectItem itemValue="1" itemLabel="inadequate" />     
-                            </p:selectOneMenu>
+                            <h:outputText id="importance" value="#{node.nextYearGoalValue}" />         
                         </p:column>
                         <p:column headerText="Comments">
-                                <p:inputTextarea id="comments" value="#{node.comments}" rows="8" cols="120" rendered="true">
-                                    <p:ajax event="keyup"/>
-                                </p:inputTextarea>
+                                <h:outputText id="comments" value="#{node.comments}" />
+                                  
                         </p:column>
                         
                     </p:treeTable>
                     </p:panelGrid>
                     <p:panelGrid columns="1">
-                        <h1>#{msgs.edr_verdict_title}</h1>
-                        <p:inputTextarea id="verdict" value="#{updateEdrCDIBean.edrObject.verdict}" rows="8" cols="120" rendered="true">
-                        </p:inputTextarea>
+                    <h1>#{msgs.edr_verdict_title}</h1>
+                        <h:outputText id="verdict" value="#{updateEdrCDIBean.edrObject.verdict}" rendered="true">
+                        </h:outputText>
                     </p:panelGrid>
-                    <p:panelGrid columns="4" >
+                    <p:panelGrid columns="5" >
                             <h:panelGroup>
                                 <h:commandButton value="#{msgs.back}"
-                                                 action="editEdrAnswers" />
+                                                 action="viewEdrAnswers" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                 
-                                 <h:commandButton value="#{msgs.save}" 
-                                                  action="#{updateEdrCDIBean.saveEdr()}" />
-                             </h:panelGroup>
-                            
+                                <h:commandButton value="#{msgs.close}"
+                                                 action="updateEdr?faces-redirect=true" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.accept}" rendered="#{updateEdrCDIBean.edrObject.status == 3 and updateEdrCDIBean.edrObject.role == 3}"
+                                                 action="#{updateEdrCDIBean.acceptEdr()}" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.reject}" rendered="#{updateEdrCDIBean.edrObject.status == 3 and updateEdrCDIBean.edrObject.role == 3}"
+                                                 action="#{updateEdrCDIBean.rejectEdr()}" />
+                            </h:panelGroup>
                             <h:panelGroup>
                                 <h:commandButton value="#{msgs.help}" 
                                                  action="#{updateEdrCDIBean.help()}" />
