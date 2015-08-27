@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./hrmPagesTemplate.xhtml">
+
+            <ui:define name="title">
+                #{msgs.job_application} - #{jobApplications.jobApplication.jobAdvertisementIdjobAdvertisement.jobTitle}
+            </ui:define>
+
+            <ui:define name="content">
+                <f:view>
+                    <h1>#{msgs.job_application} - #{jobApplications.jobApplication.jobAdvertisementIdjobAdvertisement.jobTitle} - #{jobApplications.jobApplicant.fullName}</h1>
+                    <table class="ui-panelgrid ui-widget">
+                        <tbody>
+                            <tr class="ui-widget-content">
+                                <td colspan="2"  style="vertical-align: top">
+                                    <p:graphicImage id="image" value="#{jobApplications.photoPath}" height="100px" width="100px"   />
+                                </td>
+                            </tr>
+                            <tr class="ui-widget-content">
+                                <th class="ui-panelgrid-cell">#{msgs.first_name}</th>
+                                <td class="ui-panelgrid-cell">#{jobApplications.jobApplicant.firstName}</td>
+                            </tr>
+                            <tr class="ui-widget-content">
+                                <th class="ui-panelgrid-cell">#{msgs.last_name}</th>
+                                <td class="ui-panelgrid-cell">#{jobApplications.jobApplicant.lastName}</td>
+                            </tr>
+                            <tr class="ui-widget-content">
+                                <th class="ui-panelgrid-cell">#{msgs.gender}</th>
+                                <td class="ui-panelgrid-cell">#{jobApplications.getGender(jobApplications.jobApplicant.gender)}</td>
+                            </tr>
+                            <tr class="ui-widget-content">
+                                <th class="ui-panelgrid-cell">#{msgs.address}</th>
+                                <td class="ui-panelgrid-cell">#{jobApplications.jobApplicant.address}</td>
+                            </tr>
+                            <tr class="ui-widget-content">
+                                <th class="ui-panelgrid-cell">#{msgs.postal_code}</th>
+                                <td class="ui-panelgrid-cell">#{jobApplications.jobApplicant.postalCode}</td>
+                            </tr>
+                            <tr class="ui-widget-content">
+                                <th class="ui-panelgrid-cell">#{msgs.city}</th>
+                                <td class="ui-panelgrid-cell">#{jobApplications.jobApplicant.city}</td>
+                            </tr>
+                            <tr class="ui-widget-content">
+                                <th class="ui-panelgrid-cell">#{msgs.country}</th>
+                                <td class="ui-panelgrid-cell">#{jobApplications.getCountryName(jobApplications.jobApplicant.country)}</td>
+                            </tr>
+                            <tr class="ui-widget-content">
+                                <th class="ui-panelgrid-cell">#{msgs.province}</th>
+                                <td class="ui-panelgrid-cell">#{jobApplications.jobApplicant.province}</td>
+                            </tr>
+                            <tr class="ui-widget-content">
+                                <th class="ui-panelgrid-cell">#{msgs.phone_private}</th>
+                                <td class="ui-panelgrid-cell">#{jobApplications.jobApplicant.phonePrivate}</td>
+                            </tr>
+                            <tr class="ui-widget-content">
+                                <th class="ui-panelgrid-cell">#{msgs.phone_mobile}</th>
+                                <td class="ui-panelgrid-cell">#{jobApplications.jobApplicant.phoneMobile}</td>
+                            </tr>
+                            <tr class="ui-widget-content">
+                                <th class="ui-panelgrid-cell">#{msgs.email}</th>
+                                <td class="ui-panelgrid-cell"><a href="mailto:#{jobApplications.jobApplicant.email}">#{jobApplications.jobApplicant.email}</a></td>
+                            </tr>
+                            <tr class="ui-widget-content">
+                                <th class="ui-panelgrid-cell">#{msgs.date_of_birth}</th>
+                                <td class="ui-panelgrid-cell">#{jobApplications.jobApplicant.dateOfBirth}</td>
+                            </tr>
+                            <tr class="ui-widget-content">
+                                <th class="ui-panelgrid-cell">#{msgs.marital_status}</th>
+                                <td class="ui-panelgrid-cell">#{jobApplications.getMaritalStatus(jobApplications.jobApplicant.maritalStatus)}</td>
+                            </tr>
+                            <tr class="ui-widget-content">
+                                <th class="ui-panelgrid-cell">#{msgs.number_of_children}</th>
+                                <td class="ui-panelgrid-cell">#{jobApplications.jobApplicant.numberOfChildren}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h2>#{msgs.studies}</h2>
+                    <p:dataTable value="#{jobApplications.studies}" var="item"
+                                 paginator="true" rows="100">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.title}" escape="false"/>
+                            </f:facet>
+                            <h:outputText value="#{item.title}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.institution}" escape="false"/>
+                            </f:facet>
+                            <h:outputText value="#{item.institution}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.title_type}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.getTitleTypeName()}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.date_started}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateStarted}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.date_acquired}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateAcquired}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                    <h2>#{msgs.professional_experience}</h2>
+                    <p:dataTable value="#{jobApplications.experienceRecords}" var="item"
+                                 paginator="true" rows="100">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.title}" escape="false"/>
+                            </f:facet>
+                            <h:outputText value="#{item.jobTitle}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.role}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.role}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.company_name}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.company}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.field_of_work}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fieldOfWork}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.place_of_employment}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.placeOfEmployment}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.immediate_manager}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.immediateManager}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.business_area}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.businessArea}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.division}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.division}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.date_started}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateStarted}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.date_finished}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateFinished}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                </f:view>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

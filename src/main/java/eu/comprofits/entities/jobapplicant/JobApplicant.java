@@ -370,4 +370,9 @@ public class JobApplicant implements Serializable {
         return "com.mycompany.mavenproject1.JobApplicant[ idjobApplicant=" + idjobApplicant + " ]";
     }
     
+    
+    public String getFullName() {
+        return this.getFirstName()+" "+this.getLastName();
+    }
+    
 }

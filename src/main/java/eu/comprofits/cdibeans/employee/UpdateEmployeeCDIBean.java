@@ -7,8 +7,10 @@ package eu.comprofits.cdibeans.employee;
 
 import eu.comprofits.cdibeans.main.CountryList;
 import eu.comprofits.entities.employee.Employee;
+import eu.comprofits.entities.jobprofile.Division;
 import eu.comprofits.entities.main.Department;
 import eu.comprofits.session.employee.EmployeeFacade;
+import eu.comprofits.session.jobprofile.DivisionFacade;
 import eu.comprofits.session.main.DepartmentFacade;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -40,13 +42,15 @@ public class UpdateEmployeeCDIBean implements Serializable {
     private EmployeeFacade employeeFacade;
     @EJB
     private DepartmentFacade departmentFacade;
+    @EJB
+    private DivisionFacade divisionFacade;
     private Employee employee;
     private List<Employee> employees;
     private List<Employee> filteredEmployees;
     private UploadedFile photograph;
     private String password;
     private List<Department> departments;
-
+    private List<Division> divisions;
     /**
      * Creates a new instance of UpdateOrganisationalPositionsCDIBean
      */
@@ -57,6 +61,7 @@ public class UpdateEmployeeCDIBean implements Serializable {
     public void init() {
         refreshEmployeesList();
         departments = departmentFacade.findAll();
+        divisions = divisionFacade.findAll();
     }
 
     private void refreshEmployeesList() {
@@ -76,6 +81,12 @@ public class UpdateEmployeeCDIBean implements Serializable {
             case "hrrecruiter":
                 return bundle.getString("hr_recruiter");
 
+            case "hrassistant":
+                return bundle.getString("hr_assistant");
+                
+            case "hrteamdevelopment":
+                return bundle.getString("hr_team_development");
+                
             case "employee":
                 return bundle.getString("employee");
 
@@ -130,12 +141,29 @@ public class UpdateEmployeeCDIBean implements Serializable {
         return departments;
     }
 
+     public List<Department> getDepartmentsByDivision(Division d) {
+        if (d!=null) {
+            return departmentFacade.findDepartmenstForDivision(d);
+        }
+        else {
+            return departmentFacade.findAll();
+        }
+    }
+    
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Division> getDivisions() {
+        return divisions;
+    }
+
+    public void setDivisions(List<Division> divisions) {
+        this.divisions = divisions;
     }
 
     public void upload() {

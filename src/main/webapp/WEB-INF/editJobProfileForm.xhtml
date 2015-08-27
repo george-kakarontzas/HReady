@@ -1,0 +1,118 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form id="jobProfileCreate" >
+                    <p:messages  />
+                    <h1><h:outputText value="#{msgs.edit_job_profile}"/></h1>
+
+                    <f:facet name="header">#{msgs.edit_job_profile}</f:facet>
+                    <p:panelGrid columns="2" >
+
+                        <p:outputLabel value="#{msgs.job_title}" for="jobTitle"  />
+                        <p:inputText id="jobTitle" size="40" required="true"
+                                     value="#{updateJobCDIBean.jobObject.jobTitle}" />
+
+                        <p:outputLabel value="#{msgs.organizational_position}" for="organisationalPosition" />
+
+                        <p:selectOneMenu id="organisationalPosition" value="#{updateJobCDIBean.jobObject.organisationalPositionIdorganisationalPosition}" 
+                                         converter="#{organisationalPositionConverter}">  
+                            <f:selectItem itemLabel="---" itemValue="" />
+                            <f:selectItems value="#{updateJobCDIBean.positions}"
+                                           var="o" itemValue="#{o}" itemLabel="#{o.organisationalPositionName}" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{msgs.business_area}" for="department" />
+
+                        <p:selectOneMenu id="department" value="#{updateJobCDIBean.jobObject.departmentIddepartment}" converter="#{departmentConverter}"
+                                         >  
+                            <f:selectItem itemLabel="---" itemValue="" />
+                            <f:selectItems value="#{updateJobCDIBean.departmentFacade.findAll()}"
+                                           var="d" itemValue="#{d}" itemLabel="#{d.departmentName}" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{msgs.place_of_employment}" for="place_employment" />
+
+                        <p:selectOneMenu id="place_employment" value="#{updateJobCDIBean.jobObject.placeEmploymentIdplaceEmployment}" 
+                                         converter="#{placeEmploymentConverter}">  
+                            <f:selectItem itemLabel="---" itemValue="" />
+                            <f:selectItems value="#{updateJobCDIBean.placeEmploymentFacade.findAll()}"
+                                           var="p" itemValue="#{p}" itemLabel="#{p.name}" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{msgs.reporting_to}" for="reportingTo" />
+                        <p:selectOneMenu id="reportingTo" value="#{updateJobCDIBean.jobObject.reportingToIdemployee}" converter="#{reportingToConverter}">  
+                            <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{updateJobCDIBean.employeeList}"
+                                           var="e" itemValue="#{e}" itemLabel="##{e.lastName} #{e.firstName} #{e.email}" />
+                        </p:selectOneMenu>
+
+                        <!--fieldofResponsibility is most probably missing in the updateJobCDIBean.jobObject-->
+                        <!-- Not for Alpha version
+                        <p:outputLabel value="#{msgs.fields_of_responsibility}:" for="fieldsOfResponsibility" />
+                        <p:selectOneMenu id="fieldsOfResponsibility" value="#{updateJobCDIBean.jobObject.idjob}" converter="#{jobAdvertisementConverter1}">  
+                            <f:selectItem itemLabel="-" itemValue="" />
+                            <f:selectItems value="#{updateJobCDIBean.jobObject.jobAdvertisementCollection}"
+                                           var="j" itemValue="#{j}" itemLabel="#{j.fieldsOfResponsibility}" />
+                        </p:selectOneMenu> -->
+
+                        <p:outputLabel value="#{msgs.job_description}:" for="jobDescription" />
+                        <p:inputText id="jobDescription" size="40" value="#{updateJobCDIBean.jobObject.jobDescription}"/>
+
+                        <!-- is the selected value to selectManyCheckbox correct or should it be inside JOBCDIBean? -->
+                        <!-- 
+                        <p:outputLabel value="#{msgs.studies_min_requirements}" for="studiesMinRequirements" />
+                        <p:selectManyCheckbox id="studiesMinRequirements" value="#{updateJobCDIBean.jobObject}" >  
+                            <f:selectItem itemLabel="#{msgs.formal_education}" itemValue=""/>  
+                            <f:selectItem itemLabel="#{msgs.professional_education}" itemValue=""/>  
+                            <f:selectItem itemLabel="#{msgs.other_degrees}" itemValue=""/>  
+                            <f:selectItem itemLabel="#{msgs.university_degree}" itemValue=""/>  
+                            <f:selectItem itemLabel="#{msgs.continuing_training}" itemValue=""/>
+                        </p:selectManyCheckbox>                             -->
+
+                        <!--What is the right object for "Practical Experience before current company" in the updateJobCDIBean.jobObject  
+                        <p:outputLabel value="#{msgs.practical_experience_before_current_company}:" for="practicalExperienceBeforeCurrentCompany" />
+                        <p:inputText id="practicalExperienceBeforeCurrentCompany" size="5" /> -->
+
+
+                        <p:outputLabel value="#{msgs.job_profile_status}" for="job_status" />
+                        <p:selectOneMenu id="job_status" value="#{updateJobCDIBean.jobObject.status}" >  
+                            <f:selectItem itemLabel="---" itemValue="" />
+                            <f:selectItem itemValue="true" itemLabel="Enable" />
+                            <f:selectItem itemValue="false" itemLabel="Disable" />
+                        </p:selectOneMenu>
+
+
+                    </p:panelGrid>
+
+                    <p:treeTable value="#{updateJobCDIBean.competencesRequirementsTree}" var="node" >
+                        <p:column headerText="Competence Name">
+                            <h:outputText value="#{node.getCompetenceName()}" />
+                        </p:column>
+                        <p:column headerText="Weight">
+                            <p:spinner min="0" max="100" stepFactor="1" value="#{node.weight}" />
+                        </p:column>
+                        <p:column headerText="Importance">
+                            <p:selectOneMenu id="importance" value="#{node.importance}" >  
+                                <f:selectItem itemLabel="---" itemValue="0" />
+                                <f:selectItem itemValue="5" itemLabel="Very important" />
+                                <f:selectItem itemValue="4" itemLabel="Important" />
+                                <f:selectItem itemValue="3" itemLabel="Moderately important" />
+                                <f:selectItem itemValue="2" itemLabel="Of little importance" />
+                                <f:selectItem itemValue="1" itemLabel="Unimportant" />
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:treeTable>
+
+                    <p:panelGrid columns="5" >
+                        <h:commandButton id="back" value="#{msgs.back}" action="updateJobProfile"  immediate="true" />  
+                        <h:commandButton id="update" value="Update" action="#{updateJobCDIBean.update()}" />     
+                        <h:commandButton id="saveAsNew" value="Save as new" action="#{updateJobCDIBean.saveAsNew()}" />      
+                        <p:commandButton id="print" value="#{msgs.print}" icon="ui-icon-print" ><p:printer /></p:commandButton>
+                        <p:commandButton id="help" value="#{msgs.help}" icon="ui-icon-help" />
+                    </p:panelGrid>
+
+                </h:form>
+
+</ui:composition>

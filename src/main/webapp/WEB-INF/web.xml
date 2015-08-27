@@ -24,7 +24,7 @@
     <context-param>
         <description>The location of the wkthmltopdf executable for pdf creation.</description>
         <param-name>WKHTMLTOPDF_EXE</param-name>
-        <param-value>C:/glassfish-4.1/glassfish/domains/domain1/usr/bin/wkhtmltopdf/bin/wkhtmltopdf.exe</param-value>
+        <param-value>/usr/bin/wkhtmltopdf</param-value>
     </context-param>
     <context-param>
         <description>The location in which various uploaded files are stored. E.g. the employees photographs.</description>
@@ -89,7 +89,7 @@
         <web-resource-collection>
             <web-resource-name>HRM_recruiter_pages</web-resource-name>
             <description/>
-            <url-pattern>/hrm/*</url-pattern>
+            <url-pattern>/hrmrecruiter/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description/>
@@ -109,11 +109,37 @@
             <role-name>administrator</role-name>
             <role-name>hrrecruiter</role-name>
             <role-name>employee</role-name>
+            <role-name>hrassistant</role-name>
+            <role-name>hrteamdevelopment</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>HRMAssistantConstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>hrm_assistant_pages</web-resource-name>
+            <description/>
+            <url-pattern>/hrassistant/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>hrassistant</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>HRMTeamDevelopmentConstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>hrm_team_development_pages</web-resource-name>
+            <description/>
+            <url-pattern>/hrteamdevelopment/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>hrteamdevelopment</role-name>
         </auth-constraint>
     </security-constraint>
     <login-config>
         <auth-method>FORM</auth-method>
-        <realm-name>comprofits_jdbc_realm2</realm-name>
+        <realm-name>comprofits_jdbc_realm</realm-name>
         <form-login-config>
             <form-login-page>/login.xhtml</form-login-page>
             <form-error-page>/loginerror.xhtml</form-error-page>
@@ -138,6 +164,14 @@
     <security-role>
         <description>Applicant role</description>
         <role-name>APPLICANT</role-name>
+    </security-role>
+    <security-role>
+        <description>HRM assistant role</description>
+        <role-name>hrassistant</role-name>
+    </security-role>
+    <security-role>
+        <description>HRM team development role</description>
+        <role-name>hrteamdevelopment</role-name>
     </security-role>
     <resource-ref>
         <description>Connects to database for ComProFITS application</description>

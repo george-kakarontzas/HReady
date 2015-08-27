@@ -7,6 +7,7 @@
 package eu.comprofits.entities.jobprofile;
 
 import eu.comprofits.entities.employee.Employee;
+import eu.comprofits.entities.main.Company;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -48,12 +49,14 @@ public class Division implements Serializable {
     @Size(max = 45)
     @Column(name = "name")
     private String name;
-    @Size(max = 140)
     @Column(name = "description")
     private String description;
     @JoinColumn(name = "head_of_division_employee", referencedColumnName = "idemployee")
     @ManyToOne
     private Employee headOfDivisionEmployee;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "company_idcompany", referencedColumnName = "idcompany")
+    private Company companyIdcompany;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "divisionIddivision")
     private Collection<BusinessArea> businessAreaCollection;
 
@@ -103,6 +106,14 @@ public class Division implements Serializable {
 
     public void setBusinessAreaCollection(Collection<BusinessArea> businessAreaCollection) {
         this.businessAreaCollection = businessAreaCollection;
+    }
+
+    public Company getCompanyIdcompany() {
+        return companyIdcompany;
+    }
+
+    public void setCompanyIdcompany(Company companyIdcompany) {
+        this.companyIdcompany = companyIdcompany;
     }
 
     @Override

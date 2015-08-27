@@ -95,6 +95,12 @@ public class updateEmployeesProfileCDIBean implements Serializable {
 
             case "hrrecruiter":
                 return bundle.getString("hr_recruiter");
+                
+            case "hrassistant":
+                return bundle.getString("hr_assistant");
+                
+            case "hrteamdevelopment":
+                return bundle.getString("hr_team_development");
 
             case "employee":
                 return bundle.getString("employee");
@@ -185,6 +191,7 @@ public class updateEmployeesProfileCDIBean implements Serializable {
     public String create() {
         this.employee = new Employee();
         employee.setDepartmentIddepartment(this.getDepartment());
+        employee.setDivisionIddivision(this.getDepartment().getDivisionIddivision());
         return "editEmployeeProfile";
     }
 

@@ -789,10 +789,10 @@ public class UpdateEdrCDIBean implements Serializable {
             
             for (QuestionCategory qc : this.answerCategories)
             {
-                questions_answers = questions_answers + "<li><b>" + qc.getQuestionCategory() +"</b><br/><br/><ol>";
+                questions_answers = questions_answers + "<li><b><u>" + qc.getQuestionCategory() +"</u></b><br/><br/><ol>";
                 for (Answer a : this.answers.get(this.answerCategories.indexOf(qc)))
                 {
-                    questions_answers = questions_answers + "<li>" + a.getAnswer() + "</li>";
+                    questions_answers = questions_answers + "<li><b>" + a.getQuestionIdquestion().getQuestion() + "</b><br/><br/>" + a.getAnswer() + "</li><br/><br/>";
                 }
                 questions_answers = questions_answers + "</ol>";
             }

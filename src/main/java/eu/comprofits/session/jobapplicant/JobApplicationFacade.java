@@ -52,5 +52,16 @@ public class JobApplicationFacade extends AbstractFacade<JobApplication> {
         q.setParameter("applicant", applicant);
         return q.getResultList();
     }
+      
+     public List<JobApplication> getOrderedApplications() {
+        Query q = em.createQuery("SELECT ja FROM JobApplication ja ORDER BY ja.date DESC");
+        return q.getResultList();
+    }
+     
+     public List<JobApplication> getOrderedApplications(JobAdvertisement job) {
+        Query q = em.createQuery("SELECT ja FROM JobApplication ja WHERE ja.jobAdvertisementIdjobAdvertisement=:job ORDER BY ja.date DESC");
+        q.setParameter("job", job);
+        return q.getResultList();
+    }
     
 }

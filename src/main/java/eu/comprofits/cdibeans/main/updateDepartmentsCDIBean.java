@@ -6,15 +6,18 @@
 package eu.comprofits.cdibeans.main;
 
 import eu.comprofits.entities.employee.Employee;
+import eu.comprofits.entities.jobprofile.Division;
 import eu.comprofits.entities.main.Company;
 import eu.comprofits.entities.main.Department;
 import eu.comprofits.session.employee.EmployeeFacade;
+import eu.comprofits.session.jobprofile.DivisionFacade;
 import eu.comprofits.session.main.CompanyFacade;
 import eu.comprofits.session.main.DepartmentFacade;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -30,7 +33,7 @@ public class updateDepartmentsCDIBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EJB
-    private CompanyFacade companyFacade;
+    private DivisionFacade divisionFacade;
 
     @EJB
     private DepartmentFacade departmentFacade;
@@ -40,7 +43,7 @@ public class updateDepartmentsCDIBean implements Serializable {
 
     private Department department;
     private List<Department> departments;
-    private List<Company> companies;
+    private List<Division> divisions;
 
     /**
      * Creates a new instance of UpdateDepartmentsCDIBean
@@ -51,7 +54,7 @@ public class updateDepartmentsCDIBean implements Serializable {
     @PostConstruct
     public void init() {
         departments = departmentFacade.findAll();
-        companies = companyFacade.findAll();
+        divisions = divisionFacade.findAll();
     }
 
     public Department getDepartment() {
@@ -70,12 +73,14 @@ public class updateDepartmentsCDIBean implements Serializable {
         this.departments = departments;
     }
 
-    public List<Company> getCompanies() {
-        return companies;
+    public List<Division> getDivisions() {
+        //return divisions;
+        divisions = divisionFacade.findAll();
+        return divisions;
     }
 
-    public void setCompanies(List<Company> companies) {
-        this.companies = companies;
+    public void setDivisions(List<Division> divisions) {
+        this.divisions = divisions;
     }
 
     public void remove(Department d) {

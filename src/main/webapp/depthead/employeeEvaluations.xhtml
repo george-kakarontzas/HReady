@@ -28,7 +28,8 @@
                                                />
                             </p:selectOneMenu>
                             <p:outputLabel value="#{msgs.employee}:" for="employee_id"/>
-                            <p:selectOneMenu id="employee_id" converter="#{employeeConverter}" value="#{employeeEvaluation.employee}">
+                            <p:selectOneMenu id="employee_id" converter="#{employeeConverter}" 
+                                             value="#{employeeEvaluation.employee}">
                                 <f:selectItems value="#{employeeEvaluation.employees}" 
                                                var="e" itemValue="#{e}" itemLabel="#{e.fullName}" 
                                                />
