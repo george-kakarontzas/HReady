@@ -36,7 +36,7 @@ public class QuestionCategory implements Serializable {
     @Basic(optional = false)
     @Column(name = "idquestioncat")
     private Integer idquestioncat;
-    @Column(name = "question_category")
+    @Column(name = "category")
     @Size(max = 2147483647)
     private String questionCategory;
 

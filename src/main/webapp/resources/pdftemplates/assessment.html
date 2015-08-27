@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Evaluation</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+    <style type="text/css">
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+    </style>
+  </head>
+  <body>
+      <h2>{{assessee}}</h2>
+      <table class="table table-stripped">
+          <thead>
+              <tr>
+                  <th>{{date_created_title}}</th>
+                  <th>{{issue_date_title}}</th>
+                  <th>{{deadline_title}}</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td>{{date_created}}</td>
+                  <td>{{issue_date}}</td>
+                  <td>{{deadline}}</td>
+              </tr>
+          </tbody>
+      </table>
+            <table class="table table-stripped">
+          <thead>
+              <tr>
+                  <th>{{manager_title}}</th>
+                  <th>{{coleague_title}} 1</th>
+                  <th>{{coleague_title}} 2</th>
+                  <th>{{coleague_title}} 3</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td>{{manager}}</td>
+                  <td>{{coleague_1}}</td>
+                  <td>{{coleague_2}}</td>
+                  <td>{{coleague_3}}</td>
+              </tr>
+          </tbody>
+      </table>
+      <h3>{{questionaire_title}}</h3>
+      <table class="table table-stripped">
+          <thead>
+              <tr>
+          <th>{{competence_name}}</th>
+          <th>{{statement}}</th>
+              </tr>
+          </thead>
+          <tbody>
+              {{questionaire_contents}}
+          </tbody>
+      </table>
+      <h3>{{selected_assessment_status}}</h3>
+      {{selected_assessment_status_content}}
+      <h3>{{running_total_average}}</h3>
+      <strong>{{running_total_average_content}}</strong>
+  </body>
+</html>

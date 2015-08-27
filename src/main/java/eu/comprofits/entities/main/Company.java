@@ -6,6 +6,7 @@
 
 package eu.comprofits.entities.main;
 
+import eu.comprofits.entities.jobprofile.Division;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -93,7 +94,7 @@ public class Company implements Serializable {
     @Column(name = "website")
     private String website;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "companyIdcompany")
-    private Collection<Department> departmentCollection;
+    private Collection<Division> divisionCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "companyIdcompany")
     private Collection<OrganisationalPosition> organisationalPositionCollection;
 
@@ -202,12 +203,12 @@ public class Company implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Department> getDepartmentCollection() {
-        return departmentCollection;
+    public Collection<Division> getDivisionCollection() {
+        return divisionCollection;
     }
 
-    public void setDepartmentCollection(Collection<Department> departmentCollection) {
-        this.departmentCollection = departmentCollection;
+    public void setDivisionCollection(Collection<Division> divisionCollection) {
+        this.divisionCollection = divisionCollection;
     }
 
     @XmlTransient

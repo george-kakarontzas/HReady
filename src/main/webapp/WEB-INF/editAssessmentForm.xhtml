@@ -1,0 +1,291 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+    <f:view>
+        <h1><h:outputText value="#{msgs.create_edit_assessment}" /></h1>
+       <!-- <h2><h:outputText value="#{msgs.department_name} : 
+                          #{updateAssessmentsCDIBean.department.departmentName}" /></h2> -->
+        <h:form id="compform">
+            <p:growl id="growl" sticky="true" showDetail="true"/>
+            <p:wizard flowListener="#{updateAssessmentsCDIBean.onFlowProcess}" >
+                <p:tab id="assessmentTeam" title="#{msgs.assessment_team}" >
+                    <p:panel header="#{msgs.assessment_team}">
+                        <p:messages />
+                        <p:panelGrid columns="4">
+                            <p:outputLabel value="#{msgs.issue_date}:" for="issueDate" />
+                            <p:calendar id="issueDate" 
+                                        value="#{updateAssessmentsCDIBean.assessment.issueDate}" 
+                                        showOn="button" navigator="true" pattern="dd/MM/yyyy" 
+                                        />
+                            <p:outputLabel value="#{msgs.deadline}:" for="deadline" />
+                            <p:calendar id="deadline" 
+                                        value="#{updateAssessmentsCDIBean.assessment.deadline}" 
+                                        showOn="button" navigator="true" pattern="dd/MM/yyyy" 
+                                        />
+                            <p:outputLabel value="#{msgs.employee_role}" />
+                            <p:outputLabel value="#{msgs.division_name}" />
+                            <p:outputLabel value="#{msgs.department_name}" />
+                            <p:outputLabel value="#{msgs.employee}" />
+
+                            <!-- Assessee Employee Fields -->
+
+                            <p:outputLabel value="#{msgs.assessee}" />
+                            <p:selectOneMenu id="assessee_division" 
+                                             value="#{updateAssessmentsCDIBean.assesseeDivision}"
+                                             converter="#{divisionConverter}">
+                                <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{updateAssessmentsCDIBean.divisions}" 
+                                               var="d" itemValue="#{d}" 
+                                               itemLabel="#{d.name}"
+                                               />
+                                <p:ajax update="assesseeDept" />
+                            </p:selectOneMenu>
+                            <p:selectOneMenu id="assesseeDept" converter="#{departmentConverter}"  
+                                             value="#{updateAssessmentsCDIBean.assesseeDepartment}">
+                                <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{updateAssessmentsCDIBean.assesseeDepartments}" />
+                                <p:ajax update="assesseeIdemployee" />
+                            </p:selectOneMenu>
+                            <p:selectOneMenu id="assesseeIdemployee" 
+                                             value="#{updateAssessmentsCDIBean.assessment.assesseeIdemployee}"
+                                             required="true" 
+                                             requiredMessage="#{msgs.required_assessee}"
+                                             converter="#{employeeConverter}">
+                                <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true"  />  
+                                <f:selectItems value="#{updateAssessmentsCDIBean.assesseeDepartmentEmployees}" 
+                                               var="e" itemValue="#{e}" 
+                                               itemLabel="#{e.lastName} #{e.firstName} #{e.email}"
+                                               />
+                            </p:selectOneMenu>
+
+                            <!-- Immediate Manager Employee Fields -->
+
+                            <p:outputLabel value="#{msgs.immediate_manager}" />
+                            <p:selectOneMenu id="immediate_manager_division" 
+                                             value="#{updateAssessmentsCDIBean.immediateManagerDivision}"
+                                             converter="#{divisionConverter}">
+                                <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{updateAssessmentsCDIBean.divisions}" 
+                                               var="d" itemValue="#{d}" 
+                                               itemLabel="#{d.name}"
+                                               />
+                                <p:ajax update="immediateManagerDept" />
+                            </p:selectOneMenu>
+                            <p:selectOneMenu id="immediateManagerDept" converter="#{departmentConverter}"  
+                                             value="#{updateAssessmentsCDIBean.immediateManagerDepartment}">
+                                <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{updateAssessmentsCDIBean.immediateManagerDepartments}" />
+                                <p:ajax update="immediateManagerIdemployee" />
+                            </p:selectOneMenu>
+                            <p:selectOneMenu id="immediateManagerIdemployee" 
+                                             value="#{updateAssessmentsCDIBean.assessment.immediateManagerIdemployee}"
+                                             required="true" 
+                                             requiredMessage="#{msgs.required_immediate_manager}"
+                                             converter="#{employeeConverter}">
+                                <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true"  />  
+                                <f:selectItems value="#{updateAssessmentsCDIBean.immediateManagerDepartmentEmployees}" 
+                                               var="e" itemValue="#{e}" 
+                                               itemLabel="#{e.lastName} #{e.firstName} #{e.email}"
+                                               />
+                            </p:selectOneMenu>
+
+                            <!-- Colleague 1 Employee Fields -->
+
+                            <p:outputLabel value="#{msgs.colleague} #1" />
+                            <p:selectOneMenu id="colleague1_division" 
+                                             value="#{updateAssessmentsCDIBean.colleague1Division}"
+                                             converter="#{divisionConverter}">
+                                <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{updateAssessmentsCDIBean.divisions}" 
+                                               var="d" itemValue="#{d}" 
+                                               itemLabel="#{d.name}"
+                                               />
+                                <p:ajax update="colleague1Dept" />
+                            </p:selectOneMenu>
+                            <p:selectOneMenu id="colleague1Dept" converter="#{departmentConverter}"  
+                                             value="#{updateAssessmentsCDIBean.colleague1Department}">
+                                <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{updateAssessmentsCDIBean.colleague1Departments}" />
+                                <p:ajax update="colleague1Idemployee" />
+                            </p:selectOneMenu>
+                            <p:selectOneMenu id="colleague1Idemployee" 
+                                             value="#{updateAssessmentsCDIBean.assessment.colleague1Idemployee}"
+                                             required="true" 
+                                             requiredMessage="#{msgs.required_colleague1}"
+                                             converter="#{employeeConverter}">
+                                <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true"  />  
+                                <f:selectItems value="#{updateAssessmentsCDIBean.colleague1DepartmentEmployees}" 
+                                               var="e" itemValue="#{e}" 
+                                               itemLabel="#{e.lastName} #{e.firstName} #{e.email}"
+                                               />
+                            </p:selectOneMenu>
+
+                            <!-- Colleague 2 Employee Fields -->
+
+                            <p:outputLabel value="#{msgs.colleague} #2" />
+                            <p:selectOneMenu id="colleague2_division" 
+                                             value="#{updateAssessmentsCDIBean.colleague2Division}"
+                                             converter="#{divisionConverter}">
+                                <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{updateAssessmentsCDIBean.divisions}" 
+                                               var="d" itemValue="#{d}" 
+                                               itemLabel="#{d.name}"
+                                               />
+                                <p:ajax update="colleague2Dept" />
+                            </p:selectOneMenu>
+                            <p:selectOneMenu id="colleague2Dept" converter="#{departmentConverter}"  
+                                             value="#{updateAssessmentsCDIBean.colleague2Department}">
+                                <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{updateAssessmentsCDIBean.colleague2Departments}" />
+                                <p:ajax update="colleague2Idemployee" />
+                            </p:selectOneMenu>
+                            <p:selectOneMenu id="colleague2Idemployee" 
+                                             value="#{updateAssessmentsCDIBean.assessment.colleague2Idemployee}"
+                                             required="true" 
+                                             requiredMessage="#{msgs.required_colleague2}"
+                                             converter="#{employeeConverter}">
+                                <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true"  />  
+                                <f:selectItems value="#{updateAssessmentsCDIBean.colleague2DepartmentEmployees}" 
+                                               var="e" itemValue="#{e}" 
+                                               itemLabel="#{e.lastName} #{e.firstName} #{e.email}"
+                                               />
+                            </p:selectOneMenu>
+
+                            <!-- Colleague 3 Employee Fields -->
+
+                            <p:outputLabel value="#{msgs.colleague} #3" />
+                            <p:selectOneMenu id="colleague3_division" 
+                                             value="#{updateAssessmentsCDIBean.colleague3Division}"
+                                             converter="#{divisionConverter}">
+                                <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{updateAssessmentsCDIBean.divisions}" 
+                                               var="d" itemValue="#{d}" 
+                                               itemLabel="#{d.name}"
+                                               />
+                                <p:ajax update="colleague3Dept" />
+                            </p:selectOneMenu>
+                            <p:selectOneMenu id="colleague3Dept" converter="#{departmentConverter}"  
+                                             value="#{updateAssessmentsCDIBean.colleague3Department}">
+                                <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{updateAssessmentsCDIBean.colleague3Departments}" />
+                                <p:ajax update="colleague3Idemployee" />
+                            </p:selectOneMenu>
+                            <p:selectOneMenu id="colleague3Idemployee" 
+                                             value="#{updateAssessmentsCDIBean.assessment.colleague3Idemployee}"
+                                             required="true" 
+                                             requiredMessage="#{msgs.required_colleague1}"
+                                             converter="#{employeeConverter}">
+                                <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true"  />  
+                                <f:selectItems value="#{updateAssessmentsCDIBean.colleague3DepartmentEmployees}" 
+                                               var="e" itemValue="#{e}" 
+                                               itemLabel="#{e.lastName} #{e.firstName} #{e.email}"
+                                               />
+                            </p:selectOneMenu>
+
+                        </p:panelGrid>
+                    </p:panel>
+                </p:tab>
+                <p:tab id="competenceSelection" title="#{msgs.level3_competences_selection}" >
+                    <p:panel header="#{msgs.level3_competence_selection}" >
+                        <p:messages />
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="#{msgs.add_level3_competence}" />
+                            <p:pickList id="competencesPickList" value="#{updateAssessmentsCDIBean.competences}" var="competence"
+                                        itemValue="#{competence}" itemLabel="#{competence.competenceName}" 
+                                        showCheckbox="true"
+                                        showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" 
+                                        converter="#{competenceConverter}">
+                                <f:facet name="sourceCaption">#{msgs.available}</f:facet>
+                                <f:facet name="targetCaption">#{msgs.selected}</f:facet>
+                                <p:ajax event="transfer" listener="#{updateAssessmentsCDIBean.competenceChanged}" />
+                            </p:pickList>
+                        </p:panelGrid>
+                    </p:panel>
+                </p:tab>
+
+                <p:tab id="statementSelection" title="#{msgs.statements_selection}" >
+                    <p:panel header="#{msgs.statements_selection}" >
+                        <p:messages />
+                        <p:panelGrid columns="2">
+                            <p:selectOneListbox value="#{updateAssessmentsCDIBean.selectedCompetence}" converter="#{competenceConverter}">
+                                <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{updateAssessmentsCDIBean.selectedCompetences}" 
+                                               var="competence" itemLabel="#{competence.competenceName}" itemValue="#{competence}" />
+                                <p:ajax listener="#{updateAssessmentsCDIBean.competenceValueChange}" 
+                                        update="statementsPickList" />  
+                            </p:selectOneListbox>
+
+                            <p:pickList id="statementsPickList" value="#{updateAssessmentsCDIBean.statements}" var="statement"
+                                        itemValue="#{statement}" itemLabel="#{statement.statementText}" 
+                                        showCheckbox="true"
+                                        showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" 
+                                        converter="#{statementConverter}" 
+
+                                        >
+                                <f:facet name="sourceCaption">#{msgs.available}</f:facet>
+                                <f:facet name="targetCaption">#{msgs.selected}</f:facet>
+                                <p:ajax event="transfer" listener="#{updateAssessmentsCDIBean.statementChanged}" />
+                            </p:pickList>
+                        </p:panelGrid>
+                    </p:panel>
+
+                </p:tab>
+
+                <p:tab id="summaryAndConfirmation" title="#{msgs.summary_and_confirmation}" >
+                    <p:panel header="#{msgs.summary_and_confirmation}" >
+                        <p:messages />
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="#{msgs.date_created}: " />
+                            <p:outputLabel value="#{updateAssessmentsCDIBean.assessment.dateCreated}">
+                                <f:convertDateTime type="date"  pattern="dd/MM/yyyy" />
+                            </p:outputLabel>
+
+                            <p:outputLabel value="#{msgs.assessee}: " />
+                            <p:outputLabel value="#{updateAssessmentsCDIBean.assessment.assesseeIdemployee.lastName}, 
+                                           #{updateAssessmentsCDIBean.assessment.assesseeIdemployee.firstName},
+                                           #{updateAssessmentsCDIBean.assessment.assesseeIdemployee.email}" />
+
+                            <p:outputLabel value="#{msgs.immediate_manager}: " />
+                            <p:outputLabel value="#{updateAssessmentsCDIBean.assessment.immediateManagerIdemployee.lastName}, 
+                                           #{updateAssessmentsCDIBean.assessment.immediateManagerIdemployee.firstName},
+                                           #{updateAssessmentsCDIBean.assessment.immediateManagerIdemployee.email}" />
+
+                            <p:outputLabel value="#{msgs.colleague} 1: " />
+                            <p:outputLabel value="#{updateAssessmentsCDIBean.assessment.colleague1Idemployee.lastName}, 
+                                           #{updateAssessmentsCDIBean.assessment.colleague1Idemployee.firstName},
+                                           #{updateAssessmentsCDIBean.assessment.colleague1Idemployee.email}" />
+
+                            <p:outputLabel value="#{msgs.colleague} 2: " />
+                            <p:outputLabel value="#{updateAssessmentsCDIBean.assessment.colleague2Idemployee.lastName}, 
+                                           #{updateAssessmentsCDIBean.assessment.colleague2Idemployee.firstName},
+                                           #{updateAssessmentsCDIBean.assessment.colleague2Idemployee.email}" />
+
+                            <p:outputLabel value="#{msgs.colleague} 3: " />
+                            <p:outputLabel value="#{updateAssessmentsCDIBean.assessment.colleague3Idemployee.lastName}, 
+                                           #{updateAssessmentsCDIBean.assessment.colleague3Idemployee.firstName},
+                                           #{updateAssessmentsCDIBean.assessment.colleague3Idemployee.email}" />       
+                            <c:forEach var="item" items="#{updateAssessmentsCDIBean.selectedStatementsPerCompetence}" >
+                                <p:outputLabel value="#{msgs.selected_competence}" />
+                                <p:outputLabel value="#{item.key}" />
+                                <c:forEach var="st" items="#{updateAssessmentsCDIBean.getStatementsForCompetence(item.key)}">
+                                    <p:outputLabel value="#{msgs.selected_statement}" />
+                                    <p:outputLabel value="#{st}" />
+                                </c:forEach>
+                            </c:forEach> 
+                            <h:commandButton id="back" value="#{msgs.cancel}" action="updateAssessments" immediate="true"/>  
+                            <h:commandButton id="update" value="#{msgs.update}" action="#{updateAssessmentsCDIBean.update()}"  />
+
+                        </p:panelGrid>
+                    </p:panel>
+                </p:tab>
+
+            </p:wizard>
+
+        </h:form>
+    </f:view>
+</ui:composition>

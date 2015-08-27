@@ -61,9 +61,9 @@
 
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs.department_name}"/>
+                                    <h:outputText value="#{msgs.division_name}/#{msgs.department_name}"/>
                                 </f:facet>
-                                <h:outputText value="#{item.departmentIddepartment.departmentName}"/>
+                                <h:outputText value="#{item.departmentIddepartment.divisionIddivision.name}/#{item.departmentIddepartment.departmentName}"/>
                             </p:column>
 
                             <p:column>

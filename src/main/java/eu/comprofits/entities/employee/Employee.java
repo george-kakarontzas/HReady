@@ -173,6 +173,9 @@ public class Employee implements Serializable {
     @JoinColumn(name = "department_iddepartment", referencedColumnName = "iddepartment")
     @ManyToOne
     private Department departmentIddepartment;
+    @JoinColumn(name = "division_iddivision", referencedColumnName = "iddivision")
+    @ManyToOne
+    private Division divisionIddivision;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "immediateManagerIdemployee")
     private Collection<Edr> edrCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "reviewedEmployeeIdemployee")
@@ -448,6 +451,14 @@ public class Employee implements Serializable {
 
     public void setDepartmentIddepartment(Department departmentIddepartment) {
         this.departmentIddepartment = departmentIddepartment;
+    }
+
+    public Division getDivisionIddivision() {
+        return divisionIddivision;
+    }
+
+    public void setDivisionIddivision(Division divisionIddivision) {
+        this.divisionIddivision = divisionIddivision;
     }
 
     @XmlTransient

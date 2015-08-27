@@ -15,64 +15,7 @@
             </ui:define>
 
             <ui:define name="content">
-                <f:view>
-                    
-                    <h:form id="jobProfilesTableForm">
-                        <p:messages  />
-                        
-                        <h1><h:outputText value="#{msgs.list_of_stored_jobprofiles}"/></h1>
-                        <p:commandButton icon="ui-icon-pencil"
-                                         value="#{msgs.create_new_jobprofile}"
-                                         action="#{updateJobCDIBean.create()}"
-                                         ajax="false"
-                                          />
-                        
-                        <p:dataTable var="item" value="#{updateJobCDIBean.jobList}" widgetVar="jobprofilesTable"
-                                     emptyMessage="#{msgs.no_jobprofiles_found_with_given_criteria}" 
-                                     filteredValue="#{updateJobCDIBean.filteredJobList}"
-                                     >
-
-                            <f:facet name="header">
-                                <p:outputPanel>
-                                    <h:outputText value="#{msgs.search_all_fields}:" />
-                                    <p:inputText id="globalFilter" onkeyup="PF('jobprofilesTable').filter()" 
-                                                 style="width:150px" placeholder="#{msgs.enter_keyword}"/>
-                                </p:outputPanel>
-                            </f:facet>
-                            <p:column filterBy="#{item.jobTitle}" 
-                                      headerText="#{msgs.job_title} &lt;br/&gt;(#{msgs.click_to_edit_record})"
-                                      filterMatchMode="contains">
-                                
-                                <h:commandLink action="#{updateJobCDIBean.edit(item)}"  
-                                               value="#{item.jobTitle}"/>
-                            </p:column>
-                            
-                            <p:column filterBy="#{item.jobDescription}" 
-                                      headerText="#{msgs.job_description}"
-                                      filterMatchMode="contains">
-                                <h:outputText value="#{item.jobDescription}"/>
-                            </p:column>
-                            
-                            <p:column filterBy="#{item.reportingToIdemployee.fullName}" 
-                                      headerText="#{msgs.reporting_to}"
-                                      filterMatchMode="contains">
-                                <h:outputText value="#{item.reportingToIdemployee.fullName}"/>
-                            </p:column>
-                     
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs.delete_job_profile}"/>
-                                </f:facet>
-                                <p:commandButton icon="ui-icon-trash"
-                                                 
-                                        action="#{updateJobCDIBean.remove(item)}"                                                
-                                        onclick="if (! confirm('#{msgs.are_you_sure}') ) { return false;}; return true; " /> 
-                                
-                            </p:column> 
-                        </p:dataTable>
-                    </h:form>
-                </f:view>
-
+                <ui:include src="../WEB-INF/updateJobProfileForm.xhtml" />
             </ui:define>
 
         </ui:composition>

@@ -52,8 +52,8 @@ public class BusinessArea implements Serializable {
     @JoinColumn(name = "division_iddivision", referencedColumnName = "iddivision")
     @ManyToOne(optional = false)
     private Division divisionIddivision;
-    @OneToMany(mappedBy = "businessAreaIdbusinessArea")
-    private Collection<Job> jobCollection;
+    //@OneToMany(mappedBy = "businessAreaIdbusinessArea")
+    //private Collection<Job> jobCollection;
 
     public BusinessArea() {
     }
@@ -95,13 +95,13 @@ public class BusinessArea implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Job> getJobCollection() {
-        return jobCollection;
-    }
+    //public Collection<Job> getJobCollection() {
+    //    return jobCollection;
+    //}
 
-    public void setJobCollection(Collection<Job> jobCollection) {
-        this.jobCollection = jobCollection;
-    }
+    //public void setJobCollection(Collection<Job> jobCollection) {
+   //     this.jobCollection = jobCollection;
+    //}
 
     @Override
     public int hashCode() {

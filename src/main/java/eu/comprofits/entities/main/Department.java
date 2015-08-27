@@ -7,6 +7,7 @@
 package eu.comprofits.entities.main;
 
 import eu.comprofits.entities.employee.Employee;
+import eu.comprofits.entities.jobprofile.Division;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -35,7 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Department.findAll", query = "SELECT d FROM Department d"),
     @NamedQuery(name = "Department.findByIddepartment", query = "SELECT d FROM Department d WHERE d.iddepartment = :iddepartment"),
-    @NamedQuery(name = "Department.findByDepartmentName", query = "SELECT d FROM Department d WHERE d.departmentName = :departmentName")})
+    @NamedQuery(name = "Department.findByDepartmentName", query = "SELECT d FROM Department d WHERE d.departmentName = :departmentName"),
+    @NamedQuery(name = "Department.findByDivision", query="SELECT d FROM Department d WHERE d.divisionIdDivision = :divisionIdDivision")})
 public class Department implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -49,9 +51,9 @@ public class Department implements Serializable {
     @JoinColumn(name = "head_of_department_idemployee", referencedColumnName = "idemployee")
     @ManyToOne
     private Employee headOfDepartmentIdemployee;
-    @JoinColumn(name = "company_idcompany", referencedColumnName = "idcompany")
+    @JoinColumn(name = "division_iddivision", referencedColumnName = "iddivision")
     @ManyToOne(optional = false)
-    private Company companyIdcompany;
+    private Division divisionIdDivision;
     @OneToMany(mappedBy = "departmentIddepartment")
     private Collection<Employee> employeeCollection;
 
@@ -86,12 +88,12 @@ public class Department implements Serializable {
         this.headOfDepartmentIdemployee = headOfDepartmentIdemployee;
     }
 
-    public Company getCompanyIdcompany() {
-        return companyIdcompany;
+    public Division getDivisionIddivision() {
+        return divisionIdDivision;
     }
 
-    public void setCompanyIdcompany(Company companyIdcompany) {
-        this.companyIdcompany = companyIdcompany;
+    public void setDivisionIddivision(Division divisionIddivision) {
+        this.divisionIdDivision = divisionIddivision;
     }
 
     @XmlTransient
