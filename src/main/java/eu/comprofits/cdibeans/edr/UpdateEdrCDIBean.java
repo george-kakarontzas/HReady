@@ -512,6 +512,13 @@ public class UpdateEdrCDIBean implements Serializable {
         return "selectEdrQuestions";
     }
     
+    public String removeQuestion(Question question)
+    {
+        this.questionFacade.remove(question);
+        refreshQuestionList(this.edrObject);
+        return "selectEdrQuestions.xhtml?faces-redirect=true";
+    }
+    
     public String createQuestionCategory() {
        
         this.questionCategoryObject = new QuestionCategory();
@@ -553,6 +560,13 @@ public class UpdateEdrCDIBean implements Serializable {
         }
 
         return "selectEdrQuestions";
+    }
+    
+    public String removeQuestionCategory(QuestionCategory questionCategory)
+    {
+        this.questionCategoryFacade.remove(questionCategory);
+        refreshQuestionList(this.edrObject);
+        return "selectEdrQuestions.xhtml?faces-redirect=true";
     }
     
     public String updateNotes(Edr edr) {
