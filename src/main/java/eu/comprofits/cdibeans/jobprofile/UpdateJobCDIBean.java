@@ -19,6 +19,9 @@ import eu.comprofits.session.jobprofile.PlaceEmploymentFacade;
 import eu.comprofits.session.main.CompetenceFacade;
 import eu.comprofits.session.main.DepartmentFacade;
 import eu.comprofits.session.main.OrganisationalPositionFacade;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
@@ -28,8 +31,10 @@ import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import org.apache.commons.io.IOUtils;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -359,5 +364,97 @@ public class UpdateJobCDIBean implements Serializable {
                             e.getMessage(), null));
         }
         return "updateJobProfile";
+    }
+    
+    public String export(Job job) throws InterruptedException {
+        this.jobObject = job;
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+        
+        
+        ExternalContext ec = context.getExternalContext();
+
+            String wkhtmltopdf_ex = ec.getInitParameter("WKHTMLTOPDF_EXE");
+
+            String html = "";
+            try {
+                InputStream is = ec.getResourceAsStream("/resources/pdftemplates/job.html");
+                html = IOUtils.toString(is, "UTF-8");
+            } catch (IOException e) {
+                context.addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                bundle.getString("error_creating_pdf") + " " + e.getMessage(), null));
+                return "updateJobProfile";
+            }
+            
+            html = html.replace("{{job_title}}", bundle.getString("job_description") + ": ");
+            html = html.replace("{{job_information_title}}", bundle.getString("edr_assignments") + ": ");
+            html = html.replace("{{job_competencerequirements_title}}", bundle.getString("update_competence_requirement")+":");
+                        
+            html = html.replace("{{job_information_content}}", "<ul>"+
+                                                        "<li><b>"+bundle.getString("job_title")+": </b>"+jobObject.getJobTitle()+"</li>"+
+                                                        "<li><b>"+bundle.getString("organizational_position")+": </b>"+jobObject.getOrganisationalPositionIdorganisationalPosition().getOrganisationalPositionName()+"</li>"+
+                                                        //"<li><b>"+bundle.getString("business_area")+": </b>"+jobObject.getDepartmentIddepartment().getDepartmentName()+"</li>"+
+                                                        //"<li><b>"+bundle.getString("place_of_employment")+": </b>"+jobObject.getPlaceEmploymentIdplaceEmployment().getName()+"</li>"+
+                                                        "<li><b>"+bundle.getString("reporting_to")+": </b>"+jobObject.getReportingToIdemployee().getFullName()+"</li>"+
+                                                        "<li><b>"+bundle.getString("job_description")+": </b>"+jobObject.getJobDescription()+"</li>"+
+                                                        "<li><b>"+bundle.getString("job_profile_status")+": </b>"+jobObject.getStatus()+"</li>"+
+                                                        "</ul>");
+                  
+            String competenceRequirements = "<table width=\"100%\" border=\"1\" cellpadding=\"10\"><tbody><tr><th>"+bundle.getString("competences")+
+                                                    "</th><th>"+bundle.getString("competence_requirement_weight")+
+                                                    "</th><th>"+bundle.getString("importance")+
+                                                    "</th></tr>";
+            
+            for (CompetencesRequirement cr : competencesRequirementFacade.getRequirementsForJob(jobObject))
+            {
+                
+                competenceRequirements = competenceRequirements + "<tr><td>" + cr.getCompetenceIdcompetence().getCompetenceName() + 
+                                                    "</td><td>" + cr.getWeight() +
+                                                    "</td><td>" + cr.getImportance() +
+                                                    "</td></tr>";
+            }
+            competenceRequirements = competenceRequirements + "</tbody></table>";
+            
+            html = html.replace("{{job_competencerequirements_content}}", competenceRequirements);
+         
+            Runtime rt = Runtime.getRuntime();
+            Process p;
+            try {
+                p = rt.exec(wkhtmltopdf_ex + " - -");
+                IOUtils.write(html, p.getOutputStream());
+                p.getOutputStream().close();
+
+                String fileName = jobObject.getJobTitle() + "-Job.pdf";
+                ec.responseReset();
+                ec.setResponseContentType("application/pdf");
+                ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+
+                OutputStream output = ec.getResponseOutputStream();
+                try {
+                    IOUtils.copy(p.getInputStream(), output);
+                } 
+                catch (Exception e)
+                {
+                    context.addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                bundle.getString("error_creating_pdf") + " " + e.getMessage(), null));
+                }
+                finally {
+                    p.getInputStream().close();
+                    // delete temp images
+                    
+                    context.responseComplete();
+                }
+
+            } catch (IOException e) {
+                context.addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                bundle.getString("error_creating_pdf") + " " + e.getMessage(), null));
+                return "updateJobProfile";
+            }
+        
+            return "updateJobProfile";
     }
 }

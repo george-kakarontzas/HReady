@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<f:view>
+
+                    <h:form id="questionTableForm">
+                        <p:messages  />
+
+                        <h1><h:outputText value="#{msgs.edr_select_questions}"/></h1>
+                        <c:if test="${not empty updateEdrCDIBean.questionCategoryFacade.findAll()}">
+                        <p:commandButton icon="ui-icon-pencil"
+                                         value="#{msgs.create_question}"
+                                         action="#{updateEdrCDIBean.createQuestion()}"
+                                         ajax="false"
+                                         />
+                        </c:if>
+                        <p:commandButton icon="ui-icon-pencil"
+                                         value="#{msgs.create_question_category}"
+                                         action="#{updateEdrCDIBean.createQuestionCategory()}"
+                                         ajax="false"
+                                         />
+                        <p:dataTable tableStyle="table-layout:auto;" value="#{updateEdrCDIBean.questionCategories}" var="category">
+                            
+                            <p:subTable var="qitem" value="#{updateEdrCDIBean.questions.get(updateEdrCDIBean.questionCategories.indexOf(category))}">
+                                
+                                    
+                                <f:facet name="header">
+                                            <h:commandLink rendered="#{!updateEdrCDIBean.questionCategoryFacade.isUsed(category)}" action="#{updateEdrCDIBean.editQuestionCategory(category)}" style="color:white; font-weight: bold; float: left; display: block;padding-top: 4px;" value="#{category.questionCategory}">
+                                        </h:commandLink>
+                                    <h:outputText rendered="#{updateEdrCDIBean.questionCategoryFacade.isUsed(category)}" value="#{category.questionCategory}"/>
+                                       
+                                       
+                                    <p:commandButton rendered="#{!updateEdrCDIBean.questionCategoryFacade.isUsed(category)}" icon="ui-icon-trash" style="float:right;"
+
+                                                 action="#{updateEdrCDIBean.removeQuestionCategory(category)}"                                                
+                                                 onclick="if (!confirm('#{msgs.are_you_sure}')) {
+                                                    return false;
+                                                }
+                                                ;
+                                                return true;
+                                                " />
+                                 </f:facet>       
+                                
+                                <p:column style="width:20px;">
+                                    <h:selectBooleanCheckbox value="#{qitem.checked}"/>
+                                </p:column>
+                                <p:column>
+                                    <h:commandLink rendered="#{!updateEdrCDIBean.questionFacade.isUsed(qitem)}" action="#{updateEdrCDIBean.editQuestion(qitem)}" value="#{qitem.question}"> 
+                                    </h:commandLink> 
+                                    <h:outputText rendered="#{updateEdrCDIBean.questionFacade.isUsed(qitem)}" value="#{qitem.question}"/>
+                                </p:column>
+                                <p:column style="width:20px;">
+                                    <p:commandButton rendered="#{!updateEdrCDIBean.questionFacade.isUsed(qitem)}" icon="ui-icon-trash"
+
+                                                 action="#{updateEdrCDIBean.removeQuestion(qitem)}"                                                
+                                                 onclick="if (!confirm('#{msgs.are_you_sure}')) {
+                                                    return false;
+                                                }
+                                                ;
+                                                return true;
+                                                " />
+                                </p:column>
+                            </p:subTable>
+                        
+                        </p:dataTable>
+                  
+                        
+                        <p:panelGrid columns="4" >
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.back}"
+                                                 action="editEdrAssignments" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.save}" action="#{updateEdrCDIBean.saveEdr()}" />
+                                
+                             </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.help}" 
+                                                 action="#{updateEdrCDIBean.help()}" />
+                            </h:panelGroup>
+                        </p:panelGrid>
+                    </h:form>
+                </f:view>
+
+</ui:composition>

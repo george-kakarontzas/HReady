@@ -16,31 +16,7 @@
             </ui:define>
 
             <ui:define name="content">
-                <f:view>
-
-                    <h:form id="historyTableForm">
-                        <p:messages  />
-
-                        <h1><h:outputText value="#{msgs.edr_history_title}"/></h1>
-                        <p:dataTable var="item" value="#{updateEdrCDIBean.edrHistory}">
-                                        <p:column headerText="#{msgs.year}"><h:commandLink action="#{updateEdrCDIBean.viewEdr(item)}" value="#{item.year}" /></p:column>
-                                        <p:column headerText="#{msgs.immediate_manager}"><h:outputText value="#{item.immediateManagerIdemployee.firstName} #{item.immediateManagerIdemployee.lastName}" /></p:column>
-                                        <p:column headerText="#{msgs.initiator}"><h:outputText value="#{item.headOfDepartmentIdemployee.firstName} #{item.headOfDepartmentIdemployee.lastName}" /></p:column>                                    
-                        </p:dataTable>
-                    
-                    <p:panelGrid columns="4" >
-                            <h:panelGroup>
-                                <h:commandButton value="#{msgs.back}"
-                                                 action="updateEdr?faces-redirect=true" />
-                            </h:panelGroup>
-
-                            <h:panelGroup>
-                                <h:commandButton value="#{msgs.help}" 
-                                                 action="#{updateEdrCDIBean.help()}" />
-                            </h:panelGroup>
-                        </p:panelGrid>
-                        </h:form>
-                </f:view>
+                <ui:include src="../WEB-INF/viewEdrHistoryForm.xhtml" />
 
             </ui:define>
 
