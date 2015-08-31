@@ -1,0 +1,63 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+<f:view>
+
+                    <h:form id="noteTableForm">
+                        <p:messages  />
+
+                        <h1><h:outputText value="#{msgs.list_of_stored_notes}"/></h1>
+                        <p:commandButton icon="ui-icon-pencil"
+                                         value="#{msgs.create_note}"
+                                         action="#{updateEdrCDIBean.createNote()}"
+                                         ajax="false" rendered="#{updateEdrCDIBean.edrObject.status lt 5}"
+                                         />
+
+                        <p:dataTable var="item" value="#{updateEdrCDIBean.noteList}" widgetVar="edrTable"
+                                     emptyMessage="#{msgs.no_notes_found_with_given_criteria}">
+                       
+                            <p:column headerText="#{msgs.note_subject}"
+                                      >
+
+                                <h:commandLink action="#{updateEdrCDIBean.viewNote(item)}" rendered="#{!item.lastEntry or item.authorIdemployee.idemployee != updateEdrCDIBean.currentUser.idemployee}"  
+                                    value="#{item.subject}"/>
+                                <h:commandLink action="#{updateEdrCDIBean.editNote(item)}" rendered="#{item.lastEntry and item.authorIdemployee.idemployee == updateEdrCDIBean.currentUser.idemployee}"  
+                                    value="#{item.subject}"/>
+                            </p:column>
+                            
+                            <p:column  
+                                      headerText="#{msgs.note_author}"
+                                      >
+                                <h:outputText value="#{item.authorIdemployee.firstName} #{item.authorIdemployee.lastName}"/>
+                            </p:column>
+                            
+                            <p:column 
+                                      headerText="#{msgs.last_changed}"
+                                      >
+                                
+                                
+                                <h:outputText value="#{item.date}"><f:convertDateTime pattern="dd.MM.yyyy HH:mm" /></h:outputText>
+                                       
+                            </p:column>
+                            
+                        </p:dataTable>
+                    
+                    <p:panelGrid columns="4" >
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.back}"
+                                                 action="updateEdr?faces-redirect=true" />
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.help}" 
+                                                 action="#{updateEdrCDIBean.help()}" />
+                            </h:panelGroup>
+                        </p:panelGrid>
+                        <p:poll listener="#{updateEdrCDIBean.refreshNoteList(updateEdrCDIBean.edrObject)}" interval="5" update="noteTableForm" />
+                        </h:form>
+                </f:view>
+
+</ui:composition>

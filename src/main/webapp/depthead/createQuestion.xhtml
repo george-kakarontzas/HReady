@@ -15,49 +15,7 @@
             </ui:define>
 
             <ui:define name="content">
-                <h1>${msgs.create_question}</h1>
-                <h:form id="createQuestion">
-                    <p:panelGrid columns="2" style="width: 100%">
-                        <h:panelGrid columns="2" cellpadding="5" columnClasses="left">
-                            <h:panelGroup>
-                                <h:outputLabel for="idquestioncat" value="Question Category" />
-                            </h:panelGroup>
-                            <h:panelGroup> 
-                                <p:selectOneMenu id="idquestioncat" value="#{updateEdrCDIBean.questionObject.questionCategoryIdquestioncat}" converter="#{questionCategoryConverter}">  
-                                    
-                                    <f:selectItems value="#{updateEdrCDIBean.questionCategories}" var="qc" itemValue="#{qc}" itemLabel="#{qc.questionCategory}" />
-                                </p:selectOneMenu>
-                            </h:panelGroup>
-                            <h:panelGroup>
-                                <h:outputLabel for="question" value="Question Text" />
-                            </h:panelGroup>
-                            <h:panelGroup>
-                                <p:inputText id="question" value="#{updateEdrCDIBean.questionObject.question}" />
-                            </h:panelGroup>
-
-                        </h:panelGrid>
-                    </p:panelGrid>
-                   
-                    <!--<h:outputLabel for="additionalNotes" value="#{msgs.additionalNotes}" style="font-weight:bold" />
-                    <p:inputTextarea id="additionalNotesTextField" value="#{updateEdrCDIBean.edrNotes.note}" rows="8" cols="120"  rendered="true">
-                                                    <p:ajax event="keyup"/>
-                    </p:inputTextarea>-->
-                    <p:panelGrid columns="4" >
-                            <h:panelGroup>
-                                <h:commandButton value="#{msgs.back}"
-                                                 action="selectQuestions?faces-redirect=true" />
-                            </h:panelGroup>
-                            <h:panelGroup>
-                                 <h:commandButton value="#{msgs.save}" 
-                                                  action="#{updateEdrCDIBean.saveQuestion()}" />
-                             </h:panelGroup>
-                            
-                            <h:panelGroup>
-                                <h:commandButton value="#{msgs.help}" 
-                                                 action="#{updateEdrCDIBean.help()}" />
-                            </h:panelGroup>
-                        </p:panelGrid>
-                </h:form>
+                <ui:include src="../WEB-INF/createQuestionForm.xhtml" />
             </ui:define>
 
         </ui:composition>

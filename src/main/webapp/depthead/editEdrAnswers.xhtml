@@ -16,49 +16,7 @@
             </ui:define>
 
             <ui:define name="content">
-                <f:view>
-
-                    <h:form id="answerTableForm">
-                        <p:messages  />
-
-                        <h1><h:outputText value="#{msgs.edr_questionnaire}"/></h1>
-                        
-                        <p:dataTable tableStyle="table-layout:auto;" value="#{updateEdrCDIBean.answerCategories}" var="category">
-                            
-                            <p:subTable var="aitem" value="#{updateEdrCDIBean.answers.get(updateEdrCDIBean.answerCategories.indexOf(category))}">
-                            
-                                <f:facet name="header">
-                                    <h:outputText value="#{category.questionCategory}"></h:outputText>
-                                </f:facet>
-                                <p:column>
-                                    <h:outputText value="#{aitem.questionIdquestion.question}" />
-                                </p:column>    
-                                <p:column>
-                                    <p:inputTextarea value="#{aitem.answer}" rows="8" cols="120"/>
-                                </p:column>
-                                
-                            </p:subTable>
-                        
-                        </p:dataTable>
-                  
-                        
-                        <p:panelGrid columns="4" >
-                            <h:panelGroup>
-                                <h:commandButton value="#{msgs.back}"
-                                                 action="viewEdrAssignments" />
-                            </h:panelGroup>
-                            <h:panelGroup>
-                                <h:commandButton value="#{msgs.next}" action="#{updateEdrCDIBean.editCompetenceGoals()}" />
-                                
-                             </h:panelGroup>
-                            
-                            <h:panelGroup>
-                                <h:commandButton value="#{msgs.help}" 
-                                                 action="#{updateEdrCDIBean.help()}" />
-                            </h:panelGroup>
-                        </p:panelGrid>
-                    </h:form>
-                </f:view>
+                <ui:include src="../WEB-INF/editEdrAnswersForm.xhtml" />
 
             </ui:define>
 

@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./hrmPagesTemplate.xhtml"> 
+       
+            <ui:define name="title" rendered="#{(updateEdrCDIBean.edrObject.role == 1 and updateEdrCDIBean.edrObject.status == 2) or (updateEdrCDIBean.edrObject.status == 3) or ((updateEdrCDIBean.edrObject.role == 1 or updateEdrCDIBean.edrObject.role == 3) and updateEdrCDIBean.edrObject.status == 4) or (updateEdrCDIBean.edrObject.status == 5)}">
+                ${msgs.edr_view}
+            </ui:define>
+            <ui:define name="title" rendered="#{(updateEdrCDIBean.edrObject.role == 2 and updateEdrCDIBean.edrObject.status == 2) or (updateEdrCDIBean.edrObject.role == 2 and updateEdrCDIBean.edrObject.status == 4)}">
+                ${msgs.edr_edit}
+            </ui:define>
+
+            <ui:define name="content">
+                
+                <ui:include src="../WEB-INF/viewEdrAssignmentsForm.xhtml" />
+            </ui:define>
+
+        </ui:composition>
+
+    </body> 
+</html>

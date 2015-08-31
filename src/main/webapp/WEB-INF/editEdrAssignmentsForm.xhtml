@@ -1,0 +1,65 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+<h:form id="editEdr">
+                    <p:messages/>
+                    <h1><h:outputText value="#{msgs.edr_assignments}"/></h1>
+                    <p:panelGrid columns="2" style="width: 100%">
+                        <h:panelGrid columns="2" cellpadding="5" columnClasses="left">
+                            <h:panelGroup>
+                                <h:outputLabel for="year" value="Year" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="year" required="true" value="#{updateEdrCDIBean.edrObject.year}" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="idemployee" value="#{msgs.reviewed_employee_name}" />
+                            </h:panelGroup>
+                            <h:panelGroup> 
+                                <p:selectOneMenu id="idemployee" 
+                                                 value="#{updateEdrCDIBean.edrObject.reviewedEmployeeIdemployee}" 
+                                                 converter="#{reportingToConverter}" required="true">  
+                                    <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItems value="#{updateEdrCDIBean.employeeList}"
+                                                   var="e" itemValue="#{e}" itemLabel="##{e.lastName} #{e.firstName} #{e.email}" />
+                                </p:selectOneMenu>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <h:outputLabel for="immediateManager" value="#{msgs.immediate_manager}" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:selectOneMenu id="immediateManager" 
+                                                 value="#{updateEdrCDIBean.edrObject.immediateManagerIdemployee}" 
+                                                 converter="#{employeeConverter1}" required="true">
+                                    <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />                         
+                                    <f:selectItems value="#{updateEdrCDIBean.employeeList}"
+                                                   var="e" itemValue="#{e}" itemLabel="#{e.lastName} #{e.firstName} #{e.email}" />
+                                    
+                                </p:selectOneMenu>
+                            </h:panelGroup>
+  
+                        </h:panelGrid>
+                    </p:panelGrid>
+                   
+                    <p:panelGrid columns="4" >
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.back}" immediate="true"
+                                                 action="updateEdr?faces-redirect=true" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                 <h:commandButton value="#{msgs.next}" 
+                                                  action="#{updateEdrCDIBean.selectQuestions()}" />
+                             </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <h:commandButton value="#{msgs.help}" 
+                                                 action="#{updateEdrCDIBean.help()}" />
+                            </h:panelGroup>
+                        </p:panelGrid>
+                </h:form>
+
+</ui:composition>

@@ -58,8 +58,9 @@
 
                 <p:column>
                     <f:facet name="header">
-                        <h:outputText value="#{msgs.delete_job_profile}"/>
+                        <h:outputText value="#{msgs.available_actions}"/>
                     </f:facet>
+                    <p:commandButton id="exportbutton" icon="ui-icon-document" action="#{updateJobCDIBean.export(item)}" ajax="false"/>
                     <p:commandButton icon="ui-icon-trash"
 
                                      action="#{updateJobCDIBean.remove(item)}"                                                
@@ -69,8 +70,10 @@
                                              ;
                                              return true;
                                              " /> 
-
+                                             
                 </p:column> 
+                <p:tooltip for="exportbutton" value="#{msgs.export_to_pdf}" />
+                <p:tooltip for="deletebutton" value="#{msgs.delete}" />     
             </p:dataTable>
         </h:form>
     </f:view>

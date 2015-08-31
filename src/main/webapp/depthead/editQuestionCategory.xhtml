@@ -15,41 +15,8 @@
             </ui:define>
 
             <ui:define name="content">
-                <h1>${msgs.edit_question_category}</h1>
-                <h:form id="editQuestionCategory">
-                    <p:panelGrid columns="2" style="width: 100%">
-                        <h:panelGrid columns="2" cellpadding="5" columnClasses="left">
-                            
-                            <h:panelGroup>
-                                <h:outputLabel for="questioncat" value="Question Category" />
-                            </h:panelGroup>
-                            <h:panelGroup>
-                                <p:inputText id="questioncat" value="#{updateEdrCDIBean.questionCategoryObject.questionCategory}" />
-                            </h:panelGroup>
-
-                        </h:panelGrid>
-                    </p:panelGrid>
-                   
-                    <!--<h:outputLabel for="additionalNotes" value="#{msgs.additionalNotes}" style="font-weight:bold" />
-                    <p:inputTextarea id="additionalNotesTextField" value="#{updateEdrCDIBean.edrNotes.note}" rows="8" cols="120"  rendered="true">
-                                                    <p:ajax event="keyup"/>
-                    </p:inputTextarea>-->
-                    <p:panelGrid columns="4" >
-                            <h:panelGroup>
-                                <h:commandButton value="#{msgs.back}"
-                                                 action="selectQuestions?faces-redirect=true" />
-                            </h:panelGroup>
-                            <h:panelGroup>
-                                 <h:commandButton value="#{msgs.save}" 
-                                                  action="#{updateEdrCDIBean.saveQuestionCategory()}" />
-                             </h:panelGroup>
-                            
-                            <h:panelGroup>
-                                <h:commandButton value="#{msgs.help}" 
-                                                 action="#{updateEdrCDIBean.help()}" />
-                            </h:panelGroup>
-                        </p:panelGrid>
-                </h:form>
+                
+                <ui:include src="../WEB-INF/editQuestionCategoryForm.xhtml" />
             </ui:define>
 
         </ui:composition>
