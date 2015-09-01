@@ -77,8 +77,6 @@ public class CompetenceGoalFacade extends AbstractFacade<CompetenceGoal> {
     
     public void getCompetenceGoalsTree(TreeNode childNode, TreeNode parentNode, Edr edr)
     {     
-        if (this.crFacade.getRequirementForJobAndCompetence(edr.getReviewedEmployeeIdemployee().getCurrentInCompanyEmploymentId().getJobIdjob(), (Competence)childNode.getData()) != null)
-        {
             if (this.getGoalForEdrAndCompetence(edr, (Competence)childNode.getData()) == null)
             {
                 CompetenceGoal newCg = new CompetenceGoal();
@@ -101,7 +99,7 @@ public class CompetenceGoalFacade extends AbstractFacade<CompetenceGoal> {
                     getCompetenceGoalsTree(c, childTree, edr);
                 }
             } 
-        }
+        
     }
     
     public void updateCompetenceGoals (TreeNode competencesGoalsTree, Edr edr)
