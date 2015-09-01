@@ -24,7 +24,7 @@
     <context-param>
         <description>The location of the wkthmltopdf executable for pdf creation.</description>
         <param-name>WKHTMLTOPDF_EXE</param-name>
-        <param-value>D:/glassfish-4.1/glassfish/domains/domain1/usr/bin/wkhtmltopdf/bin/wkhtmltopdf.exe</param-value>
+        <param-value>/usr/bin/wkhtmltopdf</param-value>
     </context-param>
     <context-param>
         <description>The location in which various uploaded files are stored. E.g. the employees photographs.</description>
@@ -175,7 +175,7 @@
     </security-role>
     <resource-ref>
         <description>Connects to database for ComProFITS application</description>
-        <res-ref-name>jdbc/comprofitspgdb2</res-ref-name>
+        <res-ref-name>jdbc/comprofitspgdb</res-ref-name>
         <res-type>javax.sql.ConnectionPoolDataSource</res-type>
         <res-auth>Container</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>
