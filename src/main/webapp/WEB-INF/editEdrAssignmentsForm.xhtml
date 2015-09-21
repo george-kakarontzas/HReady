@@ -34,7 +34,7 @@
                             <h:panelGroup>
                                 <p:selectOneMenu id="immediateManager" 
                                                  value="#{updateEdrCDIBean.edrObject.immediateManagerIdemployee}" 
-                                                 converter="#{employeeConverter1}" required="true">
+                                                 converter="#{reportingToConverter}" required="true">
                                     <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />                         
                                     <f:selectItems value="#{updateEdrCDIBean.employeeList}"
                                                    var="e" itemValue="#{e}" itemLabel="#{e.lastName} #{e.firstName} #{e.email}" />

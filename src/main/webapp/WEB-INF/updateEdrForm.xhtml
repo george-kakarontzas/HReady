@@ -24,7 +24,7 @@
                        
                             <p:column filterBy="##{item.reviewedEmployeeIdemployee.lastName} #{item.reviewedEmployeeIdemployee.firstName} #{item.reviewedEmployeeIdemployee.email}"
                                       headerText="#{msgs.reviewed_Employee} &lt;br/&gt;(#{msgs.click_to_edit_record})"
-                                      filterMatchMode="contains">
+                                      filterMatchMode="contains" >
                                 <h:commandLink id="viewbutton" rendered="#{(item.role == 1 and item.status gt 1) or (item.role == 2 and (item.status == 3 or item.status == 5)) or (item.role == 3 and item.status gt 2)}" action="#{updateEdrCDIBean.viewEdr(item)}">
                                     <h:outputText value="##{item.reviewedEmployeeIdemployee.lastName} #{item.reviewedEmployeeIdemployee.firstName} #{item.reviewedEmployeeIdemployee.email}"/>
                                 </h:commandLink>
@@ -39,23 +39,20 @@
                                 <h:outputText value="#{item.year}"/>
                             </p:column>
                             
-                            <p:column filterBy="#{item.role}" 
+                            <p:column filterBy="#{item.getConvertedRole(item.role)}" 
                                       headerText="#{msgs.edr_role}"
                                       filterMatchMode="contains">
                                 
                                 
-                                <h:outputText rendered="#{item.role == 1}" value="#{msgs.initiator}"/>
-                                
-                                    <h:outputText rendered="#{item.role == 2}" value="#{msgs.immediate_manager}"/>
-                                
-                                    <h:outputText rendered="#{item.role == 3}" value="#{msgs.reviewed_employee_name}"/>
-                                
-                                
+                                <h:outputText value="#{item.getConvertedRole(item.role)}"/>
+                    
                             </p:column>
-                            <p:column filterBy="#{item.status}" 
+                            <p:column filterBy="#{item.getConvertedStatus(item.status)}" 
                                       headerText="#{msgs.status}"
                                       filterMatchMode="contains">
-                                <h:outputText value="#{item.status}"/>
+                                <h:outputText value="#{item.getConvertedStatus(item.status)}" />
+                                
+                        
                             </p:column>
 
                             <p:column>

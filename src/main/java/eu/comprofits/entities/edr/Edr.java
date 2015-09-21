@@ -10,6 +10,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.ResourceBundle;
+import javax.faces.context.FacesContext;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -103,6 +105,28 @@ public class Edr implements Serializable {
     public void setRole(int role) {
         this.role = role;
     }
+    
+    public String getConvertedRole(int role) {
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+        
+        String convertedRole = "";
+        if (role == 1)
+        {
+            convertedRole = bundle.getString("initiator");
+        }
+        else if (role == 2)
+        {
+            convertedRole = bundle.getString("immediate_manager");
+        }
+        else if (role == 3)
+        {
+            convertedRole = bundle.getString("reviewed_employee_name");
+        }
+        
+        return convertedRole;
+    }
 
     public String getYear() {
         return year;
@@ -114,6 +138,36 @@ public class Edr implements Serializable {
 
     public Integer getStatus() {
         return status;
+    }
+    
+    public String getConvertedStatus (int status)
+    {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+        
+        String convertedStatus = "";
+        if (status == 1)
+        {
+            convertedStatus = bundle.getString("status_initiated");
+        }
+        else if (status == 2)
+        {
+            convertedStatus = bundle.getString("status_ready");
+        }
+        else if (status == 3)
+        {
+            convertedStatus = bundle.getString("status_changed");
+        }
+        else if (status == 4)
+        {
+            convertedStatus = bundle.getString("status_rejected");
+        }
+        else if (status == 5)
+        {
+            convertedStatus = bundle.getString("status_accepted");
+        }
+        
+        return convertedStatus;
     }
 
     public void setStatus(Integer status) {
