@@ -26,10 +26,10 @@
                                       headerText="#{msgs.reviewed_Employee} &lt;br/&gt;(#{msgs.click_to_edit_record})"
                                       filterMatchMode="contains" >
                                 <h:commandLink id="viewbutton" rendered="#{(item.role == 1 and item.status gt 1) or (item.role == 2 and (item.status == 3 or item.status == 5)) or (item.role == 3 and item.status gt 2)}" action="#{updateEdrCDIBean.viewEdr(item)}">
-                                    <h:outputText value="##{item.reviewedEmployeeIdemployee.lastName} #{item.reviewedEmployeeIdemployee.firstName} #{item.reviewedEmployeeIdemployee.email}"/>
+                                    <h:outputText value="#{item.reviewedEmployeeIdemployee.lastName}, #{item.reviewedEmployeeIdemployee.firstName} (#{item.reviewedEmployeeIdemployee.email})"/>
                                 </h:commandLink>
                                 <h:commandLink id="editbutton" action="#{updateEdrCDIBean.editEdr(item)}" rendered="#{(item.role == 1 and item.status == 1) or (item.role == 2 and (item.status == 2 or item.status == 4))}">
-                                    <h:outputText value="##{item.reviewedEmployeeIdemployee.lastName} #{item.reviewedEmployeeIdemployee.firstName} #{item.reviewedEmployeeIdemployee.email}"/>
+                                    <h:outputText value="#{item.reviewedEmployeeIdemployee.lastName}, #{item.reviewedEmployeeIdemployee.firstName} (#{item.reviewedEmployeeIdemployee.email})"/>
                                 </h:commandLink>
                             </p:column>
                             
