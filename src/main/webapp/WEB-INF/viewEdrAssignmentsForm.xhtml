@@ -22,7 +22,7 @@
                             <h:panelGroup> 
                                  
                                 <h:outputText id="idemployee" 
-                                              value="##{updateEdrCDIBean.edrObject.reviewedEmployeeIdemployee.lastName} #{updateEdrCDIBean.edrObject.reviewedEmployeeIdemployee.firstName} #{updateEdrCDIBean.edrObject.reviewedEmployeeIdemployee.email}" 
+                                              value="#{updateEdrCDIBean.edrObject.reviewedEmployeeIdemployee.lastName}, #{updateEdrCDIBean.edrObject.reviewedEmployeeIdemployee.firstName} (#{updateEdrCDIBean.edrObject.reviewedEmployeeIdemployee.email})" 
                                                  >  
                                 </h:outputText>
                             </h:panelGroup>
@@ -32,7 +32,7 @@
                             </h:panelGroup>
                             <h:panelGroup>
                                 <h:outputText id="immediateManager" 
-                                                 value="##{updateEdrCDIBean.edrObject.immediateManagerIdemployee.lastName} #{updateEdrCDIBean.edrObject.immediateManagerIdemployee.firstName} #{updateEdrCDIBean.edrObject.immediateManagerIdemployee.email}" 
+                                                 value="#{updateEdrCDIBean.edrObject.immediateManagerIdemployee.lastName}, #{updateEdrCDIBean.edrObject.immediateManagerIdemployee.firstName} (#{updateEdrCDIBean.edrObject.immediateManagerIdemployee.email})" 
                                                  >
                                 </h:outputText>
                             </h:panelGroup>

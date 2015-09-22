@@ -24,7 +24,7 @@
                                                  converter="#{reportingToConverter}" required="true">  
                                     <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true"/>
                                     <f:selectItems value="#{updateEdrCDIBean.employeeList}"
-                                                   var="e" itemValue="#{e}" itemLabel="##{e.lastName} #{e.firstName} #{e.email}" />
+                                                   var="e" itemValue="#{e}" itemLabel="#{e.lastName} #{e.firstName}, #{e.email}" />
                                 </p:selectOneMenu>
                             </h:panelGroup>
 
@@ -37,7 +37,7 @@
                                                  converter="#{reportingToConverter}" required="true">
                                     <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />                         
                                     <f:selectItems value="#{updateEdrCDIBean.employeeList}"
-                                                   var="e" itemValue="#{e}" itemLabel="#{e.lastName} #{e.firstName} #{e.email}" />
+                                                   var="e" itemValue="#{e}" itemLabel="#{e.lastName} #{e.firstName}, #{e.email}" />
                                     
                                 </p:selectOneMenu>
                             </h:panelGroup>
