@@ -13,7 +13,7 @@
                         <p:commandButton icon="ui-icon-pencil"
                                          value="#{msgs.create_edr}"
                                          action="#{updateEdrCDIBean.createEdr()}"
-                                         ajax="false" rendered="#{updateEdrCDIBean.currentUser.role == 'depthead'}"
+                                         ajax="false" rendered="#{updateEdrCDIBean.currentUser.role == 'depthead' or updateEdrCDIBean.currentUser.role == 'hrteamdevelopment'}"
                                          />
                         
 
