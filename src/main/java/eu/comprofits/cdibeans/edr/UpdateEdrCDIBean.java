@@ -767,36 +767,77 @@ public class UpdateEdrCDIBean implements Serializable {
             }
             
             html = html.replace("{{edr_employee_title}}", bundle.getString("edr_employee_title") + ": " +edrObject.getReviewedEmployeeIdemployee().getFullName());
-            html = html.replace("{{edr_information_title}}", bundle.getString("edr_assignments")+":");
-            html = html.replace("{{edr_verdict_title}}", bundle.getString("edr_verdict_title")+":");
-            html = html.replace("{{edr_questionnaire_title}}", bundle.getString("edr_questionnaire")+":");
+            
+            html = html.replace("{{edr_information_title}}", bundle.getString("edr_assignments")+":");  
+            
+            String statusString = "";
+            
+            switch (edrObject.getStatus())
+            {
+                case 1:     statusString = bundle.getString("status_initiated");
+                            break;
+                case 2:     statusString = bundle.getString("status_ready");
+                            break;      
+                case 3:     statusString = bundle.getString("status_changed");
+                            break;
+                case 4:     statusString = bundle.getString("status_rejected");
+                            break;
+                case 5:     statusString = bundle.getString("status_accepted");
+                            break;                  
+            }
             
             html = html.replace("{{edr_information_content}}", "<ul>"+
                                                         "<li><b>"+bundle.getString("year")+": </b>"+edrObject.getYear()+"</li>"+
                                                         "<li><b>"+bundle.getString("initiator")+": </b>"+edrObject.getHeadOfDepartmentIdemployee().getFullName()+"</li>"+
                                                         "<li><b>"+bundle.getString("immediate_manager")+": </b>"+edrObject.getImmediateManagerIdemployee().getFullName()+"</li>"+
-                                                        "<li><b>"+bundle.getString("status")+": </b>"+edrObject.getStatus()+"</li>"+
-                                                        "</ul>");
-            
-            html = html.replace("{{edr_verdict_content}}", edrObject.getVerdict());
-            
-            html = html.replace("{{edr_competencegoals_title}}", bundle.getString("edr_plans") + ": ");
-            
-            String competenceGoals = "<table width=\"100%\" border=\"1\" cellpadding=\"10\"><tbody><tr><th>"+bundle.getString("competences")+
-                                                    "</th><th>"+bundle.getString("edr_goals")+
-                                                    "</th><th>"+bundle.getString("comments")+
-                                                    "</th></tr>";
-            
-            for (CompetenceGoal cg : competenceGoalFacade.getGoalsForEdr(edrObject))
+                                                        "<li><b>"+bundle.getString("status")+": </b>"+statusString+"</li></ul>");
+                    
+            if (edrObject.getStatus() > 2)
             {
-                competenceGoals = competenceGoals + "<tr><td>" + cg.getCompetenceIdcompetence().getCompetenceName() + 
-                                                    "</td><td>" + cg.getNextYearGoalValue() +
-                                                    "</td><td>" + cg.getComments() +
-                                                    "</td></tr>";
-            }
-            competenceGoals = competenceGoals + "</tbody></table>";
+                html = html.replace("{{edr_verdict_title}}", bundle.getString("edr_verdict_title")+":");
+                html = html.replace("{{edr_verdict_content}}", edrObject.getVerdict());
             
-            html = html.replace("{{edr_competencegoals_content}}",competenceGoals);
+                html = html.replace("{{edr_competencegoals_title}}", bundle.getString("edr_plans") + ": ");
+            
+                String competenceGoals = "<table width=\"100%\" border=\"1\" cellpadding=\"10\"><tbody><tr><th>"+bundle.getString("competences")+
+                                                        "</th><th>"+bundle.getString("edr_goals")+
+                                                        "</th><th>"+bundle.getString("comments")+
+                                                        "</th></tr>";
+            
+                for (CompetenceGoal cg : competenceGoalFacade.getGoalsForEdr(edrObject))
+                {
+                    String nextYearGoalString = "";
+                    switch (cg.getNextYearGoalValue())
+                    {
+                        case 0: nextYearGoalString = bundle.getString("cg_nextyearvalue_0");
+                                break;
+                        case 1: nextYearGoalString = bundle.getString("cg_nextyearvalue_1");
+                                break;
+                        case 2: nextYearGoalString = bundle.getString("cg_nextyearvalue_2");
+                                break;
+                        case 3: nextYearGoalString = bundle.getString("cg_nextyearvalue_3");
+                                break;
+                        case 4: nextYearGoalString = bundle.getString("cg_nextyearvalue_4");
+                                break;
+                        case 5: nextYearGoalString = bundle.getString("cg_nextyearvalue_5");
+                                break;
+                    }
+                    competenceGoals = competenceGoals + "<tr><td>" + cg.getCompetenceIdcompetence().getCompetenceName() + 
+                                                        "</td><td>" + nextYearGoalString +
+                                                        "</td><td>" + cg.getComments() +
+                                                        "</td></tr>";
+                }
+                competenceGoals = competenceGoals + "</tbody></table>";
+            
+                html = html.replace("{{edr_competencegoals_content}}",competenceGoals);
+            }
+            else
+            {
+                html = html.replace("{{edr_verdict_title}}", "");
+                html = html.replace("{{edr_verdict_content}}", "");
+                html = html.replace("{{edr_competencegoals_title}}", "");
+                html = html.replace("{{edr_competencegoals_content}}", "");
+            }
             
             html = html.replace ("{{edr_questionnaire_title}}",bundle.getString("edr_questionnaire"));
             String questions_answers = "<ol>";

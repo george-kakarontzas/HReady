@@ -14,7 +14,12 @@
                         </p:column>
                     
                         <p:column headerText="Next Year Goal Value">
-                            <h:outputText id="importance" value="#{node.nextYearGoalValue}" />         
+                            <h:outputText value="#{msgs.cg_nextyearvalue_0}" rendered="#{node.nextYearGoalValue == 0}" />
+                            <h:outputText value="#{msgs.cg_nextyearvalue_1}" rendered="#{node.nextYearGoalValue == 1}" /> 
+                            <h:outputText value="#{msgs.cg_nextyearvalue_2}" rendered="#{node.nextYearGoalValue == 2}" /> 
+                            <h:outputText value="#{msgs.cg_nextyearvalue_3}" rendered="#{node.nextYearGoalValue == 3}" /> 
+                            <h:outputText value="#{msgs.cg_nextyearvalue_4}" rendered="#{node.nextYearGoalValue == 4}" /> 
+                            <h:outputText value="#{msgs.cg_nextyearvalue_5}" rendered="#{node.nextYearGoalValue == 5}" /> 
                         </p:column>
                         <p:column headerText="Comments">
                                 <h:outputText id="comments" value="#{node.comments}" />
