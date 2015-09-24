@@ -15,12 +15,12 @@
                     
                         <p:column headerText="Next Year Goal Value">
                             <p:selectOneMenu id="importance" value="#{node.nextYearGoalValue}" >  
-                                <f:selectItem itemLabel="---" itemValue="0" />
-                                <f:selectItem itemValue="5" itemLabel="very good" />
-                                <f:selectItem itemValue="4" itemLabel="good" />
-                                <f:selectItem itemValue="3" itemLabel="satisfactory" />
-                                <f:selectItem itemValue="2" itemLabel="adequate" />
-                                <f:selectItem itemValue="1" itemLabel="inadequate" />     
+                                <f:selectItem itemLabel="#{msgs.cg_nextyearvalue_0}" itemValue="0" />
+                                <f:selectItem itemValue="5" itemLabel="#{msgs.cg_nextyearvalue_5}" />
+                                <f:selectItem itemValue="4" itemLabel="#{msgs.cg_nextyearvalue_4}" />
+                                <f:selectItem itemValue="3" itemLabel="#{msgs.cg_nextyearvalue_3}" />
+                                <f:selectItem itemValue="2" itemLabel="#{msgs.cg_nextyearvalue_2}" />
+                                <f:selectItem itemValue="1" itemLabel="#{msgs.cg_nextyearvalue_1}" />     
                             </p:selectOneMenu>
                         </p:column>
                         <p:column headerText="Comments">
