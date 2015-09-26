@@ -409,10 +409,25 @@ public class UpdateJobCDIBean implements Serializable {
             
             for (CompetencesRequirement cr : competencesRequirementFacade.getRequirementsForJob(jobObject))
             {
-                
+                String importanceString = "";
+                    switch (cr.getImportance())
+                    {
+                        case 0: importanceString = bundle.getString("cr_importancevalue_0");
+                                break;
+                        case 1: importanceString = bundle.getString("cr_importancevalue_1");
+                                break;
+                        case 2: importanceString = bundle.getString("cr_importancevalue_2");
+                                break;
+                        case 3: importanceString = bundle.getString("cr_importancevalue_3");
+                                break;
+                        case 4: importanceString = bundle.getString("cr_importancevalue_4");
+                                break;
+                        case 5: importanceString = bundle.getString("cr_importancevalue_5");
+                                break;
+                    }
                 competenceRequirements = competenceRequirements + "<tr><td>" + cr.getCompetenceIdcompetence().getCompetenceName() + 
                                                     "</td><td>" + cr.getWeight() +
-                                                    "</td><td>" + cr.getImportance() +
+                                                    "</td><td>" + importanceString +
                                                     "</td></tr>";
             }
             competenceRequirements = competenceRequirements + "</tbody></table>";

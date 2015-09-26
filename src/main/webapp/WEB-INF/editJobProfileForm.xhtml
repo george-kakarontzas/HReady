@@ -95,12 +95,12 @@
                         </p:column>
                         <p:column headerText="Importance">
                             <p:selectOneMenu id="importance" value="#{node.importance}" >  
-                                <f:selectItem itemLabel="---" itemValue="0" />
-                                <f:selectItem itemValue="5" itemLabel="Very important" />
-                                <f:selectItem itemValue="4" itemLabel="Important" />
-                                <f:selectItem itemValue="3" itemLabel="Moderately important" />
-                                <f:selectItem itemValue="2" itemLabel="Of little importance" />
-                                <f:selectItem itemValue="1" itemLabel="Unimportant" />
+                                <f:selectItem itemLabel="#{msgs.cr_importancevalue_0}" itemValue="0" />
+                                <f:selectItem itemValue="5" itemLabel="#{msgs.cr_importancevalue_5}" />
+                                <f:selectItem itemValue="4" itemLabel="#{msgs.cr_importancevalue_4}" />
+                                <f:selectItem itemValue="3" itemLabel="#{msgs.cr_importancevalue_3}" />
+                                <f:selectItem itemValue="2" itemLabel="#{msgs.cr_importancevalue_2}" />
+                                <f:selectItem itemValue="1" itemLabel="#{msgs.cr_importancevalue_1}" />
                             </p:selectOneMenu>
                         </p:column>
                     </p:treeTable>
