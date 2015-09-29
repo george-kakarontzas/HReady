@@ -50,4 +50,11 @@ public class InCompanyEmploymentFacade extends AbstractFacade<InCompanyEmploymen
         Job jobIdJob = ice.get(ice.size()).getJobIdjob();
         return jobIdJob;
     }
+    
+    public List<InCompanyEmployment> getInCompanyEmploymentsForJob (Job job)
+    {
+        Query q = em.createQuery("Select i from InCompanyEmployment i where i.jobIdjob=:job");
+        q.setParameter("job", job);
+        return q.getResultList();
+    }
 }
