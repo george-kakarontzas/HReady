@@ -61,7 +61,7 @@
                         <h:outputText value="#{msgs.available_actions}"/>
                     </f:facet>
                     <p:commandButton id="exportbutton" icon="ui-icon-document" action="#{updateJobCDIBean.export(item)}" ajax="false"/>
-                    <p:commandButton icon="ui-icon-trash"
+                    <p:commandButton icon="ui-icon-trash" rendered="#{!updateJobCDIBean.jobFacade.isUsed(item)}"
 
                                      action="#{updateJobCDIBean.remove(item)}"                                                
                                      onclick="if (!confirm('#{msgs.are_you_sure}')) {

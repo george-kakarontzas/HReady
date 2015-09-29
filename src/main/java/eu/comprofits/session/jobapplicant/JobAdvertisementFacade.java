@@ -7,6 +7,7 @@
 package eu.comprofits.session.jobapplicant;
 
 import eu.comprofits.entities.jobapplicant.JobAdvertisement;
+import eu.comprofits.entities.jobprofile.Job;
 import eu.comprofits.session.AbstractFacade;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -36,6 +37,13 @@ public class JobAdvertisementFacade extends AbstractFacade<JobAdvertisement> {
     public List<JobAdvertisement> getAvailableJobs() {
         Query q = em.createQuery("SELECT ja FROM JobAdvertisement ja, Job jb WHERE ja.jobIdjob=jb AND  jb.status=:status");
                 q.setParameter("status", true);
+        return q.getResultList();
+    }
+    
+    public List<JobAdvertisement> getJobAdvertisementsForJob (Job job)
+    {
+        Query q = em.createQuery("Select j from JobAdvertisement j where j.jobIdjob=:job");
+        q.setParameter("job", job);
         return q.getResultList();
     }
     
