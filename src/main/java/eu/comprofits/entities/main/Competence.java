@@ -133,10 +133,10 @@ public class Competence implements Serializable {
     }
     
     public String getLeveledLabel() {
-        String pad = "-";
+        String pad = "";
         int level = this.getLevel();
         while (level>1) {
-            pad += "-";
+            pad += "--";
             level--;
         }
         return pad+this.getCompetenceName();

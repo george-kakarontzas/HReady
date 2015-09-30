@@ -804,7 +804,10 @@ public class UpdateEdrCDIBean implements Serializable {
                                                         "</th><th>"+bundle.getString("comments")+
                                                         "</th></tr>";
             
-                for (CompetenceGoal cg : competenceGoalFacade.getGoalsForEdr(edrObject))
+                List<CompetenceGoal> cgList = new ArrayList();
+                this.competenceGoalFacade.convertTreeToList(this.competenceGoalTree, cgList);
+                
+                for (CompetenceGoal cg : cgList)       
                 {
                     String nextYearGoalString = "";
                     switch (cg.getNextYearGoalValue())
@@ -822,7 +825,8 @@ public class UpdateEdrCDIBean implements Serializable {
                         case 5: nextYearGoalString = bundle.getString("cg_nextyearvalue_5");
                                 break;
                     }
-                    competenceGoals = competenceGoals + "<tr><td>" + cg.getCompetenceIdcompetence().getCompetenceName() + 
+
+                    competenceGoals = competenceGoals + "<tr><td>" + cg.getCompetenceIdcompetence().getLeveledLabel() + 
                                                         "</td><td>" + nextYearGoalString +
                                                         "</td><td>" + cg.getComments() +
                                                         "</td></tr>";

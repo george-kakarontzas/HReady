@@ -134,4 +134,14 @@ public class CompetenceGoalFacade extends AbstractFacade<CompetenceGoal> {
         Query q = em.createQuery("DELETE FROM CompetenceGoal WHERE edrIdedr=:edr");
         q.setParameter("edr",edr);
     }
+    
+    public void convertTreeToList (TreeNode competencesGoalsTree, List<CompetenceGoal> resultList) {
+        
+        for (TreeNode cgNode : competencesGoalsTree.getChildren())
+        {
+            CompetenceGoal cg = (CompetenceGoal)cgNode.getData();
+            resultList.add(cg);
+            convertTreeToList (cgNode, resultList);
+        }
+    }
 }

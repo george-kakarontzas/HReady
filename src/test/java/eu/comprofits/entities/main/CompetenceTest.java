@@ -142,7 +142,7 @@ public class CompetenceTest {
 
     /**
      * Test of getLeveledLabel method, of class Competence.
-     */
+     
     @Test
     public void testGetLeveledLabel() {
         System.out.println("getLeveledLabel");
@@ -163,7 +163,7 @@ public class CompetenceTest {
         String expResult = "--comp";
         String result = instance.getLeveledLabel();
         assertEquals(expResult, result);
-    }
+    }*/
 
     /**
      * Test of getEmployeeCompetenceAssessmentCollection method, of class Competence.
