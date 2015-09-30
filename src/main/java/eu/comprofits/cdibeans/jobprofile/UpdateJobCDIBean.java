@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -273,6 +274,11 @@ public class UpdateJobCDIBean implements Serializable {
     public void refreshJobList() {
         jobList = jobFacade.findAll();
     }
+    
+    public void refreshCompetencesRequirements()
+    {
+        this.competencesRequirementsTree = this.competencesRequirementFacade.getCompetencesRequirementsTree(this.competenceFacade.getCompetencesTree(), this.jobObject);
+    }
 
     public JobAdvertisement getSpecificJobAdvertisement(Integer jobId) {
 
@@ -368,6 +374,7 @@ public class UpdateJobCDIBean implements Serializable {
     
     public String export(Job job) throws InterruptedException {
         this.jobObject = job;
+        refreshCompetencesRequirements();
         
         FacesContext context = FacesContext.getCurrentInstance();
         ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
@@ -392,6 +399,16 @@ public class UpdateJobCDIBean implements Serializable {
             html = html.replace("{{job_information_title}}", bundle.getString("edr_assignments") + ": ");
             html = html.replace("{{job_competencerequirements_title}}", bundle.getString("update_competence_requirement")+":");
                         
+            String jobStatusString = "";
+            if (jobObject.getStatus())
+            {
+                jobStatusString = bundle.getString("enable");
+            }
+            else
+            {
+                jobStatusString = bundle.getString("disable");
+            }
+            
             html = html.replace("{{job_information_content}}", "<ul>"+
                                                         "<li><b>"+bundle.getString("job_title")+": </b>"+jobObject.getJobTitle()+"</li>"+
                                                         "<li><b>"+bundle.getString("organizational_position")+": </b>"+jobObject.getOrganisationalPositionIdorganisationalPosition().getOrganisationalPositionName()+"</li>"+
@@ -399,7 +416,7 @@ public class UpdateJobCDIBean implements Serializable {
                                                         //"<li><b>"+bundle.getString("place_of_employment")+": </b>"+jobObject.getPlaceEmploymentIdplaceEmployment().getName()+"</li>"+
                                                         "<li><b>"+bundle.getString("reporting_to")+": </b>"+jobObject.getReportingToIdemployee().getFullName()+"</li>"+
                                                         "<li><b>"+bundle.getString("job_description")+": </b>"+jobObject.getJobDescription()+"</li>"+
-                                                        "<li><b>"+bundle.getString("job_profile_status")+": </b>"+jobObject.getStatus()+"</li>"+
+                                                        "<li><b>"+bundle.getString("job_profile_status")+": </b>"+jobStatusString+"</li>"+
                                                         "</ul>");
                   
             String competenceRequirements = "<table width=\"100%\" border=\"1\" cellpadding=\"10\"><tbody><tr><th>"+bundle.getString("competences")+
@@ -407,7 +424,10 @@ public class UpdateJobCDIBean implements Serializable {
                                                     "</th><th>"+bundle.getString("importance")+
                                                     "</th></tr>";
             
-            for (CompetencesRequirement cr : competencesRequirementFacade.getRequirementsForJob(jobObject))
+            List<CompetencesRequirement> crList = new ArrayList();
+            this.competencesRequirementFacade.convertTreeToList(this.competencesRequirementsTree, crList);
+                
+            for (CompetencesRequirement cr : crList)
             {
                 String importanceString = "";
                     switch (cr.getImportance())
@@ -425,7 +445,7 @@ public class UpdateJobCDIBean implements Serializable {
                         case 5: importanceString = bundle.getString("cr_importancevalue_5");
                                 break;
                     }
-                competenceRequirements = competenceRequirements + "<tr><td>" + cr.getCompetenceIdcompetence().getCompetenceName() + 
+                competenceRequirements = competenceRequirements + "<tr><td>" + cr.getCompetenceIdcompetence().getLeveledLabel() + 
                                                     "</td><td>" + cr.getWeight() +
                                                     "</td><td>" + importanceString +
                                                     "</td></tr>";

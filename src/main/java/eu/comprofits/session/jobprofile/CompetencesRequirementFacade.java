@@ -132,4 +132,14 @@ public class CompetencesRequirementFacade extends AbstractFacade<CompetencesRequ
         Query q = em.createQuery("DELETE FROM CompetencesRequirement WHERE jobIdjob=:job");
         q.setParameter("job",job);
     }
+    
+    public void convertTreeToList (TreeNode competencesRequirementsTree, List<CompetencesRequirement> resultList) {
+        
+        for (TreeNode crNode : competencesRequirementsTree.getChildren())
+        {
+            CompetencesRequirement cr = (CompetencesRequirement)crNode.getData();
+            resultList.add(cr);
+            convertTreeToList (crNode, resultList);
+        }
+    }
 }
