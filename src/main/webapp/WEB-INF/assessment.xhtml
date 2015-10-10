@@ -4,7 +4,7 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui">
-    <h:form id="assessmentForm">
+    <h:form id="assessmentForm" style="font-size: 14px">
         <p:growl id="messages" />
         <p:panelGrid columns="2" id="all">
             <p:outputLabel value="#{msgs.select_assessment}" />
@@ -33,7 +33,7 @@
                         update=":assessmentForm:messages" />
 
                 <p:column filterBy="#{item.competenceIdcompetence}" headerText="#{msgs.competence_name}" 
-                          filterMatchMode="exact" style="width:150px">
+                          filterMatchMode="exact" style="width:200px">
                     <f:facet name="filter">
                         <p:selectOneMenu onchange="PF('statementsTable').filter()" >
                             <f:selectItem itemLabel="---" itemValue="#{null}" noSelectionOption="true" />
@@ -44,7 +44,7 @@
                 </p:column>
                 <p:column>
                     <f:facet name="header">
-                        <h:outputText value="#{msgs.statement}" style="width:150px"/>
+                        <h:outputText value="#{msgs.statement}" style="width:250px"/>
                     </f:facet>
                     <h:outputText value="#{item.statementIdstatement.statementText}"/>
                 </p:column>
