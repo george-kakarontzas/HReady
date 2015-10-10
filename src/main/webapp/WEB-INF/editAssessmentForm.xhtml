@@ -10,7 +10,7 @@
         <h1><h:outputText value="#{msgs.create_edit_assessment}" /></h1>
        <!-- <h2><h:outputText value="#{msgs.department_name} : 
                           #{updateAssessmentsCDIBean.department.departmentName}" /></h2> -->
-        <h:form id="compform">
+        <h:form id="compform" style="font-size: 16px">
             <p:growl id="growl" sticky="true" showDetail="true"/>
             <p:wizard flowListener="#{updateAssessmentsCDIBean.onFlowProcess}" >
                 <p:tab id="assessmentTeam" title="#{msgs.assessment_team}" >
@@ -191,7 +191,7 @@
                     </p:panel>
                 </p:tab>
                 <p:tab id="competenceSelection" title="#{msgs.level3_competences_selection}" >
-                    <p:panel header="#{msgs.level3_competence_selection}" >
+                    <p:panel header="#{msgs.level3_competences_selection}" >
                         <p:messages />
                         <p:panelGrid columns="2">
                             <p:outputLabel value="#{msgs.add_level3_competence}" />
