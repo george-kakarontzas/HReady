@@ -143,7 +143,7 @@ public class UpdateAssessmentsCDIBean implements Serializable {
             assesseeDepartment = loggedInEmployee.getDepartmentIddepartment();
         }
         assesseeDivision = assesseeDepartment.getDivisionIddivision();
-        
+
         if (assessment.getImmediateManagerIdemployee() != null) {
             immediateManagerDepartment = assessment.getImmediateManagerIdemployee().getDepartmentIddepartment();
             immediateManagerDivision = immediateManagerDepartment.getDivisionIddivision();
@@ -153,24 +153,27 @@ public class UpdateAssessmentsCDIBean implements Serializable {
         }
         if (assessment.getColleague1Idemployee() != null) {
             colleague1Department = assessment.getColleague1Idemployee().getDepartmentIddepartment();
-            if (colleague1Department != null)
+            if (colleague1Department != null) {
                 colleague1Division = colleague1Department.getDivisionIddivision();
+            }
         } else {
             colleague1Department = assesseeDepartment;
             colleague1Division = assesseeDivision;
         }
         if (assessment.getColleague2Idemployee() != null) {
             colleague2Department = assessment.getColleague2Idemployee().getDepartmentIddepartment();
-            if (colleague2Department != null)
+            if (colleague2Department != null) {
                 colleague2Division = colleague2Department.getDivisionIddivision();
+            }
         } else {
             colleague2Department = assesseeDepartment;
             colleague2Division = assesseeDivision;
         }
         if (assessment.getColleague3Idemployee() != null) {
             colleague3Department = assessment.getColleague3Idemployee().getDepartmentIddepartment();
-            if (colleague3Department != null)
+            if (colleague3Department != null) {
                 colleague3Division = colleague3Department.getDivisionIddivision();
+            }
         } else {
             colleague3Department = assesseeDepartment;
             colleague3Division = assesseeDivision;
@@ -203,9 +206,21 @@ public class UpdateAssessmentsCDIBean implements Serializable {
     }
 
     public List<Department> getSelectedDivisionDepartments() {
-        return departmentFacade.findDepartmenstForDivision(selectedDivision);
+        //if the logged in employee is a head of business area then the only
+        //available business area is his/her own
+        if (loggedInEmployee.getRole().equals("depthead")) {
+            List<Department> departments = new ArrayList<>();
+            departments.add(loggedInEmployee.getDepartmentIddepartment());
+            return departments;
+        } else if (loggedInEmployee.getRole().equals("hrteamdevelopment")) {
+            //get Employee's division
+            Division d = loggedInEmployee.getDivisionIddivision();
+            return departmentFacade.findDepartmenstForDivision(d);
+        }
+        //not a relevant role? Then return an empty list
+        return new ArrayList<>();
     }
-    
+
     public Department getAssesseeDepartment() {
         return assesseeDepartment;
     }
@@ -359,7 +374,7 @@ public class UpdateAssessmentsCDIBean implements Serializable {
     }
 
     public List<Assessment> getAssessments() {
-       return assessmentFacade.getDepartmentAssessments(selectedDepartment);
+        return assessmentFacade.getDepartmentAssessments(selectedDepartment);
     }
 
     public Assessment getAssessment() {
