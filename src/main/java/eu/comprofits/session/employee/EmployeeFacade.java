@@ -7,6 +7,7 @@ package eu.comprofits.session.employee;
 
 import eu.comprofits.entities.employee.CurrentCompetenceAssessment;
 import eu.comprofits.entities.employee.Employee;
+import eu.comprofits.entities.jobprofile.Division;
 import eu.comprofits.entities.main.Competence;
 import eu.comprofits.entities.main.Department;
 import eu.comprofits.session.AbstractFacade;
@@ -59,6 +60,12 @@ public class EmployeeFacade extends AbstractFacade<Employee> {
         return em.createQuery(
                 "Select e From Employee e WHERE e.departmentIddepartment=:department").
                 setParameter("department", d).getResultList();
+    }
+    
+    public List<Employee> getDivisionEmployees(Division d) {
+        return em.createQuery(
+                "Select e From Employee e WHERE e.divisionIddivision=:division").
+                setParameter("division", d).getResultList();
     }
 
     public Employee getEmployeeByLnameFnameAndEmail(String l, String f, String e) {

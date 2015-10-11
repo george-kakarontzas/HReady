@@ -32,17 +32,16 @@
                                         value="#{updateDivisionsCDIBean.division.description}" 
                                         title="DivisionDescription" autoResize="false"
                                                   />
-                               
-                                <!--
-                                <p:outputLabel value="#{msgs.head_of_division}:" for="headOfDivisionIdemployee" />
-                                <p:selectOneMenu id="headOfDividionIdemployee" value="#{updateDivisionsCDIBean.division.headOfDivisionEmployee}" 
+                                <p:outputLabel value="#{msgs.head_of_division}:" for="headOfDividionIdemployee" />
+                                <p:selectOneMenu id="headOfDividionIdemployee" 
+                                                 value="#{updateDivisionsCDIBean.division.headOfDivisionEmployee}" 
                                                  converter="#{employeeConverter}">
-                                    <f:selectItem itemLabel="***" itemValue="" noSelectionOption="true" />
-                                    <f:selectItems value="#{updateDivisionsCDIBean.division.companyIdcompany}" 
+                                    <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{updateDivisionsCDIBean.divisionEmployees}" 
                                                    var="e" itemValue="#{e}" itemLabel="#{e.lastName}, #{e.firstName}" 
                                                    />
                                 </p:selectOneMenu>
-                                -->
+                               
                                 <p:outputLabel value="#{msgs.company_name}" for="companyIdcompany" />
                                 <p:selectOneMenu id="companyIdcompany" value="#{updateDivisionsCDIBean.division.companyIdcompany}" 
                                                  required="true" requiredMessage="#{msgs.required_company_message}." 

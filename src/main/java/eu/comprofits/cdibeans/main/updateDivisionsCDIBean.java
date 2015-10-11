@@ -37,6 +37,8 @@ public class updateDivisionsCDIBean implements Serializable {
     private CompanyFacade companyFacade;
     @EJB
     private DepartmentFacade departmentFacade;
+    @EJB
+    private EmployeeFacade employeeFacade;
 
     private Division division;
     private List<Division> divisions;
@@ -100,6 +102,10 @@ public class updateDivisionsCDIBean implements Serializable {
         return departmentFacade.findDepartmenstForDivision(division);
     }
 
+    public List<Employee> getDivisionEmployees() {
+	return employeeFacade.getDivisionEmployees(division);
+    }
+    
     public String update() {
         try {
             if (division.getIddivision() == null) {
