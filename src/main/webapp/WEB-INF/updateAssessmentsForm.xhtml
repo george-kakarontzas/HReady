@@ -10,18 +10,19 @@
             <p:messages  />
             <h1><h:outputText value="#{msgs.list_of_stored_assessments}"/></h1>
             <p:panelGrid columns="2">
+                <!--
                 <p:outputLabel value="#{msgs.assessee_division}" />
                 <p:selectOneMenu id="assessee_division" 
                                  value="#{updateAssessmentsCDIBean.selectedDivision}"
                                  converter="#{divisionConverter}">
-                    <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                    <f:selectItem itemLabel="***" itemValue="" noSelectionOption="true" />
                     <f:selectItems value="#{updateAssessmentsCDIBean.divisions}" 
                                    var="d" itemValue="#{d}" 
                                    itemLabel="#{d.name}"
                                    />
                     <p:ajax update="selectedDept" />
                 </p:selectOneMenu> 
-
+                -->
                 <p:outputLabel value="#{msgs.assessee_department}" />
                 <p:selectOneMenu id="selectedDept" 
                                  value="#{updateAssessmentsCDIBean.selectedDepartment}"
