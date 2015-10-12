@@ -17,12 +17,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -206,6 +209,20 @@ public class UpdateEmployeeCDIBean implements Serializable {
         }
     }
 
+    public Employee getCurrentEmployee() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        Employee e = (Employee) externalContext.getSessionMap().get("user");
+        if (e == null) {
+            Principal principal
+                    = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
+            if (principal != null) {
+                e = employeeFacade.getEmployeeByUsername(principal.getName()); // Find User by j_username.
+            }
+        }
+        return e;
+    }
+    
     public String edit(Employee e) {
         this.employee = e;
         return "editEmployee";
