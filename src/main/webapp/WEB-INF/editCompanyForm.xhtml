@@ -44,8 +44,9 @@
             </p:selectOneMenu>
 
             <p:outputLabel value="#{msgs.phone_number}:" for="phoneNumber" />
-            <p:inputText id="phoneNumber" size="20" value="#{updateCompanyProfileCDIBean.company.phoneNumber}" required="true">
-                <f:validateRegex pattern="\d+" /></p:inputText>
+            <p:inputText id="phoneNumber" size="20" value="#{updateCompanyProfileCDIBean.company.phoneNumber}" required="true"
+                         validatorMessage="#{msgs.invalid_phone_number}">
+                <f:validateRegex pattern="(\+)?[0-9]+" /></p:inputText>
 
             <p:outputLabel value="#{msgs.email}:" for="email" />
             <p:inputText id="email" size="50" value="#{updateCompanyProfileCDIBean.company.EMail}" required="true">

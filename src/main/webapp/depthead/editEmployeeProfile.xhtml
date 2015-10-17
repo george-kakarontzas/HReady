@@ -64,11 +64,11 @@
                                         </p:calendar>
                                         <p:outputLabel value="#{msgs.phone_private}:" for="phonePrivate" />
                                         <p:inputText id="phonePrivate" value="#{updateEmployeesProfileCDIBean.employee.phonePrivate}" validatorMessage="#{msgs.invalid_phone_number}">
-                                            <f:validateRegex pattern="\d*" /></p:inputText>
+                                            <f:validateRegex pattern="(\+)?[0-9]+" /></p:inputText>
                                         <p:outputLabel value="#{msgs.phone_mobile}:" for="phoneMobile" />
                                         <p:inputText id="phoneMobile" value="#{updateEmployeesProfileCDIBean.employee.phoneMobile}" 
                                                      required="true" requiredMessage="#{msgs.required_mobie}." validatorMessage="#{msgs.invalid_phone_number}">
-                                            <f:validateRegex pattern="\d+" /></p:inputText>
+                                            <f:validateRegex pattern="(\+)?[0-9]+" /></p:inputText>
                                         <p:outputLabel value="#{msgs.email}:" for="email" /> 
                                         <p:inputText id="email" value="#{updateEmployeesProfileCDIBean.employee.email}" 
                                                      required="true" requiredMessage="#{msgs.required_email}."
