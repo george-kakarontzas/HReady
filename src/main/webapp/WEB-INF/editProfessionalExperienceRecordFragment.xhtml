@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <h:form>
+            <p:messages  />
+            <h1><h:outputText value="#{msgs.create_edit_professional_experience_record}:,
+                              #{updateProExperienceCDIBean.employee.lastName}, 
+                              #{updateProExperienceCDIBean.employee.firstName}"/></h1>
+            <p:panelGrid columns="2">
+
+                <p:outputLabel value="#{msgs.date_started}:" for="dateStarted" />
+                <p:calendar id="dateStarted" yearRange="c-70:c"
+                            value="#{updateProExperienceCDIBean.professionalExperienceRec.dateStarted}" 
+                            showOn="button" navigator="true" pattern="dd/MM/yyyy"
+                            required="true" requiredMessage="#{msgs.required_date_started}">
+                </p:calendar>
+                <p:outputLabel value="#{msgs.date_finished}:" for="dateFinished" />
+                <p:calendar id="dateFinished" yearRange="c-70:c"
+                            value="#{updateProExperienceCDIBean.professionalExperienceRec.dateFinished}" 
+                            showOn="button" navigator="true" pattern="dd/MM/yyyy"
+                            required="true" requiredMessage="#{msgs.required_date_finished}">
+                </p:calendar>
+                <p:outputLabel value="#{msgs.company_name}:" for="company" />
+                <p:inputText id="company" value="#{updateProExperienceCDIBean.professionalExperienceRec.company}" 
+                             required="true" requiredMessage="#{msgs.required_company_message}" size="100"/>
+                <p:outputLabel value="#{msgs.role}:" for="role" />
+                <p:inputText id="role" value="#{updateProExperienceCDIBean.professionalExperienceRec.role}" 
+                             required="true" requiredMessage="#{msgs.required_role}" size="100"/>
+                <p:outputLabel value="#{msgs.job_title}:" for="jobTitle" />
+                <p:inputText id="jobTitle" value="#{updateProExperienceCDIBean.professionalExperienceRec.jobTitle}" size="100"/>
+                <p:outputLabel value="#{msgs.field_of_work}:" for="fieldOfWork" />
+                <p:inputText id="fieldOfWork" value="#{updateProExperienceCDIBean.professionalExperienceRec.fieldOfWork}" size="100" />
+                <p:outputLabel value="#{msgs.place_of_employment}:" for="placeOfEmployment" />
+                <p:inputText id="placeOfEmployment" value="#{updateProExperienceCDIBean.professionalExperienceRec.placeOfEmployment}" size="100" />
+                <p:outputLabel value="#{msgs.immediate_manager}:" for="immediateManager" />
+                <p:inputText id="immediateManager" value="#{updateProExperienceCDIBean.professionalExperienceRec.immediateManager}" size="100"/>
+                <p:outputLabel value="#{msgs.business_area}:" for="businessArea" />
+                <p:inputText id="businessArea" value="#{updateProExperienceCDIBean.professionalExperienceRec.businessArea}" size="100"/>
+                <p:outputLabel value="#{msgs.division}:" for="division" />
+                <p:inputText id="division" value="#{updateProExperienceCDIBean.professionalExperienceRec.division}" size="100"/>
+                <h:commandButton id="update" value="Update" action="#{updateProExperienceCDIBean.update()}"  />
+                <h:commandButton id="back" value="#{msgs.back}" action="updateProExperience" immediate="true"/>  
+            </p:panelGrid>
+        </h:form>
+    </f:view>
+</ui:composition>

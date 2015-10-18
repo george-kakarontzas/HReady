@@ -62,22 +62,19 @@
                         <p:growl id="messages" autoUpdate="true"/>  
                         <p:panelMenu>
 
-                            <p:submenu label="#{msgs.employee_menu}" >  
+                            <p:submenu label="#{msgs.employee_menu}">  
                                 <p:menuitem value="#{msgs.employee_home_page}" icon="ui-icon-home" 
                                             url="./employeeHomePage.xhtml" />
                                 <p:menuitem value="#{msgs.employee_assessment}" icon="ui-icon-pencil" 
                                             url="./employeeEmployeeAssessment.xhtml"/>
                                 <p:menuitem value="#{msgs.edr_update}" icon="ui-icon-pencil" 
                                             url="./updateEdr.xhtml" />
-                                <p:submenu label="#{msgs.update_my_profile}">
-                                    <p:menuitem value="#{msgs.personal_information}" 
-                                                action="#{updateEmployeeCDIBean.edit(updateEmployeeCDIBean.currentEmployee)}"
-                                                icon="ui-icon-person" />
-                                    <p:menuitem value="#{msgs.professional_experience}"
-                                                icon="ui-icon-pencil" />
-                                    <p:menuitem value="#{msgs.studies}"
-                                                icon="ui-icon-script" />
-                                </p:submenu>
+                                <p:menuitem value="#{msgs.my_personal_information}" icon="ui-icon-person" 
+                                            url="./empEditEmployee.xhtml" />
+                                <p:menuitem value="#{msgs.my_professional_experience}" icon="ui-icon-suitcase" 
+                                            url="./updateProExperience.xhtml" />
+                                <p:menuitem value="#{msgs.my_studies}" icon="ui-icon-note" 
+                                            url="./updateStudies.xhtml" />
                             </p:submenu>  
                         </p:panelMenu>  
                     </h:form>

@@ -65,6 +65,7 @@ public class UpdateEmployeeCDIBean implements Serializable {
         refreshEmployeesList();
         departments = departmentFacade.findAll();
         divisions = divisionFacade.findAll();
+        this.employee = this.getCurrentEmployee();
     }
 
     private void refreshEmployeesList() {

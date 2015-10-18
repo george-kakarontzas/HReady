@@ -7,8 +7,10 @@ package eu.comprofits.cdibeans.employee;
 
 import eu.comprofits.entities.employee.Employee;
 import eu.comprofits.entities.employee.ProfessionalExperienceRecord;
+import eu.comprofits.session.employee.EmployeeFacade;
 import eu.comprofits.session.employee.ProfessionalExperienceRecordFacade;
 import java.io.Serializable;
+import java.security.Principal;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -28,6 +30,8 @@ public class updateProExperienceCDIBean implements Serializable {
 
     @EJB
     private ProfessionalExperienceRecordFacade professionalExperienceRecordFacade;
+    @EJB
+    private EmployeeFacade employeeFacade;
 
     private Employee employee;
     private ProfessionalExperienceRecord professionalExperienceRec;
@@ -44,13 +48,27 @@ public class updateProExperienceCDIBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
         employee = (Employee) externalContext.getSessionMap().get("employee");
+        if (employee == null) {
+            employee = this.getCurrentEmployee();
+        }
         refreshProRecsList();
     }
 
-    public Employee getEmployee() {
+    public Employee getCurrentEmployee() {
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
-        employee = (Employee) externalContext.getSessionMap().get("employee");
+        Employee e = (Employee) externalContext.getSessionMap().get("user");
+        if (e == null) {
+            Principal principal
+                    = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
+            if (principal != null) {
+                e = employeeFacade.getEmployeeByUsername(principal.getName()); // Find User by j_username.
+            }
+        }
+        return e;
+    }
+
+    public Employee getEmployee() {
         return employee;
     }
 
