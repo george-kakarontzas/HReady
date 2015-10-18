@@ -8,8 +8,10 @@ package eu.comprofits.cdibeans.employee;
 
 import eu.comprofits.entities.employee.Employee;
 import eu.comprofits.entities.employee.StudyRecord;
+import eu.comprofits.session.employee.EmployeeFacade;
 import eu.comprofits.session.employee.StudyRecordFacade;
 import java.io.Serializable;
+import java.security.Principal;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
@@ -29,7 +31,8 @@ import javax.inject.Named;
 public class UpdateStudiesCDIBean implements Serializable {   
     @EJB
     private StudyRecordFacade studyRecordFacade;
-    
+    @EJB
+    private EmployeeFacade employeeFacade; 
     private Employee employee;
     private StudyRecord studyRecord;
     private List<StudyRecord> studyrecs;
@@ -46,13 +49,32 @@ public class UpdateStudiesCDIBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
         employee = (Employee) externalContext.getSessionMap().get("employee");
+        if (employee==null) {
+            employee = this.getCurrentEmployee();
+        }
         refreshStudyRecsList();
     }
 
+    public Employee getCurrentEmployee() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        Employee e = (Employee) externalContext.getSessionMap().get("user");
+        if (e == null) {
+            Principal principal
+                    = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
+            if (principal != null) {
+                e = employeeFacade.getEmployeeByUsername(principal.getName()); // Find User by j_username.
+            }
+        }
+        return e;
+    }
+    
     public Employee getEmployee() {
+        /*
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
         employee = (Employee) externalContext.getSessionMap().get("employee");
+        */
         return employee;
     }
 
