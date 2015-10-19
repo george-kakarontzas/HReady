@@ -32,8 +32,6 @@ public class updateProExperienceCDIBean implements Serializable {
     private ProfessionalExperienceRecordFacade professionalExperienceRecordFacade;
     @EJB
     private EmployeeFacade employeeFacade;
-
-    private Employee employee;
     private ProfessionalExperienceRecord professionalExperienceRec;
     private List<ProfessionalExperienceRecord> prorecs;
 
@@ -45,16 +43,10 @@ public class updateProExperienceCDIBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = context.getExternalContext();
-        employee = (Employee) externalContext.getSessionMap().get("employee");
-        if (employee == null) {
-            employee = this.getCurrentEmployee();
-        }
         refreshProRecsList();
     }
 
-    public Employee getCurrentEmployee() {
+    private Employee getCurrentEmployee() {
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
         Employee e = (Employee) externalContext.getSessionMap().get("user");
@@ -69,10 +61,17 @@ public class updateProExperienceCDIBean implements Serializable {
     }
 
     public Employee getEmployee() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        Employee employee = (Employee) externalContext.getSessionMap().get("employee");
+        if (employee == null) {
+            employee = this.getCurrentEmployee();
+        }
         return employee;
     }
 
     public List<ProfessionalExperienceRecord> getProrecs() {
+        refreshProRecsList();
         return prorecs;
     }
 
@@ -86,7 +85,7 @@ public class updateProExperienceCDIBean implements Serializable {
 
     private void refreshProRecsList() {
         prorecs
-                = professionalExperienceRecordFacade.getProRecsForEmployee(employee);
+                = professionalExperienceRecordFacade.getProRecsForEmployee(this.getEmployee());
     }
 
     public void remove(ProfessionalExperienceRecord p) {
@@ -108,7 +107,7 @@ public class updateProExperienceCDIBean implements Serializable {
     public String create() {
         this.professionalExperienceRec
                 = new ProfessionalExperienceRecord();
-        professionalExperienceRec.setEmployeeIdemployee(employee);
+        professionalExperienceRec.setEmployeeIdemployee(this.getEmployee());
         return "editProfessionalExperienceRecord";
     }
 
