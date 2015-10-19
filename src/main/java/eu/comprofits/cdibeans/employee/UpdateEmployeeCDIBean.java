@@ -31,6 +31,7 @@ import javax.inject.Named;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
 /**
@@ -51,9 +52,11 @@ public class UpdateEmployeeCDIBean implements Serializable {
     private List<Employee> employees;
     private List<Employee> filteredEmployees;
     private UploadedFile photograph;
+    private UploadedFile cv;
     private String password;
     private List<Department> departments;
     private List<Division> divisions;
+
     /**
      * Creates a new instance of UpdateOrganisationalPositionsCDIBean
      */
@@ -87,10 +90,10 @@ public class UpdateEmployeeCDIBean implements Serializable {
 
             case "hrassistant":
                 return bundle.getString("hr_assistant");
-                
+
             case "hrteamdevelopment":
                 return bundle.getString("hr_team_development");
-                
+
             case "employee":
                 return bundle.getString("employee");
 
@@ -107,6 +110,14 @@ public class UpdateEmployeeCDIBean implements Serializable {
         this.photograph = photograph;
     }
 
+    public UploadedFile getCv() {
+        return cv;
+    }
+
+    public void setCv(UploadedFile cv) {
+        this.cv = cv;
+    }
+
     public String getPhotoPath() {
         if (employee != null) {
             if (employee.getPhotoPath() != null) {
@@ -114,6 +125,15 @@ public class UpdateEmployeeCDIBean implements Serializable {
             }
         }
         return "/images/user.jpg";
+    }
+
+    public String getCvPath() {
+        if (employee != null) {
+            if (employee.getCvPath() != null) {
+                return "/images/" + employee.getCvPath();
+            }
+        }
+        return "";
     }
 
     public Employee getEmployee() {
@@ -145,15 +165,14 @@ public class UpdateEmployeeCDIBean implements Serializable {
         return departments;
     }
 
-     public List<Department> getDepartmentsByDivision(Division d) {
-        if (d!=null) {
+    public List<Department> getDepartmentsByDivision(Division d) {
+        if (d != null) {
             return departmentFacade.findDepartmenstForDivision(d);
-        }
-        else {
+        } else {
             return departmentFacade.findAll();
         }
     }
-    
+
     public String getPassword() {
         return password;
     }
@@ -177,15 +196,22 @@ public class UpdateEmployeeCDIBean implements Serializable {
         }
     }
 
+    public void uploadCV() {
+        if (cv != null) {
+            FacesMessage message = new FacesMessage("Succesful", cv.getFileName() + " is uploaded.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+    }
+
     public void changeActiveStatus(Employee e) {
         e.setIsActive(!e.getIsActive());
         employeeFacade.edit(e);
         this.refreshEmployeesList();
     }
-    
+
     public void remove(Employee e) {
         try {
-            //first delete employee's photograph if not empty
+            //first delete employee's photograph and cv if not empty
             FacesContext ctx = FacesContext.getCurrentInstance();
             String outputdir
                     = ctx.getExternalContext().getInitParameter("FILE_UPLOAD_DIR");
@@ -198,8 +224,17 @@ public class UpdateEmployeeCDIBean implements Serializable {
                     }
                 }
             }
+            String cvOldFile = e.getCvPath();
+            if (cvOldFile != null) {
+                if (!cvOldFile.isEmpty()) {
+                    File f = new File(outputdir + File.separator + cvOldFile);
+                    if (f.exists()) {
+                        f.delete();
+                    }
+                }
+            }
             employeeFacade.remove(e);
-            if (filteredEmployees != null) { 
+            if (filteredEmployees != null) {
                 filteredEmployees.remove(e);
             }
             refreshEmployeesList();
@@ -223,7 +258,7 @@ public class UpdateEmployeeCDIBean implements Serializable {
         }
         return e;
     }
-    
+
     public String edit(Employee e) {
         this.employee = e;
         return "editEmployee";
@@ -235,64 +270,113 @@ public class UpdateEmployeeCDIBean implements Serializable {
         return "editEmployee";
     }
 
+    public void fileUploadListener(FileUploadEvent e) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+
+        // Get uploaded file from the FileUploadEvent
+        this.photograph = e.getFile();
+        File file = null;
+        OutputStream output = null;
+        try {
+            // Prepare filename prefix and suffix for an unique filename in upload folder.
+            String prefix = FilenameUtils.getBaseName(photograph.getFileName());
+            String suffix = FilenameUtils.getExtension(photograph.getFileName());
+
+            // Create file with unique name in upload folder and write to it.
+            FacesContext ctx = FacesContext.getCurrentInstance();
+            String outputdir
+                    = ctx.getExternalContext().getInitParameter("FILE_UPLOAD_DIR");
+            file = File.createTempFile(prefix + "_", "." + suffix, new File(outputdir));
+            output = new FileOutputStream(file);
+            IOUtils.copy(photograph.getInputstream(), output);
+            //remove the old photograph file of the employee if it exists
+            String oldFile = employee.getPhotoPath();
+            File f = new File(outputdir + File.separator + oldFile);
+            if (f.exists()) {
+                f.delete();
+            }
+            employee.setPhotoPath(file.getName());
+        } catch (IOException ex) {
+            // Cleanup.
+            if (file != null) {
+                file.delete();
+            }
+            String failedMessage = bundle.getString("file_upload_failed");
+            // Show error message.
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, failedMessage, null));
+
+            // Always log stacktraces (with a real logger).
+            ex.printStackTrace();
+        } finally {
+            IOUtils.closeQuietly(output);
+        }
+        String succeededMessage = bundle.getString("file_uploaded_succesfully");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(succeededMessage));
+    }
+
+    public void cvUploadListener(FileUploadEvent e) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+
+        // Get uploaded file from the FileUploadEvent
+        this.cv = e.getFile();
+        File file = null;
+        OutputStream output = null;
+        try {
+            // Prepare filename prefix and suffix for an unique filename in upload folder.
+            String prefix = FilenameUtils.getBaseName(cv.getFileName());
+            String suffix = FilenameUtils.getExtension(cv.getFileName());
+
+            // Create file with unique name in upload folder and write to it.
+            FacesContext ctx = FacesContext.getCurrentInstance();
+            String outputdir
+                    = ctx.getExternalContext().getInitParameter("FILE_UPLOAD_DIR");
+            file = File.createTempFile(prefix + "_", "." + suffix, new File(outputdir));
+            output = new FileOutputStream(file);
+            IOUtils.copy(cv.getInputstream(), output);
+            //remove the old cv file of the employee if it exists
+            String oldFile = employee.getCvPath();
+            File f = new File(outputdir + File.separator + oldFile);
+            if (f.exists()) {
+                f.delete();
+            }
+            employee.setCvPath(file.getName());
+        } catch (IOException ex) {
+            // Cleanup.
+            if (file != null) {
+                file.delete();
+            }
+            String failedMessage = bundle.getString("file_upload_failed");
+            // Show error message.
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, failedMessage, null));
+
+            // Always log stacktraces (with a real logger).
+            ex.printStackTrace();
+        } finally {
+            IOUtils.closeQuietly(output);
+        }
+        String succeededMessage = bundle.getString("file_uploaded_succesfully");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(succeededMessage));
+    }
+
     public String update() {
         ResourceBundle bundle = FacesContext.getCurrentInstance().getApplication().getResourceBundle(FacesContext.getCurrentInstance(), "msgs");
-                if (!employeeFacade.hasUniqueIdentityCard(employee)) {
-                    FacesContext.getCurrentInstance().addMessage(null,
-                            new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                                    bundle.getString("non_unique_identity_card"), null));
-                    return "";
-                }
-                if (!employeeFacade.hasUniqueSocialNumber(employee)) {
-                    FacesContext.getCurrentInstance().addMessage(null,
-                            new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                                    bundle.getString("non_unique_social_number"), null));
-                    return "";
-                }
+        if (!employeeFacade.hasUniqueIdentityCard(employee)) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            bundle.getString("non_unique_identity_card"), null));
+            return "";
+        }
+        if (!employeeFacade.hasUniqueSocialNumber(employee)) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            bundle.getString("non_unique_social_number"), null));
+            return "";
+        }
         try {
-            //save photo of user if not null
-            if (!photograph.getFileName().isEmpty()) {
-                File file = null;
-                OutputStream output = null;
-                try {
-                    // Prepare filename prefix and suffix for an unique filename in upload folder.
-                    String prefix = FilenameUtils.getBaseName(photograph.getFileName());
-                    String suffix = FilenameUtils.getExtension(photograph.getFileName());
-
-                    // Create file with unique name in upload folder and write to it.
-                    FacesContext ctx = FacesContext.getCurrentInstance();
-                    String outputdir
-                            = ctx.getExternalContext().getInitParameter("FILE_UPLOAD_DIR");
-                    file = File.createTempFile(prefix + "_", "." + suffix, new File(outputdir));
-                    output = new FileOutputStream(file);
-                    IOUtils.copy(photograph.getInputstream(), output);
-                    //remove the old photograph file of the employee if it exists
-                    String oldFile = employee.getPhotoPath();
-                    File f = new File(outputdir + File.separator + oldFile);
-                    if (f.exists()) {
-                        f.delete();
-                    }
-                    employee.setPhotoPath(file.getName());
-                    photograph = null;
-                    // Show succes message.
-                    FacesContext.getCurrentInstance().addMessage("uploadForm", new FacesMessage(
-                            FacesMessage.SEVERITY_INFO, "File upload succeed!", null));
-                } catch (IOException e) {
-                    // Cleanup.
-                    if (file != null) {
-                        file.delete();
-                    }
-
-                    // Show error message.
-                    FacesContext.getCurrentInstance().addMessage("uploadForm", new FacesMessage(
-                            FacesMessage.SEVERITY_ERROR, "File upload failed with I/O error.", null));
-
-                    // Always log stacktraces (with a real logger).
-                    e.printStackTrace();
-                } finally {
-                    IOUtils.closeQuietly(output);
-                }
-            }
             if (employee.getIdemployee() == null) {
                 if (password.isEmpty()) {
                     FacesContext.getCurrentInstance().addMessage(null,
@@ -333,8 +417,7 @@ public class UpdateEmployeeCDIBean implements Serializable {
         refreshEmployeesList();
         return "updateEmployee";
     }
-    
-    
+
     public List<CountryList.Country> getCountries() {
         // Present a menu with language code, languate title 
         // better store country code in db.
@@ -343,13 +426,13 @@ public class UpdateEmployeeCDIBean implements Serializable {
         CountryList countriesList = new CountryList(FacesContext.getCurrentInstance().getViewRoot().getLocale());
         return countriesList.getCountries();
     }
-    
+
     public String getCountryName(CountryList.Country country) {
-        return country.getName(); 
+        return country.getName();
     }
-    
-      public String getCountryCode(CountryList.Country country) {
-        return country.getCode(); 
-    }  
+
+    public String getCountryCode(CountryList.Country country) {
+        return country.getCode();
+    }
 
 }

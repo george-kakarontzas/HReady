@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <body>
         <ui:composition template="./deptheadPagesTemplate.xhtml">
             <ui:define name="title">
@@ -52,15 +53,15 @@
                                                      required="true" requiredMessage="#{msgs.required_city}."/>
                                         <p:outputLabel value="#{msgs.country}:" for="country" />
                                         <p:selectOneMenu id="country" value="#{updateEmployeesProfileCDIBean.employee.country}" required="true" requiredMessage="#{msgs.reuired_country}.">  
-                            <f:selectItems value="#{updateEmployeesProfileCDIBean.countries}" var="country"
-                        actionListener="" itemLabel="#{updateEmployeesProfileCDIBean.getCountryName(country)}" itemValue="#{updateEmployeesProfileCDIBean.getCountryCode(country)}" />
+                                            <f:selectItems value="#{updateEmployeesProfileCDIBean.countries}" var="country"
+                                                           actionListener="" itemLabel="#{updateEmployeesProfileCDIBean.getCountryName(country)}" itemValue="#{updateEmployeesProfileCDIBean.getCountryCode(country)}" />
                                         </p:selectOneMenu>
                                         <p:outputLabel value="#{msgs.date_of_birth}:" for="dateOfBirth" />
                                         <p:calendar id="dateOfBirth"  yearRange="c-70:c"
                                                     value="#{updateEmployeesProfileCDIBean.employee.dateOfBirth}" 
                                                     showOn="button" navigator="true" pattern="dd/MM/yyyy" required="true"
                                                     requiredMessage="#{msgs.required_date_of_birth}">
-                                        <f:validator validatorId="properAgeValidator"/>
+                                            <f:validator validatorId="properAgeValidator"/>
                                         </p:calendar>
                                         <p:outputLabel value="#{msgs.phone_private}:" for="phonePrivate" />
                                         <p:inputText id="phonePrivate" value="#{updateEmployeesProfileCDIBean.employee.phonePrivate}" validatorMessage="#{msgs.invalid_phone_number}">
@@ -80,14 +81,33 @@
                                         <p:fileUpload id="photoPath" value="#{updateEmployeesProfileCDIBean.photograph}"
                                                       allowTypes="/(\.|\/)(gif|jpe?g|png)$/" mode="advanced" update="image"
                                                       fileUploadListener="#{updateEmployeesProfileCDIBean.fileUploadListener}"
-                                                      fileLimit="1" sizeLimit="1000000"/>          
+                                                      fileLimit="1" sizeLimit="1000000"/>        
+
+
+                                        <p:outputLabel value="#{msgs.cv_upload}:" for="cvPath" escape="false" />
+                                        <p:fileUpload id="cvPath" value="#{updateEmployeesProfileCDIBean.cv}"
+                                                      mode="advanced" sizeLimit="1000000"  fileLimit="1" label="#{msgs.cv}"
+                                                      fileUploadListener="#{updateEmployeesProfileCDIBean.cvUploadListener}"
+                                                      update="cvfile" />
+
+                                        <p:outputLabel value="#{msgs.cv}:" for="cvfile" />
+                                        <c:choose >
+                                            <c:when test="#{updateEmployeesProfileCDIBean.cvPath.length()==0}">
+                                                <p:outputLabel id="cvfile" value="#{msgs.no_cv}" />
+                                            </c:when>
+                                            <c:otherwise>
+                                                <p:link id="cvfile" href="#{updateEmployeesProfileCDIBean.cvPath}" value="#{msgs.cv_file}" />
+                                            </c:otherwise>
+                                        </c:choose>
+
+
                                         <p:outputLabel value="#{msgs.username}:" for="username" />
                                         <p:inputText id="username" value="#{updateEmployeesProfileCDIBean.employee.username}" 
                                                      required="true" requiredMessage="#{msgs.required_username}.">
                                             <f:validator validatorId="employeeUsernameValidator" />
                                         </p:inputText>
-                                        
-                                        
+
+
                                         <p:outputLabel value="#{msgs.password}" for="pwd" />
                                         <p:password id="pwd" value="#{updateEmployeesProfileCDIBean.password}" 
                                                     match="confirm" />
@@ -115,8 +135,9 @@
                                         </p:selectOneMenu>
                                         <p:outputLabel value="#{msgs.division_name}/#{msgs.department_name}:" />
                                         <p:outputLabel value="#{updateEmployeesProfileCDIBean.employee.departmentIddepartment.divisionIddivision.name}/#{updateEmployeesProfileCDIBean.employee.departmentIddepartment.departmentName}" />
-                                        <h:commandButton id="back" value="#{msgs.back}" action="updateEmployeeProfile"  immediate="true" />  
+                                         
                                         <h:commandButton id="update" value="Update" action="#{updateEmployeesProfileCDIBean.update()}" />
+                                        <h:commandButton id="back" value="#{msgs.back}" action="updateEmployeeProfile"  immediate="true" /> 
                                     </p:panelGrid>
                                 </td>
                             </tr>
