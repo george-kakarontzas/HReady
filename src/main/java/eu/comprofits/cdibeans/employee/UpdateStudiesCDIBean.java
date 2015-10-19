@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.comprofits.cdibeans.employee;
 
 import eu.comprofits.entities.employee.Employee;
@@ -28,16 +27,16 @@ import javax.inject.Named;
  */
 @Named(value = "updateStudiesCDIBean")
 @SessionScoped
-public class UpdateStudiesCDIBean implements Serializable {   
+public class UpdateStudiesCDIBean implements Serializable {
+
     @EJB
     private StudyRecordFacade studyRecordFacade;
     @EJB
-    private EmployeeFacade employeeFacade; 
-    private Employee employee;
+    private EmployeeFacade employeeFacade;
     private StudyRecord studyRecord;
     private List<StudyRecord> studyrecs;
     private String titleName;
-    
+
     /**
      * Creates a new instance of UpdateStudiesCDIBean
      */
@@ -46,16 +45,10 @@ public class UpdateStudiesCDIBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = context.getExternalContext();
-        employee = (Employee) externalContext.getSessionMap().get("employee");
-        if (employee==null) {
-            employee = this.getCurrentEmployee();
-        }
         refreshStudyRecsList();
     }
 
-    public Employee getCurrentEmployee() {
+    private Employee getCurrentEmployee() {
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
         Employee e = (Employee) externalContext.getSessionMap().get("user");
@@ -68,17 +61,19 @@ public class UpdateStudiesCDIBean implements Serializable {
         }
         return e;
     }
-    
+
     public Employee getEmployee() {
-        /*
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
-        employee = (Employee) externalContext.getSessionMap().get("employee");
-        */
+        Employee employee = (Employee) externalContext.getSessionMap().get("employee");
+        if (employee == null) {
+            employee = this.getCurrentEmployee();
+        }
         return employee;
     }
 
     public List<StudyRecord> getStudyrecs() {
+        refreshStudyRecsList();
         return studyrecs;
     }
 
@@ -89,7 +84,7 @@ public class UpdateStudiesCDIBean implements Serializable {
     public void setStudyRecord(StudyRecord studyRecord) {
         this.studyRecord = studyRecord;
     }
-    
+
     public String getTitleName(Integer titleType) {
         FacesContext context = FacesContext.getCurrentInstance();
         ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
@@ -102,24 +97,24 @@ public class UpdateStudiesCDIBean implements Serializable {
                 return bundle.getString("phd");
             case 4:
                 return bundle.getString("postdoc");
-            case 5: 
+            case 5:
                 return bundle.getString("professional_education");
-            case 6: 
+            case 6:
                 return bundle.getString("continuing_training");
-            case 7: 
+            case 7:
                 return bundle.getString("other_training");
         }
         return " ";
     }
 
     private void refreshStudyRecsList() {
-        studyrecs = 
-            studyRecordFacade.getStudyRecsForEmployee(employee);
+        studyrecs
+                = studyRecordFacade.getStudyRecsForEmployee(this.getEmployee());
     }
 
     public void remove(StudyRecord s) {
         try {
-            studyRecordFacade.remove(s);           
+            studyRecordFacade.remove(s);
             refreshStudyRecsList();
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -134,19 +129,19 @@ public class UpdateStudiesCDIBean implements Serializable {
     }
 
     public String create() {
-        this.studyRecord =
-                new StudyRecord();
-        studyRecord.setEmployeeIdemployee(employee);
+        this.studyRecord
+                = new StudyRecord();
+        studyRecord.setEmployeeIdemployee(this.getEmployee());
         return "editStudyRecord";
     }
-   
+
     public String update() {
         try {
-            if (studyRecord.getIdstudyRecord()==null) {
-               studyRecordFacade.create(studyRecord);
+            if (studyRecord.getIdstudyRecord() == null) {
+                studyRecordFacade.create(studyRecord);
             } else {
                 studyRecordFacade.edit(studyRecord);
-            }           
+            }
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -154,5 +149,5 @@ public class UpdateStudiesCDIBean implements Serializable {
         }
         refreshStudyRecsList();
         return "updateStudies";
-    }   
+    }
 }

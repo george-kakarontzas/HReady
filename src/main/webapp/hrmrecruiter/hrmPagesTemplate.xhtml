@@ -65,11 +65,17 @@
                             <p:submenu label="#{msgs.hr_recruiter_menu}" >  
                                 <p:menuitem value="#{msgs.hr_recruiter_home}" icon="ui-icon-home" 
                                             url="./hrmHomePage.xhtml" /> 
-                                
+
                                 <p:menuitem value="#{msgs.employee_assessment}" icon="ui-icon-pencil" 
                                             url="./hrmEmployeeAssessment.xhtml"/>
                                 <p:menuitem value="#{msgs.job_applications}" icon="ui-icon-person" 
                                             url="./jobApplications.xhtml"/>
+                                <p:menuitem value="#{msgs.my_personal_information}" icon="ui-icon-person" 
+                                            url="./hrmEditEmployee.xhtml" />
+                                <p:menuitem value="#{msgs.my_professional_experience}" icon="ui-icon-suitcase" 
+                                            url="./updateProExperience.xhtml" />
+                                <p:menuitem value="#{msgs.my_studies}" icon="ui-icon-note" 
+                                            url="./updateStudies.xhtml" />
                             </p:submenu>  
                         </p:panelMenu>  
                     </h:form>
