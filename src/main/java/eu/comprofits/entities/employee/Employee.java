@@ -60,6 +60,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Employee.findByPhoneMobile", query = "SELECT e FROM Employee e WHERE e.phoneMobile = :phoneMobile"),
     @NamedQuery(name = "Employee.findByEmail", query = "SELECT e FROM Employee e WHERE e.email = :email"),
     @NamedQuery(name = "Employee.findByPhotoPath", query = "SELECT e FROM Employee e WHERE e.photoPath = :photoPath"),
+    @NamedQuery(name = "Employee.findByCvPath", query = "SELECT e FROM Employee e WHERE e.cvPath = :cvPath"),
     @NamedQuery(name = "Employee.findByUsername", query = "SELECT e FROM Employee e WHERE e.username = :username"),
     @NamedQuery(name = "Employee.findByPassword", query = "SELECT e FROM Employee e WHERE e.password = :password"),
     @NamedQuery(name = "Employee.findByMaritalStatus", query = "SELECT e FROM Employee e WHERE e.maritalStatus = :maritalStatus"),
@@ -157,6 +158,9 @@ public class Employee implements Serializable {
     @Size(max = 50)
     @Column(name = "role")
     private String role;
+    @Size(max = 255)
+    @Column(name = "cv_path")
+    private String cvPath;
     @OneToMany(mappedBy = "headOfDepartmentIdemployee")
     private Collection<Department> departmentCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeIdemployee")
@@ -392,6 +396,14 @@ public class Employee implements Serializable {
         this.role = role;
     }
 
+    public String getCvPath() {
+        return cvPath;
+    }
+
+    public void setCvPath(String cvPath) {
+        this.cvPath = cvPath;
+    }
+    
     @XmlTransient
     public Collection<Department> getDepartmentCollection() {
         return departmentCollection;

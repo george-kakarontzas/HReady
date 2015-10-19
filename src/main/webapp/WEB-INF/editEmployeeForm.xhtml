@@ -2,7 +2,8 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <f:view>
         <h:form enctype="multipart/form-data" style="font-size: 14px">
@@ -11,7 +12,7 @@
             <table border="0">
                 <tr >
                     <td  style="vertical-align: top">
-                        <h:graphicImage value="#{updateEmployeeCDIBean.photoPath}" height="100px" width="100px"  />
+                        <h:graphicImage id="image" value="#{updateEmployeeCDIBean.photoPath}" height="100px" width="100px"  />
                     </td>
                     <td>
                         <p:panelGrid columns="4">
@@ -67,9 +68,29 @@
                                          required="true" requiredMessage="#{msgs.required_email}." validatorMessage="#{msgs.invalid_email_format}">
                                 <f:validateRegex
                                     pattern="([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)" /></p:inputText>
-                            <p:outputLabel value="#{msgs.photo}:" for="photoPath" />
+                            <p:outputLabel value="#{msgs.photo}:" for="photoPath" />    
                             <p:fileUpload id="photoPath" value="#{updateEmployeeCDIBean.photograph}"
-                                          allowTypes="/(\.|\/)(gif|jpe?g|png)$/" mode="simple"  />
+                                          allowTypes="/(\.|\/)(gif|jpe?g|png)$/" mode="advanced" update="image"
+                                          fileUploadListener="#{updateEmployeeCDIBean.fileUploadListener}"
+                                          fileLimit="1" sizeLimit="1000000"/>        
+
+
+                            <p:outputLabel value="#{msgs.cv_upload}:" for="cvPath" escape="false" />
+                            <p:fileUpload id="cvPath" value="#{updateEmployeeCDIBean.cv}"
+                                          mode="advanced" sizeLimit="1000000"  fileLimit="1" label="#{msgs.cv}"
+                                          fileUploadListener="#{updateEmployeeCDIBean.cvUploadListener}"
+                                          update="cvfile" />
+
+                            <p:outputLabel value="#{msgs.cv}:" for="cvfile" />
+                            <c:choose >
+                                <c:when test="#{updateEmployeeCDIBean.cvPath.length()==0}">
+                                    <p:outputLabel id="cvfile" value="#{msgs.no_cv}" />
+                                </c:when>
+                                <c:otherwise>
+                                    <p:link id="cvfile" href="#{updateEmployeeCDIBean.cvPath}" value="#{msgs.cv_file}" />
+                                </c:otherwise>
+                            </c:choose>
+
                             <p:outputLabel value="#{msgs.username}:" for="username" />
                             <p:inputText id="username" value="#{updateEmployeeCDIBean.employee.username}" 
                                          required="true" requiredMessage="#{msgs.required_username}."/>
