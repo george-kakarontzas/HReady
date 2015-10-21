@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Job.findByIdjob", query = "SELECT j FROM Job j WHERE j.idjob = :idjob"),
     @NamedQuery(name = "Job.findByJobTitle", query = "SELECT j FROM Job j WHERE j.jobTitle = :jobTitle"),
     @NamedQuery(name = "Job.findByJobDescription", query = "SELECT j FROM Job j WHERE j.jobDescription = :jobDescription")})
-
+    @NamedQuery(name = "Job.findByDepartment", query = "SELECT j FROM Job j WHERE j.departmentIddepartment = :departmentIddepartment")
 public class Job implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -232,7 +232,7 @@ public class Job implements Serializable {
     @Override
     public String toString() {
         //return "com.mycompany.mavenproject1.Job[ idjob=" + idjob + " ]";
-        return "" + idjob;
+        return "" + jobTitle;
     }
     
 }

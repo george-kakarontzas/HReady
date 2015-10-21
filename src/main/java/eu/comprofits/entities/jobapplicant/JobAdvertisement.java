@@ -57,7 +57,6 @@ public class JobAdvertisement implements Serializable {
     private String jobTitle;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
     @Column(name = "fields_of_responsibility")
     private String fieldsOfResponsibility;
     @Basic(optional = false)

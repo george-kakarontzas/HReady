@@ -9,11 +9,13 @@ package eu.comprofits.session.jobapplicant;
 import eu.comprofits.entities.jobapplicant.JobAdvertisement;
 import eu.comprofits.entities.jobprofile.Job;
 import eu.comprofits.session.AbstractFacade;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -35,8 +37,15 @@ public class JobAdvertisementFacade extends AbstractFacade<JobAdvertisement> {
     
     
     public List<JobAdvertisement> getAvailableJobs() {
-        Query q = em.createQuery("SELECT ja FROM JobAdvertisement ja, Job jb WHERE ja.jobIdjob=jb AND  jb.status=:status");
+        /*
+        Query q = em.createQuery(
+                "SELECT ja FROM JobAdvertisement ja, Job jb WHERE ja.jobIdjob=jb AND  jb.status=:status");
                 q.setParameter("status", true);
+                */
+        
+        Query q = em.createQuery(
+            "Select ja FROM JobAdvertisement ja WHERE ja.startDate <= :date AND ja.endDate >= :date").
+                setParameter("date", new Date(),  TemporalType.DATE);
         return q.getResultList();
     }
     

@@ -52,11 +52,17 @@ public class ApplicantJobApplication implements Serializable {
     private void refreshJobsList() {
         availableJobs = jobAdvertisementFacade.getAvailableJobs();
     }
-    
     public String getCompanyName(JobAdvertisement item) {
         String name = "";
         try {
         name = item.getJobIdjob().getOrganisationalPositionIdorganisationalPosition().getCompanyIdcompany().getCompanyName1();
+        } catch (NullPointerException e) {}
+        return name;    
+    }
+    public String getDepartmentName(JobAdvertisement item) {
+        String name = "";
+        try {
+        name = item.getJobIdjob().getDepartmentIddepartment().getDepartmentName();
         } catch (NullPointerException e) {}
         return name;    
     }

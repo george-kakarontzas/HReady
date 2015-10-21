@@ -312,7 +312,8 @@ public class JobTest {
         System.out.println("toString");
         Integer idResult = 1;
         Job instance = new Job(idResult);
-        String expResult = "" + idResult;
+        instance.setJobTitle("Programmer");
+        String expResult = "Programmer";
         String result = instance.toString();
         assertEquals(expResult, result);
     }

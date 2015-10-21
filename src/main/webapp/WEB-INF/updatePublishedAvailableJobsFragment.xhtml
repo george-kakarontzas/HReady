@@ -21,7 +21,7 @@
                 </p:column>
                 <p:column>
                     <f:facet name="header">
-                        <h:outputText value="#{msgs.date_started}"/>
+                        <h:outputText value="#{msgs.publish_on_date}"/>
                     </f:facet>
                     <h:outputText value="#{item.startDate}">
                         <f:convertDateTime pattern="dd/MM/yyyy" />
@@ -29,7 +29,7 @@
                 </p:column>
                 <p:column>
                     <f:facet name="header">
-                        <h:outputText value="#{msgs.date_finished}"/>
+                        <h:outputText value="#{msgs.revoke_on_date}"/>
                     </f:facet>
                     <h:outputText value="#{item.endDate}">
                         <f:convertDateTime pattern="dd/MM/yyyy" />
