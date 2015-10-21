@@ -9,6 +9,7 @@ package eu.comprofits.entities.jobapplicant;
 import eu.comprofits.entities.jobprofile.Job;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,6 +23,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -62,6 +65,16 @@ public class JobAdvertisement implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "job_description")
     private String jobDescription;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "start_date")
+    @Temporal(TemporalType.DATE)
+    private Date startDate;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "end_date")
+    @Temporal(TemporalType.DATE)
+    private Date endDate;
     @JoinColumn(name = "job_idjob", referencedColumnName = "idjob")
     @ManyToOne(optional = false)
     private Job jobIdjob;
@@ -122,6 +135,22 @@ public class JobAdvertisement implements Serializable {
         this.jobIdjob = jobIdjob;
     }
 
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+    
     @XmlTransient
     public Collection<JobApplication> getJobApplicationCollection() {
         return jobApplicationCollection;
