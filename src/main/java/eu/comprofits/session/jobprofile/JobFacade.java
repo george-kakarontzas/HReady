@@ -6,6 +6,7 @@
 package eu.comprofits.session.jobprofile;
 
 import eu.comprofits.entities.jobprofile.Job;
+import eu.comprofits.entities.main.Department;
 import eu.comprofits.session.AbstractFacade;
 import eu.comprofits.session.employee.InCompanyEmploymentFacade;
 import eu.comprofits.session.jobapplicant.JobAdvertisementFacade;
@@ -54,6 +55,16 @@ public class JobFacade extends AbstractFacade<Job> {
                     setParameter("jobTitle", title).
                     getSingleResult();
             return job;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    public List<Job> findByDepartment(Department d) {
+        try {
+            List<Job> departmentJobs = em.createNamedQuery("Job.findByDepartment").
+                    setParameter("departmentIddepartment", d).getResultList();
+            return departmentJobs;
         } catch (Exception e) {
             return null;
         }

@@ -19,10 +19,10 @@
                         <p:messages  />
                         <h:form id="jobDetailsForm">
                         <p:panelGrid columns="2">
-                        <h3>#{msgs.company}</h3>
-                        <h:outputText value="#{applicantJobApplication.getCompanyName(applicantJobApplication.selectedJob)}"/>
+                        <h3>#{msgs.business_area}</h3>
+                        <h:outputText value="#{applicantJobApplication.getDepartmentName(applicantJobApplication.selectedJob)}"/>
                         <h3>#{msgs.fields_of_responsibility}</h3>
-                        <h:outputText value="#{applicantJobApplication.selectedJob.fieldsOfResponsibility}"/>
+                        <h:outputText value="#{applicantJobApplication.selectedJob.fieldsOfResponsibility}" escape="false"/>
                         <h3>#{msgs.job_description}</h3>
                         <h:outputText value="#{applicantJobApplication.selectedJob.jobDescription}"/>
                             <h:commandButton id="back" value="#{msgs.back}" action="availableJobs" immediate="true"/>  

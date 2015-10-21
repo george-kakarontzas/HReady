@@ -1,0 +1,68 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <h:form>
+            <p:messages  />
+            <h1><h:outputText value="#{msgs.create_edit_published_available_job_position}:"/></h1>
+            <p:panelGrid columns="2">
+
+                <p:outputLabel value="#{msgs.select_business_area}" />
+                <p:selectOneMenu id="businessAreas" 
+                                 value="#{updatePublishedAvailableJobsCDIBean.selectedDepartment}" 
+                                 converter="#{departmentConverter}">
+                    <p:ajax listener="#{updatePublishedAvailableJobsCDIBean.departmentValueChange}" 
+                            update="jobs,jobtitle,jobdescription" 
+                            /> 
+                    <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                    <f:selectItems value="#{updatePublishedAvailableJobsCDIBean.departments}" 
+                                   var="d" itemValue="#{d.departmentName}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel value="#{msgs.select_job_title}" />
+                <p:selectOneMenu id="jobs" 
+                                 value="#{updatePublishedAvailableJobsCDIBean.selectedJob}"
+                                 converter="#{convertjob}">
+                    <p:ajax listener="#{updatePublishedAvailableJobsCDIBean.jobValueChange}" 
+                            update="jobtitle,jobdescription" 
+                            /> 
+                    <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                    <f:selectItems value="#{updatePublishedAvailableJobsCDIBean.jobs}" 
+                                   var="jobItem" itemValue="#{jobItem.jobTitle}" />
+                </p:selectOneMenu>
+
+                <p:outputLabel value="#{msgs.published_job_title}" />
+                <p:inputText id="jobtitle"
+                             size="100"
+                             value="#{updatePublishedAvailableJobsCDIBean.jobAdvertisement.jobTitle}" />
+
+                <p:outputLabel value="#{msgs.published_job_description}" />
+                <p:inputTextarea id="jobdescription"
+                                 cols="50"
+                                 rows="5"
+                                 value="#{updatePublishedAvailableJobsCDIBean.jobAdvertisement.jobDescription}" />
+                
+                <p:outputLabel value="#{msgs.fields_of_responsibility}" />
+                <p:editor  id="responsibilities"
+                                 value="#{updatePublishedAvailableJobsCDIBean.jobAdvertisement.fieldsOfResponsibility}" />
+                <p:outputLabel value="#{msgs.publish_on_date}:" for="dateStarted" />
+                <p:calendar id="dateStarted" yearRange="c-70:c"
+                            value="#{updatePublishedAvailableJobsCDIBean.jobAdvertisement.startDate}" 
+                            showOn="button" navigator="true" pattern="dd/MM/yyyy"
+                            required="true" requiredMessage="#{msgs.required_date_started}">
+                </p:calendar>
+                <p:outputLabel value="#{msgs.revoke_on_date}:" for="dateFinished" />
+                <p:calendar id="dateFinished" yearRange="c-70:c"
+                            value="#{updatePublishedAvailableJobsCDIBean.jobAdvertisement.endDate}" 
+                            showOn="button" navigator="true" pattern="dd/MM/yyyy"
+                            required="true" requiredMessage="#{msgs.required_date_finished}">
+                </p:calendar>
+
+                <h:commandButton id="update" value="Update" action="#{updatePublishedAvailableJobsCDIBean.update()}"  />
+                <h:commandButton id="back" value="#{msgs.back}" action="upadatePubishedAvailableJobs" immediate="true"/>  
+            </p:panelGrid>
+        </h:form>
+    </f:view>
+</ui:composition>
