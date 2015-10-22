@@ -28,7 +28,7 @@ import javax.inject.Named;
 @Named(value = "updatePublishedAvailableJobsCDIBean")
 @SessionScoped
               
-public class UpdatePublishedAvailableJobsCDIBean implements Serializable {
+public class updatePublishedAvailableJobsCDIBean implements Serializable {
 
     @EJB
     private JobAdvertisementFacade jobAdvertisementFacade;
@@ -45,7 +45,7 @@ public class UpdatePublishedAvailableJobsCDIBean implements Serializable {
     /**
      * Creates a new instance of updateProExperienceCDIBean
      */
-    public UpdatePublishedAvailableJobsCDIBean() {
+    public updatePublishedAvailableJobsCDIBean() {
     }
 
     @PostConstruct
