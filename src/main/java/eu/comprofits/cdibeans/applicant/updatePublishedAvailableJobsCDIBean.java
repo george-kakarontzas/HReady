@@ -5,26 +5,18 @@
  */
 package eu.comprofits.cdibeans.applicant;
 
-import eu.comprofits.cdibeans.employee.*;
-import eu.comprofits.entities.employee.Employee;
-import eu.comprofits.entities.employee.ProfessionalExperienceRecord;
 import eu.comprofits.entities.jobapplicant.JobAdvertisement;
 import eu.comprofits.entities.jobprofile.Job;
 import eu.comprofits.entities.main.Department;
-import eu.comprofits.session.employee.EmployeeFacade;
-import eu.comprofits.session.employee.ProfessionalExperienceRecordFacade;
 import eu.comprofits.session.jobapplicant.JobAdvertisementFacade;
 import eu.comprofits.session.jobprofile.JobFacade;
 import eu.comprofits.session.main.DepartmentFacade;
 import java.io.Serializable;
-import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
