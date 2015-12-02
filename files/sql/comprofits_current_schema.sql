@@ -2885,6 +2885,11 @@ REVOKE ALL ON TABLE study_record FROM PUBLIC;
 REVOKE ALL ON TABLE study_record FROM comprofits;
 GRANT ALL ON TABLE study_record TO comprofits;
 
+--
+-- Create default Admin user 
+--
+
+INSERT INTO employee (idemployee, identity_card_number, social_security_number, first_name, last_name, gender, province, address, postal_code, city, country, date_of_birth, phone_private, phone_mobile, email, photo_path, username, password, marital_status, number_of_children, department_iddepartment, current_in_company_employment_id, role, is_active, division_iddivision, cv_path) VALUES (1, 123456789, 123456789, 'John', 'Doe', 1, 'Rhineland-Palatinate', 'Hoelderlinstr. 3', 57076, 'Siegen', 'DE', '1900-01-01', 123456789, 123456789, 'webmaster@comprofits.eu', NULL, 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'M', NULL, NULL, NULL, 'administrator', 't', NULL, NULL);
 
 --
 -- PostgreSQL database dump complete
