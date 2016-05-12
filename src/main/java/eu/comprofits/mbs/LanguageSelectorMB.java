@@ -35,6 +35,7 @@ public class LanguageSelectorMB implements Serializable {
         languages = new LinkedHashMap<String, Object>();
         languages.put("English", Locale.ENGLISH); 
         languages.put("Español", new Locale("es"));
+        languages.put("Dansk", new Locale("dk"));
     }
     public Map<String, Object> getCountriesInMap() {
         return languages;
