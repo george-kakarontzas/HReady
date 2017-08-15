@@ -16,11 +16,10 @@
 package eu.comprofits.ComprofitsRRunner;
 
 
-import java.util.Arrays;
 import java.util.HashMap;
 import org.apache.commons.lang.StringUtils;
-import rcaller.RCaller;
-import rcaller.RCode;
+import com.github.rcaller.rstuff.RCaller;
+import com.github.rcaller.rstuff.RCode;
 import javax.faces.context.FacesContext;
 
 /**
@@ -65,8 +64,8 @@ import javax.faces.context.FacesContext;
 public class ComprofitsRRunner {
 
     // Create RCaller and RCode
-    private RCaller caller = new RCaller();
-    private RCode code = new RCode();
+    private RCaller caller = RCaller.create();
+    private RCode code = RCode.create();
     private String[] labelsL1, labelsL2, labelsL3;
 
     /**
@@ -81,7 +80,7 @@ public class ComprofitsRRunner {
         try {
             // tell java to run specified code in R
             FacesContext context = FacesContext.getCurrentInstance();
-            this.caller.setRExecutable(context.getExternalContext().getInitParameter("R_EXE"));
+            //this.caller.setRExecutable(context.getExternalContext().getInitParameter("R_EXE"));
             this.code.clear();
             this.caller.setRCode(code);
 
