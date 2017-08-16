@@ -18,11 +18,11 @@ limitations under the License.
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.mycompany</groupId>
-    <artifactId>comprofitsapp</artifactId>
+    <artifactId>HReady</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>comprofitsapp</name>
+    <name>HReady</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
