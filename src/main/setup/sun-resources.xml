@@ -47,6 +47,6 @@ limitations under the License.
       <property name="PortNumber" value="5432"/>
       <property name="DatabaseName" value="comprofits"/>
       <property name="User" value="comprofits"/>
-      <property name="Password" value="c0mpr0f1ts4004!"/>
+      <property name="Password" value="comprofits1234"/>
   </jdbc-connection-pool>
 </resources>
