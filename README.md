@@ -3,7 +3,8 @@ This project was developed in the frame of the ComProFITS European project. It i
 For more information about the ComProFITS project please visit the website: [http://comprofits.eu/home](http://comprofits.eu/home)
 
 In your publications you can use the following citation for this project:
-N. Mittas, G. Kakarontzas, M. Bohlouli, L. Angelis, I. Stamelos and M. Fathi, "ComProFITS: a Web-based Platform for Human Resources Competence Assessment", 6th International Conference on Information, Intelligence, Systems and Applications (IISA), pp. 1-6, IEEE, 2015
+Mahdi Bohlouli, Nikolaos Mittas, George Kakarontzas, Theodosios Theodosiou, Lefteris Angelis, Madjid Fathi, "Competence assessment as an expert system for human resource management: A mathematical approach", Expert Systems with Applications, Volume 70, 2017, Pages 83-102, ISSN 0957-4174,  https://doi.org/10.1016/j.eswa.2016.10.046![image](https://github.com/user-attachments/assets/1e70489d-2bf3-4f78-b85a-4173379898d3)
+
 
 A user tutorial for this project is available at: [https://github.com/george-kakarontzas/HReady/blob/master/D20_User%20Manual%20and%20Software%20Documentation.pdf](https://github.com/george-kakarontzas/HReady/blob/master/D20_User%20Manual%20and%20Software%20Documentation.pdf) 
 
